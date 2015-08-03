@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Cardapio</title>
+</h:head>
+<h:body>
+	<h:form>
+		<!-- Colunas fixas: Refeição Qtd e Alimento -->
+		<!-- Cabeçalho fixo -->
+		<!-- Colunas visíveis customizadas pelo usuário -->
+		<!-- Colunas ordenáveis em valor e ordem de apresentação -->
+		<!-- Sumarização por agrupamento de refeição e por total -->
+		<!-- Células editáveis: Qtd e Sugestão -->
+		<!-- Células dinâmicas: Substâncias -->
+		<!-- Group, subtable -->
+		<p:dataTable id="refeicoes" var="itemCardapio"
+			value="#{cardapioBean.refeicoesCardapio[0].itensCardapio}"
+			stickyHeader="true" sortBy="#{refeicaoCardapio.tipoRefeicao}"
+			draggableColumns="true"  selectionMode="single" selection="#{cardapioBean.itemCardapioSelecionado}" rowKey="#{itemCardapio.energiaAlimento.alimento}"
+			scrollable="true" frozenColumns="0">
+			<f:facet name="header">
+				Cardápio Dia 24/07/2015
+					<!-- p:commandButton id="toggler" type="button" value="Colunas"
+					style="float: right;" icon="ui-icon-calculator" />
+				<p:columnToggler datasource="refeicoes" trigger="toggler" /-->
+			</f:facet>
+
+			<p:column headerText="Refeição">
+				<h:outputText value="#{cardapioBean.refeicoesCardapio[0].tipoRefeicao}" />
+			</p:column>
+			<p:column headerText="Qtd" sortBy="#{itemCardapio.quantidade}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{itemCardapio.quantidade}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText id="modelInput" value="#{itemCardapio.quantidade}"
+							style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Alimento" sortBy="#{itemCardapio.energiaAlimento.alimento}">
+				<h:outputText value="#{itemCardapio.energiaAlimento.alimento.nome}" />
+			</p:column>
+
+			<p:columns value="#{cardapioBean.listaSubstancias}" var="substancia"
+				columnIndexVar="colIndex">
+				<f:facet name="header">
+					<h:outputText value="#{substancia.detalhe}" />
+				</f:facet>
+				<h:outputText value="#{itemCardapio.substancias[substancia]}" />
+			</p:columns>
+
+			<p:column headerText="Energia(Kcal)">
+				<h:outputText value="#{itemCardapio.energia}" />
+			</p:column>
+			<p:column headerText="Energia(%)">
+				<h:outputText value="#{cardapioBean.energia}" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Cardápio</title>
+</h:head>
+<h:body>
+	<h:form>
+		<!-- Colunas fixas: Refeição Qtd e Alimento -->
+		<!-- Cabeçalho fixo -->
+		<!-- Colunas visíveis customizadas pelo usuário -->
+		<!-- Colunas ordenáveis em valor e ordem de apresentação -->
+		<!-- Sumarização por agrupamento de refeição e por total -->
+		<!-- Células editáveis: Qtd e Sugestão -->
+		<!-- Células dinâmicas: Substâncias -->
+		<!-- Group, subtable -->
+		<p:dataTable id="cars" var="refeicaoCardapio"
+			value="#{cardapioBean.refeicoesCardapio}" stickyHeader="true"
+			sortBy="#{refeicaoCardapio.tipoRefeicao}" draggableColumns="true"
+			filteredValue="#{tipoRefeicao.JANTAR}"
+			selection="#{cardapioBean.itemCardapioSelecionado}" rowKey="#{itemCardapio.energiaAlimento.alimento}" selectionMode="single"
+			>
+			<f:facet name="header">
+				Cardápio Dia 19/05/2015 (Caloria Alvo: #{cardapioBean.caloriaAlvo}Kcal)
+					<!-- p:commandButton id="toggler" type="button" value="Colunas"
+						style="float:right" icon="ui-icon-calculator" />
+					<p:columnToggler datasource="cars" trigger="toggler" /-->
+			</f:facet>
+
+			<p:columnGroup type="header">
+				<!-- p:row>
+					<p:column headerText="Refeição" filterBy="#{refeicaoCardapio.tipoRefeicao}" filterMatchMode="exact" colspan="13" >
+						<f:facet name="filter">
+		                <p:selectOneMenu onchange="PF('carsTable').filter()" >
+		                    <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+		                    <f:selectItems value="#{dtFilterView.brands}" />
+		                </p:selectOneMenu>
+		            </f:facet>
+					</p:column>
+				</p:row -->
+				<p:row>
+					<p:column headerText="Alimento" style="width: 200px" sortBy="#{itemCardapio.energiaAlimento.alimento}">
+					</p:column>
+					<p:column headerText="Preparo" style="width: 80px;" />
+					<p:column headerText="Qtd" style="width: 50px;" sortBy="#{itemCardapio.quantidade}"/>
+					<ui:repeat value="#{cardapioBean.listaSubstancias}"
+						var="substancia">
+						<p:column headerText="#{substancia.detalhe}" />
+					</ui:repeat>
+					<p:column headerText="Energia (Kcal)" />
+					<p:column headerText="Energia (%)" />
+					<p:column headerText="Ações" />
+				</p:row>
+			</p:columnGroup>
+
+			<p:subTable id="ref" var="itemCardapio"
+				value="#{refeicaoCardapio.itensCardapio}" >
+				<f:facet name="header">
+					<h:outputText value="#{refeicaoCardapio.tipoRefeicao}" />
+				</f:facet>
+				<p:column headerText="Alimento">
+					<h:outputText
+						value="#{itemCardapio.energiaAlimento.alimento.detalhe}" />
+				</p:column>
+
+				<p:column headerText="Preparo"/>
+
+				<p:column headerText="Qtd" style="text-align: center;">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{itemCardapio.quantidade}">
+								<f:convertNumber pattern="#0.##" locale="pt_BR" />
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="modelInput" value="#{itemCardapio.quantidade}"
+								style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<c:forEach items="#{cardapioBean.listaSubstancias}" var="substancia">
+					<p:column style="text-align: center;">
+						<h:outputText value="#{itemCardapio.substancias[substancia]}">
+							<f:convertNumber pattern="#0.00" locale="pt_BR" />
+						</h:outputText>
+					</p:column>
+				</c:forEach>
+
+				<p:column headerText="Energia (Kcal)" style="text-align: center;">
+					<h:outputText value="#{itemCardapio.energia}">
+						<f:convertNumber pattern="#0.##" locale="pt_BR" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Energia (%)" style="text-align: center;">
+					<h:outputText
+						value="#{(itemCardapio.energia / cardapioBean.caloriaAlvo)}">
+						<f:convertNumber pattern="#0.00%" locale="pt_BR" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Ações" style="text-align: center;">
+					<p:commandLink value="Excluir" />
+				</p:column>
+				<p:columnGroup type="footer">
+					<p:row>
+						<p:column
+							footerText="Parcial (#{refeicaoCardapio.qtdGrama}g + #{refeicaoCardapio.qtdLitro}ml):"
+							colspan="3" style="text-align:right" />
+						<c:forEach items="#{cardapioBean.listaSubstancias}"
+							var="substanciaParcial">
+							<p:column style="text-align: center;">
+								<f:facet name="footer">
+									<h:outputText
+										value="#{refeicaoCardapio.parcial[substanciaParcial]}">
+										<f:convertNumber pattern="#0.00" locale="pt_BR" />
+									</h:outputText>
+								</f:facet>
+							</p:column>
+						</c:forEach>
+						<p:column style="text-align: center;">
+							<f:facet name="footer">
+								<h:outputText value="#{refeicaoCardapio.energia}">
+									<f:convertNumber pattern="#0.##" locale="pt_BR" />
+								</h:outputText>
+							</f:facet>
+						</p:column>
+						<p:column style="text-align: center;">
+							<f:facet name="footer">
+								<h:outputText
+									value="#{(refeicaoCardapio.energia / cardapioBean.caloriaAlvo)}">
+									<f:convertNumber pattern="#0.00%" locale="pt_BR" />
+								</h:outputText>
+							</f:facet>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column footerText="Parcial Percentual Energético:" colspan="3"
+							style="text-align:right" />
+						<c:forEach items="#{cardapioBean.listaSubstancias}"
+							var="substanciaParcial">
+							<p:column style="text-align: center;"
+								rendered="#{cardapioBean.energiasSubstancia[substanciaParcial]!=null}">
+								<f:facet name="footer">
+									<h:outputText
+										value="#{refeicaoCardapio.parcial[substanciaParcial] * cardapioBean.energiasSubstancia[substanciaParcial] / refeicaoCardapio.energia}">
+										<f:convertNumber pattern="#0.00%" locale="pt_BR" />
+									</h:outputText>
+								</f:facet>
+							</p:column>
+						</c:forEach>
+					</p:row>
+				</p:columnGroup>
+			</p:subTable>
+			<p:columnGroup type="footer">
+				<p:row>
+					<p:column
+						footerText="Total (#{cardapioBean.qtdGrama}g + #{cardapioBean.qtdLitro}ml):"
+						colspan="3" style="text-align:right" />
+					<c:forEach items="#{cardapioBean.listaSubstancias}"
+						var="substanciaTotal">
+						<p:column style="text-align: center;">
+							<f:facet name="footer">
+								<h:outputText value="#{cardapioBean.total[substanciaTotal]}">
+									<f:convertNumber pattern="#0.00" locale="pt_BR" />
+								</h:outputText>
+							</f:facet>
+						</p:column>
+					</c:forEach>
+					<p:column style="text-align: center;">
+						<f:facet name="footer">
+							<h:outputText value="#{cardapioBean.energia}">
+								<f:convertNumber pattern="#0.##" locale="pt_BR" />
+							</h:outputText>
+						</f:facet>
+					</p:column>
+					<p:column style="text-align: center;">
+						<f:facet name="footer">
+							<h:outputText
+								value="#{(cardapioBean.energia / cardapioBean.caloriaAlvo)}">
+								<f:convertNumber pattern="#0.00%" locale="pt_BR" />
+							</h:outputText>
+						</f:facet>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column footerText="Total Percentual Energético:" colspan="3"
+						style="text-align:right" />
+					<ui:repeat value="#{cardapioBean.listaSubstancias}"
+						var="substanciaTotal">
+						<p:column style="text-align: center;"
+							rendered="#{cardapioBean.energiasSubstancia[substanciaTotal]!=null}">
+							<f:facet name="footer">
+								<h:outputText
+									value="#{cardapioBean.total[substanciaTotal].floatValue() * cardapioBean.energiasSubstancia[substanciaTotal].floatValue() / cardapioBean.energia}">
+									<f:convertNumber pattern="#0.00%" locale="pt_BR" />
+								</h:outputText>
+							</f:facet>
+						</p:column>
+					</ui:repeat>
+				</p:row>
+			</p:columnGroup>
+		</p:dataTable>
+		
+		Refeição: [OneMenu]
+		Categoria: [Basic-Dropdown] (PerfilConsumoPaciente)
+		Alimento: [OneMenu] (PerfilConsumoPaciente)
+		Preparo: [OneMenu] Pode ser nulo(inteiro, ralado, picado, triturado, fatiado, cubos, purê,  ...)
+		
+		O nutricionista só digita a quantidade e o programa mostra todas as possibilidade em medidas caseiras em tempo real para aquele alimento
+		Ex.:
+		Qtd: Spinner (min: 0)
+		Medidas caseiras: [ListBox]
+		3x colher de sopa (33,3g)
+		1x colher grande (100g)
+		3 1/2x Xícara (200g)
+		40x colher de chá (2,5g)
+		colher de sobremesa
+		colher de café
+		
+		Copo americano (250ml)
+		Xícara (240ml)
+		colher de sopa (15ml)
+		colher de chá (5ml)
+		Cálice
+		Copo de vinho
+		
+		Pode cadastrar as medidas na hora
+		
+		
+		<!-- Permitir que a quantidade seja definida manualmente ou por uma lista externa de medidas caseiras
+		http://medidasuteis.blogspot.com.br/p/medidas-caseiras-culinaria.html
+		http://stackoverflow.com/questions/7525977/how-to-write-fraction-value-using-html -->
+		
+		Ramo, folha, cru, cozido, desidratado, cristalizado, ...
+	</h:form>
+</h:body>
+</html>
