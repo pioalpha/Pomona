@@ -13,7 +13,6 @@
 	</properties>
 
 	<build>
-
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<resources>
 			<resource>
@@ -35,6 +34,7 @@
 				<version>2.6</version> <!-- Original era 2.2 -->
 				<configuration>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<webappDirectory>src/main/webapp</webappDirectory>
 				</configuration>
 			</plugin>
 			<plugin>
