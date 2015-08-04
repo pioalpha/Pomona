@@ -7,8 +7,8 @@ import com.github.pomona.domain.model.AlimentoUnitario;
 import com.github.pomona.domain.model.Paciente;
 import com.github.pomona.domain.model.PerfilAlimentarPaciente;
 import com.github.pomona.domain.model.PlanoReeducacaoAlimentar;
-import com.github.pomona.domain.model.PreferenciaConsumo;
-import com.github.pomona.domain.model.TipoSexo;
+import com.github.pomona.domain.reference.PreferenciaConsumo;
+import com.github.pomona.domain.reference.TipoSexo;
 
 public class PlanoReeducacaoAlimentarBuilder {
 	private PlanoReeducacaoAlimentar instancia;

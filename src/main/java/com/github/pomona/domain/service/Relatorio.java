@@ -13,7 +13,7 @@ import com.github.pomona.domain.model.ItemCardapio;
 import com.github.pomona.domain.model.LimiteEnergetico;
 import com.github.pomona.domain.model.RefeicaoCardapio;
 import com.github.pomona.domain.model.Substancia;
-import com.github.pomona.domain.model.TipoRefeicao;
+import com.github.pomona.domain.reference.TipoRefeicao;
 
 public class Relatorio {
 	private static String QTD = "Qtd ";

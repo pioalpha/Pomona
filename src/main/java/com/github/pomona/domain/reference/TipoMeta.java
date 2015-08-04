@@ -1,5 +1,7 @@
-package com.github.pomona.domain.model;
+package com.github.pomona.domain.reference;
 
+import com.github.pomona.domain.model.Consulta;
+import com.github.pomona.domain.model.Paciente;
 import com.github.pomona.domain.service.CalculaIMC;
 import com.github.pomona.domain.service.CalculaMassaMagra;
 import com.github.pomona.domain.service.CalculaMeta;

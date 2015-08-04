@@ -2,6 +2,8 @@ package com.github.pomona.domain.model;
 
 import java.io.Serializable;
 
+import com.github.pomona.domain.reference.UnidadeSubstancia;
+
 public class Substancia implements Serializable {
 	/**
 	 * 

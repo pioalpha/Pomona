@@ -1,8 +1,14 @@
 package com.github.pomona.domain.model;
 
-public enum TipoPreparo {
-	RALADO,
-	PICADO,
-	FATIADO,
-	AMASSADO;
+public class TipoPreparo {
+	private String nome;
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	
 }

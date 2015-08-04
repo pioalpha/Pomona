@@ -8,7 +8,7 @@ import com.github.pomona.domain.model.Cardapio;
 import com.github.pomona.domain.model.DivisaoRefeicao;
 import com.github.pomona.domain.model.ItemCardapio;
 import com.github.pomona.domain.model.RefeicaoCardapio;
-import com.github.pomona.domain.model.TipoRefeicao;
+import com.github.pomona.domain.reference.TipoRefeicao;
 
 public class CardapioBuilder {
 	private Cardapio instancia;

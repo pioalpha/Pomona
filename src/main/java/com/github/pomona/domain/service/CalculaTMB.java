@@ -5,7 +5,7 @@ import java.util.List;
 import com.github.pomona.domain.model.Consulta;
 import com.github.pomona.domain.model.FatorMetabolico;
 import com.github.pomona.domain.model.Paciente;
-import com.github.pomona.domain.model.TipoSexo;
+import com.github.pomona.domain.reference.TipoSexo;
 
 public class CalculaTMB implements CalculaMeta {
 	private static List<FatorMetabolico> fatoresMetabolicos;

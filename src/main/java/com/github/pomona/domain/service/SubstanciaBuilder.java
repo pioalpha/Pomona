@@ -1,7 +1,7 @@
 package com.github.pomona.domain.service;
 
 import com.github.pomona.domain.model.Substancia;
-import com.github.pomona.domain.model.UnidadeSubstancia;
+import com.github.pomona.domain.reference.UnidadeSubstancia;
 
 public class SubstanciaBuilder {
 	private Substancia instancia;

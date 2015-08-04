@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.github.pomona.domain.reference.TipoMeta;
+
 public class Consulta implements Serializable {
 	/**
 	 * 
@@ -13,15 +15,14 @@ public class Consulta implements Serializable {
 	private Date dataConsulta;
 	private float pesoConsulta;
 	private float imcConsulta; // calculado automatico pelo peso
-	private Float abdomemConsulta;
-	private Float quadrilConsulta;
-	private Float gorduraCorporalConsulta;
 	private Float valorMeta;
 	private Float caloriasAlvo; // calculado automatico após estabelecer a meta
 	private TipoMeta tipoMeta;
 	private FatorAtividadeFisica fatorAtividadeFisica;
 	private DiretrizAlimentar diretrizAlimentar;
 	private List<Cardapio> cardapios;
+	private Date dataInicioVigencia;
+	private Date dataFimVigencia;
 	
 	public PlanoReeducacaoAlimentar getPlanoReeducacaoAlimentar() {
 		return planoReeducacaoAlimentar;
@@ -47,18 +48,6 @@ public class Consulta implements Serializable {
 	}
 	public float getImcConsulta() {
 		return imcConsulta;
-	}
-	public float getAbdomemConsulta() {
-		return abdomemConsulta;
-	}
-	public void setAbdomemConsulta(float abdomemConsulta) {
-		this.abdomemConsulta = abdomemConsulta;
-	}
-	public float getGorduraCorporalConsulta() {
-		return gorduraCorporalConsulta;
-	}
-	public void setGorduraCorporalConsulta(float gorduraCorporalConsulta) {
-		this.gorduraCorporalConsulta = gorduraCorporalConsulta;
 	}
 	public float getValorMeta() {
 		return valorMeta;
@@ -96,13 +85,18 @@ public class Consulta implements Serializable {
 	public void setDiretrizAlimentar(DiretrizAlimentar diretrizAlimentar) {
 		this.diretrizAlimentar = diretrizAlimentar;
 	}
-	public Float getQuadrilConsulta() {
-		return quadrilConsulta;
+	public Date getDataInicioVigencia() {
+		return dataInicioVigencia;
 	}
-	public void setQuadrilConsulta(Float quadrilConsulta) {
-		this.quadrilConsulta = quadrilConsulta;
+	public void setDataInicioVigencia(Date dataInicioVigencia) {
+		this.dataInicioVigencia = dataInicioVigencia;
 	}
-	
+	public Date getDataFimVigencia() {
+		return dataFimVigencia;
+	}
+	public void setDataFimVigencia(Date dataFimVigencia) {
+		this.dataFimVigencia = dataFimVigencia;
+	}
 	@Override
 	public String toString() {
 		return new StringBuilder()

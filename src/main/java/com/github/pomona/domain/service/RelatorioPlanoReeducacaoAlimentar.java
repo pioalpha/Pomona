@@ -12,7 +12,7 @@ import com.github.pomona.domain.model.PerfilAlimentarPaciente;
 import com.github.pomona.domain.model.PlanoReeducacaoAlimentar;
 import com.github.pomona.domain.model.RefeicaoCardapio;
 import com.github.pomona.domain.model.Substancia;
-import com.github.pomona.domain.model.TipoRefeicao;
+import com.github.pomona.domain.reference.TipoRefeicao;
 
 public class RelatorioPlanoReeducacaoAlimentar {
 	PlanoReeducacaoAlimentar planoReeducacaoAlimentar;

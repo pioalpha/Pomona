@@ -8,7 +8,7 @@ import com.github.pomona.domain.model.AlimentoGranel;
 import com.github.pomona.domain.model.AlimentoUnitario;
 import com.github.pomona.domain.model.ComponenteAlimentar;
 import com.github.pomona.domain.model.Substancia;
-import com.github.pomona.domain.model.UnidadeGranel;
+import com.github.pomona.domain.reference.UnidadeGranel;
 
 public class AlimentoBuilder {
 	private List<ComponenteAlimentar> componentes;

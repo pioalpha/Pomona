@@ -6,6 +6,12 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.github.pomona.domain.model.*;
+import com.github.pomona.domain.reference.PreferenciaConsumo;
+import com.github.pomona.domain.reference.TipoMeta;
+import com.github.pomona.domain.reference.TipoNorma;
+import com.github.pomona.domain.reference.TipoRefeicao;
+import com.github.pomona.domain.reference.TipoSexo;
+import com.github.pomona.domain.reference.UnidadeSubstancia;
 import com.github.pomona.domain.service.AlimentoBuilder;
 import com.github.pomona.domain.service.CalculaEnergiaAlimento;
 import com.github.pomona.domain.service.CalculaEnergiaBuilder;

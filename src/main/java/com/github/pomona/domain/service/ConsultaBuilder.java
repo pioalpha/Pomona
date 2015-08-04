@@ -6,7 +6,7 @@ import com.github.pomona.domain.model.Consulta;
 import com.github.pomona.domain.model.DiretrizAlimentar;
 import com.github.pomona.domain.model.FatorAtividadeFisica;
 import com.github.pomona.domain.model.PlanoReeducacaoAlimentar;
-import com.github.pomona.domain.model.TipoMeta;
+import com.github.pomona.domain.reference.TipoMeta;
 
 public class ConsultaBuilder {
 	private Consulta instancia;

@@ -3,6 +3,8 @@ package com.github.pomona.domain.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.github.pomona.domain.reference.TipoNorma;
+
 public class NormaAlimentar implements Serializable {
 	/**
 	 * 

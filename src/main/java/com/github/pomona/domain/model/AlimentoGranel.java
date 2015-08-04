@@ -2,6 +2,8 @@ package com.github.pomona.domain.model;
 
 import java.io.Serializable;
 
+import com.github.pomona.domain.reference.UnidadeGranel;
+
 public class AlimentoGranel extends AlimentoUnitario implements Serializable{
 	/**
 	 * 

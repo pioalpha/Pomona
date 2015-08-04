@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.github.pomona.domain.model.AlimentoUnitario;
 import com.github.pomona.domain.model.Substancia;
-import com.github.pomona.domain.model.TipoRefeicao;
+import com.github.pomona.domain.reference.TipoRefeicao;
 
 public class LinhaRelatorio {
 	private TipoLinha tipoLinha; // Alimento, Parcial, Total

@@ -1,4 +1,4 @@
-package com.github.pomona.domain.model;
+package com.github.pomona.domain.reference;
 
 public enum TipoNorma {
 	PERCENTUAL,

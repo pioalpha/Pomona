@@ -5,7 +5,7 @@ import java.util.Date;
 
 import com.github.pomona.domain.model.DivisaoRefeicao;
 import com.github.pomona.domain.model.LimiteEnergetico;
-import com.github.pomona.domain.model.TipoRefeicao;
+import com.github.pomona.domain.reference.TipoRefeicao;
 
 public class DivisaoRefeicaoBuilder {
 	private DivisaoRefeicao instancia;

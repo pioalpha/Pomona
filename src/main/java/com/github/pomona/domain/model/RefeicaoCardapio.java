@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.github.pomona.domain.reference.TipoRefeicao;
+import com.github.pomona.domain.reference.UnidadeGranel;
+
 public class RefeicaoCardapio implements Serializable {
 
 	/**

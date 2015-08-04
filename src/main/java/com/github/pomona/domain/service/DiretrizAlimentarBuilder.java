@@ -6,7 +6,7 @@ import java.util.Date;
 import com.github.pomona.domain.model.DiretrizAlimentar;
 import com.github.pomona.domain.model.NormaAlimentar;
 import com.github.pomona.domain.model.Substancia;
-import com.github.pomona.domain.model.TipoNorma;
+import com.github.pomona.domain.reference.TipoNorma;
 
 public class DiretrizAlimentarBuilder {
 	private DiretrizAlimentar instancia;
