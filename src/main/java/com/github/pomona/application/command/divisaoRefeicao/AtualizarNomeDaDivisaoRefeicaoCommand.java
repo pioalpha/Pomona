@@ -1,6 +1,8 @@
 package com.github.pomona.application.command.divisaoRefeicao;
 
-public class AtualizarNomeDaDivisaoRefeicaoCommand {
+import com.github.common.service.command.Command;
+
+public class AtualizarNomeDaDivisaoRefeicaoCommand implements Command {
 	private String idDivisaoRefeicao;
 	private String nome;
 	

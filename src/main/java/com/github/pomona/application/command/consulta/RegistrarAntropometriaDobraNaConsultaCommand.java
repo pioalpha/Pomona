@@ -1,8 +1,9 @@
 package com.github.pomona.application.command.consulta;
 
+import com.github.common.service.command.Command;
 import com.github.pomona.domain.reference.TipoDobra;
 
-public class RegistrarAntropometriaDobraNaConsultaCommand {
+public class RegistrarAntropometriaDobraNaConsultaCommand implements Command {
 	private String idConsulta;
 	private TipoDobra tipoDobra;
 	private float valor;

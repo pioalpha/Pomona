@@ -1,6 +1,8 @@
 package com.github.pomona.application.command.alimento;
 
-public class AtualizarQuantidadeComponenteAlimentarCommand {
+import com.github.common.service.command.Command;
+
+public class AtualizarQuantidadeComponenteAlimentarCommand  implements Command{
 	private String idComponenteAlimentar;
 	private float quantidade;
 	

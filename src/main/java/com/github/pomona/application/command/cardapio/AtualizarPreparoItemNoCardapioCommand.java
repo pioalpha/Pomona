@@ -1,6 +1,8 @@
 package com.github.pomona.application.command.cardapio;
 
-public class AtualizarPreparoItemNoCardapioCommand {
+import com.github.common.service.command.Command;
+
+public class AtualizarPreparoItemNoCardapioCommand implements Command {
 	private String idItemCardapio;
 	private String idTipoPreparo;
 	public AtualizarPreparoItemNoCardapioCommand(String idItemCardapio, String idTipoPreparo) {

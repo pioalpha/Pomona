@@ -1,8 +1,9 @@
 package com.github.pomona.application.command.paciente;
 
+import com.github.common.service.command.Command;
 import com.github.pomona.domain.reference.PreferenciaConsumo;
 
-public class AdicionarPerfilAlimentarAoPacienteCommand {
+public class AdicionarPerfilAlimentarAoPacienteCommand implements Command {
 
 	private String idPlanoAlimentar;
 	private String idAlimento;

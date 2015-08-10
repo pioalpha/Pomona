@@ -1,6 +1,8 @@
 package com.github.pomona.application.command.alimento;
 
-public class CadastrarAlimentoUnitarioCommand {
+import com.github.common.service.command.Command;
+
+public class CadastrarAlimentoUnitarioCommand implements Command {
 	private String nome;
 
 	public CadastrarAlimentoUnitarioCommand(String nome) {

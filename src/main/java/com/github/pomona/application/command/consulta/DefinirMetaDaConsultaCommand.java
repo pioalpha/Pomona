@@ -2,10 +2,11 @@ package com.github.pomona.application.command.consulta;
 
 import java.util.Date;
 
+import com.github.common.service.command.Command;
 import com.github.pomona.domain.model.DivisaoRefeicao;
 import com.github.pomona.domain.reference.TipoMeta;
 
-public class DefinirMetaDaConsultaCommand {
+public class DefinirMetaDaConsultaCommand implements Command {
 	private String idConsulta;
 	private TipoMeta tipoMeta;
 	private float valor;

@@ -1,6 +1,8 @@
 package com.github.pomona.application.command.diretrizAlimentar;
 
-public class ExcluirNormaDaDiretrizAlimentarCommand {
+import com.github.common.service.command.Command;
+
+public class ExcluirNormaDaDiretrizAlimentarCommand implements Command {
 	private String idNorma;
 
 	public ExcluirNormaDaDiretrizAlimentarCommand(String idNorma) {

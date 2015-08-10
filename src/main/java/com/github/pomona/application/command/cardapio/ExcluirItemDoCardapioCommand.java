@@ -1,6 +1,8 @@
 package com.github.pomona.application.command.cardapio;
 
-public class ExcluirItemDoCardapioCommand {
+import com.github.common.service.command.Command;
+
+public class ExcluirItemDoCardapioCommand implements Command {
 	private String idItemCardapio;
 
 	public ExcluirItemDoCardapioCommand(String idItemCardapio) {

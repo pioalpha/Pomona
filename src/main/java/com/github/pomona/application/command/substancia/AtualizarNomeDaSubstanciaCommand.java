@@ -1,6 +1,8 @@
 package com.github.pomona.application.command.substancia;
 
-public class AtualizarNomeDaSubstanciaCommand {
+import com.github.common.service.command.Command;
+
+public class AtualizarNomeDaSubstanciaCommand implements Command {
 	private String idSubstancia;
 	private String nome;
 	

@@ -1,6 +1,8 @@
 package com.github.pomona.application.command.cardapio;
 
-public class AtualizarQuantidadeItemNoCardapioCommand {
+import com.github.common.service.command.Command;
+
+public class AtualizarQuantidadeItemNoCardapioCommand implements Command {
 	private String idItemCardapio;
 	private float quantidade;
 	

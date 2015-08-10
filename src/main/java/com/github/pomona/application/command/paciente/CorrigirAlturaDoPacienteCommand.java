@@ -1,6 +1,8 @@
 package com.github.pomona.application.command.paciente;
 
-public class CorrigirAlturaDoPacienteCommand {
+import com.github.common.service.command.Command;
+
+public class CorrigirAlturaDoPacienteCommand implements Command {
 	private String idPlanoAlimentar;
 	private float altura;
 	

@@ -1,8 +1,9 @@
 package com.github.pomona.application.command.cardapio;
 
+import com.github.common.service.command.Command;
 import com.github.pomona.domain.reference.TipoRefeicao;
 
-public class CadastrarItemNoCardapioCommand {
+public class CadastrarItemNoCardapioCommand implements Command {
 	private String idCardapio;
 	private String idAlimento;
 	private String idTipoPreparo;

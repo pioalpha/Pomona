@@ -1,8 +1,9 @@
 package com.github.pomona.application.command.paciente;
 
+import com.github.common.service.command.Command;
 import com.github.pomona.domain.reference.TipoCorPele;
 
-public class AtualizarCorPeleDoPacienteCommand {
+public class AtualizarCorPeleDoPacienteCommand implements Command {
 	private String idPlanoAlimentar;
 	private TipoCorPele tipoCorPele;
 	

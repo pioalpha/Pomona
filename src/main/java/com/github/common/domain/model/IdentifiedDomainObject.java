@@ -32,7 +32,7 @@ public class IdentifiedDomainObject extends AssertionConcern implements Serializ
         return this.id;
     }
 
-    private void setId(long anId) {
-        this.id = anId;
+    private void setId(long umId) {
+        this.id = umId;
     }
 }

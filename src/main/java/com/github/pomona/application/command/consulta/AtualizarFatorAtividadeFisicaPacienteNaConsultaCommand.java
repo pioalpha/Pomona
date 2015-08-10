@@ -1,8 +1,9 @@
 package com.github.pomona.application.command.consulta;
 
+import com.github.common.service.command.Command;
 import com.github.pomona.domain.model.FatorAtividadeFisica;
 
-public class AtualizarFatorAtividadeFisicaPacienteNaConsultaCommand {
+public class AtualizarFatorAtividadeFisicaPacienteNaConsultaCommand implements Command {
 	private String idConsulta;
 	private FatorAtividadeFisica fatorAtividadeFisica;
 	

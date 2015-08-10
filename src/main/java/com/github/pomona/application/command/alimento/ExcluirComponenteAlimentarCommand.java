@@ -1,6 +1,8 @@
 package com.github.pomona.application.command.alimento;
 
-public class ExcluirComponenteAlimentarCommand {
+import com.github.common.service.command.Command;
+
+public class ExcluirComponenteAlimentarCommand implements Command {
 	private String idComponenteAlimentar;
 
 	public ExcluirComponenteAlimentarCommand(String idComponenteAlimentar) {

@@ -1,6 +1,8 @@
 package com.github.pomona.application.command.diretrizAlimentar;
 
-public class AtualizarNomeDaDiretrizAlimentarCommand {
+import com.github.common.service.command.Command;
+
+public class AtualizarNomeDaDiretrizAlimentarCommand implements Command {
 	private String idDiretrizAlimentar;
 	private String nome;
 	

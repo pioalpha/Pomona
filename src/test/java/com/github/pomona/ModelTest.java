@@ -5,12 +5,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.github.pomona.application.AlimentoApplicationService;
+import com.github.pomona.application.SubstanciaApplicationService;
+import com.github.pomona.application.command.alimento.CadastrarAlimentoGranelCommand;
+import com.github.pomona.application.command.substancia.CadastrarSubstanciaComumCommand;
+import com.github.pomona.application.command.substancia.CadastrarSubstanciaOrdenadaCommand;
 import com.github.pomona.domain.model.*;
 import com.github.pomona.domain.reference.PreferenciaConsumo;
 import com.github.pomona.domain.reference.TipoMeta;
 import com.github.pomona.domain.reference.TipoNorma;
 import com.github.pomona.domain.reference.TipoRefeicao;
 import com.github.pomona.domain.reference.TipoSexo;
+import com.github.pomona.domain.reference.UnidadeGranel;
 import com.github.pomona.domain.reference.UnidadeSubstancia;
 import com.github.pomona.domain.service.AlimentoBuilder;
 import com.github.pomona.domain.service.CalculaEnergiaAlimento;
@@ -24,12 +30,62 @@ import com.github.pomona.domain.service.DivisaoRefeicaoBuilder;
 import com.github.pomona.domain.service.PlanoReeducacaoAlimentarBuilder;
 import com.github.pomona.domain.service.RelatorioPlanoReeducacaoAlimentar;
 import com.github.pomona.domain.service.SubstanciaBuilder;
+import com.github.pomona.service.commandHandler.AlimentoCommandHandler;
+import com.github.pomona.service.commandHandler.SubstanciaCommandHandler;
 
 public class ModelTest {
 
 	public static void main(String[] args) throws ParseException {
+		//SubstanciaApplicationService
+		SubstanciaRepo substanciaRepoImpl = new SubstanciaRepoImpl();
+		EnergiaSubstanciaRepo energiaSubstanciaRepoImpl = new EnergiaSubstanciaRepoImpl();
+		DiretrizAlimentarRepo diretrizAlimentarRepoImpl = new DiretrizAlimentarRepoImpl();
 		
-		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");  
+		//AlimentoApplicationService
+		AlimentoRepo alimentoRepoImpl = new AlimentoRepoImpl();
+		TipoMedidaRepo tipoMedidaRepoImpl = new TipoMedidaRepoImpl();
+		TipoPreparoRepo tipoPreparoRepoImpl = new TipoPreparoRepoImpl();
+		PreparoMedidaAlimentoRepo preparoMedidaAlimentoRepoImpl = new PreparoMedidaAlimentoRepoImpl();
+		
+		//CardapioApplicationService
+		EnergiaAlimentoRepo energiaAlimentoRepoImpl = new EnergiaAlimentoRepoImpl();
+		DivisaoRefeicaoRepo divisaoRefeicaoRepoImpl = new DivisaoRefeicaoRepoImpl();
+		CardapioRepo cardapioRepoImpl = new CardapioRepoImpl();
+		
+		//ConsultaApplicationService
+		ClassificacaoIMCRepo classificacaoIMCRepoImpl = new ClassificacaoIMCRepoImpl();
+		FatorAtividadeFisicaRepo fatorAtividadeFisicaRepoImpl = new FatorAtividadeFisicaRepoImpl();
+		FatorMetabolicoRepo fatorMetabolicoRepoImpl = new FatorMetabolicoRepoImpl();
+		ConsultaRepo consultaRepoImpl = new ConsultaRepoImpl();
+		
+		//PacienteApplicationService
+		PlanoAlimentarRepo planoAlimentarRepoImpl = new PlanoAlimentarRepoImpl();
+		PerfilAlimentarPacienteRepo perfilAlimentarPacienteRepoImpl = new PerfilAlimentarPacienteRepoImpl();
+		
+		
+		
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+		
+		
+		AlimentoCommandHandler ach = new AlimentoApplicationService(alimentoRepoImpl, energiaAlimentoRepoImpl, substanciaRepoImpl, tipoMedidaRepoImpl, tipoPreparoRepoImpl, preparoMedidaAlimentoRepoImpl);
+		ach.handle(new CadastrarAlimentoGranelCommand("Alimento1", UnidadeGranel.g, 100f));
+		ach.handle(new CadastrarAlimentoGranelCommand("Alimento2", UnidadeGranel.ml, 100f));
+		
+		SubstanciaCommandHandler sch = new SubstanciaApplicationService(diretrizAlimentarRepoImpl, energiaSubstanciaRepoImpl, substanciaRepoImpl);
+		sch.handle(new CadastrarSubstanciaComumCommand("Fibra", UnidadeSubstancia.g));
+		sch.handle(new CadastrarSubstanciaComumCommand("Ferro", UnidadeSubstancia.mg));
+		sch.handle(new CadastrarSubstanciaComumCommand("Vitamina C", UnidadeSubstancia.mg));
+		sch.handle(new CadastrarSubstanciaComumCommand("Sódio", UnidadeSubstancia.mg));
+		sch.handle(new CadastrarSubstanciaComumCommand("Potássio", UnidadeSubstancia.mg));
+		sch.handle(new CadastrarSubstanciaComumCommand("Fosforo", UnidadeSubstancia.mg));
+		sch.handle(new CadastrarSubstanciaComumCommand("Zinco", UnidadeSubstancia.mg));
+		sch.handle(new CadastrarSubstanciaComumCommand("Cálcio", UnidadeSubstancia.mg));
+		sch.handle(new CadastrarSubstanciaComumCommand("Magnésio", UnidadeSubstancia.mg));
+		sch.handle(new CadastrarSubstanciaOrdenadaCommand("Carboidrato", UnidadeSubstancia.g, 0));
+		sch.handle(new CadastrarSubstanciaOrdenadaCommand("Proteína", UnidadeSubstancia.g, 1));
+		sch.handle(new CadastrarSubstanciaOrdenadaCommand("Lipídio", UnidadeSubstancia.g, 2));
+
+		
 		
 		new CalculosNutricaoBuilder()
 				.adicionarFatorAtividadeFisica("Sedentário", 1f)
@@ -147,5 +203,11 @@ public class ModelTest {
 		consPedro.getCardapios().add(cardPedro2);
 		
 		System.out.println(new RelatorioPlanoReeducacaoAlimentar(planoPedro).toString());
+		for(Object o : substanciaRepoImpl.todasSubstancias()){
+			System.out.println(o.toString());
+		}
+		for(Object o : alimentoRepoImpl.todosAlimentos()){
+			System.out.println(o.toString());
+		}
 	}
 }

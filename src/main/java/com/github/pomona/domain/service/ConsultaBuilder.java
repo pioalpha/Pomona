@@ -61,19 +61,9 @@ public class ConsultaBuilder {
 		// calcula IMC automatico
 	}
 
-	public ConsultaBuilder comAbdomem(float abdomemConsulta) {
-		this.instancia.setAbdomemConsulta(abdomemConsulta);
-		return this;
-	}
-
 	public ConsultaBuilder comCircunferencias(float cinturaConsulta,
 			float abdomemConsulta, float quadrilConsulta) {
 
-		return this;
-	}
-
-	public ConsultaBuilder comGorduraCorporal(float gorduraCorporalConsulta) {
-		this.instancia.setGorduraCorporalConsulta(gorduraCorporalConsulta);
 		return this;
 	}
 

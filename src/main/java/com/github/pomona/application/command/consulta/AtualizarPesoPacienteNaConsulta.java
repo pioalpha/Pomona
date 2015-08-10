@@ -1,6 +1,8 @@
 package com.github.pomona.application.command.consulta;
 
-public class AtualizarPesoPacienteNaConsulta {
+import com.github.common.service.command.Command;
+
+public class AtualizarPesoPacienteNaConsulta implements Command {
 	private String idConsulta;
 	private float peso;
 	

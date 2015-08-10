@@ -1,6 +1,8 @@
 package com.github.pomona.application.command.alimento;
 
-public class AtualizarNomeDoTipoMedidaCommand {
+import com.github.common.service.command.Command;
+
+public class AtualizarNomeDoTipoMedidaCommand  implements Command{
 	private String idTipoMedida;
 	private String nome;
 	

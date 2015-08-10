@@ -1,8 +1,9 @@
 package com.github.pomona.application.command.diretrizAlimentar;
 
+import com.github.common.service.command.Command;
 import com.github.pomona.domain.reference.TipoNorma;
 
-public class AtualizarNormaDaDiretrizAlimentarCommand {
+public class AtualizarNormaDaDiretrizAlimentarCommand implements Command {
 	private String idNorma;
 	private TipoNorma tipoNorma;
 	private Float normaMinima;

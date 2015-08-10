@@ -1,6 +1,8 @@
 package com.github.pomona.application.command.diretrizAlimentar;
 
-public class CadastrarDiretrizAlimentarCommand {
+import com.github.common.service.command.Command;
+
+public class CadastrarDiretrizAlimentarCommand implements Command {
 	private String nome;
 
 	public CadastrarDiretrizAlimentarCommand(String nome) {

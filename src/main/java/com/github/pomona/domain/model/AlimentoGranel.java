@@ -12,6 +12,10 @@ public class AlimentoGranel extends AlimentoUnitario implements Serializable{
 	private float porcao;
 	private UnidadeGranel unidadeGranel;
 
+	public AlimentoGranel() {
+		super();
+	}
+
 	public float getPorcao() {
 		return this.porcao;
 	}
@@ -36,6 +40,13 @@ public class AlimentoGranel extends AlimentoUnitario implements Serializable{
 	
 	@Override
 	public String toString() {
-		return this.getNome() + " (" + this.unidadeGranel + ")";
+		StringBuilder sb = new StringBuilder();
+		sb.append(this.getNome() + " (" + this.unidadeGranel + ")");
+		for (ComponenteAlimentar ca : this.composicaoAlimentar){
+			sb.append(ca.toString());
+		}
+		
+		return sb.toString();
+		//return this.getNome() + " (" + this.unidadeGranel + ")";
 	}
 }

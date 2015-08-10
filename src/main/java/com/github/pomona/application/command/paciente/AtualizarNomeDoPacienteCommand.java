@@ -1,6 +1,8 @@
 package com.github.pomona.application.command.paciente;
 
-public class AtualizarNomeDoPacienteCommand {
+import com.github.common.service.command.Command;
+
+public class AtualizarNomeDoPacienteCommand implements Command {
 	private String idPlanoAlimentar;
 	private String nome;
 

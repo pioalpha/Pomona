@@ -2,7 +2,9 @@ package com.github.pomona.application.command.consulta;
 
 import java.util.Date;
 
-public class ReAgendarConsultaDoPacienteCommand {
+import com.github.common.service.command.Command;
+
+public class ReAgendarConsultaDoPacienteCommand implements Command {
 	private String idConsulta;
 	private Date novaData;
 	

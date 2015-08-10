@@ -121,7 +121,7 @@ public class Relatorio {
 									.append(linha.getQuantidade());
 							} else if (((String) coluna).contains(ALIMENTO)){
 								sbLinha.append(new char[sbTitulo.indexOf(ALIMENTO) - sbLinha.length()])
-									.append(linha.getAlimento());
+									.append(linha.getAlimento().getDetalhe());
 							} else if (((String) coluna).contains(REFEICAO)){
 								sbLinha.append(new char[sbTitulo.indexOf(REFEICAO) - sbLinha.length()])
 									.append(linha.getTipoRefeicao());

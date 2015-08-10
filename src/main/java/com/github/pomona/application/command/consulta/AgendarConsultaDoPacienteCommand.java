@@ -2,7 +2,9 @@ package com.github.pomona.application.command.consulta;
 
 import java.util.Date;
 
-public class AgendarConsultaDoPacienteCommand {
+import com.github.common.service.command.Command;
+
+public class AgendarConsultaDoPacienteCommand implements Command {
 	private String idPlanoAlimentar;
 	private Date dataConsulta;
 	

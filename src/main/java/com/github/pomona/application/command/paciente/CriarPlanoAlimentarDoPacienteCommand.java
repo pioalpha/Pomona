@@ -2,10 +2,11 @@ package com.github.pomona.application.command.paciente;
 
 import java.util.Date;
 
+import com.github.common.service.command.Command;
 import com.github.pomona.domain.reference.TipoCorPele;
 import com.github.pomona.domain.reference.TipoSexo;
 
-public class CriarPlanoAlimentarDoPacienteCommand {
+public class CriarPlanoAlimentarDoPacienteCommand implements Command {
 	private String nome;
 	private Date dataNascimento;
 	private float altura;

@@ -1,5 +1,13 @@
 package com.github.pomona.domain.model;
 
-public interface DiretrizAlimentarRepo {
+import java.util.Collection;
 
+public interface DiretrizAlimentarRepo {
+    public void add(DiretrizAlimentar diretrizAlimentar);
+
+    public Collection<DiretrizAlimentar> todasDiretrizesAlimentares();
+
+    public void remove(DiretrizAlimentar diretrizAlimentar);
+
+    public DiretrizAlimentar diretrizAlimentarPeloNome(String nome);
 }

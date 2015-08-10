@@ -1,8 +1,9 @@
 package com.github.pomona.application.command.diretrizAlimentar;
 
+import com.github.common.service.command.Command;
 import com.github.pomona.domain.reference.TipoNorma;
 
-public class AdicionarNormaADiretrizAlimentarCommand {
+public class AdicionarNormaADiretrizAlimentarCommand implements Command {
 	private String idDiretrizAlimentar;
 	private String idSubstancia;
 	private TipoNorma tipoNorma;

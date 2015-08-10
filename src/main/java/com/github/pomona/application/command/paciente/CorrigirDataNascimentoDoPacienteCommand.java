@@ -2,7 +2,9 @@ package com.github.pomona.application.command.paciente;
 
 import java.util.Date;
 
-public class CorrigirDataNascimentoDoPacienteCommand {
+import com.github.common.service.command.Command;
+
+public class CorrigirDataNascimentoDoPacienteCommand implements Command {
 	private String idPlanoAlimentar;
 	private Date dataNascimento;
 	

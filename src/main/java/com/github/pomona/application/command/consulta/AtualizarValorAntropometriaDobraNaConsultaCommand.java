@@ -1,6 +1,8 @@
 package com.github.pomona.application.command.consulta;
 
-public class AtualizarValorAntropometriaDobraNaConsultaCommand {
+import com.github.common.service.command.Command;
+
+public class AtualizarValorAntropometriaDobraNaConsultaCommand implements Command {
 	private String idAntropometriaDobra;
 	private float valor;
 	

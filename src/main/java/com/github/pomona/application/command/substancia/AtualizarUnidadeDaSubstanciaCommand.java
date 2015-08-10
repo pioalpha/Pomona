@@ -1,8 +1,9 @@
 package com.github.pomona.application.command.substancia;
 
+import com.github.common.service.command.Command;
 import com.github.pomona.domain.reference.UnidadeSubstancia;
 
-public class AtualizarUnidadeDaSubstanciaCommand {
+public class AtualizarUnidadeDaSubstanciaCommand implements Command {
 	private String idSubstancia;
 	private UnidadeSubstancia unidadeSubstancia;
 	

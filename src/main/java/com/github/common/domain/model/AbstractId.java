@@ -29,11 +29,11 @@ public abstract class AbstractId
     }
 
     @Override
-    public boolean equals(Object anObject) {
+    public boolean equals(Object umObjeto) {
         boolean equalObjects = false;
 
-        if (anObject != null && this.getClass() == anObject.getClass()) {
-            AbstractId typedObject = (AbstractId) anObject;
+        if (umObjeto != null && this.getClass() == umObjeto.getClass()) {
+            AbstractId typedObject = (AbstractId) umObjeto;
             equalObjects = this.id().equals(typedObject.id());
         }
 
@@ -54,10 +54,10 @@ public abstract class AbstractId
         return this.getClass().getSimpleName() + " [id=" + id + "]";
     }
 
-    protected AbstractId(String anId) {
+    protected AbstractId(String umId) {
         this();
 
-        this.setId(anId);
+        this.setId(umId);
     }
 
     protected AbstractId() {
@@ -68,17 +68,17 @@ public abstract class AbstractId
 
     protected abstract int hashPrimeValue();
 
-    protected void validateId(String anId) {
+    protected void validateId(String umId) {
         // implemented by subclasses for validation.
         // throws a runtime exception if invalid.
     }
 
-    private void setId(String anId) {
-        this.assertArgumentNotEmpty(anId, "The basic identity is required.");
-        this.assertArgumentLength(anId, 36, "The basic identity must be 36 characters.");
+    private void setId(String umId) {
+        this.assertArgumentNotEmpty(umId, "The basic identity is required.");
+        this.assertArgumentLength(umId, 36, "The basic identity must be 36 characters.");
 
-        this.validateId(anId);
+        this.validateId(umId);
 
-        this.id = anId;
+        this.id = umId;
     }
 }

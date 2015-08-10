@@ -1,8 +1,9 @@
 package com.github.pomona.application.command.alimento;
 
+import com.github.common.service.command.Command;
 import com.github.pomona.domain.reference.UnidadeGranel;
 
-public class CadastrarAlimentoGranelCommand {
+public class CadastrarAlimentoGranelCommand implements Command{
 	private String nome;
 	private UnidadeGranel unidadeGranel;
 	private float porcao;

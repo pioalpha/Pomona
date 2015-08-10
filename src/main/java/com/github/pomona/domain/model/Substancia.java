@@ -9,6 +9,7 @@ public class Substancia implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -1063366783131768256L;
+	private SubstanciaId substanciaId;
 	private String nome;
 	private UnidadeSubstancia unidadeSubstancia;
 	private int ordem;
@@ -36,4 +37,16 @@ public class Substancia implements Serializable {
 	public String getDetalhe() {
 		return nome + " (" + unidadeSubstancia + ")";
 	}
+	public SubstanciaId substanciaId() {
+		return substanciaId;
+	}
+	public void setSubstanciaId(SubstanciaId substanciaId) {
+		this.substanciaId = substanciaId;
+	}
+	@Override
+	public String toString() {
+		return "Substancia [nome=" + nome + ", unidadeSubstancia=" + unidadeSubstancia + ", ordem=" + ordem + "]";
+	}
+	
+	
 }

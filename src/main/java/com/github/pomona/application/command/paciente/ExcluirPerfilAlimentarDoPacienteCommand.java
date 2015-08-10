@@ -1,6 +1,8 @@
 package com.github.pomona.application.command.paciente;
 
-public class ExcluirPerfilAlimentarDoPacienteCommand {
+import com.github.common.service.command.Command;
+
+public class ExcluirPerfilAlimentarDoPacienteCommand implements Command {
 
 	private String idPerfilAlimentarPaciente;
 

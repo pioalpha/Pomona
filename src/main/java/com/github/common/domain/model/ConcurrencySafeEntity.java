@@ -28,13 +28,13 @@ public class ConcurrencySafeEntity extends Entity {
         return this.concurrencyVersion;
     }
 
-    public void setConcurrencyVersion(int aVersion) {
-        this.failWhenConcurrencyViolation(aVersion);
-        this.concurrencyVersion = aVersion;
+    public void setConcurrencyVersion(int umaVersao) {
+        this.failWhenConcurrencyViolation(umaVersao);
+        this.concurrencyVersion = umaVersao;
     }
 
-    public void failWhenConcurrencyViolation(int aVersion) {
-        if (aVersion != this.concurrencyVersion()) {
+    public void failWhenConcurrencyViolation(int umaVersao) {
+        if (umaVersao != this.concurrencyVersion()) {
             throw new IllegalStateException(
                     "Concurrency Violation: Stale data detected. Entity was already modified.");
         }

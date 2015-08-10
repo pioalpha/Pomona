@@ -1,6 +1,8 @@
 package com.github.pomona.application.command.consulta;
 
-public class RemoverAntropometriaCircunferenciaNaConsultaCommand {
+import com.github.common.service.command.Command;
+
+public class RemoverAntropometriaCircunferenciaNaConsultaCommand implements Command {
 	private String idAntropometriaCircunferencia;
 
 	public RemoverAntropometriaCircunferenciaNaConsultaCommand(String idAntropometriaCircunferencia) {

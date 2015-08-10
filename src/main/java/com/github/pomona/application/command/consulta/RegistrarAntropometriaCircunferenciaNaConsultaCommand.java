@@ -1,8 +1,9 @@
 package com.github.pomona.application.command.consulta;
 
+import com.github.common.service.command.Command;
 import com.github.pomona.domain.reference.TipoCircunferencia;
 
-public class RegistrarAntropometriaCircunferenciaNaConsultaCommand {
+public class RegistrarAntropometriaCircunferenciaNaConsultaCommand implements Command {
 	private String idConsulta;
 	private TipoCircunferencia tipoCircunferencia;
 	private float valor;

@@ -1,8 +1,9 @@
 package com.github.pomona.application.command.paciente;
 
+import com.github.common.service.command.Command;
 import com.github.pomona.domain.reference.TipoSexo;
 
-public class AtualizarSexoDoPacienteCommand {
+public class AtualizarSexoDoPacienteCommand implements Command {
 	private String idPlanoAlimentar;
 	private TipoSexo tipoSexo;
 	

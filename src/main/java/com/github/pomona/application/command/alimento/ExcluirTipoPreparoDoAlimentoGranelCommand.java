@@ -1,6 +1,8 @@
 package com.github.pomona.application.command.alimento;
 
-public class ExcluirTipoPreparoDoAlimentoGranelCommand {
+import com.github.common.service.command.Command;
+
+public class ExcluirTipoPreparoDoAlimentoGranelCommand implements Command {
 	private String idTipoPreparo;
 
 	public ExcluirTipoPreparoDoAlimentoGranelCommand(String idTipoPreparo) {

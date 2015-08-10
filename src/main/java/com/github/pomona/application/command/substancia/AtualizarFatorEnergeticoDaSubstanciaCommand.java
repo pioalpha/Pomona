@@ -1,6 +1,8 @@
 package com.github.pomona.application.command.substancia;
 
-public class AtualizarFatorEnergeticoDaSubstanciaCommand {
+import com.github.common.service.command.Command;
+
+public class AtualizarFatorEnergeticoDaSubstanciaCommand implements Command {
 	private String idSubstancia;
 	private float fatorEnergetico;
 	

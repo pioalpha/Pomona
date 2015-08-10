@@ -1,10 +1,8 @@
 package com.github.pomona.application.command.alimento;
 
-import org.primefaces.context.PrimePartialResponseWriter;
+import com.github.common.service.command.Command;
 
-import com.github.pomona.domain.model.TipoPreparo;
-
-public class CadastrarTipoMedidaDoAlimentoGranelCommand {
+public class CadastrarTipoMedidaDoAlimentoGranelCommand implements Command {
 	public String nome;
 
 	public CadastrarTipoMedidaDoAlimentoGranelCommand(String nome) {

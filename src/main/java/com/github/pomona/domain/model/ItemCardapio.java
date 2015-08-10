@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.github.pomona.domain.reference.TipoPreparo;
 
 public class ItemCardapio implements Serializable {
 	/**

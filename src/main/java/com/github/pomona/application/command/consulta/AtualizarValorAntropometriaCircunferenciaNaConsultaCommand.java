@@ -1,6 +1,8 @@
 package com.github.pomona.application.command.consulta;
 
-public class AtualizarValorAntropometriaCircunferenciaNaConsultaCommand {
+import com.github.common.service.command.Command;
+
+public class AtualizarValorAntropometriaCircunferenciaNaConsultaCommand implements Command {
 	private String idAntropometriaCircunferencia;
 	private float valor;
 	

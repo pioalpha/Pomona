@@ -1,15 +1,24 @@
 package com.github.pomona.domain.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class AlimentoUnitario implements Serializable {
+import com.github.common.domain.model.ConcurrencySafeEntity;
+
+public class AlimentoUnitario extends ConcurrencySafeEntity implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3596504330554150407L;
+	private AlimentoId alimentoId;
 	private String nome;
-	private List<ComponenteAlimentar> composicaoAlimentar;
+	protected List<ComponenteAlimentar> composicaoAlimentar;
+	
+	public AlimentoUnitario() {
+		super();
+		this.composicaoAlimentar = new ArrayList<ComponenteAlimentar>();
+	}
 	
 	public List<ComponenteAlimentar> getComposicaoAlimentar() {
 		return composicaoAlimentar;
@@ -30,9 +39,26 @@ public class AlimentoUnitario implements Serializable {
 	
 	@Override
 	public String toString() {
-		return this.getNome();
+		StringBuilder sb = new StringBuilder();
+		sb.append(this.getNome());
+		for (ComponenteAlimentar ca : this.composicaoAlimentar){
+			sb.append(ca.toString());
+		}
+		
+		return sb.toString();
+		//return this.getNome();
 	}
 	public String getDetalhe() {
 		return this.getNome();
+	}
+
+	public AlimentoId alimentoId() {
+		return alimentoId;
+	}
+
+	public void setAlimentoId(AlimentoId umAlimentoId) {
+        this.assertArgumentNotNull(umAlimentoId, "The alimentoId must be provided.");
+
+        this.alimentoId = umAlimentoId;
 	}
 }

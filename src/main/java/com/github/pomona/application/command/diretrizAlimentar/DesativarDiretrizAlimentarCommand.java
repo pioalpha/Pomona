@@ -1,6 +1,8 @@
 package com.github.pomona.application.command.diretrizAlimentar;
 
-public class DesativarDiretrizAlimentarCommand {
+import com.github.common.service.command.Command;
+
+public class DesativarDiretrizAlimentarCommand implements Command {
 	private String idDiretrizAlimentar;
 
 	public DesativarDiretrizAlimentarCommand(String idDiretrizAlimentar) {

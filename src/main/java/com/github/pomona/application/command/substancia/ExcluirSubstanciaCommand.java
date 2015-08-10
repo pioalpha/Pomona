@@ -1,6 +1,8 @@
 package com.github.pomona.application.command.substancia;
 
-public class ExcluirSubstanciaCommand {
+import com.github.common.service.command.Command;
+
+public class ExcluirSubstanciaCommand implements Command {
 	private String idSubstancia;
 
 	public ExcluirSubstanciaCommand(String idSubstancia) {

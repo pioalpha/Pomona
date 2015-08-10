@@ -1,8 +1,9 @@
 package com.github.pomona.application.command.divisaoRefeicao;
 
+import com.github.common.service.command.Command;
 import com.github.pomona.domain.reference.TipoRefeicao;
 
-public class AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand {
+public class AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand implements Command {
 	private String idDivisaoRefeicao;
 	private TipoRefeicao tipoRefeicao;
 	private float percentualEnergetico;
