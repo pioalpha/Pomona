@@ -1,15 +1,15 @@
 package com.github.pomona.domain.model;
 
 import java.util.Date;
+
+import com.github.common.domain.model.GenericoRepo;
+
 import java.util.Collection;
 
-public interface CardapioRepo {
-    public void add(Cardapio cardapio);
+public interface CardapioRepo extends GenericoRepo<Cardapio, CardapioId> {
 
-    public Collection<Cardapio> todosCardapios(Consulta consulta);
+	public Collection<Cardapio> todosCardapios(Consulta consulta);
 
-    public void remove(Cardapio cardapio);
-
-    public Cardapio cardapioPelaData(Date dia);
+	public Cardapio cardapioPelaData(Date dia);
 
 }

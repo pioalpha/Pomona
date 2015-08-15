@@ -1,13 +1,7 @@
 package com.github.pomona.domain.model;
 
-import java.util.Collection;
+import com.github.common.domain.model.GenericoRepo;
 
-public interface TipoMedidaRepo {
-    public void add(TipoMedida tipoMedida);
-
-    public Collection<TipoMedida> todosTiposMedida();
-
-    public void remove(TipoMedida tipoMedida);
-
-    public TipoMedida tipoMedidaPeloNome(String nome);
+public interface TipoMedidaRepo extends GenericoRepo<TipoMedida, TipoMedidaId> {
+	public TipoMedida tipoMedidaPeloNome(String nome);
 }

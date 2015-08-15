@@ -40,13 +40,7 @@ public class AlimentoGranel extends AlimentoUnitario implements Serializable{
 	
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(this.getNome() + " (" + this.unidadeGranel + ")");
-		for (ComponenteAlimentar ca : this.composicaoAlimentar){
-			sb.append(ca.toString());
-		}
-		
-		return sb.toString();
-		//return this.getNome() + " (" + this.unidadeGranel + ")";
+		return "AlimentoGranel [porcao=" + porcao + ", unidadeGranel=" + unidadeGranel + ", composicaoAlimentar="
+				+ composicaoAlimentar + "]";
 	}
 }

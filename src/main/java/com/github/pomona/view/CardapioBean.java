@@ -21,7 +21,7 @@ import com.github.pomona.domain.model.DivisaoRefeicao;
 import com.github.pomona.domain.model.EnergiaSubstancia;
 import com.github.pomona.domain.model.ItemCardapio;
 import com.github.pomona.domain.model.LimiteEnergetico;
-import com.github.pomona.domain.model.PlanoReeducacaoAlimentar;
+import com.github.pomona.domain.model.PlanoAlimentar;
 import com.github.pomona.domain.model.RefeicaoCardapio;
 import com.github.pomona.domain.model.Substancia;
 import com.github.pomona.domain.reference.PreferenciaConsumo;
@@ -219,7 +219,7 @@ public class CardapioBean implements Serializable{
 		limitesEnergeticos = divExemplo.getLimitesEnergeticos();
 		
 		
-		PlanoReeducacaoAlimentar planoMCP = new PlanoReeducacaoAlimentarBuilder(
+		PlanoAlimentar planoMCP = new PlanoReeducacaoAlimentarBuilder(
 				"MCP", (Date)format.parse("29/06/1990"), 1.55f, TipoSexo.FEMININO)
 				.comPerfilAlimentar(arroz100g, PreferenciaConsumo.REQUER)
 				.construir();

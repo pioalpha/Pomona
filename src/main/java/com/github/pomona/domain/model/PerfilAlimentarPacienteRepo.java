@@ -1,13 +1,7 @@
 package com.github.pomona.domain.model;
 
-import java.util.Collection;
+import com.github.common.domain.model.GenericoRepo;
 
-public interface PerfilAlimentarPacienteRepo {
-    public void add(PerfilAlimentarPaciente perfilAlimentarPaciente);
-
-    public Collection<PerfilAlimentarPaciente> todosPerfisAlimentares();
-
-    public void remove(PerfilAlimentarPaciente perfilAlimentarPaciente);
-
-    public PerfilAlimentarPaciente perfilAlimentarPacientePeloPaciente(Paciente paciente);
+public interface PerfilAlimentarPacienteRepo extends GenericoRepo<PerfilAlimentarPaciente, PerfilAlimentarPacienteId> {
+	public PerfilAlimentarPaciente perfilAlimentarPacientePeloPaciente(Paciente paciente);
 }

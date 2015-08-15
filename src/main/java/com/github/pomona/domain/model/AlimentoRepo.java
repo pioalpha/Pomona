@@ -1,15 +1,7 @@
 package com.github.pomona.domain.model;
 
-import java.util.Collection;
+import com.github.common.domain.model.GenericoRepo;
 
-public interface AlimentoRepo {
-    public void add(AlimentoUnitario alimento);
-
-    public Collection<AlimentoUnitario> todosAlimentos();
-
-    public void remove(AlimentoUnitario alimento);
-
-    public AlimentoUnitario alimentoPeloNome(String nome);
-    
-    public AlimentoId proximaIdentidade();
+public interface AlimentoRepo extends GenericoRepo<AlimentoUnitario, AlimentoId> {
+	public AlimentoUnitario alimentoPeloNome(String nome);
 }

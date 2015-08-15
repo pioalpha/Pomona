@@ -338,7 +338,7 @@ public class TesteFernanda {
 		.adicionarLimiteEnergetico(TipoRefeicao.JANTAR, 35f, 40f)
 		.construir();
 		
-		PlanoReeducacaoAlimentar planoMCP = new PlanoReeducacaoAlimentarBuilder(
+		PlanoAlimentar planoMCP = new PlanoReeducacaoAlimentarBuilder(
 				"MCP", (Date)format.parse("29/06/1990"), 1.55f, TipoSexo.FEMININO)
 				.comPerfilAlimentar(arroz, PreferenciaConsumo.REQUER)
 				/*.comPerfilAlimentar(cereais, PreferenciaConsumo.REQUER)

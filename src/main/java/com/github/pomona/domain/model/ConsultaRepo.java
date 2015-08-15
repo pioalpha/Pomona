@@ -1,14 +1,9 @@
 package com.github.pomona.domain.model;
 
-import java.util.Collection;
 import java.util.Date;
 
-public interface ConsultaRepo {
-    public void add(Consulta consulta);
+import com.github.common.domain.model.GenericoRepo;
 
-    public Collection<Consulta> todasConsultas();
-
-    public void remove(Consulta consulta);
-
-    public Consulta consultaPelaData(Date dataConsulta);
+public interface ConsultaRepo extends GenericoRepo<Consulta, ConsultaId> {
+	public Consulta consultaPelaData(Date dataConsulta);
 }

@@ -18,31 +18,18 @@ import com.github.pomona.application.command.substancia.CadastrarSubstanciaEnerg
 import com.github.pomona.application.command.substancia.CadastrarSubstanciaOrdenadaCommand;
 import com.github.pomona.application.command.substancia.ExcluirSubstanciaCommand;
 import com.github.pomona.application.command.substancia.PriorizarOrdemDaSubstanciaCommand;
-import com.github.pomona.domain.model.AlimentoGranel;
-import com.github.pomona.domain.model.AlimentoRepo;
-import com.github.pomona.domain.model.CardapioRepo;
-import com.github.pomona.domain.model.ClassificacaoIMCRepo;
-import com.github.pomona.domain.model.ConsultaRepo;
 import com.github.pomona.domain.model.DiretrizAlimentarRepo;
-import com.github.pomona.domain.model.EnergiaAlimentoRepo;
 import com.github.pomona.domain.model.EnergiaSubstancia;
 import com.github.pomona.domain.model.EnergiaSubstanciaRepo;
-import com.github.pomona.domain.model.FatorAtividadeFisicaRepo;
-import com.github.pomona.domain.model.FatorMetabolicoRepo;
-import com.github.pomona.domain.model.PerfilAlimentarPacienteRepo;
-import com.github.pomona.domain.model.PlanoAlimentarRepo;
 import com.github.pomona.domain.model.Substancia;
+import com.github.pomona.domain.model.SubstanciaId;
 import com.github.pomona.domain.model.SubstanciaRepo;
-import com.github.pomona.domain.service.AlimentoBuilder;
 import com.github.pomona.domain.service.SubstanciaBuilder;
 import com.github.pomona.service.commandHandler.SubstanciaCommandHandler;
 
 public class SubstanciaApplicationService implements SubstanciaCommandHandler {
-
 	private DiretrizAlimentarRepo diretrizAlimentarRepo;
-	
 	private EnergiaSubstanciaRepo energiaSubstanciaRepo;
-
 	private SubstanciaRepo substanciaRepo;
 
 	public SubstanciaApplicationService(DiretrizAlimentarRepo diretrizAlimentarRepo,
@@ -55,113 +42,164 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 
 	@Override
 	public CommandResult handle(AdicionarNormaADiretrizAlimentarCommand command) {
+		CommandResult resultado = null;
+		
 		// TODO Auto-generated method stub
-		return null;
+		resultado = new CommandResult(true, "", "");
+
+		return resultado;
 	}
 
 	@Override
 	public CommandResult handle(AtualizarNomeDaDiretrizAlimentarCommand command) {
+		CommandResult resultado = null;
+		
 		// TODO Auto-generated method stub
-		return null;
+		resultado = new CommandResult(true, "", "");
+
+		return resultado;
 	}
 
 	@Override
 	public CommandResult handle(AtualizarNormaDaDiretrizAlimentarCommand command) {
+		CommandResult resultado = null;
+		
 		// TODO Auto-generated method stub
-		return null;
+		resultado = new CommandResult(true, "", "");
+
+		return resultado;
 	}
 
 	@Override
 	public CommandResult handle(CadastrarDiretrizAlimentarCommand command) {
+		CommandResult resultado = null;
+		
 		// TODO Auto-generated method stub
-		return null;
+		resultado = new CommandResult(true, "", "");
+
+		return resultado;
 	}
 
 	@Override
 	public CommandResult handle(DesativarDiretrizAlimentarCommand command) {
+		CommandResult resultado = null;
+		
 		// TODO Auto-generated method stub
-		return null;
+		resultado = new CommandResult(true, "", "");
+
+		return resultado;
 	}
 
 	@Override
 	public CommandResult handle(ExcluirDiretrizAlimentarCommand command) {
+		CommandResult resultado = null;
+		
 		// TODO Auto-generated method stub
-		return null;
+		resultado = new CommandResult(true, "", "");
+
+		return resultado;
 	}
 
 	@Override
 	public CommandResult handle(ExcluirNormaDaDiretrizAlimentarCommand command) {
+		CommandResult resultado = null;
+		
 		// TODO Auto-generated method stub
-		return null;
+		resultado = new CommandResult(true, "", "");
+
+		return resultado;
 	}
 
 	@Override
 	public CommandResult handle(AtualizarFatorEnergeticoDaSubstanciaCommand command) {
-		// TODO Auto-generated method stub
-		return null;
+		CommandResult resultado = null;
+		
+		EnergiaSubstancia es = new EnergiaSubstancia();
+		es.setFatorEnergetico(command.getFatorEnergetico());
+		es.setSubstancia(this.substanciaRepo().objetoDeId(new SubstanciaId(command.getIdSubstancia())));
+		es.setDataCadastro(new Date());
+		es.setEnergiaSubstanciaId(this.energiaSubstanciaRepo().proximaIdentidade());
+		this.energiaSubstanciaRepo().adicionar(es);
+		
+		resultado = new CommandResult(true, "Atualizado Fator Energético com sucesso!", null);
+
+		return resultado;
 	}
 
 	@Override
 	public CommandResult handle(AtualizarNomeDaSubstanciaCommand command) {
+		CommandResult resultado = null;
+		
 		// TODO Auto-generated method stub
-		return null;
+		resultado = new CommandResult(true, "", "");
+
+		return resultado;
 	}
 
 	@Override
 	public CommandResult handle(AtualizarUnidadeDaSubstanciaCommand command) {
+		CommandResult resultado = null;
+		
 		// TODO Auto-generated method stub
-		return null;
+		resultado = new CommandResult(true, "", "");
+
+		return resultado;
 	}
 
 	@Override
 	public CommandResult handle(CadastrarSubstanciaComumCommand command) {
 		CommandResult resultado = null;
 
-		Substancia s = new SubstanciaBuilder(command.getNome(), command.getUnidadeSubstancia(), substanciaRepo.proximaOrdem()).construir(); 
-		s.setSubstanciaId(substanciaRepo.proximaIdentidade());
-		substanciaRepo.add(s);
+		Substancia s = new SubstanciaBuilder(command.getNome(), command.getUnidadeSubstancia(),
+				this.substanciaRepo().proximaOrdem()).construir();
+		s.setSubstanciaId(this.substanciaRepo().proximaIdentidade());
+		this.substanciaRepo().adicionar(s);
 
 		resultado = new CommandResult(true, "Substância cadastrada com sucesso!", s.substanciaId().id());
 
 		return resultado;
 	}
-	
+
 	@Override
 	public CommandResult handle(CadastrarSubstanciaOrdenadaCommand command) {
 		CommandResult resultado = null;
-		if (command.getOrdem() <= substanciaRepo.proximaOrdem()){
-			for (Substancia s : substanciaRepo.todasSubstancias()){
-				if (s.getOrdem() >= command.getOrdem()){
-					s.setOrdem(s.getOrdem()+1);
-					substanciaRepo.add(s);
+
+		if (command.getOrdem() <= this.substanciaRepo().proximaOrdem()) {
+			for (Substancia s : this.substanciaRepo().todosObjetos()) {
+				if (s.getOrdem() >= command.getOrdem()) {
+					s.setOrdem(s.getOrdem() + 1);
+					this.substanciaRepo().adicionar(s);
 				}
 			}
-			
-			Substancia s = new SubstanciaBuilder(command.getNome(), command.getUnidadeSubstancia(), command.getOrdem()).construir(); 
-			s.setSubstanciaId(substanciaRepo.proximaIdentidade());
-			substanciaRepo.add(s);
+
+			Substancia s = new SubstanciaBuilder(command.getNome(), command.getUnidadeSubstancia(), command.getOrdem())
+					.construir();
+			s.setSubstanciaId(this.substanciaRepo().proximaIdentidade());
+			this.substanciaRepo().adicionar(s);
 
 			resultado = new CommandResult(true, "Substância cadastrada com sucesso!", s.substanciaId().id());
-		}else{
+		} else {
 			resultado = new CommandResult(false, "Inserção inválida: Fora da ordem!", null);
 		}
+
 		return resultado;
 	}
-	
+
 	@Override
 	public CommandResult handle(CadastrarSubstanciaEnergeticaCommand command) {
 		CommandResult resultado = null;
 
-		Substancia s = new SubstanciaBuilder(command.getNome(), command.getUnidadeSubstancia(), substanciaRepo.proximaOrdem()).construir(); 
-		s.setSubstanciaId(substanciaRepo.proximaIdentidade());
-		substanciaRepo.add(s);
+		Substancia s = new SubstanciaBuilder(command.getNome(), command.getUnidadeSubstancia(),
+				this.substanciaRepo().proximaOrdem()).construir();
+		s.setSubstanciaId(this.substanciaRepo().proximaIdentidade());
+		this.substanciaRepo().adicionar(s);
 
 		EnergiaSubstancia es = new EnergiaSubstancia();
 		es.setDataCadastro(new Date());
 		es.setFatorEnergetico(command.getFatorEnergetico());
 		es.setSubstancia(s);
-		energiaSubstanciaRepo.add(es);
-		
+		this.energiaSubstanciaRepo().adicionar(es);
+
 		resultado = new CommandResult(true, "Substância cadastrada com sucesso!", s.substanciaId().id());
 
 		return resultado;
@@ -169,27 +207,34 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 
 	@Override
 	public CommandResult handle(ExcluirSubstanciaCommand command) {
+		CommandResult resultado = null;
+		
 		// TODO Auto-generated method stub
-		return null;
+		resultado = new CommandResult(true, "", "");
+
+		return resultado;
 	}
 
 	@Override
 	public CommandResult handle(PriorizarOrdemDaSubstanciaCommand command) {
+		CommandResult resultado = null;
+		
 		// TODO Auto-generated method stub
-		return null;
+		resultado = new CommandResult(true, "", "");
+
+		return resultado;
 	}
 
-	private DiretrizAlimentarRepo getDiretrizAlimentarRepo() {
+	private DiretrizAlimentarRepo diretrizAlimentarRepo() {
 		return diretrizAlimentarRepo;
 	}
 
-	private EnergiaSubstanciaRepo getEnergiaSubstanciaRepo() {
+	private EnergiaSubstanciaRepo energiaSubstanciaRepo() {
 		return energiaSubstanciaRepo;
 	}
 
-	private SubstanciaRepo getSubstanciaRepo() {
+	private SubstanciaRepo substanciaRepo() {
 		return substanciaRepo;
 	}
 
-	
 }

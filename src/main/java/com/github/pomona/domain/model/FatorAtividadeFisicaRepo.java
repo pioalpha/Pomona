@@ -1,13 +1,7 @@
 package com.github.pomona.domain.model;
 
-import java.util.Collection;
+import com.github.common.domain.model.GenericoRepo;
 
-public interface FatorAtividadeFisicaRepo {
-    public void add(FatorAtividadeFisica fatorAtividadeFisica);
-
-    public Collection<FatorAtividadeFisica> todosFatoresAtividadeFisica();
-
-    public void remove(FatorAtividadeFisica fatorAtividadeFisica);
-
-    public FatorAtividadeFisica fatorAtividadeFisicaPeloNome(String nome);
+public interface FatorAtividadeFisicaRepo extends GenericoRepo<FatorAtividadeFisica, FatorAtividadeFisicaId> {
+	public FatorAtividadeFisica fatorAtividadeFisicaPeloNome(String nome);
 }

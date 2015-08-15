@@ -6,12 +6,12 @@ import java.util.Date;
 import com.github.pomona.domain.model.AlimentoUnitario;
 import com.github.pomona.domain.model.Paciente;
 import com.github.pomona.domain.model.PerfilAlimentarPaciente;
-import com.github.pomona.domain.model.PlanoReeducacaoAlimentar;
+import com.github.pomona.domain.model.PlanoAlimentar;
 import com.github.pomona.domain.reference.PreferenciaConsumo;
 import com.github.pomona.domain.reference.TipoSexo;
 
 public class PlanoReeducacaoAlimentarBuilder {
-	private PlanoReeducacaoAlimentar instancia;
+	private PlanoAlimentar instancia;
 	
 	public PlanoReeducacaoAlimentarBuilder(String nome, Date dataNascimento,
 			float altura, TipoSexo tipoSexo){
@@ -21,7 +21,7 @@ public class PlanoReeducacaoAlimentarBuilder {
 		paciente.setAltura(altura);
 		paciente.setTipoSexo(tipoSexo);
 
-		this.instancia = new PlanoReeducacaoAlimentar();
+		this.instancia = new PlanoAlimentar();
 		this.instancia.setPaciente(paciente);
 	}
 	
@@ -41,7 +41,7 @@ public class PlanoReeducacaoAlimentarBuilder {
 		return this;
 	}
 	
-	public PlanoReeducacaoAlimentar construir(){
+	public PlanoAlimentar construir(){
 		return this.instancia;
 	}
 }

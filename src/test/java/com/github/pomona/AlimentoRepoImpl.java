@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import com.github.common.domain.model.AbstractId;
 import com.github.pomona.domain.model.AlimentoId;
 import com.github.pomona.domain.model.AlimentoRepo;
 import com.github.pomona.domain.model.AlimentoUnitario;
@@ -13,18 +14,21 @@ public class AlimentoRepoImpl implements AlimentoRepo {
 	private Map<AlimentoId, AlimentoUnitario> repo = new HashMap<AlimentoId, AlimentoUnitario>();
 	
 	@Override
-	public void add(AlimentoUnitario alimento) {
+	public void adicionar(AlimentoUnitario alimento) {
 		repo.put(alimento.alimentoId(), alimento);
-		//Armazenar Composicao Alimentar
+		//Armazenar/Atualiza Composicao Alimentar
+		//for(ComponenteAlimentar c : alimento.getComposicaoAlimentar()){
+			
+		//}
 	}
 
 	@Override
-	public Collection<AlimentoUnitario> todosAlimentos() {
+	public Collection<AlimentoUnitario> todosObjetos() {
 		return repo.values();
 	}
 
 	@Override
-	public void remove(AlimentoUnitario alimento) {
+	public void remover(AlimentoUnitario alimento) {
 		//excluir Composição Alimentar
 		repo.remove(alimento.alimentoId());
 	}
@@ -46,6 +50,11 @@ public class AlimentoRepoImpl implements AlimentoRepo {
 			alimentoId = new AlimentoId(UUID.randomUUID().toString().toUpperCase());
 		}while(repo.containsKey(alimentoId));
 		return alimentoId;
+	}
+
+	@Override
+	public AlimentoUnitario objetoDeId(AbstractId umaId) {
+		return repo.get(umaId);
 	}
 
 }

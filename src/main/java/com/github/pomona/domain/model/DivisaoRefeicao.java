@@ -8,6 +8,7 @@ public class DivisaoRefeicao implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 7166712452461975870L;
+	private DivisaoRefeicaoId divisaoRefeicaoId;
 	private String nome;
 	private List<LimiteEnergetico> limitesEnergeticos;
 
@@ -25,5 +26,13 @@ public class DivisaoRefeicao implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public DivisaoRefeicaoId divisaoRefeicaoId() {
+		return divisaoRefeicaoId;
+	}
+
+	public void setDivisaoRefeicaoId(DivisaoRefeicaoId divisaoRefeicaoId) {
+		this.divisaoRefeicaoId = divisaoRefeicaoId;
 	}
 }

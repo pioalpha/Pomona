@@ -43,7 +43,7 @@ public abstract class AbstractId
     @Override
     public int hashCode() {
         int hashCodeValue =
-                + (this.hashOddValue() * this.hashPrimeValue())
+                + (this.hashValorImpar() * this.hashValorPrimo())
                 + this.id().hashCode();
 
         return hashCodeValue;
@@ -64,11 +64,11 @@ public abstract class AbstractId
         super();
     }
 
-    protected abstract int hashOddValue();
+    protected abstract int hashValorImpar();
 
-    protected abstract int hashPrimeValue();
+    protected abstract int hashValorPrimo();
 
-    protected void validateId(String umId) {
+    protected void validarId(String umId) {
         // implemented by subclasses for validation.
         // throws a runtime exception if invalid.
     }
@@ -77,7 +77,7 @@ public abstract class AbstractId
         this.assertArgumentNotEmpty(umId, "The basic identity is required.");
         this.assertArgumentLength(umId, 36, "The basic identity must be 36 characters.");
 
-        this.validateId(umId);
+        this.validarId(umId);
 
         this.id = umId;
     }

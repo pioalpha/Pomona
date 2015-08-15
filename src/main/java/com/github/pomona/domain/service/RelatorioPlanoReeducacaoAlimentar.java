@@ -9,31 +9,31 @@ import com.github.pomona.domain.model.Consulta;
 import com.github.pomona.domain.model.ItemCardapio;
 import com.github.pomona.domain.model.LimiteEnergetico;
 import com.github.pomona.domain.model.PerfilAlimentarPaciente;
-import com.github.pomona.domain.model.PlanoReeducacaoAlimentar;
+import com.github.pomona.domain.model.PlanoAlimentar;
 import com.github.pomona.domain.model.RefeicaoCardapio;
 import com.github.pomona.domain.model.Substancia;
 import com.github.pomona.domain.reference.TipoRefeicao;
 
 public class RelatorioPlanoReeducacaoAlimentar {
-	PlanoReeducacaoAlimentar planoReeducacaoAlimentar;
+	PlanoAlimentar planoAlimentar;
 	
-	public RelatorioPlanoReeducacaoAlimentar(PlanoReeducacaoAlimentar planoReeducacaoAlimentar){
-		this.planoReeducacaoAlimentar = planoReeducacaoAlimentar;
+	public RelatorioPlanoReeducacaoAlimentar(PlanoAlimentar planoAlimentar){
+		this.planoAlimentar = planoAlimentar;
 	}
 	
 	public StringBuilder convertePlano(){
 		StringBuilder sb = new StringBuilder()
 			.append(">PACIENTE\n")
-			.append(this.planoReeducacaoAlimentar.getPaciente().toString())
+			.append(this.planoAlimentar.getPaciente().toString())
 			.append("\n>PERFIL ALIMENTAR\n");
-		for (PerfilAlimentarPaciente perfil : this.planoReeducacaoAlimentar.getPerfilAlimentarPaciente()){
+		for (PerfilAlimentarPaciente perfil : this.planoAlimentar.getPerfilAlimentarPaciente()){
 			sb.append("Alimento: "+ perfil.getAlimento().getNome())
 				.append(" (" + perfil.getPreferenciaConsumo())
 				.append(", " + perfil.getDataCadastro() + ")");
 		}
 
 		sb.append("\n>CONSULTAS\n");
-		for (Consulta consulta : this.planoReeducacaoAlimentar.getConsultas()){
+		for (Consulta consulta : this.planoAlimentar.getConsultas()){
 			sb.append("Consulta Dia: "+ consulta.getDataConsulta())
 				.append(" (Peso: " + consulta.getPesoConsulta() + " kg, ")
 				.append("IMC: " + consulta.getImcConsulta() + ", ")

@@ -14,7 +14,7 @@ import com.github.pomona.application.command.consulta.RegistrarAntropometriaDobr
 import com.github.pomona.application.command.consulta.RemoverAntropometriaCircunferenciaNaConsultaCommand;
 import com.github.pomona.application.command.consulta.RemoverAntropometriaDobraNaConsultaCommand;
 
-public interface ConsultaCommandHandler {
+public interface ConsultaCommandHandler extends CalculaIndiceMetaCommandHandler {
 	public CommandResult handle(AgendarConsultaDoPacienteCommand command);
 	public CommandResult handle(ReAgendarConsultaDoPacienteCommand command);
 	public CommandResult handle(AtualizarFatorAtividadeFisicaPacienteNaConsultaCommand command);

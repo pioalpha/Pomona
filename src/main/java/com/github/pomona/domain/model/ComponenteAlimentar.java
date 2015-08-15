@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class ComponenteAlimentar implements Serializable {
+
 	/**
 	 * 
 	 */
@@ -11,23 +12,35 @@ public class ComponenteAlimentar implements Serializable {
 	private float quantidade;
 	private Date dataCadastro;
 	private Substancia substancia;
-	
+
 	public float getQuantidade() {
 		return quantidade;
 	}
+
 	public void setQuantidade(float quantidade) {
 		this.quantidade = quantidade;
 	}
+
 	public Date getDataCadastro() {
 		return dataCadastro;
 	}
+
 	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
+
 	public Substancia getSubstancia() {
 		return substancia;
 	}
+
 	public void setSubstancia(Substancia substancia) {
 		this.substancia = substancia;
 	}
+
+	@Override
+	public String toString() {
+		return "ComponenteAlimentar [quantidade=" + quantidade + ", dataCadastro=" + dataCadastro + ", substancia="
+				+ substancia + "]";
+	}
+
 }

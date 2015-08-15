@@ -13,7 +13,7 @@ public class PerfilAlimentarPaciente implements Serializable {
 	private PreferenciaConsumo preferenciaConsumo;
 	private Date dataCadastro;
 	private AlimentoUnitario alimento;
-	private PlanoReeducacaoAlimentar planoReeducacaoAlimentar;
+	private PlanoAlimentar planoAlimentar;
 	
 	public PreferenciaConsumo getPreferenciaConsumo() {
 		return preferenciaConsumo;
@@ -33,12 +33,12 @@ public class PerfilAlimentarPaciente implements Serializable {
 	public void setAlimento(AlimentoUnitario alimento) {
 		this.alimento = alimento;
 	}
-	public PlanoReeducacaoAlimentar getPlanoReeducacaoAlimentar() {
-		return planoReeducacaoAlimentar;
+	public PlanoAlimentar getPlanoReeducacaoAlimentar() {
+		return planoAlimentar;
 	}
 	public void setPlanoReeducacaoAlimentar(
-			PlanoReeducacaoAlimentar planoReeducacaoAlimentar) {
-		this.planoReeducacaoAlimentar = planoReeducacaoAlimentar;
+			PlanoAlimentar planoAlimentar) {
+		this.planoAlimentar = planoAlimentar;
 	}
 
 	@Override

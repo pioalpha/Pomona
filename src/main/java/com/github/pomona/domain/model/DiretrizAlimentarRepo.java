@@ -1,13 +1,7 @@
 package com.github.pomona.domain.model;
 
-import java.util.Collection;
+import com.github.common.domain.model.GenericoRepo;
 
-public interface DiretrizAlimentarRepo {
-    public void add(DiretrizAlimentar diretrizAlimentar);
-
-    public Collection<DiretrizAlimentar> todasDiretrizesAlimentares();
-
-    public void remove(DiretrizAlimentar diretrizAlimentar);
-
-    public DiretrizAlimentar diretrizAlimentarPeloNome(String nome);
+public interface DiretrizAlimentarRepo extends GenericoRepo<DiretrizAlimentar, DiretrizAlimentarId> {
+	public DiretrizAlimentar diretrizAlimentarPeloNome(String nome);
 }

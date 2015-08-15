@@ -1,58 +1,29 @@
 package com.github.pomona.domain.model;
 
-import com.github.common.domain.model.ValueObject;
+import com.github.common.domain.model.AbstractId;
 
-public class AlimentoId extends ValueObject{
-    private String id;
+public class AlimentoId extends AbstractId {
 
-    public AlimentoId(String umId) {
-        this();
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4991758194203171755L;
 
-        this.setId(umId);
-    }
+	public AlimentoId(String umId) {
+		super(umId);
+	}
 
-    public AlimentoId(AlimentoId umAlimentoId) {
-        this(umAlimentoId.id());
-    }
+	public AlimentoId() {
+		super();
+	}
 
-    public String id() {
-        return this.id;
-    }
+	@Override
+	protected int hashValorImpar() {
+		return 57853;
+	}
 
-    @Override
-    public boolean equals(Object umObjeto) {
-        boolean equalObjects = false;
-
-        if (umObjeto != null && this.getClass() == umObjeto.getClass()) {
-            AlimentoId typedObject = (AlimentoId) umObjeto;
-            equalObjects = this.id().equals(typedObject.id());
-        }
-
-        return equalObjects;
-    }
-
-    @Override
-    public int hashCode() {
-        int hashCodeValue =
-            + (57853 * 31)
-            + this.id().hashCode();
-
-        return hashCodeValue;
-    }
-
-    @Override
-    public String toString() {
-        return "AlimentoId [id=" + id + "]";
-    }
-
-    private AlimentoId() {
-        super();
-    }
-
-    private void setId(String umId) {
-        this.assertArgumentNotEmpty(umId, "The id must be provided.");
-        this.assertArgumentLength(umId, 36, "The id must be 36 characters or less.");
-
-        this.id = umId;
-    }
+	@Override
+	protected int hashValorPrimo() {
+		return 31;
+	}
 }

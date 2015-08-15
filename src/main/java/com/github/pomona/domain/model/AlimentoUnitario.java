@@ -14,40 +14,38 @@ public class AlimentoUnitario extends ConcurrencySafeEntity implements Serializa
 	private AlimentoId alimentoId;
 	private String nome;
 	protected List<ComponenteAlimentar> composicaoAlimentar;
-	
+
 	public AlimentoUnitario() {
 		super();
 		this.composicaoAlimentar = new ArrayList<ComponenteAlimentar>();
 	}
-	
+
 	public List<ComponenteAlimentar> getComposicaoAlimentar() {
 		return composicaoAlimentar;
 	}
+
 	public void setComposicaoAlimentar(List<ComponenteAlimentar> composicaoAlimentar) {
 		this.composicaoAlimentar = composicaoAlimentar;
 	}
+
 	public String getNome() {
 		return nome;
 	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public float fatorProporcao(float qtd){
+
+	public float fatorProporcao(float qtd) {
 		return qtd;
 	}
 
-	
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(this.getNome());
-		for (ComponenteAlimentar ca : this.composicaoAlimentar){
-			sb.append(ca.toString());
-		}
-		
-		return sb.toString();
-		//return this.getNome();
+		return "AlimentoUnitario [alimentoId=" + alimentoId + ", nome=" + nome + ", composicaoAlimentar="
+				+ composicaoAlimentar + "]";
 	}
+
 	public String getDetalhe() {
 		return this.getNome();
 	}
@@ -57,8 +55,8 @@ public class AlimentoUnitario extends ConcurrencySafeEntity implements Serializa
 	}
 
 	public void setAlimentoId(AlimentoId umAlimentoId) {
-        this.assertArgumentNotNull(umAlimentoId, "The alimentoId must be provided.");
+		this.assertArgumentNotNull(umAlimentoId, "The alimentoId must be provided.");
 
-        this.alimentoId = umAlimentoId;
+		this.alimentoId = umAlimentoId;
 	}
 }

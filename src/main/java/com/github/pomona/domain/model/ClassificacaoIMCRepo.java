@@ -1,14 +1,7 @@
 package com.github.pomona.domain.model;
 
-import java.util.Collection;
+import com.github.common.domain.model.GenericoRepo;
 
-public interface ClassificacaoIMCRepo {
-    public void add(ClassificacaoIMC classificacaoIMC);
-
-    public Collection<ClassificacaoIMC> todasClassificacoes();
-
-    public void remove(ClassificacaoIMC classificacaoIMC);
-
+public interface ClassificacaoIMCRepo extends GenericoRepo<ClassificacaoIMC, ClassificacaoIMCId>{
     public ClassificacaoIMC classificacaoPeloNome(String nome);
-
 }

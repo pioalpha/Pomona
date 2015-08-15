@@ -9,6 +9,7 @@ public class DiretrizAlimentar implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -4193654293828343527L;
+	private DiretrizAlimentarId diretrizAlimentarId;
 	private String nome;
 	private List<NormaAlimentar> normasAlimentares;
 	private Date dataRevogacao;
@@ -30,5 +31,11 @@ public class DiretrizAlimentar implements Serializable {
 	}
 	public void setNormasAlimentares(List<NormaAlimentar> normasAlimentares) {
 		this.normasAlimentares = normasAlimentares;
+	}
+	public DiretrizAlimentarId diretrizAlimentarId() {
+		return diretrizAlimentarId;
+	}
+	public void setDiretrizAlimentarId(DiretrizAlimentarId diretrizAlimentarId) {
+		this.diretrizAlimentarId = diretrizAlimentarId;
 	}
 }
