@@ -4,32 +4,32 @@ import com.github.common.service.command.Command;
 import com.github.pomona.domain.reference.TipoRefeicao;
 
 public class CadastrarItemNoCardapioCommand implements Command {
-	private String idCardapio;
-	private String idAlimento;
-	private String idTipoPreparo;
+	private String cardapioId;
+	private String alimentoId;
+	private String tipoPreparoId;
 	private TipoRefeicao tipoRefeicao;
 	private float quantidade;
 	
-	public CadastrarItemNoCardapioCommand(String idCardapio, String idAlimento, String idTipoPreparo,
+	public CadastrarItemNoCardapioCommand(String cardapioId, String alimentoId, String tipoPreparoId,
 			TipoRefeicao tipoRefeicao, float quantidade) {
 		super();
-		this.idCardapio = idCardapio;
-		this.idAlimento = idAlimento;
-		this.idTipoPreparo = idTipoPreparo;
+		this.cardapioId = cardapioId;
+		this.alimentoId = alimentoId;
+		this.tipoPreparoId = tipoPreparoId;
 		this.tipoRefeicao = tipoRefeicao;
 		this.quantidade = quantidade;
 	}
 	
-	public String getIdCardapio() {
-		return idCardapio;
+	public String getCardapioId() {
+		return cardapioId;
 	}
 	
-	public String getIdAlimento() {
-		return idAlimento;
+	public String getAlimentoId() {
+		return alimentoId;
 	}
 	
-	public String getIdTipoPreparo() {
-		return idTipoPreparo;
+	public String getTipoPreparoId() {
+		return tipoPreparoId;
 	}
 	
 	public TipoRefeicao getTipoRefeicao() {

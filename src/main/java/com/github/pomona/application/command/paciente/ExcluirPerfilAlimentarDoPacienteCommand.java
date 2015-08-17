@@ -4,14 +4,14 @@ import com.github.common.service.command.Command;
 
 public class ExcluirPerfilAlimentarDoPacienteCommand implements Command {
 
-	private String idPerfilAlimentarPaciente;
+	private String perfilAlimentarPacienteId;
 
-	public ExcluirPerfilAlimentarDoPacienteCommand(String idPerfilAlimentarPaciente) {
+	public ExcluirPerfilAlimentarDoPacienteCommand(String perfilAlimentarPacienteId) {
 		super();
-		this.idPerfilAlimentarPaciente = idPerfilAlimentarPaciente;
+		this.perfilAlimentarPacienteId = perfilAlimentarPacienteId;
 	}
 
-	public String getIdPerfilAlimentarPaciente() {
-		return idPerfilAlimentarPaciente;
+	public String getPerfilAlimentarPacienteId() {
+		return perfilAlimentarPacienteId;
 	}
 }

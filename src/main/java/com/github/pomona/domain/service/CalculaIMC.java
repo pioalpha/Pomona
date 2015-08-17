@@ -32,6 +32,6 @@ public class CalculaIMC implements CalculaMeta {
 	public float processaCalculo(Paciente paciente, Consulta consulta,
 			float valorMeta) {
 		return new CalculaTMB().processaCalculo(paciente, consulta,
-				CalculaIMC.calculaIMCReverso(valorMeta, paciente.getAltura()));
+				CalculaIMC.calculaIMCReverso(valorMeta, consulta.getExameAntropometrico().getAltura()));
 	}
 }

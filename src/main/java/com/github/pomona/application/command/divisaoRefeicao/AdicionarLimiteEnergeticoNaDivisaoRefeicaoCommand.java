@@ -4,22 +4,22 @@ import com.github.common.service.command.Command;
 import com.github.pomona.domain.reference.TipoRefeicao;
 
 public class AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand implements Command {
-	private String idDivisaoRefeicao;
+	private String divisaoRefeicaoId;
 	private TipoRefeicao tipoRefeicao;
 	private float percentualEnergetico;
 	private float tolerancia;
 	
-	public AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(String idDivisaoRefeicao, TipoRefeicao tipoRefeicao,
+	public AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(String divisaoRefeicaoId, TipoRefeicao tipoRefeicao,
 			float percentualEnergetico, float tolerancia) {
 		super();
-		this.idDivisaoRefeicao = idDivisaoRefeicao;
+		this.divisaoRefeicaoId = divisaoRefeicaoId;
 		this.tipoRefeicao = tipoRefeicao;
 		this.percentualEnergetico = percentualEnergetico;
 		this.tolerancia = tolerancia;
 	}
 	
-	public String getIdDivisaoRefeicao() {
-		return idDivisaoRefeicao;
+	public String getDivisaoRefeicaoId() {
+		return divisaoRefeicaoId;
 	}
 	
 	public TipoRefeicao getTipoRefeicao() {

@@ -4,22 +4,22 @@ import com.github.common.service.command.Command;
 import com.github.pomona.domain.reference.TipoNorma;
 
 public class AtualizarNormaDaDiretrizAlimentarCommand implements Command {
-	private String idNorma;
+	private String normaId;
 	private TipoNorma tipoNorma;
 	private Float normaMinima;
 	private Float normaMaxima;
 	
-	public AtualizarNormaDaDiretrizAlimentarCommand(String idNorma, TipoNorma tipoNorma, Float normaMinima,
+	public AtualizarNormaDaDiretrizAlimentarCommand(String normaId, TipoNorma tipoNorma, Float normaMinima,
 			Float normaMaxima) {
 		super();
-		this.idNorma = idNorma;
+		this.normaId = normaId;
 		this.tipoNorma = tipoNorma;
 		this.normaMinima = normaMinima;
 		this.normaMaxima = normaMaxima;
 	}
 	
-	public String getIdNorma() {
-		return idNorma;
+	public String getNormaId() {
+		return normaId;
 	}
 	
 	public TipoNorma getTipoNorma() {

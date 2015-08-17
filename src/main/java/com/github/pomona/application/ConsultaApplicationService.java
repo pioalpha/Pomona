@@ -1,5 +1,7 @@
 package com.github.pomona.application;
 
+import java.util.Date;
+
 import com.github.common.service.command.CommandResult;
 import com.github.pomona.application.command.calculaIndiceMeta.AtualizarClassificacaoIMCCommand;
 import com.github.pomona.application.command.calculaIndiceMeta.AtualizarFatorAtividadeFisicaCommand;
@@ -19,34 +21,38 @@ import com.github.pomona.application.command.consulta.RegistrarAntropometriaCirc
 import com.github.pomona.application.command.consulta.RegistrarAntropometriaDobraNaConsultaCommand;
 import com.github.pomona.application.command.consulta.RemoverAntropometriaCircunferenciaNaConsultaCommand;
 import com.github.pomona.application.command.consulta.RemoverAntropometriaDobraNaConsultaCommand;
-import com.github.pomona.domain.model.AlimentoRepo;
 import com.github.pomona.domain.model.CardapioRepo;
+import com.github.pomona.domain.model.ClassificacaoIMC;
 import com.github.pomona.domain.model.ClassificacaoIMCRepo;
 import com.github.pomona.domain.model.ConsultaRepo;
 import com.github.pomona.domain.model.DiretrizAlimentarRepo;
-import com.github.pomona.domain.model.EnergiaAlimentoRepo;
-import com.github.pomona.domain.model.EnergiaSubstanciaRepo;
+import com.github.pomona.domain.model.FatorAtividadeFisica;
 import com.github.pomona.domain.model.FatorAtividadeFisicaRepo;
+import com.github.pomona.domain.model.FatorMetabolico;
 import com.github.pomona.domain.model.FatorMetabolicoRepo;
-import com.github.pomona.domain.model.PerfilAlimentarPacienteRepo;
-import com.github.pomona.domain.model.PlanoAlimentarRepo;
-import com.github.pomona.domain.model.SubstanciaRepo;
 import com.github.pomona.service.commandHandler.ConsultaCommandHandler;
 
 public class ConsultaApplicationService implements ConsultaCommandHandler {
 
-	private AlimentoRepo alimentoRepo;
 	private CardapioRepo cardapioRepo;
 	private ClassificacaoIMCRepo classificacaoIMCRepo;
 	private ConsultaRepo consultaRepo;
 	private DiretrizAlimentarRepo diretrizAlimentarRepo;
-	private EnergiaAlimentoRepo energiaAlimentarRepo;
-	private EnergiaSubstanciaRepo energiaSubstanciaRepo;
 	private FatorAtividadeFisicaRepo fatorAtividadeFisicaRepo;
 	private FatorMetabolicoRepo fatorMetabolicoRepo;
-	private PerfilAlimentarPacienteRepo perfilAlimentarPacienteRepo;
-	private PlanoAlimentarRepo planoAlimentarRepo;
-	private SubstanciaRepo substanciaRepo;
+
+	public ConsultaApplicationService(CardapioRepo cardapioRepo, ClassificacaoIMCRepo classificacaoIMCRepo,
+			ConsultaRepo consultaRepo, DiretrizAlimentarRepo diretrizAlimentarRepo,
+			FatorAtividadeFisicaRepo fatorAtividadeFisicaRepo, FatorMetabolicoRepo fatorMetabolicoRepo) {
+		super();
+		
+		this.cardapioRepo = cardapioRepo;
+		this.classificacaoIMCRepo = classificacaoIMCRepo;
+		this.consultaRepo = consultaRepo;
+		this.diretrizAlimentarRepo = diretrizAlimentarRepo;
+		this.fatorAtividadeFisicaRepo = fatorAtividadeFisicaRepo;
+		this.fatorMetabolicoRepo = fatorMetabolicoRepo;
+	}
 
 	@Override
 	public CommandResult handle(AgendarConsultaDoPacienteCommand command) {
@@ -202,8 +208,14 @@ public class ConsultaApplicationService implements ConsultaCommandHandler {
 	public CommandResult handle(CadastrarClassificacaoIMCCommand command) {
 		CommandResult resultado = null;
 
-		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		ClassificacaoIMC cimc = new ClassificacaoIMC();
+		cimc.setSituacao(command.getSituacao());
+		cimc.setImcMinimo(command.getImcMinimo());
+		cimc.setImcMaximo(command.getImcMaximo());
+		cimc.setClassificacaoIMCId(this.classificacaoIMCRepo().proximaIdentidade());
+		this.classificacaoIMCRepo().adicionar(cimc);
+		
+		resultado = new CommandResult(true, "Classificação do IMC cadastrada com sucesso!", cimc.classificacaoIMCId().id());
 
 		return resultado;
 	}
@@ -212,8 +224,14 @@ public class ConsultaApplicationService implements ConsultaCommandHandler {
 	public CommandResult handle(CadastrarFatorAtividadeFisicaCommand command) {
 		CommandResult resultado = null;
 
-		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		FatorAtividadeFisica faf = new FatorAtividadeFisica();
+		faf.setDataCadastro(new Date());
+		faf.setAtividade(command.getAtividade());
+		faf.setFator(command.getFator());
+		faf.setFatorAtividadeFisicaId(this.fatorAtividadeFisicaRepo().proximaIdentidade());
+		this.fatorAtividadeFisicaRepo().adicionar(faf);
+		
+		resultado = new CommandResult(true, "Fator de Atividade Física cadastrada com sucesso!", faf.fatorAtividadeFisicaId().id());
 
 		return resultado;
 	}
@@ -222,10 +240,44 @@ public class ConsultaApplicationService implements ConsultaCommandHandler {
 	public CommandResult handle(CadastrarFatorMetabolicoCommand command) {
 		CommandResult resultado = null;
 
-		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		FatorMetabolico fm = new FatorMetabolico();
+		fm.setDataCriacao(new Date());
+		fm.setIdadeMinima(command.getIdadeMinima());
+		fm.setIdadeMaxima(command.getIdadeMaxima());
+		fm.setFatorFeminino(command.getFatorFeminino());
+		fm.setDiferencialFeminino(command.getDiferencialFeminino());
+		fm.setFatorMasculino(command.getFatorMasculino());
+		fm.setDiferencialMasculino(command.getDiferencialMasculino());
+		fm.setFatorMetabolicoId(this.fatorMetabolicoRepo().proximaIdentidade());
+		this.fatorMetabolicoRepo().adicionar(fm);
+		
+		resultado = new CommandResult(true, "Fator Metabólico cadastrado com sucesso!", fm.fatorMetabolicoId().id());
 
 		return resultado;
+	}
+
+	private CardapioRepo cardapioRepo() {
+		return cardapioRepo;
+	}
+
+	private ClassificacaoIMCRepo classificacaoIMCRepo() {
+		return classificacaoIMCRepo;
+	}
+
+	private ConsultaRepo consultaRepo() {
+		return consultaRepo;
+	}
+
+	private DiretrizAlimentarRepo diretrizAlimentarRepo() {
+		return diretrizAlimentarRepo;
+	}
+
+	private FatorAtividadeFisicaRepo fatorAtividadeFisicaRepo() {
+		return fatorAtividadeFisicaRepo;
+	}
+
+	private FatorMetabolicoRepo fatorMetabolicoRepo() {
+		return fatorMetabolicoRepo;
 	}
 
 }

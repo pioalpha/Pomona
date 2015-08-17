@@ -4,30 +4,30 @@ import com.github.common.service.command.Command;
 import com.github.pomona.domain.model.TipoPreparo;
 
 public class CadastrarPreparoMedidaDoAlimentoGranelCommand implements Command {
-	public String idAlimentoGranel;
-	public String idTipoPreparo;
-	public String idTipoMedida;
+	public String alimentoGranelId;
+	public String tipoPreparoId;
+	public String tipoMedidaId;
 	public float quantidade;
 	
-	public CadastrarPreparoMedidaDoAlimentoGranelCommand(String idAlimentoGranel, String idTipoPreparo,
-			String idTipoMedida, float quantidade) {
+	public CadastrarPreparoMedidaDoAlimentoGranelCommand(String alimentoGranelId, String tipoPreparoId,
+			String tipoMedidaId, float quantidade) {
 		super();
-		this.idAlimentoGranel = idAlimentoGranel;
-		this.idTipoPreparo = idTipoPreparo;
-		this.idTipoMedida = idTipoMedida;
+		this.alimentoGranelId = alimentoGranelId;
+		this.tipoPreparoId = tipoPreparoId;
+		this.tipoMedidaId = tipoMedidaId;
 		this.quantidade = quantidade;
 	}
 	
-	public String getIdAlimentoGranel() {
-		return idAlimentoGranel;
+	public String getAlimentoGranelId() {
+		return alimentoGranelId;
 	}
 	
-	public String getIdTipoPreparo() {
-		return idTipoPreparo;
+	public String getTipoPreparoId() {
+		return tipoPreparoId;
 	}
 	
-	public String getIdTipoMedida() {
-		return idTipoMedida;
+	public String getTipoMedidaId() {
+		return tipoMedidaId;
 	}
 	
 	public float getQuantidade() {

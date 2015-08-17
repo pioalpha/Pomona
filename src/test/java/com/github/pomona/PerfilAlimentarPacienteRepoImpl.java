@@ -1,6 +1,9 @@
 package com.github.pomona;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import com.github.common.domain.model.AbstractId;
 import com.github.pomona.domain.model.Paciente;
@@ -9,23 +12,21 @@ import com.github.pomona.domain.model.PerfilAlimentarPacienteId;
 import com.github.pomona.domain.model.PerfilAlimentarPacienteRepo;
 
 public class PerfilAlimentarPacienteRepoImpl implements PerfilAlimentarPacienteRepo {
+	private Map<PerfilAlimentarPacienteId, PerfilAlimentarPaciente> repo = new HashMap<PerfilAlimentarPacienteId, PerfilAlimentarPaciente>();
 
 	@Override
 	public void adicionar(PerfilAlimentarPaciente umObjeto) {
-		// TODO Auto-generated method stub
-		
+		repo.put(umObjeto.perfilAlimentarPacienteId(), umObjeto);
 	}
 
 	@Override
 	public Collection<PerfilAlimentarPaciente> todosObjetos() {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.values();
 	}
 
 	@Override
 	public void remover(PerfilAlimentarPaciente umObjeto) {
-		// TODO Auto-generated method stub
-		
+		repo.remove(umObjeto.perfilAlimentarPacienteId());
 	}
 
 	@Override
@@ -36,13 +37,15 @@ public class PerfilAlimentarPacienteRepoImpl implements PerfilAlimentarPacienteR
 
 	@Override
 	public PerfilAlimentarPaciente objetoDeId(AbstractId umaId) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.get(umaId);
 	}
 
 	@Override
 	public PerfilAlimentarPacienteId proximaIdentidade() {
-		// TODO Auto-generated method stub
-		return null;
+		PerfilAlimentarPacienteId perfilAlimentarPacienteId = null;
+		do{
+			perfilAlimentarPacienteId = new PerfilAlimentarPacienteId(UUID.randomUUID().toString().toUpperCase());
+		}while(repo.containsKey(perfilAlimentarPacienteId));
+		return perfilAlimentarPacienteId;
 	}
 }

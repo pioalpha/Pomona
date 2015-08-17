@@ -4,17 +4,17 @@ import com.github.common.service.command.Command;
 import com.github.pomona.domain.reference.TipoSexo;
 
 public class AtualizarSexoDoPacienteCommand implements Command {
-	private String idPlanoAlimentar;
+	private String planoAlimentarId;
 	private TipoSexo tipoSexo;
 	
-	public AtualizarSexoDoPacienteCommand(String idPlanoAlimentar, TipoSexo tipoSexo) {
+	public AtualizarSexoDoPacienteCommand(String planoAlimentarId, TipoSexo tipoSexo) {
 		super();
-		this.idPlanoAlimentar = idPlanoAlimentar;
+		this.planoAlimentarId = planoAlimentarId;
 		this.tipoSexo = tipoSexo;
 	}
 	
-	public String getIdPlanoAlimentar() {
-		return idPlanoAlimentar;
+	public String getPlanoAlimentarId() {
+		return planoAlimentarId;
 	}
 	
 	public TipoSexo getTipoSexo() {

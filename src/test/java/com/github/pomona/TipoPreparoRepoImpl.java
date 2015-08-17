@@ -1,30 +1,32 @@
 package com.github.pomona;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import com.github.common.domain.model.AbstractId;
+import com.github.pomona.domain.model.TipoMedidaId;
 import com.github.pomona.domain.model.TipoPreparo;
 import com.github.pomona.domain.model.TipoPreparoId;
 import com.github.pomona.domain.model.TipoPreparoRepo;
 
 public class TipoPreparoRepoImpl implements TipoPreparoRepo {
+	private Map<TipoPreparoId, TipoPreparo> repo = new HashMap<TipoPreparoId, TipoPreparo>();
 
 	@Override
 	public void adicionar(TipoPreparo umObjeto) {
-		// TODO Auto-generated method stub
-		
+		repo.put(umObjeto.tipoPreparoId(), umObjeto);
 	}
 
 	@Override
 	public Collection<TipoPreparo> todosObjetos() {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.values();
 	}
 
 	@Override
 	public void remover(TipoPreparo umObjeto) {
-		// TODO Auto-generated method stub
-		
+		repo.remove(umObjeto.tipoPreparoId());
 	}
 
 	@Override
@@ -35,14 +37,16 @@ public class TipoPreparoRepoImpl implements TipoPreparoRepo {
 
 	@Override
 	public TipoPreparo objetoDeId(AbstractId umaId) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.get(umaId);
 	}
 
 	@Override
 	public TipoPreparoId proximaIdentidade() {
-		// TODO Auto-generated method stub
-		return null;
+		TipoPreparoId tipoPreparoId = null;
+		do{
+			tipoPreparoId = new TipoPreparoId(UUID.randomUUID().toString().toUpperCase());
+		}while(repo.containsKey(tipoPreparoId));
+		return tipoPreparoId;
 	}
 
 }

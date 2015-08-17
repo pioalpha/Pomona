@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.github.pomona.domain.model.Consulta;
 import com.github.pomona.domain.model.DiretrizAlimentar;
+import com.github.pomona.domain.model.ExameAntropometrico;
 import com.github.pomona.domain.model.FatorAtividadeFisica;
 import com.github.pomona.domain.model.PlanoAlimentar;
 import com.github.pomona.domain.reference.TipoMeta;
@@ -47,17 +48,20 @@ public class ConsultaBuilder {
 	 */
 
 	public ConsultaBuilder(Date dataConsulta, float pesoConsulta,
+			float alturaConsulta,
 			DiretrizAlimentar diretrizAlimentar,
 			FatorAtividadeFisica fatorAtividadeFisica,
 			PlanoAlimentar planoAlimentar) {
 		this.instancia = new Consulta();
-		this.instancia.setPlanoReeducacaoAlimentar(planoAlimentar);
+		this.instancia.setPlanoAlimentar(planoAlimentar);
 		this.instancia.setDataConsulta(dataConsulta);
-		this.instancia.setPesoConsulta(pesoConsulta);
 		this.instancia.setImcConsulta(CalculaIMC.calculaIMC(pesoConsulta,
-				planoAlimentar.getPaciente().getAltura()));
+				alturaConsulta));
 		this.instancia.setDiretrizAlimentar(diretrizAlimentar);
 		this.instancia.setFatorAtividadeFisica(fatorAtividadeFisica);
+		this.instancia.setExameAntropometrico(new ExameAntropometrico());
+		this.instancia.getExameAntropometrico().setAltura(alturaConsulta);
+		this.instancia.getExameAntropometrico().setPeso(pesoConsulta);
 		// calcula IMC automatico
 	}
 
@@ -73,7 +77,7 @@ public class ConsultaBuilder {
 		this.instancia.setTipoMeta(tipoMeta);
 		this.instancia.setValorMeta(valorMeta);
 		this.instancia.setCaloriasAlvo(tipoMeta.caloriaAlvo(this.instancia
-				.getPlanoReeducacaoAlimentar().getPaciente(), this.instancia,
+				.getPlanoAlimentar().getPaciente(), this.instancia,
 				valorMeta));
 
 		return this;

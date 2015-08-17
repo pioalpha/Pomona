@@ -80,4 +80,13 @@ public class FatorMetabolico implements Serializable {
 	public void setFatorMetabolicoId(FatorMetabolicoId fatorMetabolicoId) {
 		this.fatorMetabolicoId = fatorMetabolicoId;
 	}
+
+	@Override
+	public String toString() {
+		return "FatorMetabolico [fatorMetabolicoId=" + fatorMetabolicoId + ", idadeMinima=" + idadeMinima
+				+ ", idadeMaxima=" + idadeMaxima + ", fatorMasculino=" + fatorMasculino + ", diferencialMasculino="
+				+ diferencialMasculino + ", fatorFeminino=" + fatorFeminino + ", diferencialFeminino="
+				+ diferencialFeminino + ", dataCriacao=" + dataCriacao + "]";
+	}
+	
 }

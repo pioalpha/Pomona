@@ -18,9 +18,7 @@ public class AlimentoQueryService extends AbstractQueryService
 
 	@Override
 	public Collection<AlimentoDTO> Executar(AlimentoParametrosPesquisa parametros) {
-		// TODO Auto-generated method stub
-		return null;
-
+		return this.queryObjects(AlimentoDTO.class, "select * from tbl_alimento", null, Object[].class);
 	}
 
 }

@@ -43,4 +43,11 @@ public class ClassificacaoIMC implements Serializable {
 	public void setClassificacaoIMCId(ClassificacaoIMCId classificacaoIMCId) {
 		this.classificacaoIMCId = classificacaoIMCId;
 	}
+
+	@Override
+	public String toString() {
+		return "ClassificacaoIMC [classificacaoIMCId=" + classificacaoIMCId + ", imcMinimo=" + imcMinimo
+				+ ", imcMaximo=" + imcMaximo + ", situacao=" + situacao + "]";
+	}
+	
 }

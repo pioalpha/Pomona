@@ -47,4 +47,11 @@ public class PreparoMedidaAlimento {
 		this.preparoMedidaAlimentoId = preparoMedidaAlimentoId;
 	}
 
+	@Override
+	public String toString() {
+		return "PreparoMedidaAlimento [preparoMedidaAlimentoId=" + preparoMedidaAlimentoId + ", alimentoGranel="
+				+ alimentoGranel + ", tipoPreparo=" + tipoPreparo + ", tipoMedida=" + tipoMedida + ", quantidade="
+				+ quantidade + "]";
+	}
+
 }

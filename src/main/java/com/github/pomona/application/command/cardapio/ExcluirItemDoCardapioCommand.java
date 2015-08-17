@@ -3,15 +3,15 @@ package com.github.pomona.application.command.cardapio;
 import com.github.common.service.command.Command;
 
 public class ExcluirItemDoCardapioCommand implements Command {
-	private String idItemCardapio;
+	private String itemCardapioId;
 
-	public ExcluirItemDoCardapioCommand(String idItemCardapio) {
+	public ExcluirItemDoCardapioCommand(String itemCardapioId) {
 		super();
-		this.idItemCardapio = idItemCardapio;
+		this.itemCardapioId = itemCardapioId;
 	}
 
 	public String getIdItemCardapio() {
-		return idItemCardapio;
+		return itemCardapioId;
 	}
 	
 }

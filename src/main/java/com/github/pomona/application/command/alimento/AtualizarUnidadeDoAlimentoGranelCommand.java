@@ -4,17 +4,17 @@ import com.github.common.service.command.Command;
 import com.github.pomona.domain.reference.UnidadeGranel;
 
 public class AtualizarUnidadeDoAlimentoGranelCommand  implements Command{
-	private String idAlimentoGranel;
+	private String alimentoGranelId;
 	private UnidadeGranel unidadeGranel;
 	
-	public AtualizarUnidadeDoAlimentoGranelCommand(String idAlimentoGranel, UnidadeGranel unidadeGranel) {
+	public AtualizarUnidadeDoAlimentoGranelCommand(String alimentoGranelId, UnidadeGranel unidadeGranel) {
 		super();
-		this.idAlimentoGranel = idAlimentoGranel;
+		this.alimentoGranelId = alimentoGranelId;
 		this.unidadeGranel = unidadeGranel;
 	}
 	
-	public String getIdAlimentoGranel() {
-		return idAlimentoGranel;
+	public String getAlimentoGranelId() {
+		return alimentoGranelId;
 	}
 	
 	public UnidadeGranel getUnidadeGranel() {

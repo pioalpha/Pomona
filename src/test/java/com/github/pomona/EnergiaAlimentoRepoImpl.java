@@ -1,6 +1,9 @@
 package com.github.pomona;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import com.github.common.domain.model.AbstractId;
 import com.github.pomona.domain.model.AlimentoUnitario;
@@ -9,23 +12,21 @@ import com.github.pomona.domain.model.EnergiaAlimentoId;
 import com.github.pomona.domain.model.EnergiaAlimentoRepo;
 
 public class EnergiaAlimentoRepoImpl implements EnergiaAlimentoRepo {
+	private Map<EnergiaAlimentoId, EnergiaAlimento> repo = new HashMap<EnergiaAlimentoId, EnergiaAlimento>();
 
 	@Override
 	public void adicionar(EnergiaAlimento umObjeto) {
-		// TODO Auto-generated method stub
-		
+		repo.put(umObjeto.energiaAlimentoId(), umObjeto);
 	}
 
 	@Override
 	public Collection<EnergiaAlimento> todosObjetos() {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.values();
 	}
 
 	@Override
 	public void remover(EnergiaAlimento umObjeto) {
-		// TODO Auto-generated method stub
-		
+		repo.remove(umObjeto.energiaAlimentoId());
 	}
 
 	@Override
@@ -36,14 +37,16 @@ public class EnergiaAlimentoRepoImpl implements EnergiaAlimentoRepo {
 
 	@Override
 	public EnergiaAlimento objetoDeId(AbstractId umaId) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.get(umaId);
 	}
 
 	@Override
 	public EnergiaAlimentoId proximaIdentidade() {
-		// TODO Auto-generated method stub
-		return null;
+		EnergiaAlimentoId energiaAlimentoId = null;
+		do{
+			energiaAlimentoId = new EnergiaAlimentoId(UUID.randomUUID().toString().toUpperCase());
+		}while(repo.containsKey(energiaAlimentoId));
+		return energiaAlimentoId;
 	}
 
 }

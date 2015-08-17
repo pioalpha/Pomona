@@ -5,17 +5,17 @@ import java.util.Date;
 import com.github.common.service.command.Command;
 
 public class AgendarConsultaDoPacienteCommand implements Command {
-	private String idPlanoAlimentar;
+	private String planoAlimentarId;
 	private Date dataConsulta;
 	
-	public AgendarConsultaDoPacienteCommand(String idPlanoAlimentar, Date dataConsulta) {
+	public AgendarConsultaDoPacienteCommand(String planoAlimentarId, Date dataConsulta) {
 		super();
-		this.idPlanoAlimentar = idPlanoAlimentar;
+		this.planoAlimentarId = planoAlimentarId;
 		this.dataConsulta = dataConsulta;
 	}
 	
-	public String getIdPlanoAlimentar() {
-		return idPlanoAlimentar;
+	public String getPlanoAlimentarId() {
+		return planoAlimentarId;
 	}
 	
 	public Date getDataConsulta() {

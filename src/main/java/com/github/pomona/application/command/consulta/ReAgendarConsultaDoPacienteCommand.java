@@ -5,17 +5,17 @@ import java.util.Date;
 import com.github.common.service.command.Command;
 
 public class ReAgendarConsultaDoPacienteCommand implements Command {
-	private String idConsulta;
+	private String consultaId;
 	private Date novaData;
 	
-	public ReAgendarConsultaDoPacienteCommand(String idConsulta, Date novaData) {
+	public ReAgendarConsultaDoPacienteCommand(String consultaId, Date novaData) {
 		super();
-		this.idConsulta = idConsulta;
+		this.consultaId = consultaId;
 		this.novaData = novaData;
 	}
 	
-	public String getIdConsulta() {
-		return idConsulta;
+	public String getConsultaId() {
+		return consultaId;
 	}
 	
 	public Date getNovaData() {

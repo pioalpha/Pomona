@@ -3,17 +3,17 @@ package com.github.pomona.application.command.consulta;
 import com.github.common.service.command.Command;
 
 public class AtualizarPesoPacienteNaConsulta implements Command {
-	private String idConsulta;
+	private String consultaId;
 	private float peso;
 	
-	public AtualizarPesoPacienteNaConsulta(String idConsulta, float peso) {
+	public AtualizarPesoPacienteNaConsulta(String consultaId, float peso) {
 		super();
-		this.idConsulta = idConsulta;
+		this.consultaId = consultaId;
 		this.peso = peso;
 	}
 	
-	public String getIdConsulta() {
-		return idConsulta;
+	public String getConsultaId() {
+		return consultaId;
 	}
 	
 	public float getPeso() {

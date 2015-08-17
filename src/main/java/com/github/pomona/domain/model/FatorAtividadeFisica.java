@@ -53,4 +53,11 @@ public class FatorAtividadeFisica implements Serializable {
 	public void setFatorAtividadeFisicaId(FatorAtividadeFisicaId fatorAtividadeFisicaId) {
 		this.fatorAtividadeFisicaId = fatorAtividadeFisicaId;
 	}
+
+	@Override
+	public String toString() {
+		return "FatorAtividadeFisica [fatorAtividadeFisicaId=" + fatorAtividadeFisicaId + ", atividade=" + atividade
+				+ ", fator=" + fator + ", dataCadastro=" + dataCadastro + ", dataRevogacao=" + dataRevogacao + "]";
+	}
+	
 }

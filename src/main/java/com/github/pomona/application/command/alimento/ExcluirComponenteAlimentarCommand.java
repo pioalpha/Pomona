@@ -3,15 +3,15 @@ package com.github.pomona.application.command.alimento;
 import com.github.common.service.command.Command;
 
 public class ExcluirComponenteAlimentarCommand implements Command {
-	private String idComponenteAlimentar;
+	private String componenteAlimentarId;
 
-	public ExcluirComponenteAlimentarCommand(String idComponenteAlimentar) {
+	public ExcluirComponenteAlimentarCommand(String componenteAlimentarId) {
 		super();
-		this.idComponenteAlimentar = idComponenteAlimentar;
+		this.componenteAlimentarId = componenteAlimentarId;
 	}
 
-	public String getIdComponenteAlimentar() {
-		return idComponenteAlimentar;
+	public String getComponenteAlimentarId() {
+		return componenteAlimentarId;
 	}
 	
 }

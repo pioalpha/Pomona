@@ -14,9 +14,11 @@ public class AlimentoUnitario extends ConcurrencySafeEntity implements Serializa
 	private AlimentoId alimentoId;
 	private String nome;
 	protected List<ComponenteAlimentar> composicaoAlimentar;
+	protected CategoriaAlimento categoriaAlimento;
 
 	public AlimentoUnitario() {
 		super();
+		
 		this.composicaoAlimentar = new ArrayList<ComponenteAlimentar>();
 	}
 
@@ -58,5 +60,13 @@ public class AlimentoUnitario extends ConcurrencySafeEntity implements Serializa
 		this.assertArgumentNotNull(umAlimentoId, "The alimentoId must be provided.");
 
 		this.alimentoId = umAlimentoId;
+	}
+
+	public CategoriaAlimento getCategoriaAlimento() {
+		return categoriaAlimento;
+	}
+
+	public void setCategoriaAlimento(CategoriaAlimento categoriaAlimento) {
+		this.categoriaAlimento = categoriaAlimento;
 	}
 }

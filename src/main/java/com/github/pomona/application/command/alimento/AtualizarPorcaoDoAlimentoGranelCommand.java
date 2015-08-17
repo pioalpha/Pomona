@@ -3,17 +3,17 @@ package com.github.pomona.application.command.alimento;
 import com.github.common.service.command.Command;
 
 public class AtualizarPorcaoDoAlimentoGranelCommand  implements Command{
-	private String idAlimentoGranel;
+	private String alimentoGranelId;
 	private float porcao;
 	
-	public AtualizarPorcaoDoAlimentoGranelCommand(String idAlimentoGranel, float porcao) {
+	public AtualizarPorcaoDoAlimentoGranelCommand(String alimentoGranelId, float porcao) {
 		super();
-		this.idAlimentoGranel = idAlimentoGranel;
+		this.alimentoGranelId = alimentoGranelId;
 		this.porcao = porcao;
 	}
 	
-	public String getIdAlimentoGranel() {
-		return idAlimentoGranel;
+	public String getAlimentoGranelId() {
+		return alimentoGranelId;
 	}
 	
 	public float getPorcao() {

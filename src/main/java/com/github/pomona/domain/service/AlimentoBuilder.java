@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.github.pomona.domain.model.AlimentoGranel;
 import com.github.pomona.domain.model.AlimentoUnitario;
+import com.github.pomona.domain.model.CategoriaAlimento;
 import com.github.pomona.domain.model.ComponenteAlimentar;
 import com.github.pomona.domain.model.Substancia;
 import com.github.pomona.domain.reference.UnidadeGranel;
@@ -35,12 +36,13 @@ public class AlimentoBuilder {
 		alimentoUnitario.setComposicaoAlimentar(this.componentes);
 		return alimentoUnitario;
 	}
-	public AlimentoGranel construir(String nome, UnidadeGranel unidadeGranel, float porcao){
+	public AlimentoGranel construir(String nome, UnidadeGranel unidadeGranel, float porcao, CategoriaAlimento categoriaAlimento){
 		AlimentoGranel alimentoGranel = new AlimentoGranel();
 		alimentoGranel.setNome(nome);
 		alimentoGranel.setComposicaoAlimentar(this.componentes);
 		alimentoGranel.setUnidadeGranel(unidadeGranel);
 		alimentoGranel.setPorcao(porcao);
+		alimentoGranel.setCategoriaAlimento(categoriaAlimento);
 		return alimentoGranel;
 	}
 }

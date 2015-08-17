@@ -3,15 +3,15 @@ package com.github.pomona.application.command.substancia;
 import com.github.common.service.command.Command;
 
 public class PriorizarOrdemDaSubstanciaCommand implements Command {
-	private String idSubstancia;
+	private String substanciaId;
 
-	public PriorizarOrdemDaSubstanciaCommand(String idSubstancia) {
+	public PriorizarOrdemDaSubstanciaCommand(String substanciaId) {
 		super();
-		this.idSubstancia = idSubstancia;
+		this.substanciaId = substanciaId;
 	}
 
-	public String getIdSubstancia() {
-		return idSubstancia;
+	public String getSubstanciaId() {
+		return substanciaId;
 	}
 	
 }

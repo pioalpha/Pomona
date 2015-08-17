@@ -3,15 +3,15 @@ package com.github.pomona.application.command.consulta;
 import com.github.common.service.command.Command;
 
 public class ExcluirConsultaDoPacienteCommand implements Command {
-	private String idConsulta;
+	private String consultaId;
 
-	public ExcluirConsultaDoPacienteCommand(String idConsulta) {
+	public ExcluirConsultaDoPacienteCommand(String consultaId) {
 		super();
-		this.idConsulta = idConsulta;
+		this.consultaId = consultaId;
 	}
 
-	public String getIdConsulta() {
-		return idConsulta;
+	public String getConsultaId() {
+		return consultaId;
 	}
 	
 }

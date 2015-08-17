@@ -14,8 +14,8 @@ public class SubstanciaRepoImpl implements SubstanciaRepo {
 	private Map<SubstanciaId, Substancia> repo = new HashMap<SubstanciaId, Substancia>();
 
 	@Override
-	public void adicionar(Substancia substancia) {
-		repo.put(substancia.substanciaId(), substancia);
+	public void adicionar(Substancia umObjeto) {
+		repo.put(umObjeto.substanciaId(), umObjeto);
 	}
 
 	@Override
@@ -24,9 +24,9 @@ public class SubstanciaRepoImpl implements SubstanciaRepo {
 	}
 
 	@Override
-	public void remover(Substancia substancia) {
+	public void remover(Substancia umObjeto) {
 		// TODO Remover Energia Substancia, Normas e Composicao Alimentar associada a substancia
-		repo.remove(substancia.substanciaId());
+		repo.remove(umObjeto.substanciaId());
 	}
 
 	@Override

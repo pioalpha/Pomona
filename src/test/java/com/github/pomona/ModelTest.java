@@ -6,11 +6,23 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.github.pomona.application.AlimentoApplicationService;
+import com.github.pomona.application.CardapioApplicationService;
 import com.github.pomona.application.ConsultaApplicationService;
 import com.github.pomona.application.PacienteApplicationService;
 import com.github.pomona.application.SubstanciaApplicationService;
 import com.github.pomona.application.command.alimento.AdicionarComponenteAlimentarCommand;
 import com.github.pomona.application.command.alimento.CadastrarAlimentoGranelCommand;
+import com.github.pomona.application.command.alimento.CadastrarCategoriaAlimentoCommand;
+import com.github.pomona.application.command.alimento.CadastrarPreparoMedidaDoAlimentoGranelCommand;
+import com.github.pomona.application.command.alimento.CadastrarTipoMedidaDoAlimentoGranelCommand;
+import com.github.pomona.application.command.alimento.CadastrarTipoPreparoDoAlimentoGranelCommand;
+import com.github.pomona.application.command.calculaIndiceMeta.CadastrarClassificacaoIMCCommand;
+import com.github.pomona.application.command.calculaIndiceMeta.CadastrarFatorAtividadeFisicaCommand;
+import com.github.pomona.application.command.calculaIndiceMeta.CadastrarFatorMetabolicoCommand;
+import com.github.pomona.application.command.diretrizAlimentar.AdicionarNormaADiretrizAlimentarCommand;
+import com.github.pomona.application.command.diretrizAlimentar.CadastrarDiretrizAlimentarCommand;
+import com.github.pomona.application.command.divisaoRefeicao.AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand;
+import com.github.pomona.application.command.divisaoRefeicao.CadastrarDivisaoRefeicaoCommand;
 import com.github.pomona.application.command.substancia.AtualizarFatorEnergeticoDaSubstanciaCommand;
 import com.github.pomona.application.command.substancia.CadastrarSubstanciaComumCommand;
 import com.github.pomona.application.command.substancia.CadastrarSubstanciaOrdenadaCommand;
@@ -31,10 +43,11 @@ import com.github.pomona.domain.service.CardapioBuilder;
 import com.github.pomona.domain.service.ConsultaBuilder;
 import com.github.pomona.domain.service.DiretrizAlimentarBuilder;
 import com.github.pomona.domain.service.DivisaoRefeicaoBuilder;
-import com.github.pomona.domain.service.PlanoReeducacaoAlimentarBuilder;
+import com.github.pomona.domain.service.PlanoAlimentarBuilder;
 import com.github.pomona.domain.service.RelatorioPlanoReeducacaoAlimentar;
 import com.github.pomona.domain.service.SubstanciaBuilder;
 import com.github.pomona.service.commandHandler.AlimentoCommandHandler;
+import com.github.pomona.service.commandHandler.CardapioCommandHandler;
 import com.github.pomona.service.commandHandler.ConsultaCommandHandler;
 import com.github.pomona.service.commandHandler.PacienteCommandHandler;
 import com.github.pomona.service.commandHandler.SubstanciaCommandHandler;
@@ -52,6 +65,7 @@ public class ModelTest {
 		TipoMedidaRepo tipoMedidaRepoImpl = new TipoMedidaRepoImpl();
 		TipoPreparoRepo tipoPreparoRepoImpl = new TipoPreparoRepoImpl();
 		PreparoMedidaAlimentoRepo preparoMedidaAlimentoRepoImpl = new PreparoMedidaAlimentoRepoImpl();
+		CategoriaAlimentoRepo categoriaAlimentoRepoImpl = new CategoriaAlimentoRepoImpl();
 		
 		//CardapioApplicationService
 		EnergiaAlimentoRepo energiaAlimentoRepoImpl = new EnergiaAlimentoRepoImpl();
@@ -91,9 +105,22 @@ public class ModelTest {
 		sch.handle(new AtualizarFatorEnergeticoDaSubstanciaCommand(proteinaId, 4f));
 		sch.handle(new AtualizarFatorEnergeticoDaSubstanciaCommand(lipidioId, 9f));
 		
-		AlimentoCommandHandler ach = new AlimentoApplicationService(alimentoRepoImpl, energiaAlimentoRepoImpl, substanciaRepoImpl, tipoMedidaRepoImpl, tipoPreparoRepoImpl, preparoMedidaAlimentoRepoImpl);
-		String abacateId = ach.handle(new CadastrarAlimentoGranelCommand("Abacate", UnidadeGranel.g, 100f)).id;
-		String sucoLaranjaId = ach.handle(new CadastrarAlimentoGranelCommand("Suco de Laranja Pera", UnidadeGranel.ml, 100f)).id;
+		String dirDiabeticoId = sch.handle(new CadastrarDiretrizAlimentarCommand("Diretriz Diabético")).id;
+		sch.handle(new AdicionarNormaADiretrizAlimentarCommand(dirDiabeticoId, carboidratoId, TipoNorma.PERCENTUAL, 45f, 65f));
+		sch.handle(new AdicionarNormaADiretrizAlimentarCommand(dirDiabeticoId, proteinaId, TipoNorma.PERCENTUAL, 10f, 35f));
+		sch.handle(new AdicionarNormaADiretrizAlimentarCommand(dirDiabeticoId, lipidioId, TipoNorma.PERCENTUAL, 20f, 35f));
+
+		String dirPadraoId = sch.handle(new CadastrarDiretrizAlimentarCommand("Diretriz Padrão")).id;
+		sch.handle(new AdicionarNormaADiretrizAlimentarCommand(dirPadraoId, carboidratoId, TipoNorma.PERCENTUAL, 55f, 75f));
+		sch.handle(new AdicionarNormaADiretrizAlimentarCommand(dirPadraoId, proteinaId, TipoNorma.PERCENTUAL, 10f, 15f));
+		sch.handle(new AdicionarNormaADiretrizAlimentarCommand(dirPadraoId, lipidioId, TipoNorma.PERCENTUAL, 10f, 30f));
+		
+		
+		AlimentoCommandHandler ach = new AlimentoApplicationService(alimentoRepoImpl, energiaAlimentoRepoImpl, substanciaRepoImpl, tipoMedidaRepoImpl, tipoPreparoRepoImpl, preparoMedidaAlimentoRepoImpl, categoriaAlimentoRepoImpl);
+		String catFrutaId = ach.handle(new CadastrarCategoriaAlimentoCommand("Fruta")).id;
+		
+		String abacateId = ach.handle(new CadastrarAlimentoGranelCommand("Abacate", UnidadeGranel.g, 100f, catFrutaId)).id;
+		String sucoLaranjaId = ach.handle(new CadastrarAlimentoGranelCommand("Suco de Laranja Pera", UnidadeGranel.ml, 100f, catFrutaId)).id;
 		
 		ach.handle(new AdicionarComponenteAlimentarCommand(abacateId, carboidratoId, 5.2f));
 		ach.handle(new AdicionarComponenteAlimentarCommand(abacateId, proteinaId, 1.9f));
@@ -108,10 +135,56 @@ public class ModelTest {
 		ach.handle(new AdicionarComponenteAlimentarCommand(abacateId, calcioId, 25f));
 		ach.handle(new AdicionarComponenteAlimentarCommand(abacateId, magnesioId, 18f));
 		
-		ConsultaCommandHandler cch = new ConsultaApplicationService();
+		String picadoId = ach.handle(new CadastrarTipoPreparoDoAlimentoGranelCommand("Picado")).id;
+		String fatiadoId = ach.handle(new CadastrarTipoPreparoDoAlimentoGranelCommand("Fatiado")).id;
+		
+		String colherSopaId = ach.handle(new CadastrarTipoMedidaDoAlimentoGranelCommand("Colher de Sopa")).id;
+
+		String colherSopaAbacatePicado = ach.handle(new CadastrarPreparoMedidaDoAlimentoGranelCommand(abacateId, picadoId, colherSopaId, 10f)).id;
+		
+		
+		ConsultaCommandHandler cch = new ConsultaApplicationService(cardapioRepoImpl, classificacaoIMCRepoImpl, consultaRepoImpl, diretrizAlimentarRepoImpl, fatorAtividadeFisicaRepoImpl, fatorMetabolicoRepoImpl);
+		cch.handle(new CadastrarFatorAtividadeFisicaCommand("Sedentário", 1f));
+		cch.handle(new CadastrarFatorAtividadeFisicaCommand("Atividade Leve", 1.12f));
+		cch.handle(new CadastrarFatorAtividadeFisicaCommand("Atividade Moderada", 1.27f));
+		cch.handle(new CadastrarFatorAtividadeFisicaCommand("Atividade Intensa", 1.45f));
+		
+		cch.handle(new CadastrarClassificacaoIMCCommand("Muito Abaixo do Peso", null, 17f));
+		cch.handle(new CadastrarClassificacaoIMCCommand("Abaixo do Peso", 17f, 18.49f));
+		cch.handle(new CadastrarClassificacaoIMCCommand("Peso Normal", 18.5f, 25f));
+		cch.handle(new CadastrarClassificacaoIMCCommand("Acima do Peso", 25f, 30f));
+		cch.handle(new CadastrarClassificacaoIMCCommand("Obesidade I", 30f, 35f));
+		cch.handle(new CadastrarClassificacaoIMCCommand("Obesidade II (severa)", 35f, 40f));
+		cch.handle(new CadastrarClassificacaoIMCCommand("Obesidade III (mórbida)", 40f, null));
+		
+		cch.handle(new CadastrarFatorMetabolicoCommand(null, 3, 61f, -51, 60.3f, -54));
+		cch.handle(new CadastrarFatorMetabolicoCommand(3, 10, 22.5f, 499, 22.7f, 495));
+		cch.handle(new CadastrarFatorMetabolicoCommand(10, 18, 12.2f, 746, 17.5f, 651));
+		cch.handle(new CadastrarFatorMetabolicoCommand(18, 30, 14.7f, 496, 15.3f, 679));
+		cch.handle(new CadastrarFatorMetabolicoCommand(30, 60, 8.7f, 829, 11.6f, 879));
+		cch.handle(new CadastrarFatorMetabolicoCommand(60, null, 10.5f, 596, 13.5f, 487));
+		
+		
+		CardapioCommandHandler crch = new CardapioApplicationService(alimentoRepoImpl, cardapioRepoImpl, consultaRepoImpl, energiaAlimentoRepoImpl, energiaSubstanciaRepoImpl, perfilAlimentarPacienteRepoImpl, divisaoRefeicaoRepoImpl);
+		String divRefeicao4Id = crch.handle(new CadastrarDivisaoRefeicaoCommand("4 Refeições")).id;
+		crch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao4Id, TipoRefeicao.DESEJUM, 20f, 40f));
+		crch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao4Id, TipoRefeicao.ALMOCO, 40f, 40f));
+		crch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao4Id, TipoRefeicao.LANCHE, 10f, 40f));
+		crch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao4Id, TipoRefeicao.JANTAR, 30f, 40f));
+		
+		String divRefeicao6Id = crch.handle(new CadastrarDivisaoRefeicaoCommand("6 Refeições")).id;
+		crch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao6Id, TipoRefeicao.DESEJUM, 15f, 40f));
+		crch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao6Id, TipoRefeicao.COLACAO, 5f, 40f));
+		crch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao6Id, TipoRefeicao.ALMOCO, 30f, 40f));
+		crch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao6Id, TipoRefeicao.LANCHE, 15f, 40f));
+		crch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao6Id, TipoRefeicao.JANTAR, 30f, 40f));
+		crch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao6Id, TipoRefeicao.CEIA, 5f, 40f));
+		
 		
 		PacienteCommandHandler pch = new PacienteApplicationService();
 		
+		
+		//Não esquecer quer a altura varia com a fase de crescimento da pessoa e depois decai
 		
 		new CalculosNutricaoBuilder()
 				.adicionarFatorAtividadeFisica("Sedentário", 1f)
@@ -203,12 +276,12 @@ public class ModelTest {
 				.adicionarLimiteEnergetico(TipoRefeicao.CEIA, 5f, 40f)
 				.construir();
 		
-		PlanoAlimentar planoPedro = new PlanoReeducacaoAlimentarBuilder(
-				"Pedro", (Date)format.parse("29/06/1978"), 1.71f, TipoSexo.MASCULINO)
+		PlanoAlimentar planoPedro = new PlanoAlimentarBuilder(
+				"Pedro", (Date)format.parse("29/06/1978"), TipoSexo.MASCULINO)
 				.comPerfilAlimentar(abacate, PreferenciaConsumo.REJEITA)
 				.construir();
 		
-		Consulta consPedro = new ConsultaBuilder(new Date(), 90f, dirDiabetico,
+		Consulta consPedro = new ConsultaBuilder(new Date(), 90f, 1.71f, dirDiabetico,
 				CalculaREE.getFatoresAtividadeFisica().get(0), planoPedro)
 				.definirMeta(TipoMeta.IMC, 29f)
 				.construir();
@@ -229,13 +302,53 @@ public class ModelTest {
 		consPedro.getCardapios().add(cardPedro2);
 		
 		System.out.println(new RelatorioPlanoReeducacaoAlimentar(planoPedro).toString());
+		
 		for(Object o : substanciaRepoImpl.todosObjetos()){
 			System.out.println(o.toString());
 		}
+		
 		for(Object o : energiaSubstanciaRepoImpl.todosObjetos()){
 			System.out.println(o.toString());
+		
 		}
+		
+		for(Object o : categoriaAlimentoRepoImpl.todosObjetos()){
+			System.out.println(o.toString());
+		}
+		
 		for(Object o : alimentoRepoImpl.todosObjetos()){
+			System.out.println(o.toString());
+		}
+		
+		for(Object o : diretrizAlimentarRepoImpl.todosObjetos()){
+			System.out.println(o.toString());
+		}
+
+		for(Object o : tipoMedidaRepoImpl.todosObjetos()){
+			System.out.println(o.toString());
+		}
+
+		for(Object o : tipoPreparoRepoImpl.todosObjetos()){
+			System.out.println(o.toString());
+		}
+
+		for(Object o : preparoMedidaAlimentoRepoImpl.todosObjetos()){
+			System.out.println(o.toString());
+		}
+
+		for(Object o : fatorAtividadeFisicaRepoImpl.todosObjetos()){
+			System.out.println(o.toString());
+		}
+
+		for(Object o : classificacaoIMCRepoImpl.todosObjetos()){
+			System.out.println(o.toString());
+		}
+
+		for(Object o : fatorMetabolicoRepoImpl.todosObjetos()){
+			System.out.println(o.toString());
+		}
+
+		for(Object o : divisaoRefeicaoRepoImpl.todosObjetos()){
 			System.out.println(o.toString());
 		}
 	}

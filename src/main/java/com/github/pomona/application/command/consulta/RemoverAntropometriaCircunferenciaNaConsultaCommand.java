@@ -3,15 +3,15 @@ package com.github.pomona.application.command.consulta;
 import com.github.common.service.command.Command;
 
 public class RemoverAntropometriaCircunferenciaNaConsultaCommand implements Command {
-	private String idAntropometriaCircunferencia;
+	private String antropometriaCircunferenciaId;
 
-	public RemoverAntropometriaCircunferenciaNaConsultaCommand(String idAntropometriaCircunferencia) {
+	public RemoverAntropometriaCircunferenciaNaConsultaCommand(String antropometriaCircunferenciaId) {
 		super();
-		this.idAntropometriaCircunferencia = idAntropometriaCircunferencia;
+		this.antropometriaCircunferenciaId = antropometriaCircunferenciaId;
 	}
 
-	public String getIdAntropometriaCircunferencia() {
-		return idAntropometriaCircunferencia;
+	public String getAntropometriaCircunferenciaId() {
+		return antropometriaCircunferenciaId;
 	}
 	
 }

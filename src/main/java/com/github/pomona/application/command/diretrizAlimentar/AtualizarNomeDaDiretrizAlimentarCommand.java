@@ -3,17 +3,17 @@ package com.github.pomona.application.command.diretrizAlimentar;
 import com.github.common.service.command.Command;
 
 public class AtualizarNomeDaDiretrizAlimentarCommand implements Command {
-	private String idDiretrizAlimentar;
+	private String diretrizAlimentarId;
 	private String nome;
 	
-	public AtualizarNomeDaDiretrizAlimentarCommand(String idDiretrizAlimentar, String nome) {
+	public AtualizarNomeDaDiretrizAlimentarCommand(String diretrizAlimentarId, String nome) {
 		super();
-		this.idDiretrizAlimentar = idDiretrizAlimentar;
+		this.diretrizAlimentarId = diretrizAlimentarId;
 		this.nome = nome;
 	}
 	
-	public String getIdDiretrizAlimentar() {
-		return idDiretrizAlimentar;
+	public String getDiretrizAlimentarId() {
+		return diretrizAlimentarId;
 	}
 	
 	public String getNome() {

@@ -3,21 +3,21 @@ package com.github.pomona.application.command.cardapio;
 import com.github.common.service.command.Command;
 
 public class AtualizarPreparoItemNoCardapioCommand implements Command {
-	private String idItemCardapio;
-	private String idTipoPreparo;
+	private String itemCardapioId;
+	private String tipoPreparoId;
 
-	public AtualizarPreparoItemNoCardapioCommand(String idItemCardapio, String idTipoPreparo) {
+	public AtualizarPreparoItemNoCardapioCommand(String itemCardapioId, String tipoPreparoId) {
 		super();
-		this.idItemCardapio = idItemCardapio;
-		this.idTipoPreparo = idTipoPreparo;
+		this.itemCardapioId = itemCardapioId;
+		this.tipoPreparoId = tipoPreparoId;
 	}
 
-	public String getIdItemCardapio() {
-		return idItemCardapio;
+	public String getItemCardapioId() {
+		return itemCardapioId;
 	}
 
-	public String getIdTipoPreparo() {
-		return idTipoPreparo;
+	public String getTipoPreparoId() {
+		return tipoPreparoId;
 	}
 
 }

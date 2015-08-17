@@ -22,7 +22,7 @@ import com.github.pomona.domain.service.CardapioBuilder;
 import com.github.pomona.domain.service.ConsultaBuilder;
 import com.github.pomona.domain.service.DiretrizAlimentarBuilder;
 import com.github.pomona.domain.service.DivisaoRefeicaoBuilder;
-import com.github.pomona.domain.service.PlanoReeducacaoAlimentarBuilder;
+import com.github.pomona.domain.service.PlanoAlimentarBuilder;
 import com.github.pomona.domain.service.RelatorioPlanoReeducacaoAlimentar;
 import com.github.pomona.domain.service.SubstanciaBuilder;
 
@@ -124,57 +124,57 @@ public class TesteFernanda {
 			.adicionarComponenteAlimentar(carboidrato, 16.254f)
 			.adicionarComponenteAlimentar(proteina, 1.638f)
 			.adicionarComponenteAlimentar(lipidio, 0.63f)
-			.construir("Arroz Integral Cozido", UnidadeGranel.g, 63f);
+			.construir("Arroz Integral Cozido", UnidadeGranel.g, 63f, null);
 		AlimentoGranel feijao80g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 11.2f)
 			.adicionarComponenteAlimentar(proteina, 3.6f)
 			.adicionarComponenteAlimentar(lipidio, 0.4f)
-			.construir("Feijão Preto Cozido", UnidadeGranel.g, 80f);
+			.construir("Feijão Preto Cozido", UnidadeGranel.g, 80f, null);
 		AlimentoGranel alface40g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 1f)
 			.adicionarComponenteAlimentar(proteina, 0.36f)
 			.adicionarComponenteAlimentar(lipidio, 0.01f)
-			.construir("Alface Roxa", UnidadeGranel.g, 40f);
+			.construir("Alface Roxa", UnidadeGranel.g, 40f, null);
 		AlimentoGranel cenoura36g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 2.772f)
 			.adicionarComponenteAlimentar(proteina, 0.468f)
 			.adicionarComponenteAlimentar(lipidio, 0.072f)
-			.construir("Cenoura Crua Ralada", UnidadeGranel.g, 36f);
+			.construir("Cenoura Crua Ralada", UnidadeGranel.g, 36f, null);
 		AlimentoGranel batata42g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 7.728f)
 			.adicionarComponenteAlimentar(proteina, 0.252f)
 			.adicionarComponenteAlimentar(lipidio, 0.042f)
-			.construir("Batata Doce Cozida", UnidadeGranel.g, 42f);
+			.construir("Batata Doce Cozida", UnidadeGranel.g, 42f, null);
 		AlimentoGranel sardinha80g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 0f)
 			.adicionarComponenteAlimentar(proteina, 26.72f)
 			.adicionarComponenteAlimentar(lipidio, 10.16f)
-			.construir("Sardinha Frita", UnidadeGranel.g, 80f);
+			.construir("Sardinha Frita", UnidadeGranel.g, 80f, null);
 		AlimentoGranel sucoLaranja168ml = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 12.761f)
 			.adicionarComponenteAlimentar(proteina, 1.176f)
 			.adicionarComponenteAlimentar(lipidio, 0.168f)
-			.construir("Suco Laranja Pera", UnidadeGranel.ml, 168);
+			.construir("Suco Laranja Pera", UnidadeGranel.ml, 168, null);
 		AlimentoGranel beterraba72g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 7.992f)
 			.adicionarComponenteAlimentar(proteina, 1.368f)
 			.adicionarComponenteAlimentar(lipidio, 0.072f)
-			.construir("Beterraba Crua", UnidadeGranel.g, 72f);
+			.construir("Beterraba Crua", UnidadeGranel.g, 72f, null);
 		AlimentoGranel queijo20g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 0.64f)
 			.adicionarComponenteAlimentar(proteina, 3.48f)
 			.adicionarComponenteAlimentar(lipidio, 4.04f)
-			.construir("Queijo Minas Frescal", UnidadeGranel.g, 20f);
+			.construir("Queijo Minas Frescal", UnidadeGranel.g, 20f, null);
 		AlimentoGranel goiabada20g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 15.74f)
 			.adicionarComponenteAlimentar(proteina, 0.08f)
 			.adicionarComponenteAlimentar(lipidio, 0.02f)
-			.construir("Goiabada Cascão", UnidadeGranel.g, 20f);
+			.construir("Goiabada Cascão", UnidadeGranel.g, 20f, null);
 		AlimentoGranel oleo4ml = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 0f)
 			.adicionarComponenteAlimentar(proteina, 0f)
 			.adicionarComponenteAlimentar(lipidio, 4f)
-			.construir("Óleo de Cocção", UnidadeGranel.ml, 4f);
+			.construir("Óleo de Cocção", UnidadeGranel.ml, 4f, null);
 		
 		AlimentoGranel arroz100g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 25.8f)
@@ -184,7 +184,7 @@ public class TesteFernanda {
 			.adicionarComponenteAlimentar(ferro, 0.3f)
 			.adicionarComponenteAlimentar(vitaminaC, 0f)
 			.adicionarComponenteAlimentar(colesterol, 0f)
-			.construir("Arroz Integral Cozido", UnidadeGranel.g, 100f);
+			.construir("Arroz Integral Cozido", UnidadeGranel.g, 100f, null);
 		AlimentoGranel feijao100g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 14f)
 			.adicionarComponenteAlimentar(proteina, 4.5f)
@@ -193,7 +193,7 @@ public class TesteFernanda {
 			.adicionarComponenteAlimentar(ferro, 1.5f)
 			.adicionarComponenteAlimentar(vitaminaC, 0f)
 			.adicionarComponenteAlimentar(colesterol, 0f)
-			.construir("Feijão Preto Cozido", UnidadeGranel.g, 100f);
+			.construir("Feijão Preto Cozido", UnidadeGranel.g, 100f, null);
 		AlimentoGranel alface100g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 2.5f)
 			.adicionarComponenteAlimentar(proteina, 0.9f)
@@ -202,7 +202,7 @@ public class TesteFernanda {
 			.adicionarComponenteAlimentar(ferro, 2.5f)
 			.adicionarComponenteAlimentar(vitaminaC, 13.5f)
 			.adicionarComponenteAlimentar(colesterol, 0f)
-			.construir("Alface Roxa", UnidadeGranel.g, 100f);
+			.construir("Alface Roxa", UnidadeGranel.g, 100f, null);
 		AlimentoGranel cenoura100g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 7.7f)
 			.adicionarComponenteAlimentar(proteina, 1.3f)
@@ -211,7 +211,7 @@ public class TesteFernanda {
 			.adicionarComponenteAlimentar(ferro, 0.2f)
 			.adicionarComponenteAlimentar(vitaminaC, 5.1f)
 			.adicionarComponenteAlimentar(colesterol, 0f)
-			.construir("Cenoura Crua Ralada", UnidadeGranel.g, 100f);
+			.construir("Cenoura Crua Ralada", UnidadeGranel.g, 100f, null);
 		AlimentoGranel batata100g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 18.4f)
 			.adicionarComponenteAlimentar(proteina, 0.6f)
@@ -220,7 +220,7 @@ public class TesteFernanda {
 			.adicionarComponenteAlimentar(ferro, 0.2f)
 			.adicionarComponenteAlimentar(vitaminaC, 23.8f)
 			.adicionarComponenteAlimentar(colesterol, 0f)
-			.construir("Batata Doce Cozida", UnidadeGranel.g, 100f);
+			.construir("Batata Doce Cozida", UnidadeGranel.g, 100f, null);
 		AlimentoGranel sardinha100g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 0f)
 			.adicionarComponenteAlimentar(proteina, 33.4f)
@@ -229,7 +229,7 @@ public class TesteFernanda {
 			.adicionarComponenteAlimentar(ferro, 0.1f)
 			.adicionarComponenteAlimentar(vitaminaC, 0f)
 			.adicionarComponenteAlimentar(colesterol, 103f)
-			.construir("Sardinha Frita", UnidadeGranel.g, 100f);
+			.construir("Sardinha Frita", UnidadeGranel.g, 100f, null);
 		AlimentoGranel sucoLaranja100ml = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 7.6f)
 			.adicionarComponenteAlimentar(proteina, 0.7f)
@@ -238,7 +238,7 @@ public class TesteFernanda {
 			.adicionarComponenteAlimentar(ferro, 0f)
 			.adicionarComponenteAlimentar(vitaminaC, 73f)
 			.adicionarComponenteAlimentar(colesterol, 0f)
-			.construir("Suco Laranja Pera Coado", UnidadeGranel.ml, 100f);
+			.construir("Suco Laranja Pera Coado", UnidadeGranel.ml, 100f, null);
 		AlimentoGranel beterraba100g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 11.1f)
 			.adicionarComponenteAlimentar(proteina, 1.9f)
@@ -247,7 +247,7 @@ public class TesteFernanda {
 			.adicionarComponenteAlimentar(ferro, 0.3f)
 			.adicionarComponenteAlimentar(vitaminaC, 3.1f)
 			.adicionarComponenteAlimentar(colesterol, 0f)
-			.construir("Beterraba Crua", UnidadeGranel.g, 100f);
+			.construir("Beterraba Crua", UnidadeGranel.g, 100f, null);
 		AlimentoGranel queijo100g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 3.2f)
 			.adicionarComponenteAlimentar(proteina, 17.4f)
@@ -256,7 +256,7 @@ public class TesteFernanda {
 			.adicionarComponenteAlimentar(ferro, 0.9f)
 			.adicionarComponenteAlimentar(vitaminaC, 0f)
 			.adicionarComponenteAlimentar(colesterol, 62f)
-			.construir("Queijo Minas Frescal", UnidadeGranel.g, 100f);
+			.construir("Queijo Minas Frescal", UnidadeGranel.g, 100f, null);
 		AlimentoGranel goiabada100g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 78.7f)
 			.adicionarComponenteAlimentar(proteina, 0.4f)
@@ -265,7 +265,7 @@ public class TesteFernanda {
 			.adicionarComponenteAlimentar(ferro, 0.4f)
 			.adicionarComponenteAlimentar(vitaminaC, 34.3f)
 			.adicionarComponenteAlimentar(colesterol, 0f)
-			.construir("Goiabada Cascão", UnidadeGranel.g, 100f);
+			.construir("Goiabada Cascão", UnidadeGranel.g, 100f, null);
 		AlimentoGranel oleo100ml = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 0f)
 			.adicionarComponenteAlimentar(proteina, 0f)
@@ -274,7 +274,7 @@ public class TesteFernanda {
 			.adicionarComponenteAlimentar(ferro, 0f)
 			.adicionarComponenteAlimentar(vitaminaC, 0f)
 			.adicionarComponenteAlimentar(colesterol, 0f)
-			.construir("Óleo de Cocção", UnidadeGranel.ml, 100f);
+			.construir("Óleo de Cocção", UnidadeGranel.ml, 100f, null);
 		
 		CalculaEnergiaAlimento calcEne = new CalculaEnergiaBuilder()
 				.adicionarEnergiaSubstancia(proteina, 4f)
@@ -338,8 +338,8 @@ public class TesteFernanda {
 		.adicionarLimiteEnergetico(TipoRefeicao.JANTAR, 35f, 40f)
 		.construir();
 		
-		PlanoAlimentar planoMCP = new PlanoReeducacaoAlimentarBuilder(
-				"MCP", (Date)format.parse("29/06/1990"), 1.55f, TipoSexo.FEMININO)
+		PlanoAlimentar planoMCP = new PlanoAlimentarBuilder(
+				"MCP", (Date)format.parse("29/06/1990"), TipoSexo.FEMININO)
 				.comPerfilAlimentar(arroz, PreferenciaConsumo.REQUER)
 				/*.comPerfilAlimentar(cereais, PreferenciaConsumo.REQUER)
 				.comPerfilAlimentar(leguminosas, PreferenciaConsumo.REQUER)
@@ -351,7 +351,7 @@ public class TesteFernanda {
 				.comPerfilAlimentar(horaliça C, PreferenciaConsumo.REQUER)*/
 				.construir();
 		
-		Consulta consMCP = new ConsultaBuilder(new Date(), 63f, dirPadrao,
+		Consulta consMCP = new ConsultaBuilder(new Date(), 63f, 1.55f, dirPadrao,
 				CalculaREE.getFatoresAtividadeFisica().get(4), planoMCP)
 				.definirMeta(TipoMeta.IMC, 24.14f)
 				//.definirMeta(TipoMeta.PESO, 50f)

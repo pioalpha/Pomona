@@ -14,8 +14,8 @@ public class AlimentoRepoImpl implements AlimentoRepo {
 	private Map<AlimentoId, AlimentoUnitario> repo = new HashMap<AlimentoId, AlimentoUnitario>();
 	
 	@Override
-	public void adicionar(AlimentoUnitario alimento) {
-		repo.put(alimento.alimentoId(), alimento);
+	public void adicionar(AlimentoUnitario umObjeto) {
+		repo.put(umObjeto.alimentoId(), umObjeto);
 		//Armazenar/Atualiza Composicao Alimentar
 		//for(ComponenteAlimentar c : alimento.getComposicaoAlimentar()){
 			
@@ -28,9 +28,9 @@ public class AlimentoRepoImpl implements AlimentoRepo {
 	}
 
 	@Override
-	public void remover(AlimentoUnitario alimento) {
+	public void remover(AlimentoUnitario umObjeto) {
 		//excluir Composição Alimentar
-		repo.remove(alimento.alimentoId());
+		repo.remove(umObjeto.alimentoId());
 	}
 
 	@Override

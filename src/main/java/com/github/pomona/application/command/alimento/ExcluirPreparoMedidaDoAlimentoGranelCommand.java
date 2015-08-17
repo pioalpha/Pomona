@@ -3,15 +3,15 @@ package com.github.pomona.application.command.alimento;
 import com.github.common.service.command.Command;
 
 public class ExcluirPreparoMedidaDoAlimentoGranelCommand implements Command {
-	private String idPreparoMedida;
+	private String preparoMedidaId;
 
-	public ExcluirPreparoMedidaDoAlimentoGranelCommand(String idPreparoMedida) {
+	public ExcluirPreparoMedidaDoAlimentoGranelCommand(String preparoMedidaId) {
 		super();
-		this.idPreparoMedida = idPreparoMedida;
+		this.preparoMedidaId = preparoMedidaId;
 	}
 
-	public String getIdPreparoMedida() {
-		return idPreparoMedida;
+	public String getPreparoMedidaId() {
+		return preparoMedidaId;
 	}
 	
 }

@@ -4,18 +4,18 @@ import com.github.common.service.command.Command;
 import com.github.pomona.domain.model.FatorAtividadeFisica;
 
 public class AtualizarFatorAtividadeFisicaPacienteNaConsultaCommand implements Command {
-	private String idConsulta;
+	private String consultaId;
 	private FatorAtividadeFisica fatorAtividadeFisica;
 	
-	public AtualizarFatorAtividadeFisicaPacienteNaConsultaCommand(String idConsulta,
+	public AtualizarFatorAtividadeFisicaPacienteNaConsultaCommand(String consultaId,
 			FatorAtividadeFisica fatorAtividadeFisica) {
 		super();
-		this.idConsulta = idConsulta;
+		this.consultaId = consultaId;
 		this.fatorAtividadeFisica = fatorAtividadeFisica;
 	}
 	
-	public String getIdConsulta() {
-		return idConsulta;
+	public String getConsultaId() {
+		return consultaId;
 	}
 	
 	public FatorAtividadeFisica getFatorAtividadeFisica() {

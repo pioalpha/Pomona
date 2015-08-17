@@ -10,22 +10,21 @@ import com.github.pomona.domain.model.PlanoAlimentar;
 import com.github.pomona.domain.reference.PreferenciaConsumo;
 import com.github.pomona.domain.reference.TipoSexo;
 
-public class PlanoReeducacaoAlimentarBuilder {
+public class PlanoAlimentarBuilder {
 	private PlanoAlimentar instancia;
 	
-	public PlanoReeducacaoAlimentarBuilder(String nome, Date dataNascimento,
-			float altura, TipoSexo tipoSexo){
+	public PlanoAlimentarBuilder(String nome, Date dataNascimento,
+			TipoSexo tipoSexo){
 		Paciente paciente = new Paciente();
 		paciente.setNome(nome);
 		paciente.setDataNascimento(dataNascimento);
-		paciente.setAltura(altura);
 		paciente.setTipoSexo(tipoSexo);
 
 		this.instancia = new PlanoAlimentar();
 		this.instancia.setPaciente(paciente);
 	}
 	
-	public PlanoReeducacaoAlimentarBuilder comPerfilAlimentar(AlimentoUnitario alimento,
+	public PlanoAlimentarBuilder comPerfilAlimentar(AlimentoUnitario alimento,
 			PreferenciaConsumo preferenciaConsumo){
 		PerfilAlimentarPaciente perfilAlimentarPaciente = new PerfilAlimentarPaciente();
 		perfilAlimentarPaciente.setAlimento(alimento);

@@ -3,23 +3,23 @@ package com.github.pomona.application.command.alimento;
 import com.github.common.service.command.Command;
 
 public class AdicionarComponenteAlimentarCommand implements Command {
-	private String idAlimento;
-	private String idSubstancia;
+	private String alimentoId;
+	private String substanciaId;
 	private float quantidade;
 	
-	public AdicionarComponenteAlimentarCommand(String idAlimento, String idSubstancia, float quantidade) {
+	public AdicionarComponenteAlimentarCommand(String alimentoId, String substanciaId, float quantidade) {
 		super();
-		this.idAlimento = idAlimento;
-		this.idSubstancia = idSubstancia;
+		this.alimentoId = alimentoId;
+		this.substanciaId = substanciaId;
 		this.quantidade = quantidade;
 	}
 	
-	public String getIdAlimento() {
-		return idAlimento;
+	public String getAlimentoId() {
+		return alimentoId;
 	}
 	
-	public String getIdSubstancia() {
-		return idSubstancia;
+	public String getSubstanciaId() {
+		return substanciaId;
 	}
 	
 	public float getQuantidade() {

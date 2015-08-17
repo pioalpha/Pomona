@@ -35,7 +35,8 @@ public class RelatorioPlanoReeducacaoAlimentar {
 		sb.append("\n>CONSULTAS\n");
 		for (Consulta consulta : this.planoAlimentar.getConsultas()){
 			sb.append("Consulta Dia: "+ consulta.getDataConsulta())
-				.append(" (Peso: " + consulta.getPesoConsulta() + " kg, ")
+				.append(" (Peso: " + consulta.getExameAntropometrico().getPeso() + " kg, ")
+				.append("Altura: " + consulta.getExameAntropometrico().getAltura() + " m, ")
 				.append("IMC: " + consulta.getImcConsulta() + ", ")
 				.append(consulta.getDiretrizAlimentar().getNome() + ", ")
 				.append("Tipo Meta: " + consulta.getTipoMeta() + ", ")
@@ -72,7 +73,8 @@ public class RelatorioPlanoReeducacaoAlimentar {
 	public StringBuilder converteConsulta(Consulta consulta){
 		StringBuilder sb = new StringBuilder()
 			.append("Consulta Dia: "+ consulta.getDataConsulta())
-			.append(" (Peso: " + consulta.getPesoConsulta() + " kg, ")
+			.append(" (Peso: " + consulta.getExameAntropometrico().getPeso() + " kg, ")
+			.append("Altura: " + consulta.getExameAntropometrico().getAltura() + " m, ")
 			.append("IMC: " + consulta.getImcConsulta() + ", ")
 			.append(consulta.getDiretrizAlimentar().getNome() + ", ")
 			.append("Tipo Meta: " + consulta.getTipoMeta() + ", ")

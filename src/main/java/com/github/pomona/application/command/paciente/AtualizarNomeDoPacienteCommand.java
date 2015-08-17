@@ -3,17 +3,17 @@ package com.github.pomona.application.command.paciente;
 import com.github.common.service.command.Command;
 
 public class AtualizarNomeDoPacienteCommand implements Command {
-	private String idPlanoAlimentar;
+	private String planoAlimentarId;
 	private String nome;
 
-	public AtualizarNomeDoPacienteCommand(String idPlanoAlimentar, String nome) {
+	public AtualizarNomeDoPacienteCommand(String planoAlimentarId, String nome) {
 		super();
-		this.idPlanoAlimentar = idPlanoAlimentar;
+		this.planoAlimentarId = planoAlimentarId;
 		this.nome = nome;
 	}
 	
-	public String getIdPlanoAlimentar() {
-		return idPlanoAlimentar;
+	public String getPlanoAlimentarId() {
+		return planoAlimentarId;
 	}
 	
 	public String getNome() {

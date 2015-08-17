@@ -3,15 +3,15 @@ package com.github.pomona.application.command.divisaoRefeicao;
 import com.github.common.service.command.Command;
 
 public class ExcluirLimiteEnergeticoDaDivisaoRefeicaoCommand implements Command {
-	private String idLimiteEnergetico;
+	private String limiteEnergeticoId;
 
-	public ExcluirLimiteEnergeticoDaDivisaoRefeicaoCommand(String idLimiteEnergetico) {
+	public ExcluirLimiteEnergeticoDaDivisaoRefeicaoCommand(String limiteEnergeticoId) {
 		super();
-		this.idLimiteEnergetico = idLimiteEnergetico;
+		this.limiteEnergeticoId = limiteEnergeticoId;
 	}
 
-	public String getIdLimiteEnergetico() {
-		return idLimiteEnergetico;
+	public String getLimiteEnergeticoId() {
+		return limiteEnergeticoId;
 	}
 	
 }

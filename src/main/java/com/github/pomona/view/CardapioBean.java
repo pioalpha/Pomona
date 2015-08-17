@@ -40,7 +40,7 @@ import com.github.pomona.domain.service.CardapioBuilder;
 import com.github.pomona.domain.service.ConsultaBuilder;
 import com.github.pomona.domain.service.DiretrizAlimentarBuilder;
 import com.github.pomona.domain.service.DivisaoRefeicaoBuilder;
-import com.github.pomona.domain.service.PlanoReeducacaoAlimentarBuilder;
+import com.github.pomona.domain.service.PlanoAlimentarBuilder;
 import com.github.pomona.domain.service.SubstanciaBuilder;
 
 @ManagedBean
@@ -106,7 +106,7 @@ public class CardapioBean implements Serializable{
 			.adicionarComponenteAlimentar(ferro, 0.3f)
 			.adicionarComponenteAlimentar(vitaminaC, 0f)
 			.adicionarComponenteAlimentar(colesterol, 0f)
-			.construir("Arroz Integral Cozido", UnidadeGranel.g, 100f);
+			.construir("Arroz Integral Cozido", UnidadeGranel.g, 100f, null);
 		AlimentoGranel feijao100g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 14f)
 			.adicionarComponenteAlimentar(proteina, 4.5f)
@@ -115,7 +115,7 @@ public class CardapioBean implements Serializable{
 			.adicionarComponenteAlimentar(ferro, 1.5f)
 			.adicionarComponenteAlimentar(vitaminaC, 0f)
 			.adicionarComponenteAlimentar(colesterol, 0f)
-			.construir("Feijão Preto Cozido", UnidadeGranel.g, 100f);
+			.construir("Feijão Preto Cozido", UnidadeGranel.g, 100f, null);
 		AlimentoGranel alface100g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 2.5f)
 			.adicionarComponenteAlimentar(proteina, 0.9f)
@@ -124,7 +124,7 @@ public class CardapioBean implements Serializable{
 			.adicionarComponenteAlimentar(ferro, 2.5f)
 			.adicionarComponenteAlimentar(vitaminaC, 13.5f)
 			.adicionarComponenteAlimentar(colesterol, 0f)
-			.construir("Alface Roxa", UnidadeGranel.g, 100f);
+			.construir("Alface Roxa", UnidadeGranel.g, 100f, null);
 		AlimentoGranel cenoura100g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 7.7f)
 			.adicionarComponenteAlimentar(proteina, 1.3f)
@@ -133,7 +133,7 @@ public class CardapioBean implements Serializable{
 			.adicionarComponenteAlimentar(ferro, 0.2f)
 			.adicionarComponenteAlimentar(vitaminaC, 5.1f)
 			.adicionarComponenteAlimentar(colesterol, 0f)
-			.construir("Cenoura Crua Ralada", UnidadeGranel.g, 100f);
+			.construir("Cenoura Crua Ralada", UnidadeGranel.g, 100f, null);
 		AlimentoGranel batata100g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 18.4f)
 			.adicionarComponenteAlimentar(proteina, 0.6f)
@@ -142,7 +142,7 @@ public class CardapioBean implements Serializable{
 			.adicionarComponenteAlimentar(ferro, 0.2f)
 			.adicionarComponenteAlimentar(vitaminaC, 23.8f)
 			.adicionarComponenteAlimentar(colesterol, 0f)
-			.construir("Batata Doce Cozida", UnidadeGranel.g, 100f);
+			.construir("Batata Doce Cozida", UnidadeGranel.g, 100f, null);
 		AlimentoGranel sardinha100g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 0f)
 			.adicionarComponenteAlimentar(proteina, 33.4f)
@@ -151,7 +151,7 @@ public class CardapioBean implements Serializable{
 			.adicionarComponenteAlimentar(ferro, 0.1f)
 			.adicionarComponenteAlimentar(vitaminaC, 0f)
 			.adicionarComponenteAlimentar(colesterol, 103f)
-			.construir("Sardinha Frita", UnidadeGranel.g, 100f);
+			.construir("Sardinha Frita", UnidadeGranel.g, 100f, null);
 		AlimentoGranel sucoLaranja100ml = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 7.6f)
 			.adicionarComponenteAlimentar(proteina, 0.7f)
@@ -160,7 +160,7 @@ public class CardapioBean implements Serializable{
 			.adicionarComponenteAlimentar(ferro, 0f)
 			.adicionarComponenteAlimentar(vitaminaC, 73f)
 			.adicionarComponenteAlimentar(colesterol, 0f)
-			.construir("Suco Laranja Pera Coado", UnidadeGranel.ml, 100f);
+			.construir("Suco Laranja Pera Coado", UnidadeGranel.ml, 100f, null);
 		AlimentoGranel beterraba100g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 11.1f)
 			.adicionarComponenteAlimentar(proteina, 1.9f)
@@ -169,7 +169,7 @@ public class CardapioBean implements Serializable{
 			.adicionarComponenteAlimentar(ferro, 0.3f)
 			.adicionarComponenteAlimentar(vitaminaC, 3.1f)
 			.adicionarComponenteAlimentar(colesterol, 0f)
-			.construir("Beterraba Crua", UnidadeGranel.g, 100f);
+			.construir("Beterraba Crua", UnidadeGranel.g, 100f, null);
 		AlimentoGranel queijo100g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 3.2f)
 			.adicionarComponenteAlimentar(proteina, 17.4f)
@@ -178,7 +178,7 @@ public class CardapioBean implements Serializable{
 			.adicionarComponenteAlimentar(ferro, 0.9f)
 			.adicionarComponenteAlimentar(vitaminaC, 0f)
 			.adicionarComponenteAlimentar(colesterol, 62f)
-			.construir("Queijo Minas Frescal", UnidadeGranel.g, 100f);
+			.construir("Queijo Minas Frescal", UnidadeGranel.g, 100f, null);
 		AlimentoGranel goiabada100g = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 78.7f)
 			.adicionarComponenteAlimentar(proteina, 0.4f)
@@ -187,7 +187,7 @@ public class CardapioBean implements Serializable{
 			.adicionarComponenteAlimentar(ferro, 0.4f)
 			.adicionarComponenteAlimentar(vitaminaC, 34.3f)
 			.adicionarComponenteAlimentar(colesterol, 0f)
-			.construir("Goiabada Cascão", UnidadeGranel.g, 100f);
+			.construir("Goiabada Cascão", UnidadeGranel.g, 100f, null);
 		AlimentoGranel oleo100ml = new AlimentoBuilder()
 			.adicionarComponenteAlimentar(carboidrato, 0f)
 			.adicionarComponenteAlimentar(proteina, 0f)
@@ -196,7 +196,7 @@ public class CardapioBean implements Serializable{
 			.adicionarComponenteAlimentar(ferro, 0f)
 			.adicionarComponenteAlimentar(vitaminaC, 0f)
 			.adicionarComponenteAlimentar(colesterol, 0f)
-			.construir("Óleo de Cocção", UnidadeGranel.ml, 100f);
+			.construir("Óleo de Cocção", UnidadeGranel.ml, 100f, null);
 		
 		CalculaEnergiaAlimento calcEne = new CalculaEnergiaBuilder()
 				.adicionarEnergiaSubstancia(proteina, 4f)
@@ -219,12 +219,12 @@ public class CardapioBean implements Serializable{
 		limitesEnergeticos = divExemplo.getLimitesEnergeticos();
 		
 		
-		PlanoAlimentar planoMCP = new PlanoReeducacaoAlimentarBuilder(
-				"MCP", (Date)format.parse("29/06/1990"), 1.55f, TipoSexo.FEMININO)
+		PlanoAlimentar planoMCP = new PlanoAlimentarBuilder(
+				"MCP", (Date)format.parse("29/06/1990"), TipoSexo.FEMININO)
 				.comPerfilAlimentar(arroz100g, PreferenciaConsumo.REQUER)
 				.construir();
 		
-		Consulta consMCP = new ConsultaBuilder(new Date(), 63f, dirPadrao,
+		Consulta consMCP = new ConsultaBuilder(new Date(), 63f, 1.55f, dirPadrao,
 				CalculaREE.getFatoresAtividadeFisica().get(4), planoMCP)
 				.definirMeta(TipoMeta.IMC, 24.14f)
 				//.definirMeta(TipoMeta.PESO, 60f)

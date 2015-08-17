@@ -5,17 +5,17 @@ import java.util.Date;
 import com.github.common.service.command.Command;
 
 public class CorrigirDataNascimentoDoPacienteCommand implements Command {
-	private String idPlanoAlimentar;
+	private String planoAlimentarId;
 	private Date dataNascimento;
 	
-	public CorrigirDataNascimentoDoPacienteCommand(String idPlanoAlimentar, Date dataNascimento) {
+	public CorrigirDataNascimentoDoPacienteCommand(String planoAlimentarId, Date dataNascimento) {
 		super();
-		this.idPlanoAlimentar = idPlanoAlimentar;
+		this.planoAlimentarId = planoAlimentarId;
 		this.dataNascimento = dataNascimento;
 	}
 	
-	public String getIdPlanoAlimentar() {
-		return idPlanoAlimentar;
+	public String getPlanoAlimentarId() {
+		return planoAlimentarId;
 	}
 	
 	public Date getDataNascimento() {

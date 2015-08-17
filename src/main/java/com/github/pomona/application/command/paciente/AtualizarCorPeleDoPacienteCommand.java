@@ -4,17 +4,17 @@ import com.github.common.service.command.Command;
 import com.github.pomona.domain.reference.TipoCorPele;
 
 public class AtualizarCorPeleDoPacienteCommand implements Command {
-	private String idPlanoAlimentar;
+	private String planoAlimentarId;
 	private TipoCorPele tipoCorPele;
 	
-	public AtualizarCorPeleDoPacienteCommand(String idPlanoAlimentar, TipoCorPele tipoCorPele) {
+	public AtualizarCorPeleDoPacienteCommand(String planoAlimentarId, TipoCorPele tipoCorPele) {
 		super();
-		this.idPlanoAlimentar = idPlanoAlimentar;
+		this.planoAlimentarId = planoAlimentarId;
 		this.tipoCorPele = tipoCorPele;
 	}
 	
-	public String getIdPlanoAlimentar() {
-		return idPlanoAlimentar;
+	public String getPlanoAlimentarId() {
+		return planoAlimentarId;
 	}
 	
 	public TipoCorPele getTipoCorPele() {

@@ -5,17 +5,17 @@ import com.github.pomona.domain.reference.PreferenciaConsumo;
 
 public class AtualizarPerfilAlimentarDoPacienteCommand implements Command {
 
-	private String idPerfilAlimentarPaciente;
+	private String perfilAlimentarPacienteId;
 	private PreferenciaConsumo preferenciaConsumo;
 
-	public AtualizarPerfilAlimentarDoPacienteCommand(String idPerfilAlimentarPaciente, PreferenciaConsumo preferenciaConsumo) {
+	public AtualizarPerfilAlimentarDoPacienteCommand(String perfilAlimentarPacienteId, PreferenciaConsumo preferenciaConsumo) {
 		super();
-		this.idPerfilAlimentarPaciente = idPerfilAlimentarPaciente;
+		this.perfilAlimentarPacienteId = perfilAlimentarPacienteId;
 		this.preferenciaConsumo = preferenciaConsumo;
 	}
 
-	public String getIdPerfilAlimentar() {
-		return idPerfilAlimentarPaciente;
+	public String getPerfilAlimentarId() {
+		return perfilAlimentarPacienteId;
 	}
 	public PreferenciaConsumo getPreferenciaConsumo() {
 		return preferenciaConsumo;

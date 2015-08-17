@@ -3,6 +3,7 @@ package com.github.pomona;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import com.github.common.domain.model.AbstractId;
 import com.github.pomona.domain.model.DivisaoRefeicao;
@@ -14,20 +15,17 @@ public class DivisaoRefeicaoRepoImpl implements DivisaoRefeicaoRepo {
 
 	@Override
 	public void adicionar(DivisaoRefeicao umObjeto) {
-		// TODO Auto-generated method stub
-		
+		repo.put(umObjeto.divisaoRefeicaoId(), umObjeto);
 	}
 
 	@Override
 	public Collection<DivisaoRefeicao> todosObjetos() {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.values();
 	}
 
 	@Override
 	public void remover(DivisaoRefeicao umObjeto) {
-		// TODO Auto-generated method stub
-		
+		repo.remove(umObjeto.divisaoRefeicaoId());
 	}
 
 	@Override
@@ -38,14 +36,16 @@ public class DivisaoRefeicaoRepoImpl implements DivisaoRefeicaoRepo {
 
 	@Override
 	public DivisaoRefeicao objetoDeId(AbstractId umaId) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.get(umaId);
 	}
 
 	@Override
 	public DivisaoRefeicaoId proximaIdentidade() {
-		// TODO Auto-generated method stub
-		return null;
+		DivisaoRefeicaoId divisaoRefeicaoId = null;
+		do{
+			divisaoRefeicaoId = new DivisaoRefeicaoId(UUID.randomUUID().toString().toUpperCase());
+		}while(repo.containsKey(divisaoRefeicaoId));
+		return divisaoRefeicaoId;
 	}
 
 

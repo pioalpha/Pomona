@@ -18,12 +18,16 @@ import com.github.pomona.application.command.substancia.CadastrarSubstanciaEnerg
 import com.github.pomona.application.command.substancia.CadastrarSubstanciaOrdenadaCommand;
 import com.github.pomona.application.command.substancia.ExcluirSubstanciaCommand;
 import com.github.pomona.application.command.substancia.PriorizarOrdemDaSubstanciaCommand;
+import com.github.pomona.domain.model.DiretrizAlimentar;
+import com.github.pomona.domain.model.DiretrizAlimentarId;
 import com.github.pomona.domain.model.DiretrizAlimentarRepo;
 import com.github.pomona.domain.model.EnergiaSubstancia;
 import com.github.pomona.domain.model.EnergiaSubstanciaRepo;
+import com.github.pomona.domain.model.NormaAlimentar;
 import com.github.pomona.domain.model.Substancia;
 import com.github.pomona.domain.model.SubstanciaId;
 import com.github.pomona.domain.model.SubstanciaRepo;
+import com.github.pomona.domain.service.DiretrizAlimentarBuilder;
 import com.github.pomona.domain.service.SubstanciaBuilder;
 import com.github.pomona.service.commandHandler.SubstanciaCommandHandler;
 
@@ -44,8 +48,15 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 	public CommandResult handle(AdicionarNormaADiretrizAlimentarCommand command) {
 		CommandResult resultado = null;
 		
-		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		NormaAlimentar na = new NormaAlimentar();
+		na.setData(new Date());
+		na.setSubstancia(this.substanciaRepo().objetoDeId(new SubstanciaId(command.getSubstanciaId())));
+		na.setTipoNorma(command.getTipoNorma());
+		na.setNormaMinima(command.getNormaMinima());
+		na.setNormaMaxima(command.getNormaMaxima());
+		this.diretrizAlimentarRepo().objetoDeId(new DiretrizAlimentarId(command.getDiretrizAlimentarId())).getNormasAlimentares().add(na);
+		
+		resultado = new CommandResult(true, "Adicionado a Norma Alimentar com sucesso!", null);
 
 		return resultado;
 	}
@@ -74,8 +85,11 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 	public CommandResult handle(CadastrarDiretrizAlimentarCommand command) {
 		CommandResult resultado = null;
 		
-		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		DiretrizAlimentar da = new DiretrizAlimentarBuilder(command.getNome()).construir();
+		da.setDiretrizAlimentarId(new DiretrizAlimentarId(this.diretrizAlimentarRepo().proximaIdentidade().id()));
+		this.diretrizAlimentarRepo().adicionar(da);
+
+		resultado = new CommandResult(true, "Diretriz Alimentar cadastrada com sucesso!", da.diretrizAlimentarId().id());
 
 		return resultado;
 	}
@@ -116,7 +130,7 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 		
 		EnergiaSubstancia es = new EnergiaSubstancia();
 		es.setFatorEnergetico(command.getFatorEnergetico());
-		es.setSubstancia(this.substanciaRepo().objetoDeId(new SubstanciaId(command.getIdSubstancia())));
+		es.setSubstancia(this.substanciaRepo().objetoDeId(new SubstanciaId(command.getSubstanciaId())));
 		es.setDataCadastro(new Date());
 		es.setEnergiaSubstanciaId(this.energiaSubstanciaRepo().proximaIdentidade());
 		this.energiaSubstanciaRepo().adicionar(es);

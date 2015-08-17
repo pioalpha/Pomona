@@ -1,6 +1,9 @@
 package com.github.pomona;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import com.github.common.domain.model.AbstractId;
 import com.github.pomona.domain.model.AlimentoGranel;
@@ -9,23 +12,21 @@ import com.github.pomona.domain.model.PreparoMedidaAlimentoId;
 import com.github.pomona.domain.model.PreparoMedidaAlimentoRepo;
 
 public class PreparoMedidaAlimentoRepoImpl implements PreparoMedidaAlimentoRepo {
+	private Map<PreparoMedidaAlimentoId, PreparoMedidaAlimento> repo = new HashMap<PreparoMedidaAlimentoId, PreparoMedidaAlimento>();
 
 	@Override
 	public void adicionar(PreparoMedidaAlimento umObjeto) {
-		// TODO Auto-generated method stub
-		
+		repo.put(umObjeto.preparoMedidaAlimentoId(), umObjeto);
 	}
 
 	@Override
 	public Collection<PreparoMedidaAlimento> todosObjetos() {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.values();
 	}
 
 	@Override
 	public void remover(PreparoMedidaAlimento umObjeto) {
-		// TODO Auto-generated method stub
-		
+		repo.remove(umObjeto.preparoMedidaAlimentoId());
 	}
 
 	@Override
@@ -36,14 +37,16 @@ public class PreparoMedidaAlimentoRepoImpl implements PreparoMedidaAlimentoRepo 
 
 	@Override
 	public PreparoMedidaAlimento objetoDeId(AbstractId umaId) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.get(umaId);
 	}
 
 	@Override
 	public PreparoMedidaAlimentoId proximaIdentidade() {
-		// TODO Auto-generated method stub
-		return null;
+		PreparoMedidaAlimentoId preparoMedidaAlimentoId = null;
+		do{
+			preparoMedidaAlimentoId = new PreparoMedidaAlimentoId(UUID.randomUUID().toString().toUpperCase());
+		}while(repo.containsKey(preparoMedidaAlimentoId));
+		return preparoMedidaAlimentoId;
 	}
 
 }

@@ -3,17 +3,17 @@ package com.github.pomona.application.command.divisaoRefeicao;
 import com.github.common.service.command.Command;
 
 public class AtualizarNomeDaDivisaoRefeicaoCommand implements Command {
-	private String idDivisaoRefeicao;
+	private String divisaoRefeicaoId;
 	private String nome;
 	
-	public AtualizarNomeDaDivisaoRefeicaoCommand(String idDivisaoRefeicao, String nome) {
+	public AtualizarNomeDaDivisaoRefeicaoCommand(String divisaoRefeicaoId, String nome) {
 		super();
-		this.idDivisaoRefeicao = idDivisaoRefeicao;
+		this.divisaoRefeicaoId = divisaoRefeicaoId;
 		this.nome = nome;
 	}
 	
-	public String getIdDivisaoRefeicao() {
-		return idDivisaoRefeicao;
+	public String getDivisaoRefeicaoId() {
+		return divisaoRefeicaoId;
 	}
 	
 	public String getNome() {

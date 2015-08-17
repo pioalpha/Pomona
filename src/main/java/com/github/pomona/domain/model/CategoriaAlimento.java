@@ -19,5 +19,10 @@ public class CategoriaAlimento {
 	public void setCategoriaAlimentoId(CategoriaAlimentoId categoriaAlimentoId) {
 		this.categoriaAlimentoId = categoriaAlimentoId;
 	}
+
+	@Override
+	public String toString() {
+		return "CategoriaAlimento [categoriaAlimentoId=" + categoriaAlimentoId + ", nome=" + nome + "]";
+	}
 	
 }

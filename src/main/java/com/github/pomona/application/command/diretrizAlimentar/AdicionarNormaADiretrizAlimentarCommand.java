@@ -4,28 +4,28 @@ import com.github.common.service.command.Command;
 import com.github.pomona.domain.reference.TipoNorma;
 
 public class AdicionarNormaADiretrizAlimentarCommand implements Command {
-	private String idDiretrizAlimentar;
-	private String idSubstancia;
+	private String diretrizAlimentarId;
+	private String substanciaId;
 	private TipoNorma tipoNorma;
 	private Float normaMinima;
 	private Float normaMaxima;
 	
-	public AdicionarNormaADiretrizAlimentarCommand(String idDiretrizAlimentar, String idSubstancia, TipoNorma tipoNorma,
+	public AdicionarNormaADiretrizAlimentarCommand(String diretrizAlimentarId, String substanciaId, TipoNorma tipoNorma,
 			Float normaMinima, Float normaMaxima) {
 		super();
-		this.idDiretrizAlimentar = idDiretrizAlimentar;
-		this.idSubstancia = idSubstancia;
+		this.diretrizAlimentarId = diretrizAlimentarId;
+		this.substanciaId = substanciaId;
 		this.tipoNorma = tipoNorma;
 		this.normaMinima = normaMinima;
 		this.normaMaxima = normaMaxima;
 	}
 	
-	public String getIdDiretrizAlimentar() {
-		return idDiretrizAlimentar;
+	public String getDiretrizAlimentarId() {
+		return diretrizAlimentarId;
 	}
 	
-	public String getIdSubstancia() {
-		return idSubstancia;
+	public String getSubstanciaId() {
+		return substanciaId;
 	}
 	
 	public TipoNorma getTipoNorma() {

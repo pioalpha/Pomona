@@ -2,6 +2,9 @@ package com.github.pomona;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import com.github.common.domain.model.AbstractId;
 import com.github.pomona.domain.model.Cardapio;
@@ -10,23 +13,21 @@ import com.github.pomona.domain.model.CardapioRepo;
 import com.github.pomona.domain.model.Consulta;
 
 public class CardapioRepoImpl implements CardapioRepo {
+	private Map<CardapioId, Cardapio> repo = new HashMap<CardapioId, Cardapio>();
 
 	@Override
 	public void adicionar(Cardapio umObjeto) {
-		// TODO Auto-generated method stub
-		
+		repo.put(umObjeto.cardapioId(), umObjeto);
 	}
 
 	@Override
 	public Collection<Cardapio> todosObjetos() {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.values();
 	}
 
 	@Override
 	public void remover(Cardapio umObjeto) {
-		// TODO Auto-generated method stub
-		
+		repo.remove(umObjeto.cardapioId());
 	}
 
 	@Override
@@ -43,14 +44,16 @@ public class CardapioRepoImpl implements CardapioRepo {
 
 	@Override
 	public Cardapio objetoDeId(AbstractId umaId) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.get(umaId);
 	}
 
 	@Override
 	public CardapioId proximaIdentidade() {
-		// TODO Auto-generated method stub
-		return null;
+		CardapioId cardapioId = null;
+		do{
+			cardapioId = new CardapioId(UUID.randomUUID().toString().toUpperCase());
+		}while(repo.containsKey(cardapioId));
+		return cardapioId;
 	}
 
 }

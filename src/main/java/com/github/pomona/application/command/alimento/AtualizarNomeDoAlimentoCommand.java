@@ -3,17 +3,17 @@ package com.github.pomona.application.command.alimento;
 import com.github.common.service.command.Command;
 
 public class AtualizarNomeDoAlimentoCommand  implements Command{
-	private String idAlimento;
+	private String alimentoId;
 	private String nome;
 	
-	public AtualizarNomeDoAlimentoCommand(String idAlimento, String nome) {
+	public AtualizarNomeDoAlimentoCommand(String alimentoId, String nome) {
 		super();
-		this.idAlimento = idAlimento;
+		this.alimentoId = alimentoId;
 		this.nome = nome;
 	}
 	
-	public String getIdAlimento() {
-		return idAlimento;
+	public String getAlimentoId() {
+		return alimentoId;
 	}
 	
 	public String getNome() {

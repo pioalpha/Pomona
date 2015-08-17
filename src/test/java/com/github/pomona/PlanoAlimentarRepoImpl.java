@@ -1,30 +1,32 @@
 package com.github.pomona;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import com.github.common.domain.model.AbstractId;
+import com.github.pomona.domain.model.PerfilAlimentarPacienteId;
 import com.github.pomona.domain.model.PlanoAlimentar;
 import com.github.pomona.domain.model.PlanoAlimentarId;
 import com.github.pomona.domain.model.PlanoAlimentarRepo;
 
 public class PlanoAlimentarRepoImpl implements PlanoAlimentarRepo {
+	private Map<PlanoAlimentarId, PlanoAlimentar> repo = new HashMap<PlanoAlimentarId, PlanoAlimentar>();
 
 	@Override
 	public void adicionar(PlanoAlimentar umObjeto) {
-		// TODO Auto-generated method stub
-		
+		repo.put(umObjeto.planoAlimentarId(), umObjeto);
 	}
 
 	@Override
 	public Collection<PlanoAlimentar> todosObjetos() {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.values();
 	}
 
 	@Override
 	public void remover(PlanoAlimentar umObjeto) {
-		// TODO Auto-generated method stub
-		
+		repo.remove(umObjeto.planoAlimentarId());
 	}
 
 	@Override
@@ -35,14 +37,16 @@ public class PlanoAlimentarRepoImpl implements PlanoAlimentarRepo {
 
 	@Override
 	public PlanoAlimentar objetoDeId(AbstractId umaId) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.get(umaId);
 	}
 
 	@Override
 	public PlanoAlimentarId proximaIdentidade() {
-		// TODO Auto-generated method stub
-		return null;
+		PlanoAlimentarId planoAlimentarId = null;
+		do{
+			planoAlimentarId = new PlanoAlimentarId(UUID.randomUUID().toString().toUpperCase());
+		}while(repo.containsKey(planoAlimentarId));
+		return planoAlimentarId;
 	}
 
 }

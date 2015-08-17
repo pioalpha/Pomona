@@ -14,7 +14,6 @@ public class Consulta implements Serializable {
 	private ConsultaId consultaId;
 	private PlanoAlimentar planoAlimentar;
 	private Date dataConsulta;
-	private float pesoConsulta;
 	private float imcConsulta; // calculado automatico pelo peso
 	private Float valorMeta;
 	private Float caloriasAlvo; // calculado automatico após estabelecer a meta
@@ -24,12 +23,13 @@ public class Consulta implements Serializable {
 	private List<Cardapio> cardapios;
 	private Date dataInicioVigencia;
 	private Date dataFimVigencia;
+	private ExameAntropometrico exameAntropometrico;
 
-	public PlanoAlimentar getPlanoReeducacaoAlimentar() {
+	public PlanoAlimentar getPlanoAlimentar() {
 		return planoAlimentar;
 	}
 
-	public void setPlanoReeducacaoAlimentar(PlanoAlimentar planoAlimentar) {
+	public void setPlanoAlimentar(PlanoAlimentar planoAlimentar) {
 		this.planoAlimentar = planoAlimentar;
 	}
 
@@ -39,14 +39,6 @@ public class Consulta implements Serializable {
 
 	public void setDataConsulta(Date dataConsulta) {
 		this.dataConsulta = dataConsulta;
-	}
-
-	public float getPesoConsulta() {
-		return pesoConsulta;
-	}
-
-	public void setPesoConsulta(float pesoConsulta) {
-		this.pesoConsulta = pesoConsulta;
 	}
 
 	public void setImcConsulta(float imcConsulta) {
@@ -123,8 +115,12 @@ public class Consulta implements Serializable {
 
 	@Override
 	public String toString() {
-		return new StringBuilder().append("Consulta Dia: " + dataConsulta).append(" (Peso: " + pesoConsulta + " kg, ")
-				.append("IMC: " + imcConsulta + ", ").append(diretrizAlimentar.getNome() + ", ")
+		return new StringBuilder()
+				.append("Consulta Dia: " + dataConsulta)
+				.append(" (Peso: " + exameAntropometrico.getPeso() + " kg, ")
+				.append("Altura: " + exameAntropometrico.getAltura() + " m, ")
+				.append("IMC: " + imcConsulta + ", ")
+				.append(diretrizAlimentar.getNome() + ", ")
 				.append("Tipo Meta: " + tipoMeta + ", ").append("Valor Meta: " + valorMeta + ", ")
 				.append("Caloria Alvo: " + caloriasAlvo + ")\n").append(">>CARDAPIOS\n").append(cardapios.toString())
 				.toString();
@@ -137,4 +133,13 @@ public class Consulta implements Serializable {
 	public void setConsultaId(ConsultaId consultaId) {
 		this.consultaId = consultaId;
 	}
+
+	public ExameAntropometrico getExameAntropometrico() {
+		return exameAntropometrico;
+	}
+
+	public void setExameAntropometrico(ExameAntropometrico exameAntropometrico) {
+		this.exameAntropometrico = exameAntropometrico;
+	}
+	
 }

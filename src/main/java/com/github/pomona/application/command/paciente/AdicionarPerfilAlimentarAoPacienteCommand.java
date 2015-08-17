@@ -5,24 +5,24 @@ import com.github.pomona.domain.reference.PreferenciaConsumo;
 
 public class AdicionarPerfilAlimentarAoPacienteCommand implements Command {
 
-	private String idPlanoAlimentar;
-	private String idAlimento;
+	private String planoAlimentarId;
+	private String alimentoId;
 	private PreferenciaConsumo preferenciaConsumo;
 	
-	public AdicionarPerfilAlimentarAoPacienteCommand(String idPlanoAlimentar, String idAlimento,
+	public AdicionarPerfilAlimentarAoPacienteCommand(String planoAlimentarId, String alimentoId,
 			PreferenciaConsumo preferenciaConsumo) {
 		super();
-		this.idPlanoAlimentar = idPlanoAlimentar;
-		this.idAlimento = idAlimento;
+		this.planoAlimentarId = planoAlimentarId;
+		this.alimentoId = alimentoId;
 		this.preferenciaConsumo = preferenciaConsumo;
 	}
 	
-	public String getIdPlanoAlimentar() {
-		return idPlanoAlimentar;
+	public String getPlanoAlimentarId() {
+		return planoAlimentarId;
 	}
 
 	public String getIdAlimento() {
-		return idAlimento;
+		return alimentoId;
 	}
 
 	public PreferenciaConsumo getPreferenciaConsumo() {

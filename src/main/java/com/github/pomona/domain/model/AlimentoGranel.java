@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.github.pomona.domain.reference.UnidadeGranel;
 
-public class AlimentoGranel extends AlimentoUnitario implements Serializable{
+public class AlimentoGranel extends AlimentoUnitario implements Serializable {
 	/**
 	 * 
 	 */
@@ -19,17 +19,21 @@ public class AlimentoGranel extends AlimentoUnitario implements Serializable{
 	public float getPorcao() {
 		return this.porcao;
 	}
+
 	public void setPorcao(float porcao) {
 		this.porcao = porcao;
 	}
+
 	public UnidadeGranel getUnidadeGranel() {
 		return unidadeGranel;
 	}
+
 	public void setUnidadeGranel(UnidadeGranel unidadeGranel) {
 		this.unidadeGranel = unidadeGranel;
 	}
+
 	@Override
-	public float fatorProporcao(float qtd){
+	public float fatorProporcao(float qtd) {
 		return porcao / qtd;
 	}
 
@@ -37,10 +41,11 @@ public class AlimentoGranel extends AlimentoUnitario implements Serializable{
 	public String getDetalhe() {
 		return this.getNome() + " (" + this.unidadeGranel + ")";
 	}
-	
+
 	@Override
 	public String toString() {
 		return "AlimentoGranel [porcao=" + porcao + ", unidadeGranel=" + unidadeGranel + ", composicaoAlimentar="
-				+ composicaoAlimentar + "]";
+				+ composicaoAlimentar + ", categoriaAlimento=" + categoriaAlimento + "]";
 	}
+
 }

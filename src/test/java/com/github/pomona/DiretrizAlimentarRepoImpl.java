@@ -3,8 +3,10 @@ package com.github.pomona;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import com.github.common.domain.model.AbstractId;
+import com.github.pomona.domain.model.ConsultaId;
 import com.github.pomona.domain.model.DiretrizAlimentar;
 import com.github.pomona.domain.model.DiretrizAlimentarId;
 import com.github.pomona.domain.model.DiretrizAlimentarRepo;
@@ -14,20 +16,17 @@ public class DiretrizAlimentarRepoImpl implements DiretrizAlimentarRepo {
 
 	@Override
 	public void adicionar(DiretrizAlimentar umObjeto) {
-		// TODO Auto-generated method stub
-		
+		repo.put(umObjeto.diretrizAlimentarId(), umObjeto);
 	}
 
 	@Override
 	public Collection<DiretrizAlimentar> todosObjetos() {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.values();
 	}
 
 	@Override
 	public void remover(DiretrizAlimentar umObjeto) {
-		// TODO Auto-generated method stub
-		
+		repo.remove(umObjeto.diretrizAlimentarId());
 	}
 
 	@Override
@@ -38,14 +37,16 @@ public class DiretrizAlimentarRepoImpl implements DiretrizAlimentarRepo {
 
 	@Override
 	public DiretrizAlimentar objetoDeId(AbstractId umaId) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.get(umaId);
 	}
 
 	@Override
 	public DiretrizAlimentarId proximaIdentidade() {
-		// TODO Auto-generated method stub
-		return null;
+		DiretrizAlimentarId diretrizAlimentarId = null;
+		do{
+			diretrizAlimentarId = new DiretrizAlimentarId(UUID.randomUUID().toString().toUpperCase());
+		}while(repo.containsKey(diretrizAlimentarId));
+		return diretrizAlimentarId;
 	}
 
 

@@ -4,19 +4,19 @@ import com.github.common.service.command.Command;
 import com.github.pomona.domain.reference.TipoDobra;
 
 public class RegistrarAntropometriaDobraNaConsultaCommand implements Command {
-	private String idConsulta;
+	private String consultaId;
 	private TipoDobra tipoDobra;
 	private float valor;
 	
-	public RegistrarAntropometriaDobraNaConsultaCommand(String idConsulta, TipoDobra tipoDobra, float valor) {
+	public RegistrarAntropometriaDobraNaConsultaCommand(String consultaId, TipoDobra tipoDobra, float valor) {
 		super();
-		this.idConsulta = idConsulta;
+		this.consultaId = consultaId;
 		this.tipoDobra = tipoDobra;
 		this.valor = valor;
 	}
 	
-	public String getIdConsulta() {
-		return idConsulta;
+	public String getConsultaId() {
+		return consultaId;
 	}
 	
 	public TipoDobra getTipoDobra() {

@@ -3,15 +3,15 @@ package com.github.pomona.application.command.diretrizAlimentar;
 import com.github.common.service.command.Command;
 
 public class ExcluirNormaDaDiretrizAlimentarCommand implements Command {
-	private String idNorma;
+	private String normaId;
 
-	public ExcluirNormaDaDiretrizAlimentarCommand(String idNorma) {
+	public ExcluirNormaDaDiretrizAlimentarCommand(String normaId) {
 		super();
-		this.idNorma = idNorma;
+		this.normaId = normaId;
 	}
 
-	public String getIdNorma() {
-		return idNorma;
+	public String getNormaId() {
+		return normaId;
 	}
 	
 }

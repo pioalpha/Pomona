@@ -3,15 +3,15 @@ package com.github.pomona.application.command.divisaoRefeicao;
 import com.github.common.service.command.Command;
 
 public class ExcluirDivisaoRefeicaoCommand implements Command {
-	private String idDivisaoRefeicao;
+	private String divisaoRefeicaoId;
 
-	public ExcluirDivisaoRefeicaoCommand(String idDivisaoRefeicao) {
+	public ExcluirDivisaoRefeicaoCommand(String divisaoRefeicaoId) {
 		super();
-		this.idDivisaoRefeicao = idDivisaoRefeicao;
+		this.divisaoRefeicaoId = divisaoRefeicaoId;
 	}
 
-	public String getIdDivisaoRefeicao() {
-		return idDivisaoRefeicao;
+	public String getDivisaoRefeicaoId() {
+		return divisaoRefeicaoId;
 	}
 	
 }

@@ -2,6 +2,9 @@ package com.github.pomona;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import com.github.common.domain.model.AbstractId;
 import com.github.pomona.domain.model.Consulta;
@@ -9,23 +12,21 @@ import com.github.pomona.domain.model.ConsultaId;
 import com.github.pomona.domain.model.ConsultaRepo;
 
 public class ConsultaRepoImpl implements ConsultaRepo {
+	private Map<ConsultaId, Consulta> repo = new HashMap<ConsultaId, Consulta>();
 
 	@Override
 	public void adicionar(Consulta umObjeto) {
-		// TODO Auto-generated method stub
-		
+		repo.put(umObjeto.consultaId(), umObjeto);
 	}
 
 	@Override
 	public Collection<Consulta> todosObjetos() {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.values();
 	}
 
 	@Override
 	public void remover(Consulta umObjeto) {
-		// TODO Auto-generated method stub
-		
+		repo.remove(umObjeto.consultaId());
 	}
 
 	@Override
@@ -36,14 +37,16 @@ public class ConsultaRepoImpl implements ConsultaRepo {
 
 	@Override
 	public Consulta objetoDeId(AbstractId umaId) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.get(umaId);
 	}
 
 	@Override
 	public ConsultaId proximaIdentidade() {
-		// TODO Auto-generated method stub
-		return null;
+		ConsultaId consultaId = null;
+		do{
+			consultaId = new ConsultaId(UUID.randomUUID().toString().toUpperCase());
+		}while(repo.containsKey(consultaId));
+		return consultaId;
 	}
 
 }

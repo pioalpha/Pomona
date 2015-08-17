@@ -3,18 +3,18 @@ package com.github.pomona.application.command.consulta;
 import com.github.common.service.command.Command;
 
 public class AtualizarValorAntropometriaCircunferenciaNaConsultaCommand implements Command {
-	private String idAntropometriaCircunferencia;
+	private String antropometriaCircunferenciaId;
 	private float valor;
 	
-	public AtualizarValorAntropometriaCircunferenciaNaConsultaCommand(String idAntropometriaCircunferencia,
+	public AtualizarValorAntropometriaCircunferenciaNaConsultaCommand(String antropometriaCircunferenciaId,
 			float valor) {
 		super();
-		this.idAntropometriaCircunferencia = idAntropometriaCircunferencia;
+		this.antropometriaCircunferenciaId = antropometriaCircunferenciaId;
 		this.valor = valor;
 	}
 	
-	public String getIdAntropometriaCircunferencia() {
-		return idAntropometriaCircunferencia;
+	public String getAntropometriaCircunferenciaId() {
+		return antropometriaCircunferenciaId;
 	}
 	
 	public float getValor() {

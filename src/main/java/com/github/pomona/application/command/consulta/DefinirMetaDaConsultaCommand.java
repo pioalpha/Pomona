@@ -7,17 +7,17 @@ import com.github.pomona.domain.model.DivisaoRefeicao;
 import com.github.pomona.domain.reference.TipoMeta;
 
 public class DefinirMetaDaConsultaCommand implements Command {
-	private String idConsulta;
+	private String consultaId;
 	private TipoMeta tipoMeta;
 	private float valor;
 	private Date dataInicioVigencia;
 	private Date dataFimVigencia;
 	private DivisaoRefeicao divisaoRefeicao;
 	
-	public DefinirMetaDaConsultaCommand(String idConsulta, TipoMeta tipoMeta, float valor, Date dataInicioVigencia,
+	public DefinirMetaDaConsultaCommand(String consultaId, TipoMeta tipoMeta, float valor, Date dataInicioVigencia,
 			Date dataFimVigencia, DivisaoRefeicao divisaoRefeicao) {
 		super();
-		this.idConsulta = idConsulta;
+		this.consultaId = consultaId;
 		this.tipoMeta = tipoMeta;
 		this.valor = valor;
 		this.dataInicioVigencia = dataInicioVigencia;
@@ -25,8 +25,8 @@ public class DefinirMetaDaConsultaCommand implements Command {
 		this.divisaoRefeicao = divisaoRefeicao;
 	}
 	
-	public String getIdConsulta() {
-		return idConsulta;
+	public String getConsultaId() {
+		return consultaId;
 	}
 	
 	public TipoMeta getTipoMeta() {

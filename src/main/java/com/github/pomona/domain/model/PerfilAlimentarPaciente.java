@@ -10,43 +10,56 @@ public class PerfilAlimentarPaciente implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -9002796467378830586L;
+	private PerfilAlimentarPacienteId perfilAlimentarPacienteId;
 	private PreferenciaConsumo preferenciaConsumo;
 	private Date dataCadastro;
 	private AlimentoUnitario alimento;
 	private PlanoAlimentar planoAlimentar;
-	
+
 	public PreferenciaConsumo getPreferenciaConsumo() {
 		return preferenciaConsumo;
 	}
+
 	public void setPreferenciaConsumo(PreferenciaConsumo preferenciaConsumo) {
 		this.preferenciaConsumo = preferenciaConsumo;
 	}
+
 	public Date getDataCadastro() {
 		return dataCadastro;
 	}
+
 	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
+
 	public AlimentoUnitario getAlimento() {
 		return alimento;
 	}
+
 	public void setAlimento(AlimentoUnitario alimento) {
 		this.alimento = alimento;
 	}
+
 	public PlanoAlimentar getPlanoReeducacaoAlimentar() {
 		return planoAlimentar;
 	}
-	public void setPlanoReeducacaoAlimentar(
-			PlanoAlimentar planoAlimentar) {
+
+	public void setPlanoReeducacaoAlimentar(PlanoAlimentar planoAlimentar) {
 		this.planoAlimentar = planoAlimentar;
 	}
 
 	@Override
 	public String toString() {
-		return new StringBuilder()
-				.append("Alimento: "+ alimento.getNome())
-				.append(" (" + preferenciaConsumo)
-				.append(", " + dataCadastro + ")")
-				.toString();
+		return new StringBuilder().append("Alimento: " + alimento.getNome()).append(" (" + preferenciaConsumo)
+				.append(", " + dataCadastro + ")").toString();
 	}
+
+	public PerfilAlimentarPacienteId perfilAlimentarPacienteId() {
+		return perfilAlimentarPacienteId;
+	}
+
+	public void setPerfilAlimentarPacienteId(PerfilAlimentarPacienteId perfilAlimentarPacienteId) {
+		this.perfilAlimentarPacienteId = perfilAlimentarPacienteId;
+	}
+
 }

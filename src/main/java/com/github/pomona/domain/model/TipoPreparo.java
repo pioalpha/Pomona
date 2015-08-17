@@ -19,5 +19,10 @@ public class TipoPreparo {
 	public void setTipoPreparoId(TipoPreparoId tipoPreparoId) {
 		this.tipoPreparoId = tipoPreparoId;
 	}
+
+	@Override
+	public String toString() {
+		return "TipoPreparo [tipoPreparoId=" + tipoPreparoId + ", nome=" + nome + "]";
+	}
 	
 }
