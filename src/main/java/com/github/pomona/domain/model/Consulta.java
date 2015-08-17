@@ -12,7 +12,7 @@ public class Consulta implements Serializable {
 	 */
 	private static final long serialVersionUID = 7570544330947278407L;
 	private ConsultaId consultaId;
-	private PlanoAlimentar planoAlimentar;
+	private PlanoAlimentarId planoAlimentarId;
 	private Date dataConsulta;
 	private float imcConsulta; // calculado automatico pelo peso
 	private Float valorMeta;
@@ -25,12 +25,18 @@ public class Consulta implements Serializable {
 	private Date dataFimVigencia;
 	private ExameAntropometrico exameAntropometrico;
 
-	public PlanoAlimentar getPlanoAlimentar() {
-		return planoAlimentar;
+	public Consulta() {
+		super();
+		
+		this.exameAntropometrico = new ExameAntropometrico();
 	}
 
-	public void setPlanoAlimentar(PlanoAlimentar planoAlimentar) {
-		this.planoAlimentar = planoAlimentar;
+	public PlanoAlimentarId getPlanoAlimentarId() {
+		return planoAlimentarId;
+	}
+
+	public void setPlanoAlimentarId(PlanoAlimentarId planoAlimentarId) {
+		this.planoAlimentarId = planoAlimentarId;
 	}
 
 	public Date getDataConsulta() {
@@ -115,6 +121,15 @@ public class Consulta implements Serializable {
 
 	@Override
 	public String toString() {
+		return "Consulta [consultaId=" + consultaId + ", planoAlimentarId=" + planoAlimentarId + ", dataConsulta="
+				+ dataConsulta + ", imcConsulta=" + imcConsulta + ", valorMeta=" + valorMeta + ", caloriasAlvo="
+				+ caloriasAlvo + ", tipoMeta=" + tipoMeta + ", fatorAtividadeFisica=" + fatorAtividadeFisica
+				+ ", diretrizAlimentar=" + diretrizAlimentar + ", cardapios=" + cardapios + ", dataInicioVigencia="
+				+ dataInicioVigencia + ", dataFimVigencia=" + dataFimVigencia + ", exameAntropometrico="
+				+ exameAntropometrico + "]";
+	}
+
+	public String getDetalhes() {
 		return new StringBuilder()
 				.append("Consulta Dia: " + dataConsulta)
 				.append(" (Peso: " + exameAntropometrico.getPeso() + " kg, ")
@@ -125,7 +140,7 @@ public class Consulta implements Serializable {
 				.append("Caloria Alvo: " + caloriasAlvo + ")\n").append(">>CARDAPIOS\n").append(cardapios.toString())
 				.toString();
 	}
-
+	
 	public ConsultaId consultaId() {
 		return consultaId;
 	}

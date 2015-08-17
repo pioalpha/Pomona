@@ -9,16 +9,14 @@ import com.github.pomona.domain.reference.TipoSexo;
 public class CriarPlanoAlimentarDoPacienteCommand implements Command {
 	private String nome;
 	private Date dataNascimento;
-	private float altura;
 	private TipoSexo tipoSexo;
 	private TipoCorPele tipoCorPele;
 	
-	public CriarPlanoAlimentarDoPacienteCommand(String nome, Date dataNascimento, float altura, TipoSexo tipoSexo,
+	public CriarPlanoAlimentarDoPacienteCommand(String nome, Date dataNascimento, TipoSexo tipoSexo,
 			TipoCorPele tipoCorPele) {
 		super();
 		this.nome = nome;
 		this.dataNascimento = dataNascimento;
-		this.altura = altura;
 		this.tipoSexo = tipoSexo;
 		this.tipoCorPele = tipoCorPele;
 	}
@@ -29,10 +27,6 @@ public class CriarPlanoAlimentarDoPacienteCommand implements Command {
 	
 	public Date getDataNascimento() {
 		return dataNascimento;
-	}
-	
-	public float getAltura() {
-		return altura;
 	}
 	
 	public TipoSexo getTipoSexo() {

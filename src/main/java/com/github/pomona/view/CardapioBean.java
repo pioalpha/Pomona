@@ -251,7 +251,7 @@ public class CardapioBean implements Serializable{
 				.adicionarAlimento(queijo100g, 20f, TipoRefeicao.ALMOCO)
 				.adicionarAlimento(goiabada100g, 20f, TipoRefeicao.ALMOCO)
 				.adicionarAlimento(oleo100ml, 4f, TipoRefeicao.ALMOCO)
-				.construir().getRefeicaoCardapio();
+				.construir().getRefeicoesCardapio();
 
 		this.substancias = new ArrayList<Substancia>();
 		this.listaSubstancias = new TreeMap<Integer, Substancia>();

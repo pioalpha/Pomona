@@ -1,6 +1,7 @@
 package com.github.pomona.domain.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlanoAlimentar implements Serializable {
@@ -12,6 +13,13 @@ public class PlanoAlimentar implements Serializable {
 	private Paciente paciente;
 	private List<Consulta> consultas;
 	private List<PerfilAlimentarPaciente> perfilAlimentarPaciente;
+
+	public PlanoAlimentar() {
+		super();
+
+		this.consultas = new ArrayList<Consulta>();
+		this.perfilAlimentarPaciente = new ArrayList<PerfilAlimentarPaciente>();
+	}
 
 	public Paciente getPaciente() {
 		return paciente;
@@ -37,13 +45,6 @@ public class PlanoAlimentar implements Serializable {
 		this.perfilAlimentarPaciente = perfilAlimentarPaciente;
 	}
 
-	@Override
-	public String toString() {
-		return new StringBuilder().append(">PACIENTE\n").append(paciente.toString()).append("\n>PERFIL ALIMENTAR\n")
-				.append(perfilAlimentarPaciente.toString()).append("\n>CONSULTAS\n").append(consultas.toString())
-				.toString();
-	}
-
 	public PlanoAlimentarId planoAlimentarId() {
 		return planoAlimentarId;
 	}
@@ -51,4 +52,11 @@ public class PlanoAlimentar implements Serializable {
 	public void setPlanoAlimentarId(PlanoAlimentarId planoAlimentarId) {
 		this.planoAlimentarId = planoAlimentarId;
 	}
+
+	@Override
+	public String toString() {
+		return "PlanoAlimentar [planoAlimentarId=" + planoAlimentarId + ", paciente=" + paciente + ", consultas="
+				+ consultas + ", perfilAlimentarPaciente=" + perfilAlimentarPaciente + "]";
+	}
+
 }

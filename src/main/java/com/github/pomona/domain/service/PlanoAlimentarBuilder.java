@@ -29,7 +29,7 @@ public class PlanoAlimentarBuilder {
 		PerfilAlimentarPaciente perfilAlimentarPaciente = new PerfilAlimentarPaciente();
 		perfilAlimentarPaciente.setAlimento(alimento);
 		perfilAlimentarPaciente.setPreferenciaConsumo(preferenciaConsumo);
-		perfilAlimentarPaciente.setPlanoReeducacaoAlimentar(this.instancia);
+		perfilAlimentarPaciente.setPlanoAlimentarId(this.instancia.planoAlimentarId());
 		perfilAlimentarPaciente.setDataCadastro(new Date());
 		
 		if (this.instancia.getPerfilAlimentarPaciente() == null){

@@ -21,7 +21,7 @@ public class AdicionarPerfilAlimentarAoPacienteCommand implements Command {
 		return planoAlimentarId;
 	}
 
-	public String getIdAlimento() {
+	public String getAlimentoId() {
 		return alimentoId;
 	}
 

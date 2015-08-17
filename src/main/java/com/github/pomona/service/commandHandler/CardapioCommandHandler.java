@@ -6,7 +6,7 @@ import com.github.pomona.application.command.cardapio.AtualizarQuantidadeItemNoC
 import com.github.pomona.application.command.cardapio.CadastrarItemNoCardapioCommand;
 import com.github.pomona.application.command.cardapio.ExcluirItemDoCardapioCommand;
 
-public interface CardapioCommandHandler extends DivisaoRefeicaoCommandHandler {
+public interface CardapioCommandHandler {
 	public CommandResult handle(AtualizarPreparoItemNoCardapioCommand command);
 	public CommandResult handle(AtualizarQuantidadeItemNoCardapioCommand command);
 	public CommandResult handle(CadastrarItemNoCardapioCommand command);

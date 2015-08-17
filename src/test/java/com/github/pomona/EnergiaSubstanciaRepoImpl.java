@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.github.common.domain.model.AbstractId;
-import com.github.pomona.domain.model.AlimentoId;
 import com.github.pomona.domain.model.EnergiaSubstancia;
 import com.github.pomona.domain.model.EnergiaSubstanciaId;
 import com.github.pomona.domain.model.EnergiaSubstanciaRepo;

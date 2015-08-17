@@ -1,10 +1,17 @@
 package com.github.pomona.domain.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Cardapio implements Serializable {
+	@Override
+	public String toString() {
+		return "Cardapio [cardapioId=" + cardapioId + ", dia=" + dia + ", divisaoRefeicao=" + divisaoRefeicao
+				+ ", refeicoesCardapio=" + refeicoesCardapio + "]";
+	}
+
 	/**
 	 * 
 	 */
@@ -12,7 +19,13 @@ public class Cardapio implements Serializable {
 	private CardapioId cardapioId;
 	private Date dia;
 	private DivisaoRefeicao divisaoRefeicao;
-	private List<RefeicaoCardapio> refeicaoCardapio;
+	private List<RefeicaoCardapio> refeicoesCardapio;
+
+	public Cardapio() {
+		super();
+		
+		this.refeicoesCardapio = new ArrayList<RefeicaoCardapio>();
+	}
 
 	public Date getDia() {
 		return dia;
@@ -30,12 +43,12 @@ public class Cardapio implements Serializable {
 		this.divisaoRefeicao = divisaoRefeicao;
 	}
 
-	public List<RefeicaoCardapio> getRefeicaoCardapio() {
-		return refeicaoCardapio;
+	public List<RefeicaoCardapio> getRefeicoesCardapio() {
+		return refeicoesCardapio;
 	}
 
-	public void setRefeicaoCardapio(List<RefeicaoCardapio> refeicaoCardapio) {
-		this.refeicaoCardapio = refeicaoCardapio;
+	public void setRefeicoesCardapio(List<RefeicaoCardapio> refeicoesCardapio) {
+		this.refeicoesCardapio = refeicoesCardapio;
 	}
 
 	public CardapioId cardapioId() {

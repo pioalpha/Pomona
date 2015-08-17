@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.github.common.domain.model.AbstractId;
-import com.github.pomona.domain.model.ConsultaId;
 import com.github.pomona.domain.model.DiretrizAlimentar;
 import com.github.pomona.domain.model.DiretrizAlimentarId;
 import com.github.pomona.domain.model.DiretrizAlimentarRepo;

@@ -24,7 +24,7 @@ public class RelatorioPlanoReeducacaoAlimentar {
 	public StringBuilder convertePlano(){
 		StringBuilder sb = new StringBuilder()
 			.append(">PACIENTE\n")
-			.append(this.planoAlimentar.getPaciente().toString())
+			.append(this.planoAlimentar.getPaciente().getDetalhes())
 			.append("\n>PERFIL ALIMENTAR\n");
 		for (PerfilAlimentarPaciente perfil : this.planoAlimentar.getPerfilAlimentarPaciente()){
 			sb.append("Alimento: "+ perfil.getAlimento().getNome())
@@ -114,7 +114,7 @@ public class RelatorioPlanoReeducacaoAlimentar {
 		TipoRefeicao ultimaRefeicao = null;
 		
 		sbTitulo.append("Qtd Alimento");
-		for (RefeicaoCardapio refeicaoCardapio : cardapio.getRefeicaoCardapio()){
+		for (RefeicaoCardapio refeicaoCardapio : cardapio.getRefeicoesCardapio()){
 			for (ItemCardapio itemCardapio : refeicaoCardapio.getItensCardapio()){
 				sbItens.append(itemCardapio.getQuantidade())
 					.append(" " + itemCardapio.getEnergiaAlimento().getAlimento().getNome());

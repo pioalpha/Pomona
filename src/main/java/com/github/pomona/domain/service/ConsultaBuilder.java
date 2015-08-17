@@ -11,7 +11,8 @@ import com.github.pomona.domain.reference.TipoMeta;
 
 public class ConsultaBuilder {
 	private Consulta instancia;
-
+	private PlanoAlimentar planoAlimentar;
+	
 	// http://www.rgnutri.com.br/sap/avaliacao/dma.php
 	// Antopometria: Dobras Cutâneas, Circunferências, índice de Massa,
 	// Bioimpedância
@@ -53,7 +54,7 @@ public class ConsultaBuilder {
 			FatorAtividadeFisica fatorAtividadeFisica,
 			PlanoAlimentar planoAlimentar) {
 		this.instancia = new Consulta();
-		this.instancia.setPlanoAlimentar(planoAlimentar);
+		this.instancia.setPlanoAlimentarId(planoAlimentar.planoAlimentarId());
 		this.instancia.setDataConsulta(dataConsulta);
 		this.instancia.setImcConsulta(CalculaIMC.calculaIMC(pesoConsulta,
 				alturaConsulta));
@@ -62,6 +63,7 @@ public class ConsultaBuilder {
 		this.instancia.setExameAntropometrico(new ExameAntropometrico());
 		this.instancia.getExameAntropometrico().setAltura(alturaConsulta);
 		this.instancia.getExameAntropometrico().setPeso(pesoConsulta);
+		this.planoAlimentar = planoAlimentar;
 		// calcula IMC automatico
 	}
 
@@ -76,8 +78,7 @@ public class ConsultaBuilder {
 		// antes
 		this.instancia.setTipoMeta(tipoMeta);
 		this.instancia.setValorMeta(valorMeta);
-		this.instancia.setCaloriasAlvo(tipoMeta.caloriaAlvo(this.instancia
-				.getPlanoAlimentar().getPaciente(), this.instancia,
+		this.instancia.setCaloriasAlvo(tipoMeta.caloriaAlvo(this.planoAlimentar.getPaciente(), this.instancia,
 				valorMeta));
 
 		return this;

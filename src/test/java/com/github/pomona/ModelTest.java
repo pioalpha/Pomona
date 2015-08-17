@@ -19,15 +19,24 @@ import com.github.pomona.application.command.alimento.CadastrarTipoPreparoDoAlim
 import com.github.pomona.application.command.calculaIndiceMeta.CadastrarClassificacaoIMCCommand;
 import com.github.pomona.application.command.calculaIndiceMeta.CadastrarFatorAtividadeFisicaCommand;
 import com.github.pomona.application.command.calculaIndiceMeta.CadastrarFatorMetabolicoCommand;
+import com.github.pomona.application.command.cardapio.CadastrarItemNoCardapioCommand;
+import com.github.pomona.application.command.consulta.AgendarConsultaDoPacienteCommand;
+import com.github.pomona.application.command.consulta.AtualizarFatorAtividadeFisicaPacienteNaConsultaCommand;
+import com.github.pomona.application.command.consulta.DefinirMetaDaConsultaCommand;
+import com.github.pomona.application.command.consulta.AtualizarAntropometriaPesoAlturaNaConsultaCommand;
+import com.github.pomona.application.command.consulta.AtualizarDiretrizAlimentarNaConsultaCommand;
 import com.github.pomona.application.command.diretrizAlimentar.AdicionarNormaADiretrizAlimentarCommand;
 import com.github.pomona.application.command.diretrizAlimentar.CadastrarDiretrizAlimentarCommand;
 import com.github.pomona.application.command.divisaoRefeicao.AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand;
 import com.github.pomona.application.command.divisaoRefeicao.CadastrarDivisaoRefeicaoCommand;
+import com.github.pomona.application.command.paciente.AdicionarPerfilAlimentarAoPacienteCommand;
+import com.github.pomona.application.command.paciente.CriarPlanoAlimentarDoPacienteCommand;
 import com.github.pomona.application.command.substancia.AtualizarFatorEnergeticoDaSubstanciaCommand;
 import com.github.pomona.application.command.substancia.CadastrarSubstanciaComumCommand;
 import com.github.pomona.application.command.substancia.CadastrarSubstanciaOrdenadaCommand;
 import com.github.pomona.domain.model.*;
 import com.github.pomona.domain.reference.PreferenciaConsumo;
+import com.github.pomona.domain.reference.TipoCorPele;
 import com.github.pomona.domain.reference.TipoMeta;
 import com.github.pomona.domain.reference.TipoNorma;
 import com.github.pomona.domain.reference.TipoRefeicao;
@@ -37,7 +46,9 @@ import com.github.pomona.domain.reference.UnidadeSubstancia;
 import com.github.pomona.domain.service.AlimentoBuilder;
 import com.github.pomona.domain.service.CalculaEnergiaAlimento;
 import com.github.pomona.domain.service.CalculaEnergiaBuilder;
+import com.github.pomona.domain.service.CalculaIMC;
 import com.github.pomona.domain.service.CalculaREE;
+import com.github.pomona.domain.service.CalculaTMB;
 import com.github.pomona.domain.service.CalculosNutricaoBuilder;
 import com.github.pomona.domain.service.CardapioBuilder;
 import com.github.pomona.domain.service.ConsultaBuilder;
@@ -116,7 +127,7 @@ public class ModelTest {
 		sch.handle(new AdicionarNormaADiretrizAlimentarCommand(dirPadraoId, lipidioId, TipoNorma.PERCENTUAL, 10f, 30f));
 		
 		
-		AlimentoCommandHandler ach = new AlimentoApplicationService(alimentoRepoImpl, energiaAlimentoRepoImpl, substanciaRepoImpl, tipoMedidaRepoImpl, tipoPreparoRepoImpl, preparoMedidaAlimentoRepoImpl, categoriaAlimentoRepoImpl);
+		AlimentoCommandHandler ach = new AlimentoApplicationService(alimentoRepoImpl, substanciaRepoImpl, tipoMedidaRepoImpl, tipoPreparoRepoImpl, preparoMedidaAlimentoRepoImpl, categoriaAlimentoRepoImpl);
 		String catFrutaId = ach.handle(new CadastrarCategoriaAlimentoCommand("Fruta")).id;
 		
 		String abacateId = ach.handle(new CadastrarAlimentoGranelCommand("Abacate", UnidadeGranel.g, 100f, catFrutaId)).id;
@@ -140,22 +151,31 @@ public class ModelTest {
 		
 		String colherSopaId = ach.handle(new CadastrarTipoMedidaDoAlimentoGranelCommand("Colher de Sopa")).id;
 
-		String colherSopaAbacatePicado = ach.handle(new CadastrarPreparoMedidaDoAlimentoGranelCommand(abacateId, picadoId, colherSopaId, 10f)).id;
+		ach.handle(new CadastrarPreparoMedidaDoAlimentoGranelCommand(abacateId, picadoId, colherSopaId, 10f));
 		
 		
-		ConsultaCommandHandler cch = new ConsultaApplicationService(cardapioRepoImpl, classificacaoIMCRepoImpl, consultaRepoImpl, diretrizAlimentarRepoImpl, fatorAtividadeFisicaRepoImpl, fatorMetabolicoRepoImpl);
-		cch.handle(new CadastrarFatorAtividadeFisicaCommand("Sedentário", 1f));
+		PacienteCommandHandler pch = new PacienteApplicationService(alimentoRepoImpl, categoriaAlimentoRepoImpl, perfilAlimentarPacienteRepoImpl, planoAlimentarRepoImpl);
+		String planoPedroId = pch.handle(new CriarPlanoAlimentarDoPacienteCommand("Pedro", (Date)format.parse("29/06/1978"), TipoSexo.MASCULINO, TipoCorPele.BRANCA)).id;
+		pch.handle(new AdicionarPerfilAlimentarAoPacienteCommand(planoPedroId, abacateId, PreferenciaConsumo.REJEITA));
+
+		
+		ConsultaCommandHandler cch = new ConsultaApplicationService(planoAlimentarRepoImpl,  cardapioRepoImpl, classificacaoIMCRepoImpl, consultaRepoImpl, diretrizAlimentarRepoImpl, fatorAtividadeFisicaRepoImpl, fatorMetabolicoRepoImpl, divisaoRefeicaoRepoImpl);
+		String fatSedentarioId = cch.handle(new CadastrarFatorAtividadeFisicaCommand("Sedentário", 1f)).id;
 		cch.handle(new CadastrarFatorAtividadeFisicaCommand("Atividade Leve", 1.12f));
 		cch.handle(new CadastrarFatorAtividadeFisicaCommand("Atividade Moderada", 1.27f));
 		cch.handle(new CadastrarFatorAtividadeFisicaCommand("Atividade Intensa", 1.45f));
+		CalculaREE.setFatoresAtividadeFisica(new ArrayList<FatorAtividadeFisica>());
+		CalculaREE.getFatoresAtividadeFisica().addAll(fatorAtividadeFisicaRepoImpl.todosObjetos());
 		
 		cch.handle(new CadastrarClassificacaoIMCCommand("Muito Abaixo do Peso", null, 17f));
-		cch.handle(new CadastrarClassificacaoIMCCommand("Abaixo do Peso", 17f, 18.49f));
+		cch.handle(new CadastrarClassificacaoIMCCommand("Abaixo do Peso", 17f, 18.5f));
 		cch.handle(new CadastrarClassificacaoIMCCommand("Peso Normal", 18.5f, 25f));
 		cch.handle(new CadastrarClassificacaoIMCCommand("Acima do Peso", 25f, 30f));
 		cch.handle(new CadastrarClassificacaoIMCCommand("Obesidade I", 30f, 35f));
 		cch.handle(new CadastrarClassificacaoIMCCommand("Obesidade II (severa)", 35f, 40f));
 		cch.handle(new CadastrarClassificacaoIMCCommand("Obesidade III (mórbida)", 40f, null));
+		CalculaIMC.setClassificacoesIMC(new ArrayList<ClassificacaoIMC>());
+		CalculaIMC.getClassificacoesIMC().addAll(classificacaoIMCRepoImpl.todosObjetos());
 		
 		cch.handle(new CadastrarFatorMetabolicoCommand(null, 3, 61f, -51, 60.3f, -54));
 		cch.handle(new CadastrarFatorMetabolicoCommand(3, 10, 22.5f, 499, 22.7f, 495));
@@ -163,30 +183,40 @@ public class ModelTest {
 		cch.handle(new CadastrarFatorMetabolicoCommand(18, 30, 14.7f, 496, 15.3f, 679));
 		cch.handle(new CadastrarFatorMetabolicoCommand(30, 60, 8.7f, 829, 11.6f, 879));
 		cch.handle(new CadastrarFatorMetabolicoCommand(60, null, 10.5f, 596, 13.5f, 487));
+		CalculaTMB.setFatoresMetabolicos(new ArrayList<FatorMetabolico>());
+		CalculaTMB.getFatoresMetabolicos().addAll(fatorMetabolicoRepoImpl.todosObjetos());
+		
+		String divRefeicao4Id = cch.handle(new CadastrarDivisaoRefeicaoCommand("4 Refeições")).id;
+		cch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao4Id, TipoRefeicao.DESEJUM, 20f, 40f));
+		cch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao4Id, TipoRefeicao.ALMOCO, 40f, 40f));
+		cch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao4Id, TipoRefeicao.LANCHE, 10f, 40f));
+		cch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao4Id, TipoRefeicao.JANTAR, 30f, 40f));
+		
+		String divRefeicao6Id = cch.handle(new CadastrarDivisaoRefeicaoCommand("6 Refeições")).id;
+		cch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao6Id, TipoRefeicao.DESEJUM, 15f, 40f));
+		cch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao6Id, TipoRefeicao.COLACAO, 5f, 40f));
+		cch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao6Id, TipoRefeicao.ALMOCO, 30f, 40f));
+		cch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao6Id, TipoRefeicao.LANCHE, 15f, 40f));
+		cch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao6Id, TipoRefeicao.JANTAR, 30f, 40f));
+		cch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao6Id, TipoRefeicao.CEIA, 5f, 40f));
+		
+		String consultaId = cch.handle(new AgendarConsultaDoPacienteCommand(planoPedroId, new Date())).id;
+		cch.handle(new AtualizarAntropometriaPesoAlturaNaConsultaCommand(consultaId, 90f, 1.71f));
+		cch.handle(new AtualizarFatorAtividadeFisicaPacienteNaConsultaCommand(consultaId, fatSedentarioId));
+		cch.handle(new AtualizarDiretrizAlimentarNaConsultaCommand(consultaId, dirDiabeticoId));
+		cch.handle(new DefinirMetaDaConsultaCommand(planoPedroId, consultaId, TipoMeta.IMC, 29f, new Date(), new Date(), divRefeicao4Id));
+		
+		String cardapioId = consultaRepoImpl.objetoDeId(new ConsultaId(consultaId)).getCardapios().get(0).cardapioId().id(); 
+
+		CalculaEnergiaAlimento cea = new CalculaEnergiaAlimento();
+		cea.setEnergiaSubstancia(new ArrayList<EnergiaSubstancia>());
+		cea.getEnergiaSubstancia().addAll(energiaSubstanciaRepoImpl.todosObjetos());
+		
+		CardapioCommandHandler crch = new CardapioApplicationService(alimentoRepoImpl, cardapioRepoImpl, consultaRepoImpl, energiaAlimentoRepoImpl, energiaSubstanciaRepoImpl, perfilAlimentarPacienteRepoImpl, divisaoRefeicaoRepoImpl, tipoPreparoRepoImpl, cea);
+		crch.handle(new CadastrarItemNoCardapioCommand(cardapioId, abacateId, picadoId, TipoRefeicao.ALMOCO, 200f));
 		
 		
-		CardapioCommandHandler crch = new CardapioApplicationService(alimentoRepoImpl, cardapioRepoImpl, consultaRepoImpl, energiaAlimentoRepoImpl, energiaSubstanciaRepoImpl, perfilAlimentarPacienteRepoImpl, divisaoRefeicaoRepoImpl);
-		String divRefeicao4Id = crch.handle(new CadastrarDivisaoRefeicaoCommand("4 Refeições")).id;
-		crch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao4Id, TipoRefeicao.DESEJUM, 20f, 40f));
-		crch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao4Id, TipoRefeicao.ALMOCO, 40f, 40f));
-		crch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao4Id, TipoRefeicao.LANCHE, 10f, 40f));
-		crch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao4Id, TipoRefeicao.JANTAR, 30f, 40f));
-		
-		String divRefeicao6Id = crch.handle(new CadastrarDivisaoRefeicaoCommand("6 Refeições")).id;
-		crch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao6Id, TipoRefeicao.DESEJUM, 15f, 40f));
-		crch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao6Id, TipoRefeicao.COLACAO, 5f, 40f));
-		crch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao6Id, TipoRefeicao.ALMOCO, 30f, 40f));
-		crch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao6Id, TipoRefeicao.LANCHE, 15f, 40f));
-		crch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao6Id, TipoRefeicao.JANTAR, 30f, 40f));
-		crch.handle(new AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand(divRefeicao6Id, TipoRefeicao.CEIA, 5f, 40f));
-		
-		
-		PacienteCommandHandler pch = new PacienteApplicationService();
-		
-		
-		//Não esquecer quer a altura varia com a fase de crescimento da pessoa e depois decai
-		
-		new CalculosNutricaoBuilder()
+/*		new CalculosNutricaoBuilder()
 				.adicionarFatorAtividadeFisica("Sedentário", 1f)
 				.adicionarFatorAtividadeFisica("Atividade Leve", 1.12f)
 				.adicionarFatorAtividadeFisica("Atividade Moderada", 1.27f)
@@ -207,6 +237,7 @@ public class ModelTest {
 				.adicionarFatorMetabolico(30, 60, 11.6f, 879, 8.7f, 829)
 				.adicionarFatorMetabolico(60, null, 13.5f, 487, 10.5f, 596)
 				.construir();
+*/
 		
 
 		Substancia carboidrato = new SubstanciaBuilder("Carboidrato", UnidadeSubstancia.g, 1).construir();
@@ -351,5 +382,12 @@ public class ModelTest {
 		for(Object o : divisaoRefeicaoRepoImpl.todosObjetos()){
 			System.out.println(o.toString());
 		}
+		
+		for(Object o : planoAlimentarRepoImpl.todosObjetos()){
+			System.out.println(o.toString());
+		}
+		
+		System.out.println(new RelatorioPlanoReeducacaoAlimentar(planoAlimentarRepoImpl.objetoDeId(new PlanoAlimentarId(planoPedroId))).toString());
+		
 	}
 }

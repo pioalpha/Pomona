@@ -30,7 +30,6 @@ import com.github.pomona.domain.model.CategoriaAlimento;
 import com.github.pomona.domain.model.CategoriaAlimentoId;
 import com.github.pomona.domain.model.CategoriaAlimentoRepo;
 import com.github.pomona.domain.model.ComponenteAlimentar;
-import com.github.pomona.domain.model.EnergiaAlimentoRepo;
 import com.github.pomona.domain.model.PreparoMedidaAlimento;
 import com.github.pomona.domain.model.PreparoMedidaAlimentoRepo;
 import com.github.pomona.domain.model.SubstanciaId;
@@ -46,20 +45,18 @@ import com.github.pomona.service.commandHandler.AlimentoCommandHandler;
 
 public class AlimentoApplicationService implements AlimentoCommandHandler {
 	private AlimentoRepo alimentoRepo;
-	private EnergiaAlimentoRepo energiaAlimentoRepo;
 	private SubstanciaRepo substanciaRepo;
 	private TipoMedidaRepo tipoMedidaRepo;
 	private TipoPreparoRepo tipoPreparoRepo;
 	private PreparoMedidaAlimentoRepo preparoMedidaAlimentoRepo;
 	private CategoriaAlimentoRepo categoriaAlimentoRepo;
 
-	public AlimentoApplicationService(AlimentoRepo alimentoRepo, EnergiaAlimentoRepo energiaAlimentoRepo,
+	public AlimentoApplicationService(AlimentoRepo alimentoRepo,
 			SubstanciaRepo substanciaRepo, TipoMedidaRepo tipoMedidaRepo, TipoPreparoRepo tipoPreparoRepo,
 			PreparoMedidaAlimentoRepo preparoMedidaAlimentoRepo, CategoriaAlimentoRepo categoriaAlimentoRepo) {
 		super();
 
 		this.alimentoRepo = alimentoRepo;
-		this.energiaAlimentoRepo = energiaAlimentoRepo;
 		this.substanciaRepo = substanciaRepo;
 		this.tipoMedidaRepo = tipoMedidaRepo;
 		this.tipoPreparoRepo = tipoPreparoRepo;
@@ -273,10 +270,6 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 
 	private AlimentoRepo alimentoRepo() {
 		return alimentoRepo;
-	}
-
-	private EnergiaAlimentoRepo energiaAlimentoRepo() {
-		return energiaAlimentoRepo;
 	}
 
 	private SubstanciaRepo substanciaRepo() {

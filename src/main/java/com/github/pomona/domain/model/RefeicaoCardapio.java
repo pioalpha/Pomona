@@ -1,6 +1,7 @@
 package com.github.pomona.domain.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,12 @@ public class RefeicaoCardapio implements Serializable {
 	private static final long serialVersionUID = 6141970855499751780L;
 	private List<ItemCardapio> itensCardapio;
 	private TipoRefeicao tipoRefeicao;
+
+	public RefeicaoCardapio() {
+		super();
+
+		this.itensCardapio = new ArrayList<ItemCardapio>();
+	}
 
 	public List<ItemCardapio> getItensCardapio() {
 		return itensCardapio;
@@ -36,10 +43,8 @@ public class RefeicaoCardapio implements Serializable {
 	public float getQtdGrama() {
 		float resultado = 0;
 		for (ItemCardapio itemCardapio : this.itensCardapio) {
-			if ((itemCardapio.getEnergiaAlimento().getAlimento().getClass()
-					.equals(AlimentoGranel.class))
-					&& (((AlimentoGranel) itemCardapio.getEnergiaAlimento()
-							.getAlimento()).getUnidadeGranel()
+			if ((itemCardapio.getEnergiaAlimento().getAlimento().getClass().equals(AlimentoGranel.class))
+					&& (((AlimentoGranel) itemCardapio.getEnergiaAlimento().getAlimento()).getUnidadeGranel()
 							.equals(UnidadeGranel.g))) {
 				resultado += itemCardapio.getQuantidade();
 			}
@@ -50,10 +55,8 @@ public class RefeicaoCardapio implements Serializable {
 	public float getQtdLitro() {
 		float resultado = 0;
 		for (ItemCardapio itemCardapio : this.itensCardapio) {
-			if ((itemCardapio.getEnergiaAlimento().getAlimento().getClass()
-					.equals(AlimentoGranel.class))
-					&& (((AlimentoGranel) itemCardapio.getEnergiaAlimento()
-							.getAlimento()).getUnidadeGranel()
+			if ((itemCardapio.getEnergiaAlimento().getAlimento().getClass().equals(AlimentoGranel.class))
+					&& (((AlimentoGranel) itemCardapio.getEnergiaAlimento().getAlimento()).getUnidadeGranel()
 							.equals(UnidadeGranel.ml))) {
 				resultado += itemCardapio.getQuantidade();
 			}
@@ -69,12 +72,12 @@ public class RefeicaoCardapio implements Serializable {
 		return resultado;
 
 	}
-	
-	public Map<Substancia,Float> getParcial(){
-		Map<Substancia,Float> resultado = new HashMap<Substancia, Float>();
+
+	public Map<Substancia, Float> getParcial() {
+		Map<Substancia, Float> resultado = new HashMap<Substancia, Float>();
 		for (ItemCardapio itemCardapio : this.itensCardapio) {
-			for(Map.Entry<Substancia, Float> substancia : itemCardapio.getSubstancias().entrySet()){
-				if(resultado.containsKey(substancia.getKey())){
+			for (Map.Entry<Substancia, Float> substancia : itemCardapio.getSubstancias().entrySet()) {
+				if (resultado.containsKey(substancia.getKey())) {
 					resultado.put(substancia.getKey(), resultado.get(substancia.getKey()) + substancia.getValue());
 				} else {
 					resultado.put(substancia.getKey(), substancia.getValue());

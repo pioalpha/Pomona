@@ -80,7 +80,7 @@ public class Relatorio {
 		colunas.add(REFEICAO);
 		colunas.add(QTD);
 		colunas.add(ALIMENTO);
-		for (RefeicaoCardapio refeicaoCardapio : cardapio.getRefeicaoCardapio()){
+		for (RefeicaoCardapio refeicaoCardapio : cardapio.getRefeicoesCardapio()){
 			this.comLinha(refeicaoCardapio);
 		}
 		colunas.add(ENERGIA);

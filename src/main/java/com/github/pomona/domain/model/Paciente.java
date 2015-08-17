@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import com.github.pomona.domain.reference.TipoCorPele;
 import com.github.pomona.domain.reference.TipoSexo;
 
 public class Paciente implements Serializable {
@@ -14,6 +15,7 @@ public class Paciente implements Serializable {
 	private static final long serialVersionUID = 8683824728292662068L;
 	private PacienteId pacienteId;
 	private TipoSexo tipoSexo;
+	private TipoCorPele tipoCorPele;
 	private String nome;
 	private Date dataNascimento;
 
@@ -49,6 +51,14 @@ public class Paciente implements Serializable {
 		this.pacienteId = pacienteId;
 	}
 
+	public TipoCorPele getTipoCorPele() {
+		return tipoCorPele;
+	}
+
+	public void setTipoCorPele(TipoCorPele tipoCorPele) {
+		this.tipoCorPele = tipoCorPele;
+	}
+
 	public int getIdade() {
 		Calendar nascimento = new GregorianCalendar();
 		nascimento.setTime(this.dataNascimento);
@@ -66,6 +76,11 @@ public class Paciente implements Serializable {
 
 	@Override
 	public String toString() {
+		return "Paciente [pacienteId=" + pacienteId + ", tipoSexo=" + tipoSexo + ", tipoCorPele=" + tipoCorPele
+				+ ", nome=" + nome + ", dataNascimento=" + dataNascimento + "]";
+	}
+
+	public String getDetalhes() {
 		return new StringBuilder().append("Nome: " + nome + "\n").append("Nascimento: " + dataNascimento + "\n")
 				.append("Idade: " + this.getIdade() + "\n").append("Sexo: " + tipoSexo).toString();
 	}

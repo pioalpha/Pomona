@@ -3,28 +3,34 @@ package com.github.pomona.application.command.consulta;
 import java.util.Date;
 
 import com.github.common.service.command.Command;
-import com.github.pomona.domain.model.DivisaoRefeicao;
 import com.github.pomona.domain.reference.TipoMeta;
 
 public class DefinirMetaDaConsultaCommand implements Command {
+	private String planoAlimentarId;
 	private String consultaId;
 	private TipoMeta tipoMeta;
-	private float valor;
+	private float valorMeta;
 	private Date dataInicioVigencia;
 	private Date dataFimVigencia;
-	private DivisaoRefeicao divisaoRefeicao;
+	private String divisaoRefeicaoId;
 	
-	public DefinirMetaDaConsultaCommand(String consultaId, TipoMeta tipoMeta, float valor, Date dataInicioVigencia,
-			Date dataFimVigencia, DivisaoRefeicao divisaoRefeicao) {
+	public DefinirMetaDaConsultaCommand(String planoAlimentarId, String consultaId, TipoMeta tipoMeta, float valorMeta, Date dataInicioVigencia,
+			Date dataFimVigencia, String divisaoRefeicaoId) {
 		super();
+		
+		this.planoAlimentarId = planoAlimentarId;
 		this.consultaId = consultaId;
 		this.tipoMeta = tipoMeta;
-		this.valor = valor;
+		this.valorMeta = valorMeta;
 		this.dataInicioVigencia = dataInicioVigencia;
 		this.dataFimVigencia = dataFimVigencia;
-		this.divisaoRefeicao = divisaoRefeicao;
+		this.divisaoRefeicaoId = divisaoRefeicaoId;
 	}
 	
+	public String getPlanoAlimentarId() {
+		return planoAlimentarId;
+	}
+
 	public String getConsultaId() {
 		return consultaId;
 	}
@@ -33,8 +39,8 @@ public class DefinirMetaDaConsultaCommand implements Command {
 		return tipoMeta;
 	}
 	
-	public float getValor() {
-		return valor;
+	public float getValorMeta() {
+		return valorMeta;
 	}
 	
 	public Date getDataInicioVigencia() {
@@ -45,8 +51,8 @@ public class DefinirMetaDaConsultaCommand implements Command {
 		return dataFimVigencia;
 	}
 
-	public DivisaoRefeicao getDivisaoRefeicao() {
-		return divisaoRefeicao;
+	public String getDivisaoRefeicaoId() {
+		return divisaoRefeicaoId;
 	}
 	
 }

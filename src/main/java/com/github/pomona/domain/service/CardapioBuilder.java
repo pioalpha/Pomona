@@ -26,21 +26,21 @@ public class CardapioBuilder {
 		RefeicaoCardapio refeicaoCardapio = null;
 
 		// Tento localizar a refeição no cardápio, se não houver, eu crio, se houver adiciono o item
-		if (this.instancia.getRefeicaoCardapio() != null){
-			for (RefeicaoCardapio item : this.instancia.getRefeicaoCardapio()){
+		if (this.instancia.getRefeicoesCardapio() != null){
+			for (RefeicaoCardapio item : this.instancia.getRefeicoesCardapio()){
 				if (item.getTipoRefeicao().equals(tipoRefeicao)){
 					refeicaoCardapio = item; 
 					break;
 				}
 			}
 		} else {
-			this.instancia.setRefeicaoCardapio(new ArrayList<RefeicaoCardapio>());
+			this.instancia.setRefeicoesCardapio(new ArrayList<RefeicaoCardapio>());
 		}
 		
 		if (refeicaoCardapio == null){
 			refeicaoCardapio = new RefeicaoCardapio();
 			refeicaoCardapio.setTipoRefeicao(tipoRefeicao);
-			this.instancia.getRefeicaoCardapio().add(refeicaoCardapio);
+			this.instancia.getRefeicoesCardapio().add(refeicaoCardapio);
 		}
 		
 		ItemCardapio itemCardapio = new ItemCardapio();

@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.github.common.domain.model.AbstractId;
-import com.github.pomona.domain.model.TipoMedidaId;
 import com.github.pomona.domain.model.TipoPreparo;
 import com.github.pomona.domain.model.TipoPreparoId;
 import com.github.pomona.domain.model.TipoPreparoRepo;

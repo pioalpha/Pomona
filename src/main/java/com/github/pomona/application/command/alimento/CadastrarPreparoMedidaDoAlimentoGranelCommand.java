@@ -1,7 +1,6 @@
 package com.github.pomona.application.command.alimento;
 
 import com.github.common.service.command.Command;
-import com.github.pomona.domain.model.TipoPreparo;
 
 public class CadastrarPreparoMedidaDoAlimentoGranelCommand implements Command {
 	public String alimentoGranelId;
