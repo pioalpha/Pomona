@@ -1,5 +1,7 @@
 package com.github.pomona.service.commandHandler;
 
+import java.io.Serializable;
+
 import com.github.common.service.command.CommandResult;
 import com.github.pomona.application.command.diretrizAlimentar.AdicionarNormaADiretrizAlimentarCommand;
 import com.github.pomona.application.command.diretrizAlimentar.AtualizarNomeDaDiretrizAlimentarCommand;
@@ -9,7 +11,7 @@ import com.github.pomona.application.command.diretrizAlimentar.DesativarDiretriz
 import com.github.pomona.application.command.diretrizAlimentar.ExcluirDiretrizAlimentarCommand;
 import com.github.pomona.application.command.diretrizAlimentar.ExcluirNormaDaDiretrizAlimentarCommand;
 
-public interface DiretrizAlimentarCommandHandler {
+public interface DiretrizAlimentarCommandHandler extends Serializable {
 	public CommandResult handle(AdicionarNormaADiretrizAlimentarCommand command);
 	public CommandResult handle(AtualizarNomeDaDiretrizAlimentarCommand command);
 	public CommandResult handle(AtualizarNormaDaDiretrizAlimentarCommand command);

@@ -1,7 +1,19 @@
 package com.github.pomona.domain.model;
 
-public class TipoMedida {
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+
+import com.github.common.domain.model.ConcurrencySafeEntity;
+
+@Entity
+public class TipoMedida extends ConcurrencySafeEntity {
+
+	private static final long serialVersionUID = 1372430083946004837L;
+	
+	@Embedded
 	private TipoMedidaId tipoMedidaId;
+	@Column(nullable = false, length = 100)
 	private String nome;
 
 	public String getNome() {

@@ -1,5 +1,7 @@
 package com.github.pomona.service.commandHandler;
 
+import java.io.Serializable;
+
 import com.github.common.service.command.CommandResult;
 import com.github.pomona.application.command.alimento.AdicionarComponenteAlimentarCommand;
 import com.github.pomona.application.command.alimento.AtualizarCategoriaAlimentoCommand;
@@ -13,7 +15,7 @@ import com.github.pomona.application.command.alimento.CadastrarCategoriaAlimento
 import com.github.pomona.application.command.alimento.ExcluirAlimentoCommand;
 import com.github.pomona.application.command.alimento.ExcluirComponenteAlimentarCommand;
 
-public interface AlimentoCommandHandler extends PreparoMedidaAlimentoCommandHandler{
+public interface AlimentoCommandHandler extends PreparoMedidaAlimentoCommandHandler, Serializable{
 	public CommandResult handle(AdicionarComponenteAlimentarCommand command);
 	public CommandResult handle(AtualizarNomeDoAlimentoCommand command);
 	public CommandResult handle(AtualizarPorcaoDoAlimentoGranelCommand command);

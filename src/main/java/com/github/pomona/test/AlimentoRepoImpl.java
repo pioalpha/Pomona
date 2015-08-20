@@ -1,29 +1,35 @@
-package com.github.pomona;
+package com.github.pomona.test;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.inject.Singleton;
+
 import com.github.common.domain.model.AbstractId;
 import com.github.pomona.domain.model.AlimentoId;
 import com.github.pomona.domain.model.AlimentoRepo;
 import com.github.pomona.domain.model.AlimentoUnitario;
 
+@Singleton
 public class AlimentoRepoImpl implements AlimentoRepo {
+	private static final long serialVersionUID = 1L;
+
 	private Map<AlimentoId, AlimentoUnitario> repo = new HashMap<AlimentoId, AlimentoUnitario>();
 	
 	@Override
-	public void adicionar(AlimentoUnitario umObjeto) {
+	public AlimentoUnitario adicionar(AlimentoUnitario umObjeto) {
 		repo.put(umObjeto.alimentoId(), umObjeto);
 		//Armazenar/Atualiza Composicao Alimentar
 		//for(ComponenteAlimentar c : alimento.getComposicaoAlimentar()){
 			
 		//}
+		return null;
 	}
 
 	@Override
-	public Collection<AlimentoUnitario> todosObjetos() {
+	public Collection<AlimentoUnitario> todos() {
 		return repo.values();
 	}
 
@@ -53,7 +59,7 @@ public class AlimentoRepoImpl implements AlimentoRepo {
 	}
 
 	@Override
-	public AlimentoUnitario objetoDeId(AbstractId umaId) {
+	public AlimentoUnitario porId(AbstractId umaId) {
 		return repo.get(umaId);
 	}
 

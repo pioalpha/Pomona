@@ -1,11 +1,18 @@
-package com.github.pomona;
+package com.github.pomona.test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.github.pomona.domain.model.*;
+import com.github.pomona.domain.model.AlimentoGranel;
+import com.github.pomona.domain.model.AlimentoUnitario;
+import com.github.pomona.domain.model.Cardapio;
+import com.github.pomona.domain.model.Consulta;
+import com.github.pomona.domain.model.DiretrizAlimentar;
+import com.github.pomona.domain.model.DivisaoRefeicao;
+import com.github.pomona.domain.model.PlanoAlimentar;
+import com.github.pomona.domain.model.Substancia;
 import com.github.pomona.domain.reference.PreferenciaConsumo;
 import com.github.pomona.domain.reference.TipoMeta;
 import com.github.pomona.domain.reference.TipoNorma;

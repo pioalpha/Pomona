@@ -26,7 +26,7 @@ public class RelatorioPlanoReeducacaoAlimentar {
 			.append(">PACIENTE\n")
 			.append(this.planoAlimentar.getPaciente().getDetalhes())
 			.append("\n>PERFIL ALIMENTAR\n");
-		for (PerfilAlimentarPaciente perfil : this.planoAlimentar.getPerfilAlimentarPaciente()){
+		for (PerfilAlimentarPaciente perfil : this.planoAlimentar.getPaciente().getPerfilAlimentarPaciente()){
 			sb.append("Alimento: "+ perfil.getAlimento().getNome())
 				.append(" (" + perfil.getPreferenciaConsumo())
 				.append(", " + perfil.getDataCadastro() + ")");

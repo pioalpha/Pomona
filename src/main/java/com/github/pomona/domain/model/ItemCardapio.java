@@ -1,17 +1,30 @@
 package com.github.pomona.domain.model;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
-public class ItemCardapio implements Serializable {
-	/**
-	 * 
-	 */
+import com.github.common.domain.model.ConcurrencySafeEntity;
+
+@Entity
+public class ItemCardapio extends ConcurrencySafeEntity {
+
 	private static final long serialVersionUID = -2525537354397729187L;
+
+	@ManyToOne
+	@JoinColumn(nullable = false)	
+	private RefeicaoCardapio refeicaoCardapio;
+	@OneToOne
+	@JoinColumn(nullable = false)
 	private EnergiaAlimento energiaAlimento;
+	@Column(nullable = false, precision = 10, scale = 2)
 	private float quantidade;
+	@OneToOne
 	private TipoPreparo tipoPreparo;
 
 	// private Map<Substancia, Float> proporcoes;

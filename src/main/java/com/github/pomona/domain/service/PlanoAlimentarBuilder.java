@@ -29,13 +29,13 @@ public class PlanoAlimentarBuilder {
 		PerfilAlimentarPaciente perfilAlimentarPaciente = new PerfilAlimentarPaciente();
 		perfilAlimentarPaciente.setAlimento(alimento);
 		perfilAlimentarPaciente.setPreferenciaConsumo(preferenciaConsumo);
-		perfilAlimentarPaciente.setPlanoAlimentarId(this.instancia.planoAlimentarId());
+		perfilAlimentarPaciente.setPaciente(this.instancia.getPaciente());
 		perfilAlimentarPaciente.setDataCadastro(new Date());
 		
-		if (this.instancia.getPerfilAlimentarPaciente() == null){
-			this.instancia.setPerfilAlimentarPaciente(new ArrayList<PerfilAlimentarPaciente>());
+		if (this.instancia.getPaciente().getPerfilAlimentarPaciente() == null){
+			this.instancia.getPaciente().setPerfilAlimentarPaciente(new ArrayList<PerfilAlimentarPaciente>());
 		}
-		this.instancia.getPerfilAlimentarPaciente().add(perfilAlimentarPaciente);
+		this.instancia.getPaciente().getPerfilAlimentarPaciente().add(perfilAlimentarPaciente);
 		
 		return this;
 	}

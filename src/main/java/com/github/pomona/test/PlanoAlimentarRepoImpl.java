@@ -1,25 +1,31 @@
-package com.github.pomona;
+package com.github.pomona.test;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.inject.Singleton;
+
 import com.github.common.domain.model.AbstractId;
 import com.github.pomona.domain.model.PlanoAlimentar;
 import com.github.pomona.domain.model.PlanoAlimentarId;
 import com.github.pomona.domain.model.PlanoAlimentarRepo;
 
+@Singleton
 public class PlanoAlimentarRepoImpl implements PlanoAlimentarRepo {
+	private static final long serialVersionUID = 1L;
+
 	private Map<PlanoAlimentarId, PlanoAlimentar> repo = new HashMap<PlanoAlimentarId, PlanoAlimentar>();
 
 	@Override
-	public void adicionar(PlanoAlimentar umObjeto) {
+	public PlanoAlimentar adicionar(PlanoAlimentar umObjeto) {
 		repo.put(umObjeto.planoAlimentarId(), umObjeto);
+		return null;
 	}
 
 	@Override
-	public Collection<PlanoAlimentar> todosObjetos() {
+	public Collection<PlanoAlimentar> todos() {
 		return repo.values();
 	}
 
@@ -35,7 +41,7 @@ public class PlanoAlimentarRepoImpl implements PlanoAlimentarRepo {
 	}
 
 	@Override
-	public PlanoAlimentar objetoDeId(AbstractId umaId) {
+	public PlanoAlimentar porId(AbstractId umaId) {
 		return repo.get(umaId);
 	}
 

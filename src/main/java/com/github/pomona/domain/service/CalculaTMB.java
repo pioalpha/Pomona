@@ -1,5 +1,6 @@
 package com.github.pomona.domain.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.github.pomona.domain.model.Consulta;
@@ -8,7 +9,7 @@ import com.github.pomona.domain.model.Paciente;
 import com.github.pomona.domain.reference.TipoSexo;
 
 public class CalculaTMB implements CalculaMeta {
-	private static List<FatorMetabolico> fatoresMetabolicos;
+	private static List<FatorMetabolico> fatoresMetabolicos = new ArrayList<FatorMetabolico>();
 
 	public static List<FatorMetabolico> getFatoresMetabolicos() {
 		return fatoresMetabolicos;

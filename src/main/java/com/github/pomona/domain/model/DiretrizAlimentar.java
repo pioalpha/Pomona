@@ -1,18 +1,31 @@
 package com.github.pomona.domain.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class DiretrizAlimentar implements Serializable {
-	/**
-	 * 
-	 */
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.github.common.domain.model.ConcurrencySafeEntity;
+
+@Entity
+public class DiretrizAlimentar extends ConcurrencySafeEntity {
+
 	private static final long serialVersionUID = -4193654293828343527L;
+	
+	@Embedded
 	private DiretrizAlimentarId diretrizAlimentarId;
+	@Column(nullable = false, length = 100)
 	private String nome;
+	@OneToMany(mappedBy = "diretrizAlimentar", cascade = CascadeType.ALL)
 	private List<NormaAlimentar> normasAlimentares;
+	@Temporal(TemporalType.DATE)
 	private Date dataRevogacao;
 
 	public DiretrizAlimentar() {

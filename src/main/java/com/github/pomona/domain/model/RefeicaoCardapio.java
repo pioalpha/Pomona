@@ -1,22 +1,34 @@
 package com.github.pomona.domain.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import com.github.common.domain.model.ConcurrencySafeEntity;
 import com.github.pomona.domain.reference.TipoRefeicao;
 import com.github.pomona.domain.reference.UnidadeGranel;
 
-public class RefeicaoCardapio implements Serializable {
+@Entity
+public class RefeicaoCardapio extends ConcurrencySafeEntity {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6141970855499751780L;
-	private List<ItemCardapio> itensCardapio;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false, length = 9)
 	private TipoRefeicao tipoRefeicao;
+	@ManyToOne
+	private Cardapio cardapio;
+	@OneToMany(mappedBy = "refeicaoCardapio", cascade = CascadeType.ALL)
+	private List<ItemCardapio> itensCardapio;
 
 	public RefeicaoCardapio() {
 		super();

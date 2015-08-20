@@ -1,10 +1,30 @@
 package com.github.pomona.domain.model;
 
-public class PreparoMedidaAlimento {
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+
+import com.github.common.domain.model.ConcurrencySafeEntity;
+
+@Entity
+public class PreparoMedidaAlimento extends ConcurrencySafeEntity {
+
+	private static final long serialVersionUID = 7604199331346021449L;
+
+	@Embedded
 	private PreparoMedidaAlimentoId preparoMedidaAlimentoId;
+	@OneToOne
+	@JoinColumn(nullable = false)
 	private AlimentoGranel alimentoGranel;
+	@OneToOne
+	@JoinColumn(nullable = false)
 	private TipoPreparo tipoPreparo;
+	@OneToOne
+	@JoinColumn(nullable = false)
 	private TipoMedida tipoMedida;
+	@Column(nullable = false, precision = 10, scale = 2)
 	private float quantidade;
 
 	public AlimentoGranel getAlimentoGranel() {

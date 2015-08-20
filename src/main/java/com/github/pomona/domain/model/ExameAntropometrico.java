@@ -3,10 +3,20 @@ package com.github.pomona.domain.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.Transient;
+
+@Embeddable
 public class ExameAntropometrico {
+	
+	@Column(precision = 10, scale = 2)
 	private Float peso;
+	@Column(precision = 10, scale = 2)
 	private Float altura;
+	@Transient
 	private List<DobraCutanea> dobrasCutaneas;
+	@Transient
 	private List<CircunferenciaCorporal> circunferenciasCorporais;
 	
 	public ExameAntropometrico() {

@@ -1,24 +1,45 @@
 package com.github.pomona.domain.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlanoAlimentar implements Serializable {
-	/**
-	 * 
-	 */
+import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import com.github.common.domain.model.ConcurrencySafeEntity;
+
+@Entity
+@Table(indexes = {@Index(name = "plano_alimentar_idx", columnList = "uuid", unique = true) })
+public class PlanoAlimentar extends ConcurrencySafeEntity {
+
 	private static final long serialVersionUID = -3741333810586472811L;
+
+	@Embedded
 	private PlanoAlimentarId planoAlimentarId;
+	@OneToOne
+	@JoinColumn(nullable = false, unique = true)
 	private Paciente paciente;
+	@OneToMany(mappedBy = "planoAlimentar", cascade = CascadeType.ALL)
 	private List<Consulta> consultas;
-	private List<PerfilAlimentarPaciente> perfilAlimentarPaciente;
 
 	public PlanoAlimentar() {
 		super();
 
 		this.consultas = new ArrayList<Consulta>();
-		this.perfilAlimentarPaciente = new ArrayList<PerfilAlimentarPaciente>();
+	}
+	
+	public PlanoAlimentarId planoAlimentarId() {
+		return planoAlimentarId;
+	}
+
+	public void setPlanoAlimentarId(PlanoAlimentarId planoAlimentarId) {
+		this.planoAlimentarId = planoAlimentarId;
 	}
 
 	public Paciente getPaciente() {
@@ -37,26 +58,10 @@ public class PlanoAlimentar implements Serializable {
 		this.consultas = consultas;
 	}
 
-	public List<PerfilAlimentarPaciente> getPerfilAlimentarPaciente() {
-		return perfilAlimentarPaciente;
-	}
-
-	public void setPerfilAlimentarPaciente(List<PerfilAlimentarPaciente> perfilAlimentarPaciente) {
-		this.perfilAlimentarPaciente = perfilAlimentarPaciente;
-	}
-
-	public PlanoAlimentarId planoAlimentarId() {
-		return planoAlimentarId;
-	}
-
-	public void setPlanoAlimentarId(PlanoAlimentarId planoAlimentarId) {
-		this.planoAlimentarId = planoAlimentarId;
-	}
-
 	@Override
 	public String toString() {
 		return "PlanoAlimentar [planoAlimentarId=" + planoAlimentarId + ", paciente=" + paciente + ", consultas="
-				+ consultas + ", perfilAlimentarPaciente=" + perfilAlimentarPaciente + "]";
+				+ consultas + "]";
 	}
 
 }

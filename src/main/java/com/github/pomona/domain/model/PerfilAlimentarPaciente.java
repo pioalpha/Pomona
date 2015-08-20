@@ -1,21 +1,41 @@
 package com.github.pomona.domain.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.github.common.domain.model.ConcurrencySafeEntity;
 import com.github.pomona.domain.reference.PreferenciaConsumo;
 
-public class PerfilAlimentarPaciente implements Serializable {
-	/**
-	 * 
-	 */
+@Entity
+public class PerfilAlimentarPaciente extends ConcurrencySafeEntity {
+
 	private static final long serialVersionUID = -9002796467378830586L;
+	
+	@Embedded
 	private PerfilAlimentarPacienteId perfilAlimentarPacienteId;
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false, length = 15)
 	private PreferenciaConsumo preferenciaConsumo;
+	@Temporal(TemporalType.DATE)
+	@Column(nullable = false)
 	private Date dataCadastro;
+	@OneToOne
 	private AlimentoUnitario alimento;
+	@OneToOne
 	private CategoriaAlimento categoriaAlimento;
-	private PlanoAlimentarId planoAlimentarId;
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private Paciente paciente;
 
 	public PreferenciaConsumo getPreferenciaConsumo() {
 		return preferenciaConsumo;
@@ -41,12 +61,12 @@ public class PerfilAlimentarPaciente implements Serializable {
 		this.alimento = alimento;
 	}
 
-	public PlanoAlimentarId getPlanoAlimentarId() {
-		return planoAlimentarId;
+	public Paciente getPaciente() {
+		return paciente;
 	}
 
-	public void setPlanoAlimentarId(PlanoAlimentarId planoAlimentarId) {
-		this.planoAlimentarId = planoAlimentarId;
+	public void setPaciente(Paciente paciente) {
+		this.paciente = paciente;
 	}
 
 	public CategoriaAlimento getCategoriaAlimento() {
@@ -61,7 +81,7 @@ public class PerfilAlimentarPaciente implements Serializable {
 	public String toString() {
 		return "PerfilAlimentarPaciente [perfilAlimentarPacienteId=" + perfilAlimentarPacienteId
 				+ ", preferenciaConsumo=" + preferenciaConsumo + ", dataCadastro=" + dataCadastro + ", alimento="
-				+ alimento + ", categoriaAlimento=" + categoriaAlimento + ", planoAlimentarId=" + planoAlimentarId + "]";
+				+ alimento + ", categoriaAlimento=" + categoriaAlimento + ", paciente=" + paciente.getNome() + "]";
 	}
 	
 	public PerfilAlimentarPacienteId perfilAlimentarPacienteId() {

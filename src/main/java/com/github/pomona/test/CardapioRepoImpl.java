@@ -1,4 +1,4 @@
-package com.github.pomona;
+package com.github.pomona.test;
 
 import java.util.Collection;
 import java.util.Date;
@@ -6,22 +6,28 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.inject.Singleton;
+
 import com.github.common.domain.model.AbstractId;
 import com.github.pomona.domain.model.Cardapio;
 import com.github.pomona.domain.model.CardapioId;
 import com.github.pomona.domain.model.CardapioRepo;
 import com.github.pomona.domain.model.Consulta;
 
+@Singleton
 public class CardapioRepoImpl implements CardapioRepo {
+	private static final long serialVersionUID = 1L;
+
 	private Map<CardapioId, Cardapio> repo = new HashMap<CardapioId, Cardapio>();
 
 	@Override
-	public void adicionar(Cardapio umObjeto) {
+	public Cardapio adicionar(Cardapio umObjeto) {
 		repo.put(umObjeto.cardapioId(), umObjeto);
+		return null;
 	}
 
 	@Override
-	public Collection<Cardapio> todosObjetos() {
+	public Collection<Cardapio> todos() {
 		return repo.values();
 	}
 
@@ -43,7 +49,7 @@ public class CardapioRepoImpl implements CardapioRepo {
 	}
 
 	@Override
-	public Cardapio objetoDeId(AbstractId umaId) {
+	public Cardapio porId(AbstractId umaId) {
 		return repo.get(umaId);
 	}
 

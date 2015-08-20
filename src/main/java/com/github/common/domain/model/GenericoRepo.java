@@ -1,13 +1,14 @@
 package com.github.common.domain.model;
 
+import java.io.Serializable;
 import java.util.Collection;
 
-public interface GenericoRepo<T, K extends AbstractId> {
-    public void adicionar(T umObjeto);
+public interface GenericoRepo<T, K extends AbstractId> extends Serializable {
+    public T adicionar(T umObjeto);
 
-    public Collection<T> todosObjetos();
+    public Collection<T> todos();
     
-    public T objetoDeId(AbstractId umaId);
+    public T porId(AbstractId umaId);
 
     public void remover(T umObjeto);
     

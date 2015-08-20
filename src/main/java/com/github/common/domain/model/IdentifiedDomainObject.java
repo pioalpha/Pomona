@@ -16,10 +16,16 @@ package com.github.common.domain.model;
 
 import java.io.Serializable;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public class IdentifiedDomainObject extends AssertionConcern implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    
+    @Id @GeneratedValue
     private long id;
 
     protected IdentifiedDomainObject() {
@@ -32,7 +38,7 @@ public class IdentifiedDomainObject extends AssertionConcern implements Serializ
         return this.id;
     }
 
-    private void setId(long umId) {
+    public void setId(long umId) {
         this.id = umId;
     }
 }

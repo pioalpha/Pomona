@@ -1,16 +1,31 @@
 package com.github.pomona.domain.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class EnergiaSubstancia implements Serializable {
-	/**
-	 * 
-	 */
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.github.common.domain.model.ConcurrencySafeEntity;
+
+@Entity
+public class EnergiaSubstancia extends ConcurrencySafeEntity {
+
 	private static final long serialVersionUID = 387515656354733193L;
+
+	@Embedded
 	private EnergiaSubstanciaId energiaSubstanciaId;
+	@Column(nullable = false, precision = 10, scale = 2)
 	private float fatorEnergetico;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false)
 	private Date dataCadastro;
+	@OneToOne
+	@JoinColumn(nullable = false)
 	private Substancia substancia;
 
 	public float getFatorEnergetico() {

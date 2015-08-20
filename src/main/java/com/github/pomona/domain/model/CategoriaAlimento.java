@@ -1,6 +1,16 @@
 package com.github.pomona.domain.model;
 
-public class CategoriaAlimento {
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+
+import com.github.common.domain.model.ConcurrencySafeEntity;
+
+@Entity
+public class CategoriaAlimento extends ConcurrencySafeEntity {
+
+	private static final long serialVersionUID = 8813916095127014131L;
+
+	@Embedded
 	private CategoriaAlimentoId categoriaAlimentoId;
 	private String nome;
 

@@ -1,24 +1,39 @@
 package com.github.pomona.domain.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Cardapio implements Serializable {
-	@Override
-	public String toString() {
-		return "Cardapio [cardapioId=" + cardapioId + ", dia=" + dia + ", divisaoRefeicao=" + divisaoRefeicao
-				+ ", refeicoesCardapio=" + refeicoesCardapio + "]";
-	}
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-	/**
-	 * 
-	 */
+import com.github.common.domain.model.ConcurrencySafeEntity;
+
+@Entity
+public class Cardapio extends ConcurrencySafeEntity {
+
 	private static final long serialVersionUID = -1449053477398991611L;
+
+	@Embedded
 	private CardapioId cardapioId;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false)
 	private Date dia;
+	@OneToOne
+	@JoinColumn(nullable = false)
 	private DivisaoRefeicao divisaoRefeicao;
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private Consulta consulta;
+	@OneToMany(mappedBy = "cardapio", cascade = CascadeType.ALL)
 	private List<RefeicaoCardapio> refeicoesCardapio;
 
 	public Cardapio() {
@@ -57,6 +72,12 @@ public class Cardapio implements Serializable {
 
 	public void setCardapioId(CardapioId cardapioId) {
 		this.cardapioId = cardapioId;
+	}
+
+	@Override
+	public String toString() {
+		return "Cardapio [cardapioId=" + cardapioId + ", dia=" + dia + ", divisaoRefeicao=" + divisaoRefeicao
+				+ ", refeicoesCardapio=" + refeicoesCardapio + "]";
 	}
 
 	/*

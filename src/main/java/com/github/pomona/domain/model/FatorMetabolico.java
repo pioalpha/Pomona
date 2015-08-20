@@ -1,20 +1,34 @@
 package com.github.pomona.domain.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class FatorMetabolico implements Serializable {
-	/**
-	 * 
-	 */
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.github.common.domain.model.ConcurrencySafeEntity;
+
+@Entity
+public class FatorMetabolico extends ConcurrencySafeEntity {
+
 	private static final long serialVersionUID = -528597959816250678L;
+
+	@Embedded
 	private FatorMetabolicoId fatorMetabolicoId;
 	private Integer idadeMinima;
 	private Integer idadeMaxima;
+	@Column(nullable = false, precision = 10, scale = 2)
 	private float fatorMasculino;
+	@Column(nullable = false)
 	private int diferencialMasculino;
+	@Column(nullable = false, precision = 10, scale = 2)
 	private float fatorFeminino;
+	@Column(nullable = false)
 	private int diferencialFeminino;
+	@Temporal(TemporalType.DATE)
+	@Column(nullable = false)
 	private Date dataCriacao;
 
 	public Integer getIdadeMinima() {

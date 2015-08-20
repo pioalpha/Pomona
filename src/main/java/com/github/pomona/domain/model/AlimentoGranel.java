@@ -2,14 +2,22 @@ package com.github.pomona.domain.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 import com.github.pomona.domain.reference.UnidadeGranel;
 
+@Entity
 public class AlimentoGranel extends AlimentoUnitario implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -8186382855534022253L;
+
+	@Column(nullable = false, precision = 10, scale = 2)
 	private float porcao;
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false, length = 3)
 	private UnidadeGranel unidadeGranel;
 
 	public AlimentoGranel() {

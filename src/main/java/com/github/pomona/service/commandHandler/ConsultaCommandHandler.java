@@ -1,5 +1,7 @@
 package com.github.pomona.service.commandHandler;
 
+import java.io.Serializable;
+
 import com.github.common.service.command.CommandResult;
 import com.github.pomona.application.command.consulta.AgendarConsultaDoPacienteCommand;
 import com.github.pomona.application.command.consulta.AtualizarFatorAtividadeFisicaPacienteNaConsultaCommand;
@@ -16,7 +18,7 @@ import com.github.pomona.application.command.consulta.AtualizarDiretrizAlimentar
 import com.github.pomona.application.command.consulta.RemoverAntropometriaCircunferenciaNaConsultaCommand;
 import com.github.pomona.application.command.consulta.RemoverAntropometriaDobraNaConsultaCommand;
 
-public interface ConsultaCommandHandler extends CalculaIndiceMetaCommandHandler, DivisaoRefeicaoCommandHandler {
+public interface ConsultaCommandHandler extends CalculaIndiceMetaCommandHandler, DivisaoRefeicaoCommandHandler, Serializable {
 	public CommandResult handle(AgendarConsultaDoPacienteCommand command);
 	public CommandResult handle(ReAgendarConsultaDoPacienteCommand command);
 	public CommandResult handle(AtualizarFatorAtividadeFisicaPacienteNaConsultaCommand command);

@@ -1,5 +1,7 @@
 package com.github.pomona.service.commandHandler;
 
+import java.io.Serializable;
+
 import com.github.common.service.command.CommandResult;
 import com.github.pomona.application.command.calculaIndiceMeta.AtualizarClassificacaoIMCCommand;
 import com.github.pomona.application.command.calculaIndiceMeta.AtualizarFatorAtividadeFisicaCommand;
@@ -8,7 +10,7 @@ import com.github.pomona.application.command.calculaIndiceMeta.CadastrarClassifi
 import com.github.pomona.application.command.calculaIndiceMeta.CadastrarFatorAtividadeFisicaCommand;
 import com.github.pomona.application.command.calculaIndiceMeta.CadastrarFatorMetabolicoCommand;
 
-public interface CalculaIndiceMetaCommandHandler {
+public interface CalculaIndiceMetaCommandHandler extends Serializable {
 	public CommandResult handle(AtualizarClassificacaoIMCCommand command);
 	public CommandResult handle(AtualizarFatorAtividadeFisicaCommand command);
 	public CommandResult handle(AtualizarFatorMetabolicoCommand command);

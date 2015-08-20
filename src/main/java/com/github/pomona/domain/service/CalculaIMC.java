@@ -1,5 +1,6 @@
 package com.github.pomona.domain.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.github.pomona.domain.model.ClassificacaoIMC;
@@ -7,7 +8,7 @@ import com.github.pomona.domain.model.Consulta;
 import com.github.pomona.domain.model.Paciente;
 
 public class CalculaIMC implements CalculaMeta {
-	private static List<ClassificacaoIMC> classificacoesIMC;
+	private static List<ClassificacaoIMC> classificacoesIMC = new ArrayList<ClassificacaoIMC>();
 
 	public static List<ClassificacaoIMC> getClassificacoesIMC() {
 		return classificacoesIMC;

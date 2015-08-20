@@ -16,5 +16,5 @@ package com.github.common.domain.model;
 
 public interface Identity {
 
-    public String id();
+    public String uuid();
 }

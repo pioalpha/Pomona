@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.inject.Inject;
+
 import com.github.common.service.command.CommandResult;
 import com.github.pomona.application.command.calculaIndiceMeta.AtualizarClassificacaoIMCCommand;
 import com.github.pomona.application.command.calculaIndiceMeta.AtualizarFatorAtividadeFisicaCommand;
@@ -57,6 +59,8 @@ import com.github.pomona.service.commandHandler.ConsultaCommandHandler;
 
 public class ConsultaApplicationService implements ConsultaCommandHandler {
 
+	private static final long serialVersionUID = 1L;
+
 	private PlanoAlimentarRepo planoAlimentarRepo;
 	private CardapioRepo cardapioRepo;
 	private ClassificacaoIMCRepo classificacaoIMCRepo;
@@ -66,6 +70,7 @@ public class ConsultaApplicationService implements ConsultaCommandHandler {
 	private FatorMetabolicoRepo fatorMetabolicoRepo;
 	private DivisaoRefeicaoRepo divisaoRefeicaoRepo;
 
+	@Inject
 	public ConsultaApplicationService(PlanoAlimentarRepo planoAlimentarRepo, CardapioRepo cardapioRepo, ClassificacaoIMCRepo classificacaoIMCRepo,
 			ConsultaRepo consultaRepo, DiretrizAlimentarRepo diretrizAlimentarRepo,
 			FatorAtividadeFisicaRepo fatorAtividadeFisicaRepo, FatorMetabolicoRepo fatorMetabolicoRepo,
@@ -91,7 +96,7 @@ public class ConsultaApplicationService implements ConsultaCommandHandler {
 		le.setTipoRefeicao(command.getTipoRefeicao());
 		le.setPercentualEnergetico(command.getPercentualEnergetico());
 		le.setTolerancia(command.getTolerancia());
-		this.divisaoRefeicaoRepo().objetoDeId(new DivisaoRefeicaoId(command.getDivisaoRefeicaoId()))
+		this.divisaoRefeicaoRepo().porId(new DivisaoRefeicaoId(command.getDivisaoRefeicaoId()))
 				.getLimitesEnergeticos().add(le);
 
 		resultado = new CommandResult(true, "Limite Energético adicionado com sucesso!", null);
@@ -128,7 +133,7 @@ public class ConsultaApplicationService implements ConsultaCommandHandler {
 		dr.setDivisaoRefeicaoId(this.divisaoRefeicaoRepo().proximaIdentidade());
 		this.divisaoRefeicaoRepo().adicionar(dr);
 
-		resultado = new CommandResult(true, "Divisão Refeição cadastrada com sucesso!", dr.divisaoRefeicaoId().id());
+		resultado = new CommandResult(true, "Divisão Refeição cadastrada com sucesso!", dr.divisaoRefeicaoId().uuid());
 
 		return resultado;
 	}
@@ -157,15 +162,15 @@ public class ConsultaApplicationService implements ConsultaCommandHandler {
 	public CommandResult handle(AgendarConsultaDoPacienteCommand command) {
 		CommandResult resultado = null;
 		
-		PlanoAlimentar pa = this.planoAlimentarRepo().objetoDeId(new PlanoAlimentarId(command.getPlanoAlimentarId())); 
+		PlanoAlimentar pa = this.planoAlimentarRepo().porId(new PlanoAlimentarId(command.getPlanoAlimentarId())); 
 		Consulta c = new Consulta();
 		c.setDataConsulta(command.getDataConsulta());
 		c.setConsultaId(this.consultaRepo().proximaIdentidade());
-		c.setPlanoAlimentarId(pa.planoAlimentarId());
+		c.setPlanoAlimentar(pa);
 		this.consultaRepo().adicionar(c);
 		pa.getConsultas().add(c);
 		
-		resultado = new CommandResult(true, "Consulta agendada com sucesso", c.consultaId().id());
+		resultado = new CommandResult(true, "Consulta agendada com sucesso", c.consultaId().uuid());
 
 		return resultado;
 	}
@@ -184,8 +189,8 @@ public class ConsultaApplicationService implements ConsultaCommandHandler {
 	public CommandResult handle(AtualizarFatorAtividadeFisicaPacienteNaConsultaCommand command) {
 		CommandResult resultado = null;
 
-		Consulta c = this.consultaRepo().objetoDeId(new ConsultaId(command.getConsultaId()));
-		c.setFatorAtividadeFisica(this.fatorAtividadeFisicaRepo().objetoDeId(new FatorAtividadeFisicaId(command.getFatorAtividadeFisicaId())));
+		Consulta c = this.consultaRepo().porId(new ConsultaId(command.getConsultaId()));
+		c.setFatorAtividadeFisica(this.fatorAtividadeFisicaRepo().porId(new FatorAtividadeFisicaId(command.getFatorAtividadeFisicaId())));
 
 		resultado = new CommandResult(true, "Fator de Atividade Física atualizada com sucesso!", null);
 
@@ -196,7 +201,7 @@ public class ConsultaApplicationService implements ConsultaCommandHandler {
 	public CommandResult handle(AtualizarPesoPacienteNaConsulta command) {
 		CommandResult resultado = null;
 
-		Consulta c = this.consultaRepo().objetoDeId(new ConsultaId(command.getConsultaId()));
+		Consulta c = this.consultaRepo().porId(new ConsultaId(command.getConsultaId()));
 		c.getExameAntropometrico().setPeso(command.getPeso());
 		c.setImcConsulta(CalculaIMC.calculaIMC(c.getExameAntropometrico().getPeso(),
 				c.getExameAntropometrico().getAltura())); // Automatico
@@ -210,7 +215,7 @@ public class ConsultaApplicationService implements ConsultaCommandHandler {
 	public CommandResult handle(AtualizarAntropometriaPesoAlturaNaConsultaCommand command) {
 		CommandResult resultado = null;
 
-		Consulta c = this.consultaRepo().objetoDeId(new ConsultaId(command.getConsultaId()));
+		Consulta c = this.consultaRepo().porId(new ConsultaId(command.getConsultaId()));
 		c.getExameAntropometrico().setPeso(command.getPeso());
 		c.getExameAntropometrico().setAltura(command.getAltura());
 		c.setImcConsulta(CalculaIMC.calculaIMC(c.getExameAntropometrico().getPeso(),
@@ -245,8 +250,8 @@ public class ConsultaApplicationService implements ConsultaCommandHandler {
 	public CommandResult handle(AtualizarDiretrizAlimentarNaConsultaCommand command) {
 		CommandResult resultado = null;
 
-		Consulta c = this.consultaRepo().objetoDeId(new ConsultaId(command.getConsultaId()));
-		c.setDiretrizAlimentar(this.diretrizAlimentarRepo().objetoDeId(new DiretrizAlimentarId(command.getDiretrizAlimentarId())));
+		Consulta c = this.consultaRepo().porId(new ConsultaId(command.getConsultaId()));
+		c.setDiretrizAlimentar(this.diretrizAlimentarRepo().porId(new DiretrizAlimentarId(command.getDiretrizAlimentarId())));
 
 		resultado = new CommandResult(true, "Diretriz Alimentar atualizada com sucesso!", null);
 
@@ -297,8 +302,8 @@ public class ConsultaApplicationService implements ConsultaCommandHandler {
 	public CommandResult handle(DefinirMetaDaConsultaCommand command) {
 		CommandResult resultado = null;
 
-		PlanoAlimentar pa = this.planoAlimentarRepo().objetoDeId(new PlanoAlimentarId(command.getPlanoAlimentarId()));
-		Consulta c = this.consultaRepo().objetoDeId(new ConsultaId(command.getConsultaId()));
+		PlanoAlimentar pa = this.planoAlimentarRepo().porId(new PlanoAlimentarId(command.getPlanoAlimentarId()));
+		Consulta c = this.consultaRepo().porId(new ConsultaId(command.getConsultaId()));
 		c.setDataInicioVigencia(command.getDataInicioVigencia());
 		c.setDataFimVigencia(command.getDataFimVigencia());
 		c.setTipoMeta(command.getTipoMeta());
@@ -315,7 +320,7 @@ public class ConsultaApplicationService implements ConsultaCommandHandler {
 		for (Date d = start.getTime(); start.before(end); start.add(Calendar.DATE, 1), d = start.getTime()) {
 			Cardapio cr = new Cardapio();
 			cr.setDia(d);
-			cr.setDivisaoRefeicao(this.divisaoRefeicaoRepo().objetoDeId(new DivisaoRefeicaoId(command.getDivisaoRefeicaoId())));
+			cr.setDivisaoRefeicao(this.divisaoRefeicaoRepo().porId(new DivisaoRefeicaoId(command.getDivisaoRefeicaoId())));
 			cr.setCardapioId(this.cardapioRepo().proximaIdentidade());
 			this.cardapioRepo().adicionar(cr);
 			c.getCardapios().add(cr);
@@ -378,7 +383,7 @@ public class ConsultaApplicationService implements ConsultaCommandHandler {
 		this.classificacaoIMCRepo().adicionar(cimc);
 
 		resultado = new CommandResult(true, "Classificação do IMC cadastrada com sucesso!",
-				cimc.classificacaoIMCId().id());
+				cimc.classificacaoIMCId().uuid());
 
 		return resultado;
 	}
@@ -395,7 +400,7 @@ public class ConsultaApplicationService implements ConsultaCommandHandler {
 		this.fatorAtividadeFisicaRepo().adicionar(faf);
 
 		resultado = new CommandResult(true, "Fator de Atividade Física cadastrada com sucesso!",
-				faf.fatorAtividadeFisicaId().id());
+				faf.fatorAtividadeFisicaId().uuid());
 
 		return resultado;
 	}
@@ -415,7 +420,7 @@ public class ConsultaApplicationService implements ConsultaCommandHandler {
 		fm.setFatorMetabolicoId(this.fatorMetabolicoRepo().proximaIdentidade());
 		this.fatorMetabolicoRepo().adicionar(fm);
 
-		resultado = new CommandResult(true, "Fator Metabólico cadastrado com sucesso!", fm.fatorMetabolicoId().id());
+		resultado = new CommandResult(true, "Fator Metabólico cadastrado com sucesso!", fm.fatorMetabolicoId().uuid());
 
 		return resultado;
 	}

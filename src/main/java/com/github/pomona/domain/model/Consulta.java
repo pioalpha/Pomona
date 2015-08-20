@@ -1,28 +1,58 @@
 package com.github.pomona.domain.model;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.github.common.domain.model.ConcurrencySafeEntity;
 import com.github.pomona.domain.reference.TipoMeta;
 
-public class Consulta implements Serializable {
-	/**
-	 * 
-	 */
+@Entity
+public class Consulta extends ConcurrencySafeEntity {
+
 	private static final long serialVersionUID = 7570544330947278407L;
+	
+	@Embedded
 	private ConsultaId consultaId;
-	private PlanoAlimentarId planoAlimentarId;
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private PlanoAlimentar planoAlimentar;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false)
 	private Date dataConsulta;
+	@Column(precision = 10, scale = 2)
 	private float imcConsulta; // calculado automatico pelo peso
+	@Column(precision = 10, scale = 2)
 	private Float valorMeta;
+	@Column(precision = 10, scale = 2)
 	private Float caloriasAlvo; // calculado automatico após estabelecer a meta
+	@Enumerated(EnumType.STRING)
+	@Column(length = 20)
 	private TipoMeta tipoMeta;
+	@OneToOne
 	private FatorAtividadeFisica fatorAtividadeFisica;
+	@OneToOne
 	private DiretrizAlimentar diretrizAlimentar;
+	@OneToMany(mappedBy = "consulta", cascade = CascadeType.ALL)
 	private List<Cardapio> cardapios;
+	@Temporal(TemporalType.DATE)
+	@Column(nullable = false)
 	private Date dataInicioVigencia;
+	@Temporal(TemporalType.DATE)
 	private Date dataFimVigencia;
+	@Embedded
 	private ExameAntropometrico exameAntropometrico;
 
 	public Consulta() {
@@ -31,12 +61,12 @@ public class Consulta implements Serializable {
 		this.exameAntropometrico = new ExameAntropometrico();
 	}
 
-	public PlanoAlimentarId getPlanoAlimentarId() {
-		return planoAlimentarId;
+	public PlanoAlimentar getPlanoAlimentar() {
+		return planoAlimentar;
 	}
 
-	public void setPlanoAlimentarId(PlanoAlimentarId planoAlimentarId) {
-		this.planoAlimentarId = planoAlimentarId;
+	public void setPlanoAlimentar(PlanoAlimentar planoAlimentar) {
+		this.planoAlimentar = planoAlimentar;
 	}
 
 	public Date getDataConsulta() {
@@ -121,7 +151,7 @@ public class Consulta implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Consulta [consultaId=" + consultaId + ", planoAlimentarId=" + planoAlimentarId + ", dataConsulta="
+		return "Consulta [consultaId=" + consultaId + ", planoAlimentarId=" + planoAlimentar.planoAlimentarId().uuid() + ", dataConsulta="
 				+ dataConsulta + ", imcConsulta=" + imcConsulta + ", valorMeta=" + valorMeta + ", caloriasAlvo="
 				+ caloriasAlvo + ", tipoMeta=" + tipoMeta + ", fatorAtividadeFisica=" + fatorAtividadeFisica
 				+ ", diretrizAlimentar=" + diretrizAlimentar + ", cardapios=" + cardapios + ", dataInicioVigencia="

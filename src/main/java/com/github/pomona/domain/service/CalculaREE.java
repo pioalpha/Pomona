@@ -1,11 +1,12 @@
 package com.github.pomona.domain.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.github.pomona.domain.model.FatorAtividadeFisica;
 
 public class CalculaREE {
-	private static List<FatorAtividadeFisica> fatoresAtividadeFisica;
+	private static List<FatorAtividadeFisica> fatoresAtividadeFisica = new ArrayList<FatorAtividadeFisica>();
 
 	public static List<FatorAtividadeFisica> getFatoresAtividadeFisica() {
 		return fatoresAtividadeFisica;

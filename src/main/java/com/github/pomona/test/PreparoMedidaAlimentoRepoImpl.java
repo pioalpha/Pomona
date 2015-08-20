@@ -1,9 +1,11 @@
-package com.github.pomona;
+package com.github.pomona.test;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import javax.inject.Singleton;
 
 import com.github.common.domain.model.AbstractId;
 import com.github.pomona.domain.model.AlimentoGranel;
@@ -11,16 +13,20 @@ import com.github.pomona.domain.model.PreparoMedidaAlimento;
 import com.github.pomona.domain.model.PreparoMedidaAlimentoId;
 import com.github.pomona.domain.model.PreparoMedidaAlimentoRepo;
 
+@Singleton
 public class PreparoMedidaAlimentoRepoImpl implements PreparoMedidaAlimentoRepo {
+	private static final long serialVersionUID = 1L;
+
 	private Map<PreparoMedidaAlimentoId, PreparoMedidaAlimento> repo = new HashMap<PreparoMedidaAlimentoId, PreparoMedidaAlimento>();
 
 	@Override
-	public void adicionar(PreparoMedidaAlimento umObjeto) {
+	public PreparoMedidaAlimento adicionar(PreparoMedidaAlimento umObjeto) {
 		repo.put(umObjeto.preparoMedidaAlimentoId(), umObjeto);
+		return null;
 	}
 
 	@Override
-	public Collection<PreparoMedidaAlimento> todosObjetos() {
+	public Collection<PreparoMedidaAlimento> todos() {
 		return repo.values();
 	}
 
@@ -36,7 +42,7 @@ public class PreparoMedidaAlimentoRepoImpl implements PreparoMedidaAlimentoRepo 
 	}
 
 	@Override
-	public PreparoMedidaAlimento objetoDeId(AbstractId umaId) {
+	public PreparoMedidaAlimento porId(AbstractId umaId) {
 		return repo.get(umaId);
 	}
 

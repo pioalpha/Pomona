@@ -1,25 +1,31 @@
-package com.github.pomona;
+package com.github.pomona.test;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.inject.Singleton;
+
 import com.github.common.domain.model.AbstractId;
 import com.github.pomona.domain.model.ClassificacaoIMC;
 import com.github.pomona.domain.model.ClassificacaoIMCId;
 import com.github.pomona.domain.model.ClassificacaoIMCRepo;
 
+@Singleton
 public class ClassificacaoIMCRepoImpl implements ClassificacaoIMCRepo {
+	private static final long serialVersionUID = 1L;
+
 	private Map<ClassificacaoIMCId, ClassificacaoIMC> repo = new HashMap<ClassificacaoIMCId, ClassificacaoIMC>();
 
 	@Override
-	public void adicionar(ClassificacaoIMC umObjeto) {
+	public ClassificacaoIMC adicionar(ClassificacaoIMC umObjeto) {
 		repo.put(umObjeto.classificacaoIMCId(), umObjeto);
+		return null;
 	}
 
 	@Override
-	public Collection<ClassificacaoIMC> todosObjetos() {
+	public Collection<ClassificacaoIMC> todos() {
 		return repo.values();
 	}
 
@@ -35,7 +41,7 @@ public class ClassificacaoIMCRepoImpl implements ClassificacaoIMCRepo {
 	}
 
 	@Override
-	public ClassificacaoIMC objetoDeId(AbstractId umaId) {
+	public ClassificacaoIMC porId(AbstractId umaId) {
 		return repo.get(umaId);
 	}
 

@@ -10,20 +10,20 @@ import com.github.pomona.domain.model.EnergiaAlimento;
 import com.github.pomona.domain.model.EnergiaSubstancia;
 
 public class CalculaEnergiaAlimento {
-	private List<EnergiaAlimento> energiaAlimento;
-	private List<EnergiaSubstancia> energiaSubstancia;
+	private static List<EnergiaAlimento> energiaAlimento = new ArrayList<EnergiaAlimento>();
+	private static List<EnergiaSubstancia> energiaSubstancia = new ArrayList<EnergiaSubstancia>();
 	
-	public List<EnergiaAlimento> getEnergiaAlimento() {
+	public static List<EnergiaAlimento> getEnergiaAlimento() {
 		return energiaAlimento;
 	}
-	public void setEnergiaAlimento(List<EnergiaAlimento> energiaAlimento) {
-		this.energiaAlimento = energiaAlimento;
+	public static void setEnergiaAlimento(List<EnergiaAlimento> energiaAlimento) {
+		CalculaEnergiaAlimento.energiaAlimento = energiaAlimento;
 	}
-	public List<EnergiaSubstancia> getEnergiaSubstancia() {
+	public static List<EnergiaSubstancia> getEnergiaSubstancia() {
 		return energiaSubstancia;
 	}
-	public void setEnergiaSubstancia(List<EnergiaSubstancia> energiaSubstancia) {
-		this.energiaSubstancia = energiaSubstancia;
+	public static void setEnergiaSubstancia(List<EnergiaSubstancia> energiaSubstancia) {
+		CalculaEnergiaAlimento.energiaSubstancia = energiaSubstancia;
 	}
 	
 	// Se a energia cadastrada mais recente for manual, retorna ela sem fazer cálculo
@@ -31,11 +31,11 @@ public class CalculaEnergiaAlimento {
 	// Retorna o último cadastro idêntico e se não acha, cadastra um novo
 	// Itens já adicionados no cardápio não tem esse problema devido a associação direta
 	// Precisa haver uma forma de ativar/desativar o último cadastro manual
-	public EnergiaAlimento retornaEnergiaAlimento(AlimentoUnitario alimento){
+	public static EnergiaAlimento retornaEnergiaAlimento(AlimentoUnitario alimento){
 		EnergiaAlimento resultado = null;
 		
-		if (this.energiaAlimento != null){
-			for (EnergiaAlimento energiaAlimento : this.energiaAlimento){
+		if (CalculaEnergiaAlimento.energiaAlimento != null){
+			for (EnergiaAlimento energiaAlimento : CalculaEnergiaAlimento.energiaAlimento){
 				if (energiaAlimento.getAlimento().equals(alimento)){
 					resultado = energiaAlimento;
 					break;
@@ -44,18 +44,18 @@ public class CalculaEnergiaAlimento {
 		}
 		if (resultado == null){
 			// Cadastra energia alimento
-			resultado = this.adicionarEnergiaAlimento(alimento);
+			resultado = CalculaEnergiaAlimento.adicionarEnergiaAlimento(alimento);
 		}
 		
 		return resultado;
 	}
 	
-	public EnergiaAlimento adicionarEnergiaAlimento(AlimentoUnitario alimento){
+	public static EnergiaAlimento adicionarEnergiaAlimento(AlimentoUnitario alimento){
 		EnergiaAlimento energiaAlimento = new EnergiaAlimento();
 		energiaAlimento.setAlimento(alimento);
 		// isolar cada energia substância e multiplicar pelo fator do alimento
 		float energia = 0;
-		for (EnergiaSubstancia energiaSubstancia : energiaSubstancia){
+		for (EnergiaSubstancia energiaSubstancia : CalculaEnergiaAlimento.energiaSubstancia){
 			for (ComponenteAlimentar componenteAlimentar : alimento.getComposicaoAlimentar()){
 				if (energiaSubstancia.getSubstancia().equals(componenteAlimentar.getSubstancia())){
 					energia += componenteAlimentar.getQuantidade() * energiaSubstancia.getFatorEnergetico();
@@ -66,11 +66,11 @@ public class CalculaEnergiaAlimento {
 		energiaAlimento.setAutomatico(true);
 		energiaAlimento.setDataCadastro(new Date());
 		
-		if (this.energiaAlimento == null){
-			this.energiaAlimento = new ArrayList<EnergiaAlimento>();
+		if (CalculaEnergiaAlimento.energiaAlimento == null){
+			CalculaEnergiaAlimento.energiaAlimento = new ArrayList<EnergiaAlimento>();
 		}
 		
-		this.energiaAlimento.add(energiaAlimento);
+		CalculaEnergiaAlimento.energiaAlimento.add(energiaAlimento);
 		
 		return energiaAlimento;
 	}

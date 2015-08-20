@@ -1,15 +1,23 @@
 package com.github.pomona.domain.model;
 
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
 
-public class ClassificacaoIMC implements Serializable {
-	/**
-	 * 
-	 */
+import com.github.common.domain.model.ConcurrencySafeEntity;
+
+@Entity
+public class ClassificacaoIMC extends ConcurrencySafeEntity {
+
 	private static final long serialVersionUID = 9117880699050007679L;
+	
+	@Embedded
 	private ClassificacaoIMCId classificacaoIMCId;
+	@Column(precision = 10, scale = 2)
 	private Float imcMinimo;
+	@Column(precision = 10, scale = 2)
 	private Float imcMaximo;
+	@Column(nullable = false, length = 100)
 	private String situacao;
 
 	public Float getImcMinimo() {

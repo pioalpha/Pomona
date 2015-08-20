@@ -1,25 +1,31 @@
-package com.github.pomona;
+package com.github.pomona.test;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.inject.Singleton;
+
 import com.github.common.domain.model.AbstractId;
 import com.github.pomona.domain.model.TipoPreparo;
 import com.github.pomona.domain.model.TipoPreparoId;
 import com.github.pomona.domain.model.TipoPreparoRepo;
 
+@Singleton
 public class TipoPreparoRepoImpl implements TipoPreparoRepo {
+	private static final long serialVersionUID = 1L;
+
 	private Map<TipoPreparoId, TipoPreparo> repo = new HashMap<TipoPreparoId, TipoPreparo>();
 
 	@Override
-	public void adicionar(TipoPreparo umObjeto) {
+	public TipoPreparo adicionar(TipoPreparo umObjeto) {
 		repo.put(umObjeto.tipoPreparoId(), umObjeto);
+		return null;
 	}
 
 	@Override
-	public Collection<TipoPreparo> todosObjetos() {
+	public Collection<TipoPreparo> todos() {
 		return repo.values();
 	}
 
@@ -35,7 +41,7 @@ public class TipoPreparoRepoImpl implements TipoPreparoRepo {
 	}
 
 	@Override
-	public TipoPreparo objetoDeId(AbstractId umaId) {
+	public TipoPreparo porId(AbstractId umaId) {
 		return repo.get(umaId);
 	}
 

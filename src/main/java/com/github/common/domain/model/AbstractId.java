@@ -16,16 +16,21 @@ package com.github.common.domain.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public abstract class AbstractId
     extends AssertionConcern
     implements Identity, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String id;
+	@Column(nullable = false, length = 36)
+    private String uuid;
 
-    public String id() {
-        return this.id;
+    public String uuid() {
+        return this.uuid;
     }
 
     @Override
@@ -34,7 +39,7 @@ public abstract class AbstractId
 
         if (umObjeto != null && this.getClass() == umObjeto.getClass()) {
             AbstractId typedObject = (AbstractId) umObjeto;
-            equalObjects = this.id().equals(typedObject.id());
+            equalObjects = this.uuid().equals(typedObject.uuid());
         }
 
         return equalObjects;
@@ -44,20 +49,20 @@ public abstract class AbstractId
     public int hashCode() {
         int hashCodeValue =
                 + (this.hashValorImpar() * this.hashValorPrimo())
-                + this.id().hashCode();
+                + this.uuid().hashCode();
 
         return hashCodeValue;
     }
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + " [id=" + id + "]";
+        return this.getClass().getSimpleName() + " [uuid=" + uuid + "]";
     }
 
     protected AbstractId(String umId) {
         this();
 
-        this.setId(umId);
+        this.setUuid(umId);
     }
 
     protected AbstractId() {
@@ -68,17 +73,17 @@ public abstract class AbstractId
 
     protected abstract int hashValorPrimo();
 
-    protected void validarId(String umId) {
+    protected void validarUuid(String umId) {
         // implemented by subclasses for validation.
         // throws a runtime exception if invalid.
     }
 
-    private void setId(String umId) {
+    private void setUuid(String umId) {
         this.assertArgumentNotEmpty(umId, "The basic identity is required.");
         this.assertArgumentLength(umId, 36, "The basic identity must be 36 characters.");
 
-        this.validarId(umId);
+        this.validarUuid(umId);
 
-        this.id = umId;
+        this.uuid = umId;
     }
 }

@@ -1,5 +1,7 @@
 package com.github.pomona.service.commandHandler;
 
+import java.io.Serializable;
+
 import com.github.common.service.command.CommandResult;
 import com.github.pomona.application.command.paciente.AdicionarPerfilAlimentarAoPacienteCommand;
 import com.github.pomona.application.command.paciente.AdicionarPerfilCategoriaAlimentarAoPacienteCommand;
@@ -11,7 +13,7 @@ import com.github.pomona.application.command.paciente.CorrigirDataNascimentoDoPa
 import com.github.pomona.application.command.paciente.CriarPlanoAlimentarDoPacienteCommand;
 import com.github.pomona.application.command.paciente.ExcluirPerfilAlimentarDoPacienteCommand;
 
-public interface PacienteCommandHandler {
+public interface PacienteCommandHandler extends Serializable {
 	public CommandResult handle(AdicionarPerfilAlimentarAoPacienteCommand command);
 	public CommandResult handle(AdicionarPerfilCategoriaAlimentarAoPacienteCommand command);
 	public CommandResult handle(AtualizarCorPeleDoPacienteCommand command);

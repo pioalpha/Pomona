@@ -1,5 +1,7 @@
 package com.github.pomona.service.commandHandler;
 
+import java.io.Serializable;
+
 import com.github.common.service.command.CommandResult;
 import com.github.pomona.application.command.substancia.AtualizarFatorEnergeticoDaSubstanciaCommand;
 import com.github.pomona.application.command.substancia.AtualizarNomeDaSubstanciaCommand;
@@ -10,7 +12,7 @@ import com.github.pomona.application.command.substancia.CadastrarSubstanciaOrden
 import com.github.pomona.application.command.substancia.ExcluirSubstanciaCommand;
 import com.github.pomona.application.command.substancia.PriorizarOrdemDaSubstanciaCommand;
 
-public interface SubstanciaCommandHandler extends DiretrizAlimentarCommandHandler {
+public interface SubstanciaCommandHandler extends DiretrizAlimentarCommandHandler, Serializable {
 	public CommandResult handle(AtualizarFatorEnergeticoDaSubstanciaCommand command);
 	public CommandResult handle(AtualizarNomeDaSubstanciaCommand command);
 	public CommandResult handle(AtualizarUnidadeDaSubstanciaCommand command);

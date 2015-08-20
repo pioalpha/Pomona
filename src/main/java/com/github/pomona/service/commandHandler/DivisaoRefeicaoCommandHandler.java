@@ -1,5 +1,7 @@
 package com.github.pomona.service.commandHandler;
 
+import java.io.Serializable;
+
 import com.github.common.service.command.CommandResult;
 import com.github.pomona.application.command.divisaoRefeicao.AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand;
 import com.github.pomona.application.command.divisaoRefeicao.AtualizarLimiteEnergeticoDaDivisaoRefeicaoCommand;
@@ -8,7 +10,7 @@ import com.github.pomona.application.command.divisaoRefeicao.CadastrarDivisaoRef
 import com.github.pomona.application.command.divisaoRefeicao.ExcluirDivisaoRefeicaoCommand;
 import com.github.pomona.application.command.divisaoRefeicao.ExcluirLimiteEnergeticoDaDivisaoRefeicaoCommand;
 
-public interface DivisaoRefeicaoCommandHandler {
+public interface DivisaoRefeicaoCommandHandler extends Serializable {
 	public CommandResult handle(AdicionarLimiteEnergeticoNaDivisaoRefeicaoCommand command);
 	public CommandResult handle(AtualizarLimiteEnergeticoDaDivisaoRefeicaoCommand command);
 	public CommandResult handle(AtualizarNomeDaDivisaoRefeicaoCommand command);

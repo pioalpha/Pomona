@@ -1,16 +1,26 @@
 package com.github.pomona.domain.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DivisaoRefeicao implements Serializable {
-	/**
-	 * 
-	 */
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+
+import com.github.common.domain.model.ConcurrencySafeEntity;
+
+@Entity
+public class DivisaoRefeicao extends ConcurrencySafeEntity {
+
 	private static final long serialVersionUID = 7166712452461975870L;
+
+	@Embedded
 	private DivisaoRefeicaoId divisaoRefeicaoId;
+	@Column(nullable = false, length = 100)
 	private String nome;
+	@OneToMany(mappedBy = "divisaoRefeicao", cascade = CascadeType.ALL)
 	private List<LimiteEnergetico> limitesEnergeticos;
 
 	public DivisaoRefeicao() {
