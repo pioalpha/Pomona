@@ -1,24 +1,124 @@
 package com.github.pomona.application;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import javax.sql.DataSource;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
-import com.github.common.port.adapter.persistence.AbstractQueryService;
 import com.github.common.service.query.Query;
+import com.github.common.util.ComparaDatas;
 import com.github.pomona.application.dto.AlimentoDTO;
 import com.github.pomona.application.dto.AlimentoParametrosPesquisa;
+import com.github.pomona.application.dto.ComponenteAlimentarDTO;
+import com.github.pomona.domain.model.AlimentoGranel;
+import com.github.pomona.domain.model.ComponenteAlimentar;
+import com.github.pomona.domain.model.SubstanciaId;
 
-public class AlimentoQueryService extends AbstractQueryService
+public class AlimentoQueryService //extends AbstractQueryService
 		implements Query<AlimentoParametrosPesquisa, AlimentoDTO> {
 
-	public AlimentoQueryService(DataSource aDataSource) {
-		super(aDataSource);
-	}
+	@Inject
+	private EntityManager manager;
+
+	//public AlimentoQueryService(DataSource aDataSource) {
+	//	super(aDataSource);
+	//}
 
 	@Override
 	public Collection<AlimentoDTO> Executar(AlimentoParametrosPesquisa parametros) {
-		return this.queryObjects(AlimentoDTO.class, "select * from tbl_alimento", null, Object[].class);
+		// http://www.baeldung.com/jpa-pagination
+		Collection<AlimentoDTO> resultado = new ArrayList<>(); 
+		
+		CriteriaBuilder cb = manager.getCriteriaBuilder();
+		CriteriaQuery<AlimentoGranel> cq = cb.createQuery(AlimentoGranel.class);
+		//cq.select(cq.from(AlimentoGranel.class));
+		Root<AlimentoGranel> fromAlimento = cq.from(AlimentoGranel.class);
+		//Root<ComponenteAlimentar> fromComponente = cq.from(ComponenteAlimentar.class);
+		//Metamodel m = manager.getMetamodel();
+		//EntityType<AlimentoGranel> AlimentoGranel_ = m.entity(AlimentoGranel.class);
+		
+		List<Predicate> predicates = new ArrayList<Predicate>();
+		//Predicate predicate;// = cb.and();
+		//Predicate predicate2 = cb.and();
+		if (parametros.getNome() != null) {
+			predicates.add(cb.like(fromAlimento.<String>get("nome"), "%" + parametros.getNome() + "%"));
+			//cq.where(cb.and(predicate, cb.like(fromAlimento.<String>get("nome"), "%" + parametros.getNome() + "%")));
+		}
+		if (parametros.getCategoria() != null) {
+			predicates.add(cb.like(fromAlimento.join("categoriaAlimento").<String>get("nome"), "%" + parametros.getCategoria() + "%"));
+			//cq.where(cb.and(predicate, cb.like(fromAlimento.join("categoriaAlimento").<String>get("nome"), "%" + parametros.getCategoria() + "%")));
+			//Join<AlimentoGranel, CategoriaAlimento> categoria = fromAlimento.join("categoriaAlimento");
+			//cq.where(cb.and(predicate, cb.like(categoria.<String>get("nome"), "%" + parametros.getCategoria() + "%")));
+		}
+		
+		cq.where(predicates.toArray(new Predicate[]{}));
+		//if (parametros.getDataConsulta() != null) {
+			 
+			//Join<AlimentoGranel, ComponenteAlimentar> componente = fromAlimento.join("composicaoAlimentar", JoinType.LEFT).fetch(arg0);
+			//componente.on(fromAlimento.get("composicaoAlimentar") );
+			//cq.where(cb.and(cb.lessThanOrEqualTo(fromComponente.<Date>get("dataCadastro"), parametros.getDataConsulta())));
+			//cq.where(cb.and(predicate, cb.lessThanOrEqualTo(fromAlimento.join("composicaoAlimentar").<Date>get("dataCadastro"), parametros.getDataConsulta())));
+		//	cq.where(cb.and(predicate2, cb.lessThanOrEqualTo(componente.<Date>get("dataCadastro"), parametros.getDataConsulta())));
+	//		cq.where(cb.and(cb.lessThanOrEqualTo(fromComponente.<Date>get("dataCadastro"), parametros.getDataConsulta())));
+			//cq.groupBy(fromAlimento.join("composicaoAlimentar").<Date>get("substancia_id"));
+			//cq.having(cb.greatest(fromAlimento.join("composicaoAlimentar").<Date>get("dataCadastro")));
+			//cq.multiselect(cb.max(fromComponente), fromComponente.get("id")));
+		//	cq.groupBy(componente.<Substancia>get("substancia"));
+		//}
+		TypedQuery<AlimentoGranel> tq = manager.createQuery(cq);
+
+		/*select alimentogr0_.id as id2_0_, alimentogr0_.uuid as uuid3_0_, alimentogr0_.categoriaAlimento_id as categori7_0_, alimentogr0_.nome as nome4_0_, alimentogr0_.porcao as porcao5_0_, alimentogr0_.unidadeGranel as unidadeG6_0_
+		 *  from AlimentoUnitario alimentogr0_
+		 *   inner join ComponenteAlimentar composicao1_
+		 *    on alimentogr0_.id=composicao1_.alimentoUnitario_id
+		 *     where alimentogr0_.DTYPE='AlimentoGranel' and composicao1_.dataCadastro<=? limit ?*/
+		
+		/*select categoriaa0_.id as id1_2_0_, categoriaa0_.uuid as uuid2_2_0_, categoriaa0_.nome as nome3_2_0_
+		 *  from CategoriaAlimento categoriaa0_
+		 *   where categoriaa0_.id=?*/
+		
+		/*select composicao0_.alimentoUnitario_id as alimento4_0_0_, composicao0_.id as id1_5_0_, composicao0_.id as id1_5_1_, composicao0_.alimentoUnitario_id as alimento4_5_1_, composicao0_.dataCadastro as dataCada2_5_1_, composicao0_.quantidade as quantida3_5_1_, composicao0_.substancia_id as substanc5_5_1_, substancia1_.id as id1_22_2_, substancia1_.nome as nome2_22_2_, substancia1_.ordem as ordem3_22_2_, substancia1_.uuid as uuid4_22_2_, substancia1_.unidadeSubstancia as unidadeS5_22_2_
+		 *  from ComponenteAlimentar composicao0_
+		 *   inner join Substancia substancia1_
+		 *    on composicao0_.substancia_id=substancia1_.id
+		 *     where composicao0_.alimentoUnitario_id=?*/
+		
+		
+		//TypedQuery<AlimentoGranel> tq = manager.createQuery("from AlimentoUnitario au inner join au.composicaoAlimentar ca where ca.dataCadastro <= :data GROUP BY ca.substancia HAVING max(ca.dataCadastro) > 0", AlimentoGranel.class);
+		//TypedQuery<AlimentoGranel> tq = manager.createQuery("from AlimentoUnitario au join au.composicaoAlimentar ca where ca.dataCadastro <= :data GROUP BY ca.substancia", AlimentoGranel.class);
+		//tq.setParameter("data", new Date());
+		
+		if (parametros.getNumeroResultadosPorPagina() != null) {
+			tq.setFirstResult(parametros.getNumeroDaPagina() - 1);
+			tq.setMaxResults(parametros.getNumeroResultadosPorPagina());
+		}
+		
+		for (AlimentoGranel ag : tq.getResultList()) {
+			Map<SubstanciaId, ComponenteAlimentarDTO> componentes = new HashMap<SubstanciaId, ComponenteAlimentarDTO>();
+			for (ComponenteAlimentar ca : ag.getComposicaoAlimentar()) {
+				// Se tem data de consulta definida, pega a data, senão, pega a data atual
+				if (ComparaDatas.comparaApenasDatas(ca.getDataCadastro(), parametros.getDataConsulta()) <= 0){
+					// se não tem a substancia cadastrada ou Se a substância já cadastrada tem data inferior a nova, então cadastra
+					if (!componentes.containsKey(ca.getSubstancia().substanciaId()) || 
+							componentes.get(ca.getSubstancia().substanciaId()).getDataCadastro().compareTo(ca.getDataCadastro()) <= 0) {
+						componentes.put(ca.getSubstancia().substanciaId(), new ComponenteAlimentarDTO(ca.getSubstancia().substanciaId().uuid(), ca.getSubstancia().getNome(), ca.getQuantidade(), ca.getSubstancia().getUnidadeSubstancia(), ca.getDataCadastro()));
+					}
+				}
+			}
+			AlimentoDTO a = new AlimentoDTO(parametros.getDataConsulta(),  ag.alimentoId().uuid(), ag.getNome(), ag.getUnidadeGranel(), ag.getPorcao(), ag.getCategoriaAlimento().categoriaAlimentoId().uuid(), ag.getCategoriaAlimento().getNome(), componentes.values());
+			resultado.add(a);
+		}
+
+		return resultado;
 	}
 
 }

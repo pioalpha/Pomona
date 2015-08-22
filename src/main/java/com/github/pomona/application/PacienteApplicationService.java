@@ -3,6 +3,7 @@ package com.github.pomona.application;
 import java.util.Date;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import com.github.common.service.command.CommandResult;
 import com.github.pomona.application.command.paciente.AdicionarPerfilAlimentarAoPacienteCommand;
@@ -50,6 +51,7 @@ public class PacienteApplicationService implements PacienteCommandHandler {
 	}
 
 	@Override
+	@Transactional
 	public CommandResult handle(AdicionarPerfilAlimentarAoPacienteCommand command) {
 		CommandResult resultado = null;
 
@@ -63,8 +65,9 @@ public class PacienteApplicationService implements PacienteCommandHandler {
 		pap.setPreferenciaConsumo(command.getPreferenciaConsumo());
 		pap.setPaciente(p);
 		pap.setPerfilAlimentarPacienteId(this.perfilAlimentarPacienteRepo().proximaIdentidade());
-		this.perfilAlimentarPacienteRepo().adicionar(pap);
+		pap = this.perfilAlimentarPacienteRepo().adicionar(pap);
 		p.getPerfilAlimentarPaciente().add(pap);
+		this.pacienteRepo().adicionar(p);
 		
 		resultado = new CommandResult(true, "Perfil Alimentar do Paciente adicionado com sucesso!", pap.perfilAlimentarPacienteId().uuid());
 
@@ -72,6 +75,7 @@ public class PacienteApplicationService implements PacienteCommandHandler {
 	}
 
 	@Override
+	@Transactional
 	public CommandResult handle(AdicionarPerfilCategoriaAlimentarAoPacienteCommand command) {
 		CommandResult resultado = null;
 
@@ -84,8 +88,9 @@ public class PacienteApplicationService implements PacienteCommandHandler {
 		pap.setPreferenciaConsumo(command.getPreferenciaConsumo());
 		pap.setPaciente(p);
 		pap.setPerfilAlimentarPacienteId(this.perfilAlimentarPacienteRepo().proximaIdentidade());
-		this.perfilAlimentarPacienteRepo().adicionar(pap);
+		pap = this.perfilAlimentarPacienteRepo().adicionar(pap);
 		p.getPerfilAlimentarPaciente().add(pap);
+		this.pacienteRepo().adicionar(p);
 		
 		resultado = new CommandResult(true, "Perfil de Categoria Alimentar do Paciente adicionada com sucesso!", pap.perfilAlimentarPacienteId().uuid());
 
@@ -93,6 +98,7 @@ public class PacienteApplicationService implements PacienteCommandHandler {
 	}
 
 	@Override
+	@Transactional
 	public CommandResult handle(AtualizarCorPeleDoPacienteCommand command) {
 		CommandResult resultado = null;
 		
@@ -103,6 +109,7 @@ public class PacienteApplicationService implements PacienteCommandHandler {
 	}
 
 	@Override
+	@Transactional
 	public CommandResult handle(AtualizarNomeDoPacienteCommand command) {
 		CommandResult resultado = null;
 		
@@ -113,6 +120,7 @@ public class PacienteApplicationService implements PacienteCommandHandler {
 	}
 
 	@Override
+	@Transactional
 	public CommandResult handle(AtualizarPerfilAlimentarDoPacienteCommand command) {
 		CommandResult resultado = null;
 		
@@ -123,6 +131,7 @@ public class PacienteApplicationService implements PacienteCommandHandler {
 	}
 
 	@Override
+	@Transactional
 	public CommandResult handle(AtualizarSexoDoPacienteCommand command) {
 		CommandResult resultado = null;
 		
@@ -133,6 +142,7 @@ public class PacienteApplicationService implements PacienteCommandHandler {
 	}
 
 	@Override
+	@Transactional
 	public CommandResult handle(CorrigirDataNascimentoDoPacienteCommand command) {
 		CommandResult resultado = null;
 		
@@ -143,6 +153,7 @@ public class PacienteApplicationService implements PacienteCommandHandler {
 	}
 
 	@Override
+	@Transactional
 	public CommandResult handle(CriarPlanoAlimentarDoPacienteCommand command) {
 		CommandResult resultado = null;
 		
@@ -153,12 +164,13 @@ public class PacienteApplicationService implements PacienteCommandHandler {
 		p.setTipoSexo(command.getTipoSexo());
 		p.setTipoCorPele(command.getTipoCorPele());
 		p.setPacienteId(this.pacienteRepo().proximaIdentidade());
-		this.pacienteRepo().adicionar(p);
+		p = this.pacienteRepo().adicionar(p);
+		//this.pacienteRepo().adicionar(p);
 		
 		PlanoAlimentar pa = new PlanoAlimentar();
 		pa.setPaciente(p);
 		pa.setPlanoAlimentarId(this.planoAlimentarRepo().proximaIdentidade());
-		this.planoAlimentarRepo().adicionar(pa);
+		pa = this.planoAlimentarRepo().adicionar(pa);
 
 		resultado = new CommandResult(true, "Plano Alimentar cadastrado com sucesso!", pa.planoAlimentarId().uuid());
 
@@ -166,6 +178,7 @@ public class PacienteApplicationService implements PacienteCommandHandler {
 	}
 
 	@Override
+	@Transactional
 	public CommandResult handle(ExcluirPerfilAlimentarDoPacienteCommand command) {
 		CommandResult resultado = null;
 		

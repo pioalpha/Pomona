@@ -1,6 +1,7 @@
 package com.github.pomona.application;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import com.github.common.service.command.CommandResult;
 import com.github.pomona.application.command.cardapio.AtualizarPreparoItemNoCardapioCommand;
@@ -14,6 +15,7 @@ import com.github.pomona.domain.model.CardapioId;
 import com.github.pomona.domain.model.CardapioRepo;
 import com.github.pomona.domain.model.ConsultaRepo;
 import com.github.pomona.domain.model.DivisaoRefeicaoRepo;
+import com.github.pomona.domain.model.EnergiaAlimento;
 import com.github.pomona.domain.model.EnergiaAlimentoRepo;
 import com.github.pomona.domain.model.EnergiaSubstanciaRepo;
 import com.github.pomona.domain.model.ItemCardapio;
@@ -54,6 +56,7 @@ public class CardapioApplicationService implements CardapioCommandHandler {
 	}
 
 	@Override
+	@Transactional
 	public CommandResult handle(AtualizarPreparoItemNoCardapioCommand command) {
 		CommandResult resultado = null;
 		
@@ -64,6 +67,7 @@ public class CardapioApplicationService implements CardapioCommandHandler {
 	}
 
 	@Override
+	@Transactional
 	public CommandResult handle(AtualizarQuantidadeItemNoCardapioCommand command) {
 		CommandResult resultado = null;
 		
@@ -74,20 +78,31 @@ public class CardapioApplicationService implements CardapioCommandHandler {
 	}
 
 	@Override
+	@Transactional
 	public CommandResult handle(CadastrarItemNoCardapioCommand command) {
 		CommandResult resultado = null;
 		
-		ItemCardapio ic = new ItemCardapio();
-		ic.setQuantidade(command.getQuantidade());
-		ic.setTipoPreparo(this.tipoPreparoRepo().porId(new TipoPreparoId(command.getTipoPreparoId())));
-		ic.setEnergiaAlimento(CalculaEnergiaAlimento.retornaEnergiaAlimento(this.alimentoRepo().porId(new AlimentoId(command.getAlimentoId())))); // Pega pelo alimento
+		//TODO ele não deve gerar uma nova energia toda hora
+		EnergiaAlimento ea = CalculaEnergiaAlimento.retornaEnergiaAlimento(this.alimentoRepo().porId(new AlimentoId(command.getAlimentoId())));
+		ea.setEnergiaAlimentoId(this.energiaAlimentarRepo().proximaIdentidade());
+		ea = this.energiaAlimentarRepo().adicionar(ea);  // Pega pelo alimento
+		
+		Cardapio cr = this.cardapioRepo().porId(new CardapioId(command.getCardapioId()));
 		
 		RefeicaoCardapio rc = new RefeicaoCardapio();
 		rc.setTipoRefeicao(command.getTipoRefeicao());
+		rc.setCardapio(cr);
+
+		ItemCardapio ic = new ItemCardapio();
+		ic.setQuantidade(command.getQuantidade());
+		ic.setTipoPreparo(this.tipoPreparoRepo().porId(new TipoPreparoId(command.getTipoPreparoId())));
+		ic.setEnergiaAlimento(ea);
+		ic.setRefeicaoCardapio(rc);
+
 		rc.getItensCardapio().add(ic);
 		
-		Cardapio cr = this.cardapioRepo().porId(new CardapioId(command.getCardapioId()));
 		cr.getRefeicoesCardapio().add(rc);
+		//cr = this.cardapioRepo().adicionar(cr);
 		
 		resultado = new CommandResult(true, "Alimento adicionado ao cardápio com sucesso!", null);
 
@@ -95,6 +110,7 @@ public class CardapioApplicationService implements CardapioCommandHandler {
 	}
 
 	@Override
+	@Transactional
 	public CommandResult handle(ExcluirItemDoCardapioCommand command) {
 		CommandResult resultado = null;
 		

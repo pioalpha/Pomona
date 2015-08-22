@@ -1,48 +1,54 @@
 package com.github.pomona.test;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
-import javax.inject.Singleton;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import com.github.common.domain.model.AbstractId;
 import com.github.pomona.domain.model.TipoMedida;
 import com.github.pomona.domain.model.TipoMedidaId;
 import com.github.pomona.domain.model.TipoMedidaRepo;
 
-@Singleton
 public class TipoMedidaRepoImpl implements TipoMedidaRepo {
 	private static final long serialVersionUID = 1L;
 
-	private Map<TipoMedidaId, TipoMedida> repo = new HashMap<TipoMedidaId, TipoMedida>();
+	@Inject
+	private EntityManager manager;
 
 	@Override
 	public TipoMedida adicionar(TipoMedida umObjeto) {
-		repo.put(umObjeto.tipoMedidaId(), umObjeto);
-		return null;
+		return manager.merge(umObjeto);
 	}
 
 	@Override
 	public Collection<TipoMedida> todos() {
-		return repo.values();
+		return manager.createQuery("from TipoMedida", TipoMedida.class).getResultList();
 	}
 
 	@Override
 	public void remover(TipoMedida umObjeto) {
-		repo.remove(umObjeto.tipoMedidaId());
+		manager.remove(umObjeto);
 	}
 
 	@Override
 	public TipoMedida tipoMedidaPeloNome(String nome) {
-		// TODO Auto-generated method stub
-		return null;
+		return manager.createQuery("from TipoMedida where nome = :nome", TipoMedida.class)
+				.setParameter("nome", nome)
+				.getSingleResult();
 	}
 
 	@Override
 	public TipoMedida porId(AbstractId umaId) {
-		return repo.get(umaId);
+		try {
+			return manager.createQuery("from TipoMedida where uuid = :uuid", TipoMedida.class)
+					.setParameter("uuid", umaId.uuid())
+					.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -50,7 +56,7 @@ public class TipoMedidaRepoImpl implements TipoMedidaRepo {
 		TipoMedidaId tipoMedidaId = null;
 		do{
 			tipoMedidaId = new TipoMedidaId(UUID.randomUUID().toString().toUpperCase());
-		}while(repo.containsKey(tipoMedidaId));
+		}while(this.porId(tipoMedidaId) != null);
 		return tipoMedidaId;
 	}
 

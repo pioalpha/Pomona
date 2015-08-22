@@ -1,48 +1,54 @@
 package com.github.pomona.test;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
-import javax.inject.Singleton;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import com.github.common.domain.model.AbstractId;
 import com.github.pomona.domain.model.FatorMetabolico;
 import com.github.pomona.domain.model.FatorMetabolicoId;
 import com.github.pomona.domain.model.FatorMetabolicoRepo;
 
-@Singleton
 public class FatorMetabolicoRepoImpl implements FatorMetabolicoRepo {
 	private static final long serialVersionUID = 1L;
 
-	private Map<FatorMetabolicoId, FatorMetabolico> repo = new HashMap<FatorMetabolicoId, FatorMetabolico>();
+	@Inject
+	private EntityManager manager;
 
 	@Override
 	public FatorMetabolico adicionar(FatorMetabolico umObjeto) {
-		repo.put(umObjeto.fatorMetabolicoId(), umObjeto);
-		return null;
+		return manager.merge(umObjeto);
 	}
 
 	@Override
 	public Collection<FatorMetabolico> todos() {
-		return repo.values();
+		return manager.createQuery("from FatorMetabolico", FatorMetabolico.class).getResultList();
 	}
 
 	@Override
 	public void remover(FatorMetabolico umObjeto) {
-		repo.remove(umObjeto.fatorMetabolicoId());
+		manager.remove(umObjeto);
 	}
 
 	@Override
 	public FatorMetabolico fatorMetabolicoPeloNome(String nome) {
-		// TODO Auto-generated method stub
-		return null;
+		return manager.createQuery("from FatorMetabolico where nome = :nome", FatorMetabolico.class)
+				.setParameter("nome", nome)
+				.getSingleResult();
 	}
 
 	@Override
 	public FatorMetabolico porId(AbstractId umaId) {
-		return repo.get(umaId);
+		try {
+			return manager.createQuery("from FatorMetabolico where uuid = :uuid", FatorMetabolico.class)
+					.setParameter("uuid", umaId.uuid())
+					.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -50,7 +56,7 @@ public class FatorMetabolicoRepoImpl implements FatorMetabolicoRepo {
 		FatorMetabolicoId fatorMetabolicoId = null;
 		do{
 			fatorMetabolicoId = new FatorMetabolicoId(UUID.randomUUID().toString().toUpperCase());
-		}while(repo.containsKey(fatorMetabolicoId));
+		}while(this.porId(fatorMetabolicoId) != null);
 		return fatorMetabolicoId;
 	}
 

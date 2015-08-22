@@ -59,6 +59,14 @@ public class ItemCardapio extends ConcurrencySafeEntity {
 				/ energiaAlimento.getAlimento().fatorProporcao(this.quantidade);
 	}
 
+	public RefeicaoCardapio getRefeicaoCardapio() {
+		return refeicaoCardapio;
+	}
+
+	public void setRefeicaoCardapio(RefeicaoCardapio refeicaoCardapio) {
+		this.refeicaoCardapio = refeicaoCardapio;
+	}
+
 	public Map<Substancia, Float> getSubstancias() {
 		Map<Substancia, Float> resultado = new HashMap<Substancia, Float>();
 		for (ComponenteAlimentar componenteAlimentar : energiaAlimento

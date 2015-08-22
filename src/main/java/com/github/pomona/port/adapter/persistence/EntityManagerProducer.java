@@ -2,6 +2,7 @@ package com.github.pomona.port.adapter.persistence;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
 import javax.inject.Singleton;
@@ -19,8 +20,10 @@ public class EntityManagerProducer {
 	}
 	
 	@Produces
-	@Singleton
+	@ApplicationScoped
+	//@Singleton
 	//@Dependent
+	//@RequestScoped
 	public EntityManager createEntityManager () {
 		return factory.createEntityManager();
 	}

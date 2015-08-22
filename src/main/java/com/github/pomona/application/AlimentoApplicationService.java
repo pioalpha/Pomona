@@ -29,6 +29,7 @@ import com.github.pomona.application.command.alimento.ExcluirTipoPreparoDoAlimen
 import com.github.pomona.domain.model.AlimentoGranel;
 import com.github.pomona.domain.model.AlimentoId;
 import com.github.pomona.domain.model.AlimentoRepo;
+import com.github.pomona.domain.model.AlimentoUnitario;
 import com.github.pomona.domain.model.CategoriaAlimento;
 import com.github.pomona.domain.model.CategoriaAlimentoId;
 import com.github.pomona.domain.model.CategoriaAlimentoRepo;
@@ -74,12 +75,15 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	@Transactional
 	public CommandResult handle(AdicionarComponenteAlimentarCommand command) {
 		CommandResult resultado = null;
+		AlimentoUnitario a = this.alimentoRepo().porId(new AlimentoId(command.getAlimentoId()));
 		
 		ComponenteAlimentar ca = new ComponenteAlimentar();
 		ca.setDataCadastro(new Date());
 		ca.setQuantidade(command.getQuantidade());
 		ca.setSubstancia(this.substanciaRepo().porId(new SubstanciaId(command.getSubstanciaId())));
-		this.alimentoRepo().porId(new AlimentoId(command.getAlimentoId())).getComposicaoAlimentar().add(ca);
+		ca.setAlimentoUnitario(a);
+		a.getComposicaoAlimentar().add(ca);
+		//a = this.alimentoRepo().adicionar(a);
 
 		resultado = new CommandResult(true, "Componente Alimentar Adicionado com Sucesso!", null);
 		
@@ -154,7 +158,7 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 				command.getPorcao(),
 				this.categoriaAlimentoRepo().porId(new CategoriaAlimentoId(command.getCategoriaAlimentoId())));
 		ag.setAlimentoId(this.alimentoRepo().proximaIdentidade());
-		this.alimentoRepo().adicionar(ag);
+		ag = (AlimentoGranel) this.alimentoRepo().adicionar(ag);
 		
 		resultado = new CommandResult(true, "Alimento Cadastrado", ag.alimentoId().uuid());
 
@@ -181,7 +185,7 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 		pma.setTipoMedida(this.tipoMedidaRepo().porId(new TipoMedidaId(command.getTipoMedidaId())));
 		pma.setTipoPreparo(this.tipoPreparoRepo().porId(new TipoPreparoId(command.getTipoPreparoId())));
 		pma.setPreparoMedidaAlimentoId(this.preparoMedidaAlimentoRepo().proximaIdentidade());
-		this.preparoMedidaAlimentoRepo().adicionar(pma);
+		pma = this.preparoMedidaAlimentoRepo().adicionar(pma);
 		
 		resultado = new CommandResult(true, "Medida em Preparo do Alimento cadastrado com sucesso!", pma.preparoMedidaAlimentoId().uuid());
 
@@ -195,7 +199,7 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 		TipoMedida tm = new TipoMedida();
 		tm.setNome(command.getNome());
 		tm.setTipoMedidaId(this.tipoMedidaRepo().proximaIdentidade());
-		this.tipoMedidaRepo().adicionar(tm);
+		tm = this.tipoMedidaRepo().adicionar(tm);
 
 		resultado = new CommandResult(true, "Tipo de Medida cadastrado com sucesso!", tm.tipoMedidaId().uuid());
 
@@ -209,7 +213,7 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 		TipoPreparo tp = new TipoPreparo();
 		tp.setNome(command.getNome());
 		tp.setTipoPreparoId(this.tipoPreparoRepo().proximaIdentidade());
-		this.tipoPreparoRepo().adicionar(tp);
+		tp = this.tipoPreparoRepo().adicionar(tp);
 
 		resultado = new CommandResult(true, "Tipo de Preparo cadastrado com sucesso!", tp.tipoPreparoId().uuid());
 
@@ -288,7 +292,7 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 		CategoriaAlimento ca = new CategoriaAlimento();
 		ca.setNome(command.getNome());
 		ca.setCategoriaAlimentoId(this.categoriaAlimentoRepo().proximaIdentidade());
-		this.categoriaAlimentoRepo().adicionar(ca);
+		ca = this.categoriaAlimentoRepo().adicionar(ca);
 
 		resultado = new CommandResult(true, "Categoria Alimento Cadastrada", ca.categoriaAlimentoId().uuid());
 

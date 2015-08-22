@@ -1,48 +1,54 @@
 package com.github.pomona.test;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
-import javax.inject.Singleton;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import com.github.common.domain.model.AbstractId;
 import com.github.pomona.domain.model.ClassificacaoIMC;
 import com.github.pomona.domain.model.ClassificacaoIMCId;
 import com.github.pomona.domain.model.ClassificacaoIMCRepo;
 
-@Singleton
 public class ClassificacaoIMCRepoImpl implements ClassificacaoIMCRepo {
 	private static final long serialVersionUID = 1L;
 
-	private Map<ClassificacaoIMCId, ClassificacaoIMC> repo = new HashMap<ClassificacaoIMCId, ClassificacaoIMC>();
+	@Inject
+	private EntityManager manager;
 
 	@Override
 	public ClassificacaoIMC adicionar(ClassificacaoIMC umObjeto) {
-		repo.put(umObjeto.classificacaoIMCId(), umObjeto);
-		return null;
+		return manager.merge(umObjeto);
 	}
 
 	@Override
 	public Collection<ClassificacaoIMC> todos() {
-		return repo.values();
+		return manager.createQuery("from ClassificacaoIMC", ClassificacaoIMC.class).getResultList();
 	}
 
 	@Override
 	public void remover(ClassificacaoIMC umObjeto) {
-		repo.remove(umObjeto.classificacaoIMCId());
+		manager.remove(umObjeto);
 	}
 
 	@Override
 	public ClassificacaoIMC classificacaoPeloNome(String nome) {
-		// TODO Auto-generated method stub
-		return null;
+		return manager.createQuery("from ClassificacaoIMC where nome = :nome", ClassificacaoIMC.class)
+				.setParameter("nome", nome)
+				.getSingleResult();
 	}
 
 	@Override
 	public ClassificacaoIMC porId(AbstractId umaId) {
-		return repo.get(umaId);
+		try {
+			return manager.createQuery("from ClassificacaoIMC where uuid = :uuid", ClassificacaoIMC.class)
+					.setParameter("uuid", umaId.uuid())
+					.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -50,7 +56,7 @@ public class ClassificacaoIMCRepoImpl implements ClassificacaoIMCRepo {
 		ClassificacaoIMCId classificacaoIMCId = null;
 		do{
 			classificacaoIMCId = new ClassificacaoIMCId(UUID.randomUUID().toString().toUpperCase());
-		}while(repo.containsKey(classificacaoIMCId));
+		}while(this.porId(classificacaoIMCId) != null);
 		return classificacaoIMCId;
 	}
 

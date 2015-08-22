@@ -66,6 +66,7 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 		na.setNormaMaxima(command.getNormaMaxima());
 		na.setDiretrizAlimentar(da);
 		da.getNormasAlimentares().add(na);
+		//this.diretrizAlimentarRepo().adicionar(da);
 		
 		resultado = new CommandResult(true, "Adicionado a Norma Alimentar com sucesso!", null);
 
@@ -101,7 +102,7 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 		
 		DiretrizAlimentar da = new DiretrizAlimentarBuilder(command.getNome()).construir();
 		da.setDiretrizAlimentarId(new DiretrizAlimentarId(this.diretrizAlimentarRepo().proximaIdentidade().uuid()));
-		this.diretrizAlimentarRepo().adicionar(da);
+		da = this.diretrizAlimentarRepo().adicionar(da);
 
 		resultado = new CommandResult(true, "Diretriz Alimentar cadastrada com sucesso!", da.diretrizAlimentarId().uuid());
 

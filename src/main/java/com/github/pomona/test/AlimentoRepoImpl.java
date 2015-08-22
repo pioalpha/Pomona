@@ -1,11 +1,12 @@
 package com.github.pomona.test;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import com.github.common.domain.model.AbstractId;
 import com.github.pomona.domain.model.AlimentoId;
@@ -16,37 +17,29 @@ import com.github.pomona.domain.model.AlimentoUnitario;
 public class AlimentoRepoImpl implements AlimentoRepo {
 	private static final long serialVersionUID = 1L;
 
-	private Map<AlimentoId, AlimentoUnitario> repo = new HashMap<AlimentoId, AlimentoUnitario>();
+	@Inject
+	private EntityManager manager;
 	
 	@Override
 	public AlimentoUnitario adicionar(AlimentoUnitario umObjeto) {
-		repo.put(umObjeto.alimentoId(), umObjeto);
-		//Armazenar/Atualiza Composicao Alimentar
-		//for(ComponenteAlimentar c : alimento.getComposicaoAlimentar()){
-			
-		//}
-		return null;
+		return manager.merge(umObjeto);
 	}
 
 	@Override
 	public Collection<AlimentoUnitario> todos() {
-		return repo.values();
+		return manager.createQuery("from AlimentoUnitario", AlimentoUnitario.class).getResultList();
 	}
 
 	@Override
 	public void remover(AlimentoUnitario umObjeto) {
-		//excluir Composição Alimentar
-		repo.remove(umObjeto.alimentoId());
+		manager.remove(umObjeto);
 	}
 
 	@Override
 	public AlimentoUnitario alimentoPeloNome(String nome) {
-		for (AlimentoUnitario alimento : repo.values()){
-			if (alimento.getNome().equals(nome)){
-				return alimento;
-			}
-		}
-		return null;
+		return manager.createQuery("from AlimentoUnitario where nome = :nome", AlimentoUnitario.class)
+				.setParameter("nome", nome)
+				.getSingleResult();
 	}
 
 	@Override
@@ -54,13 +47,19 @@ public class AlimentoRepoImpl implements AlimentoRepo {
 		AlimentoId alimentoId = null;
 		do{
 			alimentoId = new AlimentoId(UUID.randomUUID().toString().toUpperCase());
-		}while(repo.containsKey(alimentoId));
+		}while(this.porId(alimentoId) != null);
 		return alimentoId;
 	}
 
 	@Override
 	public AlimentoUnitario porId(AbstractId umaId) {
-		return repo.get(umaId);
+		try {
+			return manager.createQuery("from AlimentoUnitario where uuid = :uuid", AlimentoUnitario.class)
+					.setParameter("uuid", umaId.uuid())
+					.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 }

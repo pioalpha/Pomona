@@ -1,48 +1,54 @@
 package com.github.pomona.test;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
-import javax.inject.Singleton;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import com.github.common.domain.model.AbstractId;
 import com.github.pomona.domain.model.FatorAtividadeFisica;
 import com.github.pomona.domain.model.FatorAtividadeFisicaId;
 import com.github.pomona.domain.model.FatorAtividadeFisicaRepo;
 
-@Singleton
 public class FatorAtividadeFisicaRepoImpl implements FatorAtividadeFisicaRepo {
 	private static final long serialVersionUID = 1L;
 
-	private Map<FatorAtividadeFisicaId, FatorAtividadeFisica> repo = new HashMap<FatorAtividadeFisicaId, FatorAtividadeFisica>();
+	@Inject
+	private EntityManager manager;
 
 	@Override
 	public FatorAtividadeFisica adicionar(FatorAtividadeFisica umObjeto) {
-		repo.put(umObjeto.fatorAtividadeFisicaId(), umObjeto);
-		return null;
+		return manager.merge(umObjeto);
 	}
 
 	@Override
 	public Collection<FatorAtividadeFisica> todos() {
-		return repo.values();
+		return manager.createQuery("from FatorAtividadeFisica", FatorAtividadeFisica.class).getResultList();
 	}
 
 	@Override
 	public void remover(FatorAtividadeFisica umObjeto) {
-		repo.remove(umObjeto.fatorAtividadeFisicaId());
+		manager.remove(umObjeto);
 	}
 
 	@Override
 	public FatorAtividadeFisica fatorAtividadeFisicaPeloNome(String nome) {
-		// TODO Auto-generated method stub
-		return null;
+		return manager.createQuery("from FatorAtividadeFisica where nome = :nome", FatorAtividadeFisica.class)
+				.setParameter("nome", nome)
+				.getSingleResult();
 	}
 
 	@Override
 	public FatorAtividadeFisica porId(AbstractId umaId) {
-		return repo.get(umaId);
+		try {
+			return manager.createQuery("from FatorAtividadeFisica where uuid = :uuid", FatorAtividadeFisica.class)
+					.setParameter("uuid", umaId.uuid())
+					.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -50,7 +56,7 @@ public class FatorAtividadeFisicaRepoImpl implements FatorAtividadeFisicaRepo {
 		FatorAtividadeFisicaId fatorAtividadeFisicaId = null;
 		do{
 			fatorAtividadeFisicaId = new FatorAtividadeFisicaId(UUID.randomUUID().toString().toUpperCase());
-		}while(repo.containsKey(fatorAtividadeFisicaId));
+		}while(this.porId(fatorAtividadeFisicaId) != null);
 		return fatorAtividadeFisicaId;
 	}
 

@@ -1,5 +1,6 @@
 package com.github.pomona.domain.model;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
@@ -12,6 +13,7 @@ public class CategoriaAlimento extends ConcurrencySafeEntity {
 
 	@Embedded
 	private CategoriaAlimentoId categoriaAlimentoId;
+	@Column(nullable = false, length = 100)
 	private String nome;
 
 	public String getNome() {

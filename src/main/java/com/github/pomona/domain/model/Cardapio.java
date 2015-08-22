@@ -74,6 +74,14 @@ public class Cardapio extends ConcurrencySafeEntity {
 		this.cardapioId = cardapioId;
 	}
 
+	public Consulta getConsulta() {
+		return consulta;
+	}
+
+	public void setConsulta(Consulta consulta) {
+		this.consulta = consulta;
+	}
+
 	@Override
 	public String toString() {
 		return "Cardapio [cardapioId=" + cardapioId + ", dia=" + dia + ", divisaoRefeicao=" + divisaoRefeicao

@@ -5,12 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.inject.Singleton;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-
 import com.github.common.util.WeldContext;
 import com.github.pomona.application.AlimentoApplicationService;
 import com.github.pomona.application.CardapioApplicationService;
@@ -94,8 +88,8 @@ import com.github.pomona.service.commandHandler.ConsultaCommandHandler;
 import com.github.pomona.service.commandHandler.PacienteCommandHandler;
 import com.github.pomona.service.commandHandler.SubstanciaCommandHandler;
 
-@Singleton
-public class ModelTest {
+//@Singleton
+public class CargaInicialTest {
 
 	public static void main(String[] args) throws ParseException {
 		// http://blog.rocketscience.io/dependency-injection-with-cdi-in-java-se/
@@ -443,5 +437,6 @@ public class ModelTest {
 		
 		System.out.println(new RelatorioPlanoReeducacaoAlimentar(planoAlimentarRepoImpl.porId(new PlanoAlimentarId(planoPedroId))).toString());
 		
+		WeldContext.INSTANCE.close();
 	}
 }

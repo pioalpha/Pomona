@@ -52,6 +52,14 @@ public class RefeicaoCardapio extends ConcurrencySafeEntity {
 		this.tipoRefeicao = tipoRefeicao;
 	}
 
+	public Cardapio getCardapio() {
+		return cardapio;
+	}
+
+	public void setCardapio(Cardapio cardapio) {
+		this.cardapio = cardapio;
+	}
+
 	public float getQtdGrama() {
 		float resultado = 0;
 		for (ItemCardapio itemCardapio : this.itensCardapio) {

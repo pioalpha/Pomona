@@ -48,17 +48,16 @@ public class Consulta extends ConcurrencySafeEntity {
 	@OneToMany(mappedBy = "consulta", cascade = CascadeType.ALL)
 	private List<Cardapio> cardapios;
 	@Temporal(TemporalType.DATE)
-	@Column(nullable = false)
 	private Date dataInicioVigencia;
 	@Temporal(TemporalType.DATE)
 	private Date dataFimVigencia;
 	@Embedded
-	private ExameAntropometrico exameAntropometrico;
+	private ExameAntropometrico exameAntropometrico = new ExameAntropometrico();
 
 	public Consulta() {
 		super();
 		
-		this.exameAntropometrico = new ExameAntropometrico();
+		//this.exameAntropometrico = new ExameAntropometrico();
 	}
 
 	public PlanoAlimentar getPlanoAlimentar() {

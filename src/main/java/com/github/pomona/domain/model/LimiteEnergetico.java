@@ -65,6 +65,14 @@ public class LimiteEnergetico extends ConcurrencySafeEntity {
 		this.tipoRefeicao = tipoRefeicao;
 	}
 
+	public DivisaoRefeicao getDivisaoRefeicao() {
+		return divisaoRefeicao;
+	}
+
+	public void setDivisaoRefeicao(DivisaoRefeicao divisaoRefeicao) {
+		this.divisaoRefeicao = divisaoRefeicao;
+	}
+
 	@Override
 	public String toString() {
 		return "LimiteEnergetico [percentualEnergetico=" + percentualEnergetico + ", tolerancia=" + tolerancia

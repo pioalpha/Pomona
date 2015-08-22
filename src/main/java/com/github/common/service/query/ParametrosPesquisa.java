@@ -6,23 +6,23 @@ public abstract class ParametrosPesquisa {
 
 	public ParametrosPesquisa() {
 		super();
-		this.numeroResultadosPorPagina = 20;
+		
+		this.numeroResultadosPorPagina = null;
 		this.numeroDaPagina = 1;
 	}
 
+	public ParametrosPesquisa(int numeroResultadosPorPagina, int numeroDaPagina) {
+		super();
+		
+		this.numeroResultadosPorPagina = numeroResultadosPorPagina;
+		this.numeroDaPagina = numeroDaPagina;
+	}
+	
 	public Integer getNumeroResultadosPorPagina() {
 		return numeroResultadosPorPagina;
 	}
 
-	public void setNumeroResultadosPorPagina(int numeroResultadosPorPagina) {
-		this.numeroResultadosPorPagina = numeroResultadosPorPagina;
-	}
-
 	public int getNumeroDaPagina() {
 		return numeroDaPagina;
-	}
-
-	public void setNumeroDaPagina(int numeroDaPagina) {
-		this.numeroDaPagina = numeroDaPagina;
 	}
 }

@@ -1,11 +1,11 @@
 package com.github.pomona.test;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
-import javax.inject.Singleton;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import com.github.common.domain.model.AbstractId;
 import com.github.pomona.domain.model.AlimentoUnitario;
@@ -13,37 +13,43 @@ import com.github.pomona.domain.model.EnergiaAlimento;
 import com.github.pomona.domain.model.EnergiaAlimentoId;
 import com.github.pomona.domain.model.EnergiaAlimentoRepo;
 
-@Singleton
 public class EnergiaAlimentoRepoImpl implements EnergiaAlimentoRepo {
 	private static final long serialVersionUID = 1L;
 
-	private Map<EnergiaAlimentoId, EnergiaAlimento> repo = new HashMap<EnergiaAlimentoId, EnergiaAlimento>();
+	@Inject
+	private EntityManager manager;
 
 	@Override
 	public EnergiaAlimento adicionar(EnergiaAlimento umObjeto) {
-		repo.put(umObjeto.energiaAlimentoId(), umObjeto);
-		return null;
+		return manager.merge(umObjeto);
 	}
 
 	@Override
 	public Collection<EnergiaAlimento> todos() {
-		return repo.values();
+		return manager.createQuery("from EnergiaAlimento", EnergiaAlimento.class).getResultList();
 	}
 
 	@Override
 	public void remover(EnergiaAlimento umObjeto) {
-		repo.remove(umObjeto.energiaAlimentoId());
+		manager.remove(umObjeto);
 	}
 
 	@Override
 	public EnergiaAlimento energiaAlimentoPeloAlimento(AlimentoUnitario alimento) {
-		// TODO Auto-generated method stub
-		return null;
+		return manager.createQuery("from EnergiaAlimento where alimentoUnitario = :alimento", EnergiaAlimento.class)
+				.setParameter("alimento", alimento)
+				.getSingleResult();
 	}
 
 	@Override
 	public EnergiaAlimento porId(AbstractId umaId) {
-		return repo.get(umaId);
+		try {
+			return manager.createQuery("from EnergiaAlimento where uuid = :uuid", EnergiaAlimento.class)
+					.setParameter("uuid", umaId.uuid())
+					.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -51,7 +57,7 @@ public class EnergiaAlimentoRepoImpl implements EnergiaAlimentoRepo {
 		EnergiaAlimentoId energiaAlimentoId = null;
 		do{
 			energiaAlimentoId = new EnergiaAlimentoId(UUID.randomUUID().toString().toUpperCase());
-		}while(repo.containsKey(energiaAlimentoId));
+		}while(this.porId(energiaAlimentoId) != null);
 		return energiaAlimentoId;
 	}
 

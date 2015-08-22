@@ -1,72 +1,64 @@
 package com.github.pomona.application.dto;
 
 import java.util.Collection;
+import java.util.Date;
 
 import com.github.common.service.dto.DTO;
+import com.github.pomona.domain.reference.UnidadeGranel;
 
 public class AlimentoDTO implements DTO {
+	private Date dataConsultada;
+	private String uuid;
 	private String nome;
-	private String unidade;
+	private UnidadeGranel unidadeGranel;
 	private Float porcao;
-	private Float energiaAlimento;
+	private String categoriaUuid;
 	private String categoria;
-	private Collection<String> substancia;
-	private Collection<Float> qtdSubstancia;
+	private Collection<ComponenteAlimentarDTO> componentesAlimentares;
+
+	public AlimentoDTO(Date dataConsultada, String uuid, String nome, UnidadeGranel unidadeGranel, Float porcao, String categoriaUuid, String categoria, Collection<ComponenteAlimentarDTO> componentesAlimentares) {
+		super();
+		
+		this.uuid = uuid;
+		this.nome = nome;
+		this.unidadeGranel = unidadeGranel;
+		this.porcao = porcao;
+		this.categoriaUuid = categoriaUuid;
+		this.categoria = categoria;
+		this.componentesAlimentares = componentesAlimentares;
+		this.dataConsultada = dataConsultada;
+	}
 
 	public String getNome() {
 		return nome;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getUnidade() {
-		return unidade;
-	}
-
-	public void setUnidade(String unidade) {
-		this.unidade = unidade;
+	public UnidadeGranel getUnidadeGranel() {
+		return unidadeGranel;
 	}
 
 	public Float getPorcao() {
 		return porcao;
 	}
 
-	public void setPorcao(Float porcao) {
-		this.porcao = porcao;
-	}
-
-	public Float getEnergiaAlimento() {
-		return energiaAlimento;
-	}
-
-	public void setEnergiaAlimento(Float energiaAlimento) {
-		this.energiaAlimento = energiaAlimento;
-	}
-
 	public String getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
+	public Collection<ComponenteAlimentarDTO> getComponentesAlimentares() {
+		return componentesAlimentares;
 	}
 
-	public Collection<String> getSubstancia() {
-		return substancia;
+	public String getUuid() {
+		return uuid;
 	}
 
-	public void setSubstancia(Collection<String> substancia) {
-		this.substancia = substancia;
+	public String getCategoriaUuid() {
+		return categoriaUuid;
 	}
 
-	public Collection<Float> getQtdSubstancia() {
-		return qtdSubstancia;
+	public Date getDataConsultada() {
+		return dataConsultada;
 	}
-
-	public void setQtdSubstancia(Collection<Float> qtdSubstancia) {
-		this.qtdSubstancia = qtdSubstancia;
-	}
-
+	
 }

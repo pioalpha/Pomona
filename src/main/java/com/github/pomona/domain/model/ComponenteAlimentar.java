@@ -53,6 +53,14 @@ public class ComponenteAlimentar extends ConcurrencySafeEntity {
 		this.substancia = substancia;
 	}
 
+	public AlimentoUnitario getAlimentoUnitario() {
+		return alimentoUnitario;
+	}
+
+	public void setAlimentoUnitario(AlimentoUnitario alimentoUnitario) {
+		this.alimentoUnitario = alimentoUnitario;
+	}
+
 	@Override
 	public String toString() {
 		return "ComponenteAlimentar [quantidade=" + quantidade + ", dataCadastro=" + dataCadastro + ", substancia="

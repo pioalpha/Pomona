@@ -4,7 +4,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
+import com.github.common.util.WeldContext;
+import com.github.pomona.application.AlimentoQueryService;
+import com.github.pomona.application.dto.AlimentoDTO;
+import com.github.pomona.application.dto.AlimentoParametrosPesquisa;
+import com.github.pomona.application.dto.ComponenteAlimentarDTO;
 import com.github.pomona.domain.model.AlimentoGranel;
 import com.github.pomona.domain.model.AlimentoUnitario;
 import com.github.pomona.domain.model.Cardapio;
@@ -12,6 +18,7 @@ import com.github.pomona.domain.model.Consulta;
 import com.github.pomona.domain.model.DiretrizAlimentar;
 import com.github.pomona.domain.model.DivisaoRefeicao;
 import com.github.pomona.domain.model.PlanoAlimentar;
+import com.github.pomona.domain.model.PlanoAlimentarRepo;
 import com.github.pomona.domain.model.Substancia;
 import com.github.pomona.domain.reference.PreferenciaConsumo;
 import com.github.pomona.domain.reference.TipoMeta;
@@ -35,8 +42,26 @@ import com.github.pomona.domain.service.SubstanciaBuilder;
 
 public class TesteFernanda {
 	public static void main(String[] args) throws ParseException {
+
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		
-		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");  
+		AlimentoQueryService aqs = WeldContext.INSTANCE.getBean(AlimentoQueryService.class);
+		for (AlimentoDTO aDTO : aqs.Executar(new AlimentoParametrosPesquisa())){
+		//for (AlimentoDTO aDTO : aqs.Executar(new AlimentoParametrosPesquisa(2, 1, format.parse("09/08/2015"), "aba", "fr"))){
+			System.out.println(aDTO.getCategoria() + "(" + aDTO.getCategoriaUuid() + ") - " + aDTO.getNome() + "(" + aDTO.getUuid() + ") - " + aDTO.getPorcao() + aDTO.getUnidadeGranel() + " - DataConsultada: " + aDTO.getDataConsultada());
+			for (ComponenteAlimentarDTO caDTO : aDTO.getComponentesAlimentares()) {
+				System.out.println(">" + caDTO.getNomeSubstancia() + "(" + caDTO.getUuidSubstancia() + ") - " + caDTO.getQuantidadeSubstancia() + caDTO.getUnidadeSubstancia() + " - Cadastro: " + caDTO.getDataCadastro());
+			}
+		}
+		
+		PlanoAlimentarRepo planoAlimentarRepoImpl = WeldContext.INSTANCE.getBean(PlanoAlimentarRepoImpl.class);
+		for (PlanoAlimentar p : planoAlimentarRepoImpl.todos()) {
+			System.out.println(new RelatorioPlanoReeducacaoAlimentar(p).toString());
+		}
+		
+		
+		
+		  
 		
 		new CalculosNutricaoBuilder()
 				.adicionarFatorAtividadeFisica("Sedentário", 1f)

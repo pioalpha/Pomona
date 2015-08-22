@@ -24,4 +24,8 @@ public class WeldContext {
     public <T> T getBean(Class<T> type) {
         return container.instance().select(type).get();
     }
+    
+    public void close(){
+    	weld.shutdown();
+    }
 }
