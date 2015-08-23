@@ -2,18 +2,20 @@ package com.github.pomona.application.dto;
 
 import java.util.Date;
 
+import com.github.common.service.dto.DTO;
 import com.github.pomona.domain.reference.UnidadeSubstancia;
 
-public class ComponenteAlimentarDTO {
+public class ComponenteAlimentarDTO implements DTO {
 	private String uuidSubstancia;
 	private String nomeSubstancia;
-	private Float quantidadeSubstancia;
+	private float quantidadeSubstancia;
 	private UnidadeSubstancia unidadeSubstancia;
 	private Date dataCadastro;
 
-	public ComponenteAlimentarDTO(String uuidSubstancia, String nomeSubstancia, Float quantidadeSubstancia,
+	public ComponenteAlimentarDTO(String uuidSubstancia, String nomeSubstancia, float quantidadeSubstancia,
 			UnidadeSubstancia unidadeSubstancia, Date dataCadastro) {
 		super();
+		
 		this.uuidSubstancia = uuidSubstancia;
 		this.nomeSubstancia = nomeSubstancia;
 		this.quantidadeSubstancia = quantidadeSubstancia;
@@ -29,7 +31,7 @@ public class ComponenteAlimentarDTO {
 		return nomeSubstancia;
 	}
 
-	public Float getQuantidadeSubstancia() {
+	public float getQuantidadeSubstancia() {
 		return quantidadeSubstancia;
 	}
 

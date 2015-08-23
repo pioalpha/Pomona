@@ -45,7 +45,7 @@ import com.github.pomona.domain.service.SubstanciaBuilder;
 
 @ManagedBean
 @ViewScoped
-public class CardapioBean implements Serializable{
+public class CardapioBean implements Serializable {
 
 	private static final long serialVersionUID = -7888554190222567231L;
 

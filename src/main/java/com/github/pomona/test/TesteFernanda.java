@@ -8,9 +8,26 @@ import java.util.Map;
 
 import com.github.common.util.WeldContext;
 import com.github.pomona.application.AlimentoQueryService;
+import com.github.pomona.application.DiretrizQueryService;
+import com.github.pomona.application.DivisaoQueryService;
+import com.github.pomona.application.SubstanciaQueryService;
 import com.github.pomona.application.dto.AlimentoDTO;
 import com.github.pomona.application.dto.AlimentoParametrosPesquisa;
 import com.github.pomona.application.dto.ComponenteAlimentarDTO;
+import com.github.pomona.application.dto.DiretrizAlimentarDTO;
+import com.github.pomona.application.dto.DiretrizParametrosPesquisa;
+import com.github.pomona.application.dto.DivisaoParametrosPesquisa;
+import com.github.pomona.application.dto.DivisaoRefeicaoDTO;
+import com.github.pomona.application.dto.LimiteEnergeticoDTO;
+import com.github.pomona.application.dto.MedidaDTO;
+import com.github.pomona.application.dto.MedidaParametrosPesquisa;
+import com.github.pomona.application.dto.NormaAlimentarDTO;
+import com.github.pomona.application.dto.PreparoDTO;
+import com.github.pomona.application.dto.PreparoMedidaAlimentoDTO;
+import com.github.pomona.application.dto.PreparoMedidaParametrosPesquisa;
+import com.github.pomona.application.dto.PreparoParametrosPesquisa;
+import com.github.pomona.application.dto.SubstanciaDTO;
+import com.github.pomona.application.dto.SubstanciaParametrosPesquisa;
 import com.github.pomona.domain.model.AlimentoGranel;
 import com.github.pomona.domain.model.AlimentoUnitario;
 import com.github.pomona.domain.model.Cardapio;
@@ -45,12 +62,45 @@ public class TesteFernanda {
 
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		
+		SubstanciaQueryService sqs = WeldContext.INSTANCE.getBean(SubstanciaQueryService.class);
+		for (SubstanciaDTO sDTO : sqs.Executar(new SubstanciaParametrosPesquisa())) {
+			System.out.println("Substancia> " + sDTO.getNome() + "(" + sDTO.getUuid() + ") - " + sDTO.getUnidadeSubstancia() + " - Ordem: " + sDTO.getOrdem());
+		}
+		
 		AlimentoQueryService aqs = WeldContext.INSTANCE.getBean(AlimentoQueryService.class);
 		for (AlimentoDTO aDTO : aqs.Executar(new AlimentoParametrosPesquisa())){
 		//for (AlimentoDTO aDTO : aqs.Executar(new AlimentoParametrosPesquisa(2, 1, format.parse("09/08/2015"), "aba", "fr"))){
-			System.out.println(aDTO.getCategoria() + "(" + aDTO.getCategoriaUuid() + ") - " + aDTO.getNome() + "(" + aDTO.getUuid() + ") - " + aDTO.getPorcao() + aDTO.getUnidadeGranel() + " - DataConsultada: " + aDTO.getDataConsultada());
+			System.out.println("Alimento> " + aDTO.getCategoria() + "(" + aDTO.getCategoriaUuid() + ") - " + aDTO.getNome() + "(" + aDTO.getUuid() + ") - " + aDTO.getPorcao() + aDTO.getUnidadeGranel() + " - DataConsultada: " + aDTO.getDataConsultada());
 			for (ComponenteAlimentarDTO caDTO : aDTO.getComponentesAlimentares()) {
-				System.out.println(">" + caDTO.getNomeSubstancia() + "(" + caDTO.getUuidSubstancia() + ") - " + caDTO.getQuantidadeSubstancia() + caDTO.getUnidadeSubstancia() + " - Cadastro: " + caDTO.getDataCadastro());
+				System.out.println("Componente> " + caDTO.getNomeSubstancia() + "(" + caDTO.getUuidSubstancia() + ") - " + caDTO.getQuantidadeSubstancia() + caDTO.getUnidadeSubstancia() + " - Cadastro: " + caDTO.getDataCadastro());
+			}
+		}
+		
+		for (PreparoDTO pDTO : aqs.Executar(new PreparoParametrosPesquisa())) {
+			System.out.println("Preparo> " + pDTO.getNome() + "(" + pDTO.getUuid() + ")");
+		}
+		
+		for (MedidaDTO mDTO : aqs.Executar(new MedidaParametrosPesquisa())) {
+			System.out.println("Medida> " + mDTO.getNome() + "(" + mDTO.getUuid() + ")");
+		}
+		
+		for (PreparoMedidaAlimentoDTO pmDTO : aqs.Executar(new PreparoMedidaParametrosPesquisa())) {
+			System.out.println("PreparoMedida> UUID: " + pmDTO.getUuid() + " -  Preparo: " + pmDTO.getPreparo().getNome() + "(" + pmDTO.getPreparo().getUuid() + ") - Medida: " + pmDTO.getMedida().getNome() + "(" + pmDTO.getMedida().getUuid() + ") - Quantidade: " + pmDTO.getQuantidade());
+		}
+		
+		DiretrizQueryService dqs = WeldContext.INSTANCE.getBean(DiretrizQueryService.class);
+		for (DiretrizAlimentarDTO daDTO : dqs.Executar(new DiretrizParametrosPesquisa(null, true, new Date()))){
+			System.out.println("Diretriz> " + daDTO.getNome() + "(" + daDTO.getUuid() + ") - DataRevogacao: " + daDTO.getDataRevogacao() + " - DataConsultada: " + daDTO.getDataConsultada());
+			for (NormaAlimentarDTO naDTO : daDTO.getNormasAlimentares()) {
+				System.out.println("Norma> " + naDTO.getNomeSubstancia() + "(" + naDTO.getUuidSubstancia() + ") - " + naDTO.getUnidadeSubstancia() + " - Tipo: " + naDTO.getTipoNorma() + " - Min: " + naDTO.getNormaMinima() + "% - Max: "+ naDTO.getNormaMaxima() + "% - Criacao: " + naDTO.getDataCriacao());
+			}
+		}
+		
+		DivisaoQueryService dvqs = WeldContext.INSTANCE.getBean(DivisaoQueryService.class);
+		for (DivisaoRefeicaoDTO drDTO : dvqs.Executar(new DivisaoParametrosPesquisa(null, new Date()))){
+			System.out.println("Divisao> " + drDTO.getNome() + "(" + drDTO.getUuid() + ") - DataConsultada: " + drDTO.getDataConsultada());
+			for (LimiteEnergeticoDTO leDTO : drDTO.getLimitesEnergeticos()) {
+				System.out.println("Limite> " + leDTO.getTipoRefeicao() + " - " + leDTO.getPercentualEnergetico() + "% - " + leDTO.getTolerancia() + " - DataCadastro: " + leDTO.getDataCadastro());
 			}
 		}
 		

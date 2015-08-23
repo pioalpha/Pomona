@@ -59,7 +59,7 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 		
 		DiretrizAlimentar da = this.diretrizAlimentarRepo().porId(new DiretrizAlimentarId(command.getDiretrizAlimentarId()));
 		NormaAlimentar na = new NormaAlimentar();
-		na.setData(new Date());
+		na.setDataCriacao(new Date());
 		na.setSubstancia(this.substanciaRepo().porId(new SubstanciaId(command.getSubstanciaId())));
 		na.setTipoNorma(command.getTipoNorma());
 		na.setNormaMinima(command.getNormaMinima());

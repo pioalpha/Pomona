@@ -26,8 +26,6 @@ public class AlimentoParametrosPesquisa extends ParametrosPesquisa {
 		this.nome = nome;
 		this.categoria = categoria;
 		this.dataConsulta = dataConsulta; // Data não deve ser nula
-		
-		
 	}
 
 	public AlimentoParametrosPesquisa(int numeroResultadosPorPagina, int numeroDaPagina, Date dataConsulta, String nome,

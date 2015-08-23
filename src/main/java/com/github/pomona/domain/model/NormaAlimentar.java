@@ -29,7 +29,7 @@ public class NormaAlimentar extends ConcurrencySafeEntity {
 	private Float normaMaxima;
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
-	private Date data;
+	private Date dataCriacao;
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 10)
 	private TipoNorma tipoNorma;
@@ -53,12 +53,12 @@ public class NormaAlimentar extends ConcurrencySafeEntity {
 		this.normaMaxima = normaMaxima;
 	}
 
-	public Date getData() {
-		return data;
+	public Date getDataCriacao() {
+		return dataCriacao;
 	}
 
-	public void setData(Date data) {
-		this.data = data;
+	public void setDataCriacao(Date dataCriacao) {
+		this.dataCriacao = dataCriacao;
 	}
 
 	public TipoNorma getTipoNorma() {
@@ -87,7 +87,7 @@ public class NormaAlimentar extends ConcurrencySafeEntity {
 
 	@Override
 	public String toString() {
-		return "NormaAlimentar [normaMinima=" + normaMinima + ", normaMaxima=" + normaMaxima + ", data=" + data
+		return "NormaAlimentar [normaMinima=" + normaMinima + ", normaMaxima=" + normaMaxima + ", dataCriacao=" + dataCriacao
 				+ ", tipoNorma=" + tipoNorma + ", substancia=" + substancia + "]";
 	}
 

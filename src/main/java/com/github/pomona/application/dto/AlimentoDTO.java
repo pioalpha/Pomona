@@ -11,12 +11,12 @@ public class AlimentoDTO implements DTO {
 	private String uuid;
 	private String nome;
 	private UnidadeGranel unidadeGranel;
-	private Float porcao;
+	private float porcao;
 	private String categoriaUuid;
 	private String categoria;
 	private Collection<ComponenteAlimentarDTO> componentesAlimentares;
 
-	public AlimentoDTO(Date dataConsultada, String uuid, String nome, UnidadeGranel unidadeGranel, Float porcao, String categoriaUuid, String categoria, Collection<ComponenteAlimentarDTO> componentesAlimentares) {
+	public AlimentoDTO(Date dataConsultada, String uuid, String nome, UnidadeGranel unidadeGranel, float porcao, String categoriaUuid, String categoria, Collection<ComponenteAlimentarDTO> componentesAlimentares) {
 		super();
 		
 		this.uuid = uuid;
@@ -37,7 +37,7 @@ public class AlimentoDTO implements DTO {
 		return unidadeGranel;
 	}
 
-	public Float getPorcao() {
+	public float getPorcao() {
 		return porcao;
 	}
 

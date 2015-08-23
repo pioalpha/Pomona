@@ -20,7 +20,7 @@ public class DiretrizAlimentarBuilder {
 	public DiretrizAlimentarBuilder adicionarNormaAlimentar(Substancia substancia,
 			TipoNorma tipoNorma, float normaMinima,	float normaMaxima){
 		NormaAlimentar normaAlimentar = new NormaAlimentar();
-		normaAlimentar.setData(new Date());
+		normaAlimentar.setDataCriacao(new Date());
 		normaAlimentar.setSubstancia(substancia);
 		normaAlimentar.setTipoNorma(tipoNorma);
 		normaAlimentar.setNormaMinima(normaMinima);
