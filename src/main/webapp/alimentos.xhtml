@@ -12,8 +12,48 @@
 	<title>Alimentos</title>
 </h:head>
 <h:body>
+	<f:metadata>
+		<f:viewParam name="pedido" value="" />
+		<f:event listener="#{alimentoBean.inicializar}" type="preRenderView" />
+	</f:metadata>
 	<h:form>
+		<p:messages autoUpdate="true" closable="true" />
 		
+		<p:panelGrid columns="6" id="painel">
+			<p:outputLabel value="Nome" for="alimentoBean.alimentoSelecionado.nome" />
+			<p:inputText id="nome" size="20" value="" />
+			<p:outputLabel value="Porção" for="alimentoBean.alimentoSelecionado.porcao" />
+			<p:inputText id="porcao" size="20" value="">
+				<f:convertNumber />
+			</p:inputText>
+			<p:outputLabel value="Unidade" for="alimentoBean.alimentoSelecionado.unidade" />
+			<p:selectOneMenu id="unidade" value="">
+				<f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true" />
+				<f:selectItems value="#{alimentoBean.alimentoSelecionado.unidadeGranel}" />
+			</p:selectOneMenu>
+		</p:panelGrid>
+		
+		<p:dataTable id="alimentos" value="#{alimentoBean.alimentos}" var="alimento" rows="20" paginator="true" paginatorAlwaysVisible="true" paginatorPosition="bottom">
+			<p:column headerText="Nome">
+				<h:outputText value="#{alimento.nome}" />
+			</p:column>
+			<p:column headerText="Porção">
+				<h:outputText value="#{alimento.porcao}" />
+			</p:column>
+			<p:column headerText="Unidade">
+				<h:outputText value="#{alimento.unidadeGranel}" />
+			</p:column>
+			<p:column headerText="Ação">
+				<p:button outcome="/produtos/CadastroProduto" icon="ui-icon-pencil" title="Editar">
+	    			<f:param name="produto" value="#{produto.id}" />
+	    		</p:button>
+	    		<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusao.show()"
+	    					process="@this" update=":frmPesquisa:confirmacaoExclusaoDialog">
+	    			<f:setPropertyActionListener target="#{pesquisaProdutosBean.produtoSelecionado}" 
+	    					value="#{produto}" />
+	    		</p:commandButton>
+			</p:column>
+		</p:dataTable>
 	<!-- 
 		//Alternativa1		
 		Alimento

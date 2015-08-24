@@ -1,6 +1,7 @@
 package com.github.pomona.view;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -10,6 +11,7 @@ import javax.inject.Inject;
 import com.github.pomona.application.AlimentoQueryService;
 import com.github.pomona.application.SubstanciaQueryService;
 import com.github.pomona.application.dto.AlimentoDTO;
+import com.github.pomona.application.dto.AlimentoParametrosPesquisa;
 import com.github.pomona.application.dto.ComponenteAlimentarDTO;
 import com.github.pomona.application.dto.MedidaDTO;
 import com.github.pomona.application.dto.PreparoDTO;
@@ -29,11 +31,13 @@ public class AlimentoBean implements Serializable {
 	// interfaces de Consultas necessárias as listagens
 	@Inject
 	private SubstanciaQueryService sqs;
+	@Inject
 	private AlimentoQueryService aqs;
 	
 	// interfaces de Comandos necessários ao cadastro
 	@Inject
 	private SubstanciaCommandHandler sch;
+	@Inject
 	private AlimentoCommandHandler ach;
 	
 	// Para listar combos
@@ -46,7 +50,7 @@ public class AlimentoBean implements Serializable {
 	private UnidadeGranel unidadeGranel;
 	
 	// Núcleo de informação da página
-	private List<AlimentoDTO> alimentos; //Contém componentes alimentares
+	private Collection<AlimentoDTO> alimentos; //Contém componentes alimentares
 	private List<PreparoMedidaAlimentoDTO> preparosMedidasAlimentos; // Conforme alimento selecionado
 	
 	// Para cadastros, edições e exclusões
@@ -54,6 +58,15 @@ public class AlimentoBean implements Serializable {
 	private ComponenteAlimentarDTO componenteAlimentarSelecionado;
 	private PreparoMedidaAlimentoDTO preparoMedidaAlimentoSelecionado;
 	
+	public Collection<AlimentoDTO> getAlimentos() {
+		return alimentos;
+	}
 	
+	public List<PreparoMedidaAlimentoDTO> getPreparosMedidasAlimentos() {
+		return preparosMedidasAlimentos;
+	}
 	
+	public void inicializar() {
+		this.alimentos = aqs.Executar(new AlimentoParametrosPesquisa()); 
+	}
 }

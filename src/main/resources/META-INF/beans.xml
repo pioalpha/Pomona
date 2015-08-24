@@ -4,7 +4,7 @@
         http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
        bean-discovery-mode="all">
        
-<interceptors>
-       <class>com.github.pomona.port.adapter.persistence.TransactionInterceptor</class>
-   </interceptors>       
+	<interceptors>
+		<class>com.github.pomona.port.adapter.persistence.TransactionInterceptor</class>
+	</interceptors>       
 </beans> 
