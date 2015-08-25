@@ -17,6 +17,8 @@ import com.github.pomona.application.AlimentoQueryService;
 import com.github.pomona.application.SubstanciaQueryService;
 import com.github.pomona.application.dto.AlimentoDTO;
 import com.github.pomona.application.dto.AlimentoParametrosPesquisa;
+import com.github.pomona.application.dto.CategoriaDTO;
+import com.github.pomona.application.dto.CategoriaParametrosPesquisa;
 import com.github.pomona.application.dto.ComponenteAlimentarDTO;
 import com.github.pomona.application.dto.MedidaDTO;
 import com.github.pomona.application.dto.MedidaParametrosPesquisa;
@@ -24,6 +26,7 @@ import com.github.pomona.application.dto.PreparoDTO;
 import com.github.pomona.application.dto.PreparoMedidaAlimentoDTO;
 import com.github.pomona.application.dto.PreparoParametrosPesquisa;
 import com.github.pomona.application.dto.SubstanciaDTO;
+import com.github.pomona.application.dto.SubstanciaParametrosPesquisa;
 import com.github.pomona.domain.reference.UnidadeGranel;
 import com.github.pomona.domain.reference.UnidadeSubstancia;
 import com.github.pomona.service.commandHandler.AlimentoCommandHandler;
@@ -66,6 +69,7 @@ public class AlimentoBean implements Serializable {
 	private List<SubstanciaDTO> substancias;
 	private List<PreparoDTO> preparos;
 	private List<MedidaDTO> medidas;
+	private List<CategoriaDTO> categorias;
 	
 	// Para validar cadastro de novas substancias e novos alimentos
 	private UnidadeSubstancia unidadeSubstancia;
@@ -74,6 +78,7 @@ public class AlimentoBean implements Serializable {
 	// Núcleo de informação da página
 	private List<AlimentoDTO> alimentos; //Contém componentes alimentares
 	private List<PreparoMedidaAlimentoDTO> preparosMedidasAlimentos; // Conforme alimento selecionado
+	private List<AlimentoDTO> alimentosFiltrados;
 	
 	// Cadastro/Edição de alimento
 	private String nomeAlimento;
@@ -110,6 +115,14 @@ public class AlimentoBean implements Serializable {
 		return medidas;
 	}
 
+	public List<SubstanciaDTO> getSubstancias() {
+		return substancias;
+	}
+
+	public List<CategoriaDTO> getCategorias() {
+		return categorias;
+	}
+
 	public List<PreparoMedidaAlimentoDTO> getPreparosMedidasAlimentos() {
 		return preparosMedidasAlimentos;
 	}
@@ -118,6 +131,8 @@ public class AlimentoBean implements Serializable {
 		this.alimentos = aqs.Executar(new AlimentoParametrosPesquisa(true, new Date(), null, null));
 		this.preparos = aqs.Executar(new PreparoParametrosPesquisa());
 		this.medidas = aqs.Executar(new MedidaParametrosPesquisa());
+		this.categorias = aqs.Executar(new CategoriaParametrosPesquisa());
+		this.substancias = sqs.Executar(new SubstanciaParametrosPesquisa());
 		
 		//this.alimentos.add(new AlimentoDTO(null, "123456", null, null, null, null, null, new ArrayList<ComponenteAlimentarDTO>()));
 	}
@@ -198,4 +213,16 @@ public class AlimentoBean implements Serializable {
 		this.quantidadeSubstancia = quantidadeSubstancia;
 	}
 
+	public void cadastrarAlimento() {
+		System.out.println(">>>" + this.categoriaAlimento + " - " + this.nomeAlimento + " - " + this.porcaoAlimento + " - " + this.unidadeAlimento);
+	}
+
+	public List<AlimentoDTO> getAlimentosFiltrados() {
+		return alimentosFiltrados;
+	}
+
+	public void setAlimentosFiltrados(List<AlimentoDTO> alimentosFiltrados) {
+		this.alimentosFiltrados = alimentosFiltrados;
+	}
+	
 }

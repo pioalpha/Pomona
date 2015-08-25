@@ -17,8 +17,6 @@
 		<f:event listener="#{alimentoBean.inicializar}" type="preRenderView" />
 	</f:metadata>
 	<h:form id="form">
-		<p:messages autoUpdate="true" closable="true" />
-
 		<!-- p:panelGrid columns="7" id="painel">
 			<p:outputLabel value="Nome" for="nome" />
 			<p:inputText id="nome" size="20" value="" />
@@ -42,29 +40,85 @@
 			paginatorAlwaysVisible="true" paginatorPosition="bottom"
 			selectionMode="single"
 			selection="#{alimentoBean.alimentoSelecionado}"
-			rowKey="#{alimento.uuid}">
+			rowKey="#{alimento.uuid}"
+			widgetVar="tabelaAlimentos"
+			filteredValue="#{alimentoBean.alimentosFiltrados}">
 
 			<!-- p:ajax event="rowSelect" listener="#{alimentoBean.onRowSelect}" update=":form:componentes" /-->
 			<p:ajax event="rowSelect" update=":form:tab:componentes" />
 			<p:ajax event="rowUnselect" update=":form:tab:componentes" />
 
-			<p:column headerText="Categoria" style="text-align: center; width: 100px;">
-				<h:outputText value="#{alimento.categoria}" rendered="#{alimento.uuid != '123456'}" />
-				<p:inputText style="width: 98%;" value="#{alimentoBean.categoriaAlimento}" rendered="#{alimento.uuid == '123456'}" />
+			<p:column headerText="Categoria"
+				filterBy="#{alimento.categoria}"
+				filterMatchMode="exact"
+				style="text-align: center; width: 120px;">
+				<f:facet name="filter">
+	                <p:selectOneMenu onchange="PF('tabelaAlimentos').filter()" style="width: 98%;" >
+	                    <f:selectItem itemLabel="" itemValue="#{null}" noSelectionOption="true" />
+	                    <f:selectItems value="#{alimentoBean.categorias}" var="categoria"
+						itemValue="#{categoria.uuid}" itemLabel="#{categoria.nome}" />
+	                </p:selectOneMenu>
+	            </f:facet>
+				<h:outputText value="#{alimento.categoria}"
+					rendered="#{alimento.uuid != '123456'}" />
+				<p:selectOneMenu id="categoria"
+					value="#{alimentoBean.categoriaAlimento}" editable="true"
+					style="width: 98%;" rendered="#{alimento.uuid == '123456'}"	>
+					<f:selectItems value="#{alimentoBean.categorias}" var="categoria"
+						itemValue="#{categoria.uuid}" itemLabel="#{categoria.nome}" />
+				</p:selectOneMenu>
 			</p:column>
-			<p:column headerText="Alimento" style="text-align: left;">
-				<h:outputText value="#{alimento.nome}" rendered="#{alimento.uuid != '123456'}" />
-				<p:inputText style="width: 98%;" value="#{alimentoBean.nomeAlimento}" rendered="#{alimento.uuid == '123456'}" />
+			
+			<p:column headerText="Alimento" style="text-align: left;"
+					filterBy="#{alimento.nome}"
+					filterMatchMode="contains">
+				<f:facet name="filter">
+					<p:inputText style="width: 98%;"
+						value="#{alimentoBean.nomeAlimento}"
+						onkeyup="PF('tabelaAlimentos').filter()" />
+				</f:facet>
+				<h:outputText value="#{alimento.nome}"
+					rendered="#{alimento.uuid != '123456'}" />
+				<p:inputText style="width: 98%;"
+					value="#{alimentoBean.nomeAlimento}"
+					rendered="#{alimento.uuid == '123456'}" />
 			</p:column>
-			<p:column headerText="Porção" style="text-align: center; width: 70px;">
+			
+			<p:column headerText="Porção"
+				filterBy="#{alimento.porcao}"
+				filterMatchMode="equals"
+				style="text-align: center; width: 70px;">
+				
+				<f:facet name="filter">
+					<p:inputText value="#{alimentoBean.porcaoAlimento}"
+						style="width: 85%;" onchange="PF('tabelaAlimentos').filter()" >
+						<!-- f:convertNumber pattern="#0.00" locale="pt_BR" / -->					
+					</p:inputText>
+				</f:facet>
 				<h:outputText value="#{alimento.porcao}" />
-				<p:inputText size="5" value="#{alimentoBean.porcaoAlimento}" rendered="#{alimento.uuid == '123456'}" />
+				<p:inputText value="#{alimentoBean.porcaoAlimento}"
+					style="width: 85%;" rendered="#{alimento.uuid == '123456'}" >
+					<f:convertNumber pattern="#0.00" locale="pt_BR" />					
+				</p:inputText>
 			</p:column>
-			<p:column headerText="UN" style="text-align: center; width: 70px;">
+			
+			<p:column headerText="UN"
+				filterBy="#{alimento.unidadeGranel}"
+				filterMatchMode="exact"
+				style="text-align: center; width: 70px;">
+				
+				<f:facet name="filter">
+					<p:selectOneMenu value="#{alimentoBean.unidadeAlimento}"
+						style="width: 97%;" onchange="PF('tabelaAlimentos').filter()" >
+						<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+						<f:selectItems value="#{alimentoBean.unidadesGranel}" var="unidade"
+							itemValue="#{unidade}" itemLabel="#{unidade}" />
+					</p:selectOneMenu>
+				</f:facet>
 				<h:outputText value="#{alimento.unidadeGranel}" />
-				<p:selectOneMenu id="unidade" value="alimentoBean.unidadeAlimento" rendered="#{alimento.uuid == '123456'}">
-					<f:selectItem itemLabel="" itemValue=""
-						noSelectionOption="true" />
+				<p:selectOneMenu id="unidadeAlimento" value="#{alimentoBean.unidadeAlimento}"
+					style="width: 97%;" rendered="#{alimento.uuid == '123456'}">
+					<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
 					<f:selectItems value="#{alimentoBean.unidadesGranel}" var="unidade"
 						itemValue="#{unidade}" itemLabel="#{unidade}" />
 				</p:selectOneMenu>
@@ -87,6 +141,13 @@
 				</c:forEach -->
 
 			<p:column headerText="Ação" style="text-align: center; width: 140px">
+				<f:facet name="header">
+					<h:outputText value="Ação" />
+					<p:commandButton value="Cadastrar" update=":form:alimentos"
+						action="#{alimentoBean.cadastrarAlimento}"
+						onclick="PF('confirmarCadastroCategoria').show()" >
+					</p:commandButton>
+                </f:facet>
 				<!-- p:button outcome="" icon="ui-icon-pencil" title="Editar">
 	    			<f:param name="produto" value="#{produto.id}" />
 	    		</p:button>
@@ -95,55 +156,85 @@
 	    			<f:setPropertyActionListener target="" 
 	    					value="#{produto}" />
 	    		</p:commandButton -->
-	    		<p:commandButton value="Cadastrar" rendered="#{alimento.uuid == '123456'}">
-	    		</p:commandButton>
+				<!-- p:commandButton value="Cadastrar" update=":form:alimentos"
+					rendered="#{alimento.uuid == '123456'}" onclick="PF('confirmarCadastroCategoria').show()" >
+				</p:commandButton -->
+				<p:commandButton value="Cadastrar" update=":form:alimentos"
+					action="#{alimentoBean.cadastrarAlimento}"
+					rendered="#{alimento.uuid == '123456'}" onclick="PF('confirmarCadastroCategoria').show()" >
+				</p:commandButton>
 			</p:column>
+
 		</p:dataTable>
+
+			<p:confirmDialog header="Cadastro de categoria" message="Deseja incluir esta nova categoria de alimento?"
+	    		widgetVar="confirmarCadastroCategoria">
+	    		<p:button value="Não" onclick="PF('confirmarCadastroCategoria').hide(); return false;" />
+	    		<p:commandButton value="Sim" oncomplete="PF('confirmarCadastroCategoria').hide();" />
+	    	</p:confirmDialog>
 
 		<p:tabView id="tab">
 			<p:tab title="Composição Alimentar">
 				<p:dataTable id="componentes"
 					value="#{alimentoBean.alimentoSelecionado.componentesAlimentares}"
 					var="componente" rows="15" paginator="true"
-					paginatorAlwaysVisible="true" paginatorPosition="bottom" sortBy="#{componente.ordem}">
+					paginatorAlwaysVisible="true" paginatorPosition="bottom"
+					sortBy="#{componente.ordem}">
+					
 					<p:column headerText="Componente Alimentar"
 						style="text-align: left">
-						<h:outputText value="#{componente.nomeSubstancia}" rendered="#{componente.uuidSubstancia != null}" />
-						<p:inputText style="width: 98%;" value="#{alimentoBean.nomeSubstancia}" rendered="#{componente.uuidSubstancia == null}" />
+						<h:outputText value="#{componente.nomeSubstancia}"
+							rendered="#{componente.uuidSubstancia != null}" />
+						<p:inputText style="width: 98%;"
+							value="#{alimentoBean.nomeSubstancia}"
+							rendered="#{componente.uuidSubstancia == null}" />
 					</p:column>
+					
 					<p:column headerText="Qtd" style="text-align: center; width: 70px">
-						<h:outputText value="#{componente.quantidadeSubstancia}" rendered="#{componente.uuidSubstancia != null}" />
-						<p:inputText size="5" value="#{alimentoBean.quantidadeSubstancia}" rendered="#{componente.uuidSubstancia == null}" />
+						<h:outputText value="#{componente.quantidadeSubstancia}"
+							rendered="#{componente.uuidSubstancia != null}" />
+						<p:inputText size="5" value="#{alimentoBean.quantidadeSubstancia}"
+							rendered="#{componente.uuidSubstancia == null}" />
 					</p:column>
+					
 					<p:column headerText="UN" style="text-align: center; width: 70px">
 						<h:outputText value="#{componente.unidadeSubstancia}" />
 					</p:column>
+					
 					<p:column headerText="Ação"
 						style="text-align: center; width: 140px">
-			    		<p:commandButton value="Cadastrar" rendered="#{componente.uuidSubstancia == null}" />
+						<p:commandButton value="Cadastrar"
+							rendered="#{componente.uuidSubstancia == null}" />
 					</p:column>
 				</p:dataTable>
 			</p:tab>
+			
 			<p:tab title="Preparos e Medidas">
 				<p:dataTable id="preparosMedidas"
 					value="#{alimentoBean.preparosMedidasAlimentos}"
 					var="preparoMedida" rows="10" paginator="true"
 					paginatorAlwaysVisible="true" paginatorPosition="bottom">
+					
 					<p:column headerText="Preparo" style="text-align: left; ">
 						<h:outputText value="#{preparoMedida.preparo.nome}" />
 					</p:column>
+					
 					<p:column headerText="Medida" style="text-align: center; ">
 						<h:outputText value="#{preparoMedida.medida.nome}" />
 					</p:column>
+					
 					<p:column headerText="Qtd" style="text-align: center; width: 70px">
 						<h:outputText value="#{preparoMedida.quantidade}" />
 					</p:column>
+					
 					<p:column headerText="Ação"
 						style="text-align: center; width: 140px">
 					</p:column>
 				</p:dataTable>
 			</p:tab>
 		</p:tabView>
+		
+		
 		<!-- 
 		//Alternativa1		
 		Alimento

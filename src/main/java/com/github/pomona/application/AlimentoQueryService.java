@@ -18,6 +18,8 @@ import com.github.common.service.query.Query;
 import com.github.common.util.ComparaDatas;
 import com.github.pomona.application.dto.AlimentoDTO;
 import com.github.pomona.application.dto.AlimentoParametrosPesquisa;
+import com.github.pomona.application.dto.CategoriaDTO;
+import com.github.pomona.application.dto.CategoriaParametrosPesquisa;
 import com.github.pomona.application.dto.ComponenteAlimentarDTO;
 import com.github.pomona.application.dto.MedidaDTO;
 import com.github.pomona.application.dto.MedidaParametrosPesquisa;
@@ -26,6 +28,7 @@ import com.github.pomona.application.dto.PreparoMedidaAlimentoDTO;
 import com.github.pomona.application.dto.PreparoMedidaParametrosPesquisa;
 import com.github.pomona.application.dto.PreparoParametrosPesquisa;
 import com.github.pomona.domain.model.AlimentoGranel;
+import com.github.pomona.domain.model.CategoriaAlimento;
 import com.github.pomona.domain.model.ComponenteAlimentar;
 import com.github.pomona.domain.model.PreparoMedidaAlimento;
 import com.github.pomona.domain.model.SubstanciaId;
@@ -311,6 +314,34 @@ public class AlimentoQueryService // extends AbstractQueryService
 					new MedidaDTO(pm.getTipoMedida().tipoMedidaId().uuid(), pm.getTipoMedida().getNome()),
 					pm.getQuantidade());
 			resultado.add(pmDTO);
+		}
+
+		return resultado;
+	}
+
+	public List<CategoriaDTO> Executar(CategoriaParametrosPesquisa parametros) {
+		List<CategoriaDTO> resultado = new ArrayList<>();
+
+		CriteriaBuilder cb = manager.getCriteriaBuilder();
+		CriteriaQuery<CategoriaAlimento> cq = cb.createQuery(CategoriaAlimento.class);
+		Root<CategoriaAlimento> fromCategoria = cq.from(CategoriaAlimento.class);
+
+		List<Predicate> predicates = new ArrayList<Predicate>();
+		if (parametros.getNome() != null) {
+			predicates.add(cb.like(fromCategoria.<String> get("nome"), "%" + parametros.getNome() + "%"));
+		}
+
+		cq.where(predicates.toArray(new Predicate[] {}));
+		TypedQuery<CategoriaAlimento> tq = manager.createQuery(cq);
+
+		if (parametros.getNumeroResultadosPorPagina() != null) {
+			tq.setFirstResult(parametros.getNumeroDaPagina() - 1);
+			tq.setMaxResults(parametros.getNumeroResultadosPorPagina());
+		}
+
+		for (CategoriaAlimento c : tq.getResultList()) {
+			CategoriaDTO cDTO = new CategoriaDTO(c.categoriaAlimentoId().uuid(), c.getNome());
+			resultado.add(cDTO);
 		}
 
 		return resultado;
