@@ -29,8 +29,8 @@ public class DiretrizQueryService implements Query<DiretrizParametrosPesquisa, D
 	private EntityManager manager;
 
 	@Override
-	public Collection<DiretrizAlimentarDTO> Executar(DiretrizParametrosPesquisa parametros) {
-		Collection<DiretrizAlimentarDTO> resultado = new ArrayList<>();
+	public List<DiretrizAlimentarDTO> Executar(DiretrizParametrosPesquisa parametros) {
+		List<DiretrizAlimentarDTO> resultado = new ArrayList<>();
 
 		CriteriaBuilder cb = manager.getCriteriaBuilder();
 		CriteriaQuery<DiretrizAlimentar> cq = cb.createQuery(DiretrizAlimentar.class);

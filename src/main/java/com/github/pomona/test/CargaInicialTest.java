@@ -95,6 +95,8 @@ public class CargaInicialTest {
 		// http://blog.rocketscience.io/dependency-injection-with-cdi-in-java-se/
 		// obtaining a bean instance, asking the CDI container of Weld
 	    //final CoffeeMaker coffeeMaker = WeldContext.INSTANCE.getBean(CoffeeMaker.class);
+
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		
 		//SubstanciaApplicationService
 		SubstanciaRepo substanciaRepoImpl = WeldContext.INSTANCE.getBean(SubstanciaRepoImpl.class);
@@ -125,7 +127,6 @@ public class CargaInicialTest {
 		
 		
 		
-		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		
 		
 		//SubstanciaCommandHandler sch = new SubstanciaApplicationService(diretrizAlimentarRepoImpl, energiaSubstanciaRepoImpl, substanciaRepoImpl);
@@ -244,7 +245,6 @@ public class CargaInicialTest {
 		//CardapioCommandHandler crch = new CardapioApplicationService(alimentoRepoImpl, cardapioRepoImpl, consultaRepoImpl, energiaAlimentoRepoImpl, energiaSubstanciaRepoImpl, perfilAlimentarPacienteRepoImpl, divisaoRefeicaoRepoImpl, tipoPreparoRepoImpl, cea);
 		CardapioCommandHandler crch = WeldContext.INSTANCE.getBean(CardapioApplicationService.class);
 		crch.handle(new CadastrarItemNoCardapioCommand(cardapioId, abacateId, picadoId, TipoRefeicao.ALMOCO, 200f));
-		
 		
 		/*EntityManagerFactory factory = Persistence.createEntityManagerFactory("PomonaPU");
 		EntityManager manager = factory.createEntityManager();
@@ -382,7 +382,7 @@ public class CargaInicialTest {
 		consPedro.getCardapios().add(cardPedro2);
 		
 		System.out.println(new RelatorioPlanoReeducacaoAlimentar(planoPedro).toString());
-		
+
 		for(Object o : substanciaRepoImpl.todos()){
 			System.out.println(o.toString());
 		}

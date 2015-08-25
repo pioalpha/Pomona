@@ -4,12 +4,14 @@ import com.github.common.service.dto.DTO;
 import com.github.pomona.domain.reference.UnidadeSubstancia;
 
 public class SubstanciaDTO implements DTO {
+	private static final long serialVersionUID = 1L;
+
 	private String uuid;
 	private String nome;
-	private int ordem;
+	private Integer ordem;
 	private UnidadeSubstancia unidadeSubstancia;
 
-	public SubstanciaDTO(String uuid, String nome, int ordem, UnidadeSubstancia unidadeSubstancia) {
+	public SubstanciaDTO(String uuid, String nome, Integer ordem, UnidadeSubstancia unidadeSubstancia) {
 		super();
 		this.uuid = uuid;
 		this.nome = nome;
@@ -25,7 +27,7 @@ public class SubstanciaDTO implements DTO {
 		return nome;
 	}
 
-	public int getOrdem() {
+	public Integer getOrdem() {
 		return ordem;
 	}
 

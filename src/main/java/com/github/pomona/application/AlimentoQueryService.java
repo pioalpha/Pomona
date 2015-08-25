@@ -35,6 +35,8 @@ import com.github.pomona.domain.model.TipoPreparo;
 public class AlimentoQueryService // extends AbstractQueryService
 		implements Query<AlimentoParametrosPesquisa, AlimentoDTO> {
 
+	private static final long serialVersionUID = 1L;
+
 	@Inject
 	private EntityManager manager;
 
@@ -43,9 +45,9 @@ public class AlimentoQueryService // extends AbstractQueryService
 	// }
 
 	@Override
-	public Collection<AlimentoDTO> Executar(AlimentoParametrosPesquisa parametros) {
+	public List<AlimentoDTO> Executar(AlimentoParametrosPesquisa parametros) {
 		// http://www.baeldung.com/jpa-pagination
-		Collection<AlimentoDTO> resultado = new ArrayList<>();
+		List<AlimentoDTO> resultado = new ArrayList<>();
 
 		CriteriaBuilder cb = manager.getCriteriaBuilder();
 		CriteriaQuery<AlimentoGranel> cq = cb.createQuery(AlimentoGranel.class);
@@ -148,8 +150,14 @@ public class AlimentoQueryService // extends AbstractQueryService
 			tq.setMaxResults(parametros.getNumeroResultadosPorPagina());
 		}
 
+		if (parametros.isParaEdicao()){
+			resultado.add(new AlimentoDTO(null, "123456", null, null, null, null, null, null));
+		}
 		for (AlimentoGranel ag : tq.getResultList()) {
 			Map<SubstanciaId, ComponenteAlimentarDTO> componentes = new HashMap<SubstanciaId, ComponenteAlimentarDTO>();
+			if (parametros.isParaEdicao()){
+				componentes.put(null, new ComponenteAlimentarDTO(null, null, null, null, -1, null));
+			}
 			for (ComponenteAlimentar ca : ag.getComposicaoAlimentar()) {
 				// Se tem data de consulta definida, pega a data, senão, pega a
 				// data atual
@@ -162,21 +170,22 @@ public class AlimentoQueryService // extends AbstractQueryService
 						componentes.put(ca.getSubstancia().substanciaId(),
 								new ComponenteAlimentarDTO(ca.getSubstancia().substanciaId().uuid(),
 										ca.getSubstancia().getNome(), ca.getQuantidade(),
-										ca.getSubstancia().getUnidadeSubstancia(), ca.getDataCadastro()));
+										ca.getSubstancia().getUnidadeSubstancia(), ca.getSubstancia().getOrdem(),
+										ca.getDataCadastro()));
 					}
 				}
 			}
 			AlimentoDTO a = new AlimentoDTO(parametros.getDataConsulta(), ag.alimentoId().uuid(), ag.getNome(),
 					ag.getUnidadeGranel(), ag.getPorcao(), ag.getCategoriaAlimento().categoriaAlimentoId().uuid(),
-					ag.getCategoriaAlimento().getNome(), componentes.values());
+					ag.getCategoriaAlimento().getNome(), new ArrayList<ComponenteAlimentarDTO>(componentes.values()));
 			resultado.add(a);
 		}
 
 		return resultado;
 	}
 
-	public Collection<PreparoDTO> Executar(PreparoParametrosPesquisa parametros) {
-		Collection<PreparoDTO> resultado = new ArrayList<>();
+	public List<PreparoDTO> Executar(PreparoParametrosPesquisa parametros) {
+		List<PreparoDTO> resultado = new ArrayList<>();
 
 		CriteriaBuilder cb = manager.getCriteriaBuilder();
 		CriteriaQuery<TipoPreparo> cq = cb.createQuery(TipoPreparo.class);
@@ -203,8 +212,8 @@ public class AlimentoQueryService // extends AbstractQueryService
 		return resultado;
 	}
 
-	public Collection<MedidaDTO> Executar(MedidaParametrosPesquisa parametros) {
-		Collection<MedidaDTO> resultado = new ArrayList<>();
+	public List<MedidaDTO> Executar(MedidaParametrosPesquisa parametros) {
+		List<MedidaDTO> resultado = new ArrayList<>();
 
 		CriteriaBuilder cb = manager.getCriteriaBuilder();
 		CriteriaQuery<TipoMedida> cq = cb.createQuery(TipoMedida.class);
@@ -231,8 +240,8 @@ public class AlimentoQueryService // extends AbstractQueryService
 		return resultado;
 	}
 
-	public Collection<PreparoMedidaAlimentoDTO> Executar(PreparoMedidaParametrosPesquisa parametros) {
-		Collection<PreparoMedidaAlimentoDTO> resultado = new ArrayList<>();
+	public List<PreparoMedidaAlimentoDTO> Executar(PreparoMedidaParametrosPesquisa parametros) {
+		List<PreparoMedidaAlimentoDTO> resultado = new ArrayList<>();
 
 		CriteriaBuilder cb = manager.getCriteriaBuilder();
 		CriteriaQuery<PreparoMedidaAlimento> cq = cb.createQuery(PreparoMedidaAlimento.class);
@@ -297,7 +306,10 @@ public class AlimentoQueryService // extends AbstractQueryService
 		}
 
 		for (PreparoMedidaAlimento pm : tq.getResultList()) {
-			PreparoMedidaAlimentoDTO pmDTO = new PreparoMedidaAlimentoDTO(pm.preparoMedidaAlimentoId().uuid(), new PreparoDTO(pm.getTipoPreparo().tipoPreparoId().uuid(), pm.getTipoPreparo().getNome()), new MedidaDTO(pm.getTipoMedida().tipoMedidaId().uuid(), pm.getTipoMedida().getNome()), pm.getQuantidade());
+			PreparoMedidaAlimentoDTO pmDTO = new PreparoMedidaAlimentoDTO(pm.preparoMedidaAlimentoId().uuid(),
+					new PreparoDTO(pm.getTipoPreparo().tipoPreparoId().uuid(), pm.getTipoPreparo().getNome()),
+					new MedidaDTO(pm.getTipoMedida().tipoMedidaId().uuid(), pm.getTipoMedida().getNome()),
+					pm.getQuantidade());
 			resultado.add(pmDTO);
 		}
 

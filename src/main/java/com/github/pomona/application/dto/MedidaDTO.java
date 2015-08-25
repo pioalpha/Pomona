@@ -3,6 +3,8 @@ package com.github.pomona.application.dto;
 import com.github.common.service.dto.DTO;
 
 public class MedidaDTO implements DTO {
+	private static final long serialVersionUID = 1L;
+
 	private String uuid;
 	private String nome;
 

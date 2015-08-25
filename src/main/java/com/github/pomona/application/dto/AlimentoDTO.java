@@ -1,22 +1,25 @@
 package com.github.pomona.application.dto;
 
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import com.github.common.service.dto.DTO;
 import com.github.pomona.domain.reference.UnidadeGranel;
 
 public class AlimentoDTO implements DTO {
+
+	private static final long serialVersionUID = 1L;
+
 	private Date dataConsultada;
 	private String uuid;
 	private String nome;
 	private UnidadeGranel unidadeGranel;
-	private float porcao;
+	private Float porcao;
 	private String categoriaUuid;
 	private String categoria;
-	private Collection<ComponenteAlimentarDTO> componentesAlimentares;
+	private List<ComponenteAlimentarDTO> componentesAlimentares;
 
-	public AlimentoDTO(Date dataConsultada, String uuid, String nome, UnidadeGranel unidadeGranel, float porcao, String categoriaUuid, String categoria, Collection<ComponenteAlimentarDTO> componentesAlimentares) {
+	public AlimentoDTO(Date dataConsultada, String uuid, String nome, UnidadeGranel unidadeGranel, Float porcao, String categoriaUuid, String categoria, List<ComponenteAlimentarDTO> componentesAlimentares) {
 		super();
 		
 		this.uuid = uuid;
@@ -37,7 +40,7 @@ public class AlimentoDTO implements DTO {
 		return unidadeGranel;
 	}
 
-	public float getPorcao() {
+	public Float getPorcao() {
 		return porcao;
 	}
 
@@ -45,7 +48,7 @@ public class AlimentoDTO implements DTO {
 		return categoria;
 	}
 
-	public Collection<ComponenteAlimentarDTO> getComponentesAlimentares() {
+	public List<ComponenteAlimentarDTO> getComponentesAlimentares() {
 		return componentesAlimentares;
 	}
 

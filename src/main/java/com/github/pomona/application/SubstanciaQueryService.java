@@ -19,12 +19,14 @@ import com.github.pomona.domain.model.Substancia;
 
 public class SubstanciaQueryService implements Query<SubstanciaParametrosPesquisa, SubstanciaDTO> {
 
+	private static final long serialVersionUID = 1L;
+
 	@Inject
 	private EntityManager manager;
 
 	@Override
-	public Collection<SubstanciaDTO> Executar(SubstanciaParametrosPesquisa parametros) {
-		Collection<SubstanciaDTO> resultado = new ArrayList<>();
+	public List<SubstanciaDTO> Executar(SubstanciaParametrosPesquisa parametros) {
+		List<SubstanciaDTO> resultado = new ArrayList<>();
 
 		CriteriaBuilder cb = manager.getCriteriaBuilder();
 		CriteriaQuery<Substancia> cq = cb.createQuery(Substancia.class);

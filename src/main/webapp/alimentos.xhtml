@@ -13,48 +13,138 @@
 </h:head>
 <h:body>
 	<f:metadata>
-		<f:viewParam name="pedido" value="" />
+		<f:viewParam name="pedido" value="Teste" />
 		<f:event listener="#{alimentoBean.inicializar}" type="preRenderView" />
 	</f:metadata>
-	<h:form>
+	<h:form id="form">
 		<p:messages autoUpdate="true" closable="true" />
-		
-		<p:panelGrid columns="6" id="painel">
-			<p:outputLabel value="Nome" for="alimentoBean.alimentoSelecionado.nome" />
+
+		<!-- p:panelGrid columns="7" id="painel">
+			<p:outputLabel value="Nome" for="nome" />
 			<p:inputText id="nome" size="20" value="" />
-			<p:outputLabel value="Porção" for="alimentoBean.alimentoSelecionado.porcao" />
-			<p:inputText id="porcao" size="20" value="">
-				<f:convertNumber />
+			<p:outputLabel value="Porção" for="porcao" />
+			<p:inputText id="porcao" size="7" value="">
+				<f:convertNumber pattern="#0.00" locale="pt_BR" />
 			</p:inputText>
-			<p:outputLabel value="Unidade" for="alimentoBean.alimentoSelecionado.unidade" />
+			<p:outputLabel value="Unidade" for="unidade" />
 			<p:selectOneMenu id="unidade" value="">
-				<f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true" />
-				<f:selectItems value="#{alimentoBean.alimentoSelecionado.unidadeGranel}" />
+				<f:selectItem itemLabel="Selecione" itemValue=""
+					noSelectionOption="true" />
+				<f:selectItems value="#{alimentoBean.unidadesGranel}" var="unidade"
+					itemValue="#{unidade}" itemLabel="#{unidade}" />
 			</p:selectOneMenu>
-		</p:panelGrid>
-		
-		<p:dataTable id="alimentos" value="#{alimentoBean.alimentos}" var="alimento" rows="20" paginator="true" paginatorAlwaysVisible="true" paginatorPosition="bottom">
-			<p:column headerText="Nome">
-				<h:outputText value="#{alimento.nome}" />
+			<p:commandButton value="Cadastrar">
+			</p:commandButton>
+		</p:panelGrid -->
+
+		<p:dataTable id="alimentos" value="#{alimentoBean.alimentos}"
+			var="alimento" rows="5" paginator="true"
+			paginatorAlwaysVisible="true" paginatorPosition="bottom"
+			selectionMode="single"
+			selection="#{alimentoBean.alimentoSelecionado}"
+			rowKey="#{alimento.uuid}">
+
+			<!-- p:ajax event="rowSelect" listener="#{alimentoBean.onRowSelect}" update=":form:componentes" /-->
+			<p:ajax event="rowSelect" update=":form:tab:componentes" />
+			<p:ajax event="rowUnselect" update=":form:tab:componentes" />
+
+			<p:column headerText="Categoria" style="text-align: center; width: 100px;">
+				<h:outputText value="#{alimento.categoria}" rendered="#{alimento.uuid != '123456'}" />
+				<p:inputText style="width: 98%;" value="#{alimentoBean.categoriaAlimento}" rendered="#{alimento.uuid == '123456'}" />
 			</p:column>
-			<p:column headerText="Porção">
+			<p:column headerText="Alimento" style="text-align: left;">
+				<h:outputText value="#{alimento.nome}" rendered="#{alimento.uuid != '123456'}" />
+				<p:inputText style="width: 98%;" value="#{alimentoBean.nomeAlimento}" rendered="#{alimento.uuid == '123456'}" />
+			</p:column>
+			<p:column headerText="Porção" style="text-align: center; width: 70px;">
 				<h:outputText value="#{alimento.porcao}" />
+				<p:inputText size="5" value="#{alimentoBean.porcaoAlimento}" rendered="#{alimento.uuid == '123456'}" />
 			</p:column>
-			<p:column headerText="Unidade">
+			<p:column headerText="UN" style="text-align: center; width: 70px;">
 				<h:outputText value="#{alimento.unidadeGranel}" />
+				<p:selectOneMenu id="unidade" value="alimentoBean.unidadeAlimento" rendered="#{alimento.uuid == '123456'}">
+					<f:selectItem itemLabel="" itemValue=""
+						noSelectionOption="true" />
+					<f:selectItems value="#{alimentoBean.unidadesGranel}" var="unidade"
+						itemValue="#{unidade}" itemLabel="#{unidade}" />
+				</p:selectOneMenu>
 			</p:column>
-			<p:column headerText="Ação">
-				<p:button outcome="/produtos/CadastroProduto" icon="ui-icon-pencil" title="Editar">
+
+			<p:columns value="#{alimento.componentesAlimentares}"
+				var="componente">
+				<f:facet name="header">
+					<h:outputText value="#{componente.nomeSubstancia}" />
+				</f:facet>
+				<h:outputText value="#{componente.quantidadeSubstancia}" />
+			</p:columns>
+
+			<!-- c:forEach items="#{alimento.componentesAlimentares}" var="componente">
+					<p:column value="#{componente.nomeSubstancia}" style="text-align: center;width: 100px">
+						<h:outputText value="#{componente.quantidadeSusbtancia}">
+							<f:convertNumber pattern="#0.00" locale="pt_BR" />
+						</h:outputText>
+					</p:column>
+				</c:forEach -->
+
+			<p:column headerText="Ação" style="text-align: center; width: 140px">
+				<!-- p:button outcome="" icon="ui-icon-pencil" title="Editar">
 	    			<f:param name="produto" value="#{produto.id}" />
 	    		</p:button>
 	    		<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusao.show()"
 	    					process="@this" update=":frmPesquisa:confirmacaoExclusaoDialog">
-	    			<f:setPropertyActionListener target="#{pesquisaProdutosBean.produtoSelecionado}" 
+	    			<f:setPropertyActionListener target="" 
 	    					value="#{produto}" />
+	    		</p:commandButton -->
+	    		<p:commandButton value="Cadastrar" rendered="#{alimento.uuid == '123456'}">
 	    		</p:commandButton>
 			</p:column>
 		</p:dataTable>
-	<!-- 
+
+		<p:tabView id="tab">
+			<p:tab title="Composição Alimentar">
+				<p:dataTable id="componentes"
+					value="#{alimentoBean.alimentoSelecionado.componentesAlimentares}"
+					var="componente" rows="15" paginator="true"
+					paginatorAlwaysVisible="true" paginatorPosition="bottom" sortBy="#{componente.ordem}">
+					<p:column headerText="Componente Alimentar"
+						style="text-align: left">
+						<h:outputText value="#{componente.nomeSubstancia}" rendered="#{componente.uuidSubstancia != null}" />
+						<p:inputText style="width: 98%;" value="#{alimentoBean.nomeSubstancia}" rendered="#{componente.uuidSubstancia == null}" />
+					</p:column>
+					<p:column headerText="Qtd" style="text-align: center; width: 70px">
+						<h:outputText value="#{componente.quantidadeSubstancia}" rendered="#{componente.uuidSubstancia != null}" />
+						<p:inputText size="5" value="#{alimentoBean.quantidadeSubstancia}" rendered="#{componente.uuidSubstancia == null}" />
+					</p:column>
+					<p:column headerText="UN" style="text-align: center; width: 70px">
+						<h:outputText value="#{componente.unidadeSubstancia}" />
+					</p:column>
+					<p:column headerText="Ação"
+						style="text-align: center; width: 140px">
+			    		<p:commandButton value="Cadastrar" rendered="#{componente.uuidSubstancia == null}" />
+					</p:column>
+				</p:dataTable>
+			</p:tab>
+			<p:tab title="Preparos e Medidas">
+				<p:dataTable id="preparosMedidas"
+					value="#{alimentoBean.preparosMedidasAlimentos}"
+					var="preparoMedida" rows="10" paginator="true"
+					paginatorAlwaysVisible="true" paginatorPosition="bottom">
+					<p:column headerText="Preparo" style="text-align: left; ">
+						<h:outputText value="#{preparoMedida.preparo.nome}" />
+					</p:column>
+					<p:column headerText="Medida" style="text-align: center; ">
+						<h:outputText value="#{preparoMedida.medida.nome}" />
+					</p:column>
+					<p:column headerText="Qtd" style="text-align: center; width: 70px">
+						<h:outputText value="#{preparoMedida.quantidade}" />
+					</p:column>
+					<p:column headerText="Ação"
+						style="text-align: center; width: 140px">
+					</p:column>
+				</p:dataTable>
+			</p:tab>
+		</p:tabView>
+		<!-- 
 		//Alternativa1		
 		Alimento
 		Nome: [Texto] Porção: [Texto] Unidade: [Combobox] {Cadastrar Alimento}

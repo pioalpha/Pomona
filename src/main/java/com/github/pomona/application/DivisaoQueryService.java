@@ -29,8 +29,8 @@ public class DivisaoQueryService implements Query<DivisaoParametrosPesquisa, Div
 	private EntityManager manager;
 
 	@Override
-	public Collection<DivisaoRefeicaoDTO> Executar(DivisaoParametrosPesquisa parametros) {
-		Collection<DivisaoRefeicaoDTO> resultado = new ArrayList<>();
+	public List<DivisaoRefeicaoDTO> Executar(DivisaoParametrosPesquisa parametros) {
+		List<DivisaoRefeicaoDTO> resultado = new ArrayList<>();
 
 		CriteriaBuilder cb = manager.getCriteriaBuilder();
 		CriteriaQuery<DivisaoRefeicao> cq = cb.createQuery(DivisaoRefeicao.class);

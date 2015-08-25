@@ -6,6 +6,8 @@ import com.github.common.service.dto.DTO;
 import com.github.pomona.domain.reference.TipoRefeicao;
 
 public class LimiteEnergeticoDTO implements DTO {
+	private static final long serialVersionUID = 1L;
+
 	private Date dataCadastro;
 	private TipoRefeicao tipoRefeicao;
 	private float percentualEnergetico;

@@ -7,6 +7,8 @@ import com.github.pomona.domain.reference.TipoNorma;
 import com.github.pomona.domain.reference.UnidadeSubstancia;
 
 public class NormaAlimentarDTO implements DTO {
+	private static final long serialVersionUID = 1L;
+
 	private Date dataCriacao;
 	private Float normaMinima;
 	private Float normaMaxima;
