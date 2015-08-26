@@ -1,6 +1,7 @@
 package com.github.pomona.view;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -31,6 +32,7 @@ import com.github.pomona.domain.reference.UnidadeGranel;
 import com.github.pomona.domain.reference.UnidadeSubstancia;
 import com.github.pomona.service.commandHandler.AlimentoCommandHandler;
 import com.github.pomona.service.commandHandler.SubstanciaCommandHandler;
+import com.github.pomona.test.CargaInicialTest;
 
 //@ManagedBean
 //@ViewScoped
@@ -41,6 +43,9 @@ public class AlimentoBean implements Serializable {
 
 	private static final long serialVersionUID = -8620927385542527384L;
 
+	@Inject
+	private CargaInicialTest c;
+	
 	// interfaces de Consultas necessárias as listagens
 	@Inject
 	private SubstanciaQueryService sqs;
@@ -79,6 +84,7 @@ public class AlimentoBean implements Serializable {
 	private List<AlimentoDTO> alimentos; //Contém componentes alimentares
 	private List<PreparoMedidaAlimentoDTO> preparosMedidasAlimentos; // Conforme alimento selecionado
 	private List<AlimentoDTO> alimentosFiltrados;
+	private List<ComponenteAlimentarDTO> componentesFiltrados;
 	
 	// Cadastro/Edição de alimento
 	private String nomeAlimento;
@@ -128,7 +134,7 @@ public class AlimentoBean implements Serializable {
 	}
 	
 	public void inicializar() {
-		this.alimentos = aqs.Executar(new AlimentoParametrosPesquisa(true, new Date(), null, null));
+		this.alimentos = aqs.Executar(new AlimentoParametrosPesquisa(false, new Date(), null, null));
 		this.preparos = aqs.Executar(new PreparoParametrosPesquisa());
 		this.medidas = aqs.Executar(new MedidaParametrosPesquisa());
 		this.categorias = aqs.Executar(new CategoriaParametrosPesquisa());
@@ -225,4 +231,19 @@ public class AlimentoBean implements Serializable {
 		this.alimentosFiltrados = alimentosFiltrados;
 	}
 	
+	public List<ComponenteAlimentarDTO> getComponentesFiltrados() {
+		return componentesFiltrados;
+	}
+
+	public void setComponentesFiltrados(List<ComponenteAlimentarDTO> componentesFiltrados) {
+		this.componentesFiltrados = componentesFiltrados;
+	}
+
+	public void cadastrarComponente() {
+		System.out.println(">>>" + this.alimentoSelecionado.getUuid());
+	}
+	
+	public void cargaInicial() throws ParseException {
+		c.executa2();
+	}
 }

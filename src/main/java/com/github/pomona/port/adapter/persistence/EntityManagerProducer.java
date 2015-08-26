@@ -22,8 +22,8 @@ public class EntityManagerProducer {
 	@Produces
 	//@ApplicationScoped
 	//@Singleton
-	@Dependent
-	//@RequestScoped
+	//@Dependent
+	@RequestScoped
 	public EntityManager createEntityManager () {
 		return factory.createEntityManager();
 	}
