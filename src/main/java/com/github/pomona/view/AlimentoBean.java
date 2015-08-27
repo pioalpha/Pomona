@@ -7,24 +7,30 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.hibernate.type.UUIDCharType;
 import org.primefaces.event.SelectEvent;
 
 import com.github.pomona.application.AlimentoQueryService;
 import com.github.pomona.application.SubstanciaQueryService;
+import com.github.pomona.application.command.alimento.CadastrarAlimentoGranelCommand;
+import com.github.pomona.application.command.alimento.CadastrarCategoriaAlimentoCommand;
 import com.github.pomona.application.dto.AlimentoDTO;
 import com.github.pomona.application.dto.AlimentoParametrosPesquisa;
 import com.github.pomona.application.dto.CategoriaDTO;
 import com.github.pomona.application.dto.CategoriaParametrosPesquisa;
 import com.github.pomona.application.dto.ComponenteAlimentarDTO;
+import com.github.pomona.application.dto.ComponenteParametrosPesquisa;
 import com.github.pomona.application.dto.MedidaDTO;
 import com.github.pomona.application.dto.MedidaParametrosPesquisa;
 import com.github.pomona.application.dto.PreparoDTO;
 import com.github.pomona.application.dto.PreparoMedidaAlimentoDTO;
+import com.github.pomona.application.dto.PreparoMedidaParametrosPesquisa;
 import com.github.pomona.application.dto.PreparoParametrosPesquisa;
 import com.github.pomona.application.dto.SubstanciaDTO;
 import com.github.pomona.application.dto.SubstanciaParametrosPesquisa;
@@ -80,17 +86,22 @@ public class AlimentoBean implements Serializable {
 	private UnidadeSubstancia unidadeSubstancia;
 	private UnidadeGranel unidadeGranel;
 	
-	// Núcleo de informação da página
-	private List<AlimentoDTO> alimentos; //Contém componentes alimentares
-	private List<PreparoMedidaAlimentoDTO> preparosMedidasAlimentos; // Conforme alimento selecionado
+	// Núcleo de informações da página
+	private List<AlimentoDTO> alimentos;
+	private List<ComponenteAlimentarDTO> componentes;
+	private List<PreparoMedidaAlimentoDTO> preparosMedidasAlimentos;
+	
+	// informações filtradas
 	private List<AlimentoDTO> alimentosFiltrados;
 	private List<ComponenteAlimentarDTO> componentesFiltrados;
+	private List<PreparoMedidaAlimentoDTO> preparosMedidasFiltrados;
 	
 	// Cadastro/Edição de alimento
 	private String nomeAlimento;
 	private Float porcaoAlimento;
 	private UnidadeGranel unidadeAlimento;
 	private String categoriaAlimento;
+	private CategoriaDTO categoriaSelecionada;
 	
 	// Cadastro/Edicao de componente
 	private String nomeSubstancia;
@@ -133,8 +144,9 @@ public class AlimentoBean implements Serializable {
 		return preparosMedidasAlimentos;
 	}
 	
+	@PostConstruct
 	public void inicializar() {
-		this.alimentos = aqs.Executar(new AlimentoParametrosPesquisa(false, new Date(), null, null));
+		this.alimentos = aqs.Executar(new AlimentoParametrosPesquisa(new Date(), null, null));
 		this.preparos = aqs.Executar(new PreparoParametrosPesquisa());
 		this.medidas = aqs.Executar(new MedidaParametrosPesquisa());
 		this.categorias = aqs.Executar(new CategoriaParametrosPesquisa());
@@ -169,6 +181,9 @@ public class AlimentoBean implements Serializable {
 	
 	public void onRowSelect(SelectEvent event) {
 		this.alimentoSelecionado = (AlimentoDTO) event.getObject();
+		this.componentes = alimentoSelecionado.getComponentesAlimentares();
+		//this.componentes = aqs.Executar(new ComponenteParametrosPesquisa(this.alimentoSelecionado.getUuid(), null, new Date()));
+		this.preparosMedidasAlimentos = aqs.Executar(new PreparoMedidaParametrosPesquisa(this.alimentoSelecionado, null, null));
 	}
 
 	public String getNomeAlimento() {
@@ -220,6 +235,16 @@ public class AlimentoBean implements Serializable {
 	}
 
 	public void cadastrarAlimento() {
+		String uuidCategoria;
+		if (this.categoriaSelecionada == null) {
+			// Cadastra a categoria nova
+			uuidCategoria = ach.handle(new CadastrarCategoriaAlimentoCommand(this.categoriaAlimento)).id;
+		} else {
+			uuidCategoria = this.categoriaSelecionada.getUuid();
+		}
+		
+		ach.handle(new CadastrarAlimentoGranelCommand(this.nomeAlimento, this.unidadeAlimento, this.porcaoAlimento, uuidCategoria));
+		
 		System.out.println(">>>" + this.categoriaAlimento + " - " + this.nomeAlimento + " - " + this.porcaoAlimento + " - " + this.unidadeAlimento);
 	}
 
@@ -246,4 +271,36 @@ public class AlimentoBean implements Serializable {
 	public void cargaInicial() throws ParseException {
 		c.executa2();
 	}
+
+	public List<ComponenteAlimentarDTO> getComponentes() {
+		return componentes;
+	}
+
+	public void setComponentes(List<ComponenteAlimentarDTO> componentes) {
+		this.componentes = componentes;
+	}
+
+	public List<PreparoMedidaAlimentoDTO> getPreparosMedidasFiltrados() {
+		return preparosMedidasFiltrados;
+	}
+
+	public void setPreparosMedidasFiltrados(List<PreparoMedidaAlimentoDTO> preparosMedidasFiltrados) {
+		this.preparosMedidasFiltrados = preparosMedidasFiltrados;
+	}
+	
+	public boolean isCategoriaCadastrada () {
+		boolean resultado = false;
+		if (this.categoriaAlimento != null) {
+			for (CategoriaDTO c : this.categorias) {
+				if (c.getNome().toLowerCase().equals(this.categoriaAlimento.toLowerCase())){
+					resultado = true;
+					this.categoriaSelecionada = c;
+					
+					break;
+				}
+			}
+		}
+		return resultado;
+	}
+	
 }

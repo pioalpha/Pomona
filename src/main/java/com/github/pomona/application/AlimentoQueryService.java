@@ -21,6 +21,7 @@ import com.github.pomona.application.dto.AlimentoParametrosPesquisa;
 import com.github.pomona.application.dto.CategoriaDTO;
 import com.github.pomona.application.dto.CategoriaParametrosPesquisa;
 import com.github.pomona.application.dto.ComponenteAlimentarDTO;
+import com.github.pomona.application.dto.ComponenteParametrosPesquisa;
 import com.github.pomona.application.dto.MedidaDTO;
 import com.github.pomona.application.dto.MedidaParametrosPesquisa;
 import com.github.pomona.application.dto.PreparoDTO;
@@ -153,34 +154,35 @@ public class AlimentoQueryService // extends AbstractQueryService
 			tq.setMaxResults(parametros.getNumeroResultadosPorPagina());
 		}
 
-		if (parametros.isParaEdicao()){
-			resultado.add(new AlimentoDTO(null, "123456", null, null, null, null, null, null));
-		}
 		for (AlimentoGranel ag : tq.getResultList()) {
-			Map<SubstanciaId, ComponenteAlimentarDTO> componentes = new HashMap<SubstanciaId, ComponenteAlimentarDTO>();
-			if (parametros.isParaEdicao()){
-				componentes.put(null, new ComponenteAlimentarDTO(null, null, null, null, -1, null));
-			}
-			for (ComponenteAlimentar ca : ag.getComposicaoAlimentar()) {
-				// Se tem data de consulta definida, pega a data, senão, pega a
-				// data atual
-				if (ComparaDatas.comparaApenasDatas(ca.getDataCadastro(), parametros.getDataConsulta()) <= 0) {
-					// se não tem a substancia cadastrada ou Se a substância já
-					// cadastrada tem data inferior a nova, então cadastra
-					if (!componentes.containsKey(ca.getSubstancia().substanciaId())
-							|| componentes.get(ca.getSubstancia().substanciaId()).getDataCadastro()
-									.compareTo(ca.getDataCadastro()) <= 0) {
-						componentes.put(ca.getSubstancia().substanciaId(),
-								new ComponenteAlimentarDTO(ca.getSubstancia().substanciaId().uuid(),
-										ca.getSubstancia().getNome(), ca.getQuantidade(),
-										ca.getSubstancia().getUnidadeSubstancia(), ca.getSubstancia().getOrdem(),
-										ca.getDataCadastro()));
+			AlimentoDTO a = null;
+			if (parametros.getDataConsulta() != null) {
+				Map<SubstanciaId, ComponenteAlimentarDTO> componentes = new HashMap<SubstanciaId, ComponenteAlimentarDTO>();
+				for (ComponenteAlimentar ca : ag.getComposicaoAlimentar()) {
+					// Se tem data de consulta definida, pega a data, senão, pega a
+					// data atual
+					if (ComparaDatas.comparaApenasDatas(ca.getDataCadastro(), parametros.getDataConsulta()) <= 0) {
+						// se não tem a substancia cadastrada ou Se a substância já
+						// cadastrada tem data inferior a nova, então cadastra
+						if (!componentes.containsKey(ca.getSubstancia().substanciaId())
+								|| componentes.get(ca.getSubstancia().substanciaId()).getDataCadastro()
+										.compareTo(ca.getDataCadastro()) <= 0) {
+							componentes.put(ca.getSubstancia().substanciaId(),
+									new ComponenteAlimentarDTO(ca.getSubstancia().substanciaId().uuid(),
+											ca.getSubstancia().getNome(), ca.getQuantidade(),
+											ca.getSubstancia().getUnidadeSubstancia(), ca.getSubstancia().getOrdem(),
+											ca.getDataCadastro()));
+						}
 					}
 				}
+				a = new AlimentoDTO(parametros.getDataConsulta(), ag.alimentoId().uuid(), ag.getNome(),
+						ag.getUnidadeGranel(), ag.getPorcao(), ag.getCategoriaAlimento().categoriaAlimentoId().uuid(),
+						ag.getCategoriaAlimento().getNome(), new ArrayList<ComponenteAlimentarDTO>(componentes.values()));
+			} else {
+				a = new AlimentoDTO(parametros.getDataConsulta(), ag.alimentoId().uuid(), ag.getNome(),
+						ag.getUnidadeGranel(), ag.getPorcao(), ag.getCategoriaAlimento().categoriaAlimentoId().uuid(),
+						ag.getCategoriaAlimento().getNome(), null);
 			}
-			AlimentoDTO a = new AlimentoDTO(parametros.getDataConsulta(), ag.alimentoId().uuid(), ag.getNome(),
-					ag.getUnidadeGranel(), ag.getPorcao(), ag.getCategoriaAlimento().categoriaAlimentoId().uuid(),
-					ag.getCategoriaAlimento().getNome(), new ArrayList<ComponenteAlimentarDTO>(componentes.values()));
 			resultado.add(a);
 		}
 
@@ -258,7 +260,7 @@ public class AlimentoQueryService // extends AbstractQueryService
 																// uudi, senão,
 																// pesquisa pelo
 																// nome
-				predicates.add(cb.equal(fromPreparoMedida.join("tipoPreparo").<String> get("tipoPreparoId"),
+				predicates.add(cb.equal(fromPreparoMedida.join("tipoPreparo").get("tipoPreparoId").get("uuid"),
 						parametros.getPreparo().getUuid()));
 			} else if (parametros.getPreparo().getNome() != null) {
 				predicates.add(cb.like(fromPreparoMedida.join("tipoPreparo").<String> get("nome"),
@@ -271,12 +273,9 @@ public class AlimentoQueryService // extends AbstractQueryService
 															// pelo uudi, senão,
 															// pesquisa pelo
 															// nome
-				predicates.add(cb.equal(fromPreparoMedida.join("tipoPreparo").<String> get("tipoPreparoId"),
+				predicates.add(cb.equal(fromPreparoMedida.join("tipoMedida").get("tipoMedidaId").get("uuid"),
 						parametros.getPreparo().getUuid()));
 			} else if (parametros.getMedida().getNome() != null) {
-				predicates.add(cb.equal(fromPreparoMedida.join("tipoMedida").<String> get("tipoMedidaId"),
-						parametros.getMedida().getUuid()));
-
 				predicates.add(cb.like(fromPreparoMedida.join("tipoMedida").<String> get("nome"),
 						"%" + parametros.getMedida().getNome() + "%"));
 			}
@@ -289,12 +288,9 @@ public class AlimentoQueryService // extends AbstractQueryService
 																// uudi, senão,
 																// pesquisa pelo
 																// nome
-				predicates.add(cb.equal(fromPreparoMedida.join("tipoPreparo").<String> get("tipoPreparoId"),
-						parametros.getPreparo().getUuid()));
-			} else if (parametros.getAlimento().getNome() != null) {
-				predicates.add(cb.equal(fromPreparoMedida.join("alimentoGranel").<String> get("alimentoGranelId"),
+				predicates.add(cb.equal(fromPreparoMedida.join("alimentoGranel").get("alimentoId").get("uuid"),
 						parametros.getAlimento().getUuid()));
-
+			} else if (parametros.getAlimento().getNome() != null) {
 				predicates.add(cb.like(fromPreparoMedida.join("alimentoGranel").<String> get("nome"),
 						"%" + parametros.getAlimento().getNome() + "%"));
 			}
@@ -347,4 +343,48 @@ public class AlimentoQueryService // extends AbstractQueryService
 		return resultado;
 	}
 
+	public List<ComponenteAlimentarDTO> Executar(ComponenteParametrosPesquisa parametros) {
+		List<ComponenteAlimentarDTO> resultado = new ArrayList<>();
+
+		CriteriaBuilder cb = manager.getCriteriaBuilder();
+		CriteriaQuery<ComponenteAlimentar> cq = cb.createQuery(ComponenteAlimentar.class);
+		Root<ComponenteAlimentar> fromComponente = cq.from(ComponenteAlimentar.class);
+
+		List<Predicate> predicates = new ArrayList<Predicate>();
+		if (parametros.getUuidAlimento() != null) {
+			predicates.add(cb.equal(fromComponente.join("alimentoUnitario").get("alimentoId").<String> get("uuid"), parametros.getUuidAlimento()));
+		} else if (parametros.getNomeAlimento() != null) {
+			predicates.add(cb.like(fromComponente.join("alimentoUnitario").<String> get("nome"), "%" + parametros.getNomeAlimento() + "%"));
+		}
+
+		cq.where(predicates.toArray(new Predicate[] {}));
+		TypedQuery<ComponenteAlimentar> tq = manager.createQuery(cq);
+
+		if (parametros.getNumeroResultadosPorPagina() != null) {
+			tq.setFirstResult(parametros.getNumeroDaPagina() - 1);
+			tq.setMaxResults(parametros.getNumeroResultadosPorPagina());
+		}
+
+		Map<SubstanciaId, ComponenteAlimentarDTO> componentes = new HashMap<SubstanciaId, ComponenteAlimentarDTO>();
+		for (ComponenteAlimentar c : tq.getResultList()) {
+			// Se tem data de consulta definida, pega a data, senão, pega a
+			// data atual
+			if (ComparaDatas.comparaApenasDatas(c.getDataCadastro(), parametros.getDataConsulta()) <= 0) {
+				// se não tem a substancia cadastrada ou Se a substância já
+				// cadastrada tem data inferior a nova, então cadastra
+				if (!componentes.containsKey(c.getSubstancia().substanciaId())
+						|| componentes.get(c.getSubstancia().substanciaId()).getDataCadastro()
+								.compareTo(c.getDataCadastro()) <= 0) {
+					componentes.put(c.getSubstancia().substanciaId(),
+							new ComponenteAlimentarDTO(c.getSubstancia().substanciaId().uuid(),
+									c.getSubstancia().getNome(), c.getQuantidade(),
+									c.getSubstancia().getUnidadeSubstancia(), c.getSubstancia().getOrdem(),
+									c.getDataCadastro()));
+				}
+			}
+		}
+		resultado.addAll(componentes.values());
+
+		return resultado;
+	}
 }

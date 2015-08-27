@@ -11,7 +11,7 @@ public abstract class ParametrosPesquisa {
 		this.numeroDaPagina = 1;
 	}
 
-	public ParametrosPesquisa(int numeroResultadosPorPagina, int numeroDaPagina) {
+	public ParametrosPesquisa(Integer numeroResultadosPorPagina, int numeroDaPagina) {
 		super();
 		
 		this.numeroResultadosPorPagina = numeroResultadosPorPagina;

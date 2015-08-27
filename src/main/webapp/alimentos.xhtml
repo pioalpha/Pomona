@@ -12,10 +12,11 @@
 	<title>Alimentos</title>
 </h:head>
 <h:body>
-	<f:metadata>
+	<!-- f:metadata>
 		<f:viewParam name="pedido" value="Teste" />
 		<f:event listener="#{alimentoBean.inicializar}" type="preRenderView" />
-	</f:metadata>
+	</f:metadata -->
+	<!-- p:log / -->
 	<h:form id="form">
 		<!-- p:commandButton value="Carga Inicial" action="#{alimentoBean.cargaInicial}" / -->
 		<!-- p:panelGrid columns="7" id="painel">
@@ -42,10 +43,11 @@
 			selectionMode="single"
 			selection="#{alimentoBean.alimentoSelecionado}"
 			rowKey="#{alimento.uuid}" widgetVar="tabelaAlimentos"
-			filteredValue="#{alimentoBean.alimentosFiltrados}">
+			filteredValue="#{alimentoBean.alimentosFiltrados}"
+			rowsPerPageTemplate="5,10,15" >
 
 			<!-- p:ajax event="rowSelect" listener="#{alimentoBean.onRowSelect}" update=":form:componentes" /-->
-			<p:ajax event="rowSelect" update=":form:tab:componentes" />
+			<p:ajax event="rowSelect" listener="#{alimentoBean.onRowSelect}" update=":form:tab:componentes :form:tab:preparosMedidas" />
 			<p:ajax event="rowUnselect" update=":form:tab:componentes" />
 
 			<p:column headerText="Categoria" filterBy="#{alimento.categoria}"
@@ -53,21 +55,14 @@
 				<f:facet name="filter">
 					<p:selectOneMenu onchange="PF('tabelaAlimentos').filter()"
 						value="#{alimentoBean.categoriaAlimento}" style="width: 98%;"
-						editable="true">
+						editable="true" widgetVar="cmbCategoria" >
 						<f:selectItem itemLabel="" itemValue="#{null}"
 							noSelectionOption="true" />
 						<f:selectItems value="#{alimentoBean.categorias}" var="categoria"
 							itemValue="#{categoria}" itemLabel="#{categoria.nome}" />
 					</p:selectOneMenu>
 				</f:facet>
-				<h:outputText value="#{alimento.categoria}"
-					rendered="#{alimento.uuid != '123456'}" />
-				<p:selectOneMenu id="categoria"
-					value="#{alimentoBean.categoriaAlimento}" editable="true"
-					style="width: 98%;" rendered="#{alimento.uuid == '123456'}">
-					<f:selectItems value="#{alimentoBean.categorias}" var="categoria"
-						itemValue="#{categoria.uuid}" itemLabel="#{categoria.nome}" />
-				</p:selectOneMenu>
+				<h:outputText value="#{alimento.categoria}" />
 			</p:column>
 
 			<p:column headerText="Alimento" style="text-align: left;"
@@ -77,11 +72,7 @@
 						value="#{alimentoBean.nomeAlimento}"
 						onkeyup="PF('tabelaAlimentos').filter()" />
 				</f:facet>
-				<h:outputText value="#{alimento.nome}"
-					rendered="#{alimento.uuid != '123456'}" />
-				<p:inputText style="width: 98%;"
-					value="#{alimentoBean.nomeAlimento}"
-					rendered="#{alimento.uuid == '123456'}" />
+				<h:outputText value="#{alimento.nome}" />
 			</p:column>
 
 			<p:column headerText="Porção" filterBy="#{alimento.porcao}"
@@ -94,10 +85,6 @@
 					</p:inputText>
 				</f:facet>
 				<h:outputText value="#{alimento.porcao}" />
-				<p:inputText value="#{alimentoBean.porcaoAlimento}"
-					style="width: 85%;" rendered="#{alimento.uuid == '123456'}">
-					<f:convertNumber pattern="#0.00" locale="pt_BR" />
-				</p:inputText>
 			</p:column>
 
 			<p:column headerText="UN" filterBy="#{alimento.unidadeGranel}"
@@ -112,22 +99,15 @@
 					</p:selectOneMenu>
 				</f:facet>
 				<h:outputText value="#{alimento.unidadeGranel}" />
-				<p:selectOneMenu id="unidadeAlimento"
-					value="#{alimentoBean.unidadeAlimento}" style="width: 97%;"
-					rendered="#{alimento.uuid == '123456'}">
-					<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
-					<f:selectItems value="#{alimentoBean.unidadesGranel}" var="unidade"
-						itemValue="#{unidade}" itemLabel="#{unidade}" />
-				</p:selectOneMenu>
 			</p:column>
 
-			<p:columns value="#{alimento.componentesAlimentares}"
+			<!-- p:columns value="#{alimento.componentesAlimentares}"
 				var="componente">
 				<f:facet name="header">
 					<h:outputText value="#{componente.nomeSubstancia}" />
 				</f:facet>
 				<h:outputText value="#{componente.quantidadeSubstancia}" />
-			</p:columns>
+			</p:columns -->
 
 			<!-- c:forEach items="#{alimento.componentesAlimentares}" var="componente">
 					<p:column value="#{componente.nomeSubstancia}" style="text-align: center;width: 100px">
@@ -142,7 +122,7 @@
 					<h:outputText value="Ação" />
 					<p:commandButton value="Cadastrar" update=":form:alimentos"
 						action="#{alimentoBean.cadastrarAlimento}"
-						onclick="PF('confirmarCadastroCategoria').show()">
+						onclick="if(#{alimentoBean.isCategoriaCadastrada()}) { PF('confirmarCadastroCategoria').show() } ">
 					</p:commandButton>
 				</f:facet>
 				<!-- p:button outcome="" icon="ui-icon-pencil" title="Editar">
@@ -156,11 +136,6 @@
 				<!-- p:commandButton value="Cadastrar" update=":form:alimentos"
 					rendered="#{alimento.uuid == '123456'}" onclick="PF('confirmarCadastroCategoria').show()" >
 				</p:commandButton -->
-				<p:commandButton value="Cadastrar" update=":form:alimentos"
-					action="#{alimentoBean.cadastrarAlimento}"
-					rendered="#{alimento.uuid == '123456'}"
-					onclick="PF('confirmarCadastroCategoria').show()">
-				</p:commandButton>
 			</p:column>
 		</p:dataTable>
 
@@ -176,11 +151,12 @@
 		<p:tabView id="tab" >
 			<p:tab title="Composição Alimentar">
 				<p:dataTable id="componentes"
-					value="#{alimentoBean.alimentoSelecionado.componentesAlimentares}"
-					var="componente" rows="15" paginator="true"
+					value="#{alimentoBean.componentes}"
+					var="componente" rows="5" paginator="true"
 					paginatorAlwaysVisible="true" paginatorPosition="bottom"
 					sortBy="#{componente.ordem}" widgetVar="tabelaComponentes"
-					filteredValue="#{alimentoBean.componentesFiltrados}" >
+					filteredValue="#{alimentoBean.componentesFiltrados}"
+					rowsPerPageTemplate="5,10,15" >
 
 					<p:column headerText="Componente Alimentar (UN)"
 						filterBy="#{componente.nomeSubstancia}" filterMatchMode="exact"
@@ -197,12 +173,7 @@
 									itemLabel="#{substancia.nome} (#{substancia.unidadeSubstancia})" />
 							</p:selectOneMenu>
 						</f:facet>
-						<h:outputText
-							value="#{componente.nomeSubstancia} (#{componente.unidadeSubstancia})"
-							rendered="#{componente.uuidSubstancia != null}" />
-						<p:inputText style="width: 98%;"
-							value="#{alimentoBean.nomeSubstancia}"
-							rendered="#{componente.uuidSubstancia == null}" />
+						<h:outputText value="#{componente.nomeSubstancia} (#{componente.unidadeSubstancia})" />
 					</p:column>
 
 					<p:column headerText="Qtd"
@@ -215,15 +186,8 @@
 								<!-- f:convertNumber pattern="#0.00" locale="pt_BR" / -->
 							</p:inputText>
 						</f:facet>
-						<h:outputText value="#{componente.quantidadeSubstancia}"
-							rendered="#{componente.uuidSubstancia != null}" />
-						<p:inputText size="5" value="#{alimentoBean.quantidadeSubstancia}"
-							rendered="#{componente.uuidSubstancia == null}" />
+						<h:outputText value="#{componente.quantidadeSubstancia}" />
 					</p:column>
-
-					<!-- p:column headerText="UN" style="text-align: center; width: 70px">
-						<h:outputText value="#{componente.unidadeSubstancia}" />
-					</p:column -->
 
 					<p:column headerText="Ação"
 						style="text-align: center; width: 120px">
@@ -231,7 +195,7 @@
 							<h:outputText value="Ação" />
 							<p:commandButton value="Cadastrar" update=":form:tab:componentes"
 								action="#{alimentoBean.cadastrarComponente}"
-								onclick="PF('confirmarCadastroComponente').show()">
+								onclick="PF('confirmarCadastroCategoria').show()">
 							</p:commandButton>
 						</f:facet>
 						<p:commandButton value="Cadastrar"
@@ -259,7 +223,7 @@
 					</p:column>
 
 					<p:column headerText="Ação"
-						style="text-align: center; width: 140px">
+						style="text-align: center; width: 120px">
 					</p:column>
 				</p:dataTable>
 			</p:tab>
