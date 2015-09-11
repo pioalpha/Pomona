@@ -12,136 +12,140 @@
 	<title>Gestão de Alimentos</title>
 </h:head>
 <h:body>
-	<p:growl id="message" showDetail="true" />
+	<!-- p:growl id="grwMessage" showDetail="true" /-->
 
-	<h:form id="form">
+	<h:form id="frmAlimentos">
 		<p:messages autoUpdate="true" closable="true" />
 		<!-- p:commandButton value="Carga Inicial" action="#{alimentoBean.cargaInicial}" / -->
 
-		<p:dataTable id="alimentos" value="#{alimentoBean.alimentos}"
-			var="alimento"
-			rows="5" paginator="true"
+		<p:dataTable id="tblAlimentos" value="#{alimentoBean.alimentos}"
+			var="alimento" rows="5" paginator="true"
 			paginatorAlwaysVisible="true" paginatorPosition="bottom"
 			selectionMode="single"
 			selection="#{alimentoBean.alimentoSelecionado}"
-			rowKey="#{alimento.uuid}" widgetVar="tblAlimentos"
+			rowKey="#{alimento.uuid}" widgetVar="wdgAlimentos"
 			filteredValue="#{alimentoBean.alimentosFiltrados}"
-			rowsPerPageTemplate="5,10,15"
-			tableStyle=""
-			resizableColumns="false"
-			 >
+			rowsPerPageTemplate="5,10,15" tableStyle="" resizableColumns="false">
 			<f:facet name="header">
         		Gestão de Alimentos
     		</f:facet>
 
-			<p:ajax event="rowSelect" listener="#{alimentoBean.onRowSelect}" oncomplete="PF('tblComponentes').filter(); " update=":form:tab:componentes :form:tab:apresentacoesMedidas" />
-			<!-- p:ajax event="rowUnselect" update=":form:tab:componentes" / -->
+			<p:ajax event="rowSelect" listener="#{alimentoBean.onRowSelect}"
+				oncomplete="PF('wdgComponentes').filter(); "
+				update=":frmAlimentos:tbvAlimentos:tblComponentes :frmAlimentos:tbvAlimentos:tblApresentacoesMedidas" />
+			<!-- p:ajax event="rowUnselect" update=":frmAlimentos:tbvAlimentos:tblComponentes" / -->
 
-			<p:column headerText="Categoria" filterBy="#{alimento.categoria.nome}"
-				filterMatchMode="exact" style="text-align: center; width: 160px;">
+			<p:column
+				filterBy="#{alimento.categoria.nome}" filterMatchMode="exact"
+				style="text-align: center; width: 160px;">
+				<f:facet name="header">
+					<h:outputText value="Categoria " />
+					<p:commandButton type="button" icon="ui-icon-pencil" title="Editar"
+						id="btnEditarCategoria" style="width: 26px; height: 32px;"
+						onclick="PF('dlgCategorias').show();" />
+				</f:facet>
+
 				<f:facet name="filter">
-					<p:selectOneMenu onchange="PF('tblAlimentos').filter()"
-						value="#{alimentoBean.categoriaAlimento}" style="width: 130px;"
-						editable="true" widgetVar="cmbCategoria" >
+					<p:selectOneMenu onchange="PF('wdgAlimentos').filter()"
+						value="#{alimentoBean.categoriaAlimento}" style="width: 100%;"
+						editable="false" widgetVar="wdgCategoria">
 						<f:selectItem itemLabel="" itemValue="#{null}"
 							noSelectionOption="true" />
 						<f:selectItems value="#{alimentoBean.categorias}" var="categoria"
 							itemValue="#{categoria.nome}" itemLabel="#{categoria.nome}" />
 					</p:selectOneMenu>
-					<p:commandButton type="button" icon="ui-icon-pencil" title="Editar" id="btnEditarCategoria" style="width: 26px; height: 32px;" onclick="PF('dlgCategorias').show();"/>
+
 				</f:facet>
+
 				<h:outputText value="#{alimento.categoria.nome}" />
 			</p:column>
 
-			<p:column headerText="Alimento" style="text-align: left;" 
+			<p:column headerText="Alimento" style="text-align: left;"
 				filterBy="#{alimento.nome}" filterMatchMode="contains">
+
 				<f:facet name="filter">
 					<p:inputText style="width: 98%;"
 						value="#{alimentoBean.nomeAlimento}"
-						onkeyup="PF('tblAlimentos').filter()"
-						onfocus="this.select()"
+						onkeyup="PF('wdgAlimentos').filter()" onfocus="this.select()"
 						id="txtAlimento" />
-						
 				</f:facet>
+
 				<h:outputText value="#{alimento.nome}" />
 			</p:column>
 
-			<p:column headerText="Qtd" filterBy="#{alimento.porcao}" 
+			<p:column headerText="Qtd" filterBy="#{alimento.porcao}"
 				filterMatchMode="equals" style="text-align: center; width: 70px;">
 
 				<f:facet name="filter">
 					<p:inputText value="#{alimentoBean.porcaoAlimento}"
-						style="width: 85%;" onchange="PF('tblAlimentos').filter()" >
+						style="width: 85%;" onchange="PF('wdgAlimentos').filter()">
 						<!-- f:convertNumber pattern="#0.00" locale="pt_BR" / -->
 					</p:inputText>
 				</f:facet>
+
 				<h:outputText value="#{alimento.porcao}" />
 			</p:column>
 
-			<p:column headerText="UN" filterBy="#{alimento.unidadeGranel}" 
+			<p:column headerText="UN" filterBy="#{alimento.unidadeGranel}"
 				filterMatchMode="exact" style="text-align: center; width: 60px;">
 
 				<f:facet name="filter">
 					<p:selectOneMenu value="#{alimentoBean.unidadeAlimento}"
-						style="width: 97%;" onchange="PF('tblAlimentos').filter()" >
+						style="width: 97%;" onchange="PF('wdgAlimentos').filter()">
 						<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
 						<f:selectItems value="#{alimentoBean.unidadesGranel}"
 							var="unidade" itemValue="#{unidade}" itemLabel="#{unidade}" />
 					</p:selectOneMenu>
 				</f:facet>
+
 				<h:outputText value="#{alimento.unidadeGranel}" />
 			</p:column>
 
-<!-- http://stackoverflow.com/questions/20146630/execution-order-of-events-when-pressing-primefaces-pcommandbutton -->
-<!-- http://stackoverflow.com/questions/25339056/understanding-process-and-update-attributes-of-primefaces -->
+			<!-- http://stackoverflow.com/questions/20146630/execution-order-of-events-when-pressing-primefaces-pcommandbutton -->
+			<!-- http://stackoverflow.com/questions/25339056/understanding-process-and-update-attributes-of-primefaces -->
 
 			<p:column headerText="Ação" style="text-align: center; width: 120px">
 				<f:facet name="header">
 					<h:outputText value="Ação" />
 					<p:commandButton value="Cadastrar" type="submit"
-						action="#{alimentoBean.cadastrarAlimento}"
-						immediate="true" process="@this" update="@this"
-						oncomplete=" { PF('tblAlimentos').filter(); PF('tblAlimentos').unselectAllRows(); PF('tblAlimentos').selectRow(0, false); }" >
-				    </p:commandButton>					
+						action="#{alimentoBean.cadastrarAlimento}" immediate="true"
+						process="@this" update="@this"
+						oncomplete=" { PF('wdgAlimentos').filter(); PF('wdgAlimentos').unselectAllRows(); PF('wdgAlimentos').selectRow(0, false); }">
+					</p:commandButton>
 				</f:facet>
 			</p:column>
 		</p:dataTable>
 
-		<p:confirmDialog header="Cadastro de categoria"
-			message="Deseja incluir esta nova categoria de alimento?"
-			widgetVar="confirmarCadastroCategoria">
-			<p:button value="Não"
-				onclick="PF('confirmarCadastroCategoria').hide(); return false;" />
-			<p:commandButton value="Sim"
-				action="#{alimentoBean.cadastrarAlimento}"
-				oncomplete="PF('confirmarCadastroCategoria').hide();" />
-		</p:confirmDialog>
-
-		<p:tabView id="tab" >
+		<p:tabView id="tbvAlimentos">
 			<p:tab title="Composição Alimentar">
-				<p:dataTable id="componentes"
-					value="#{alimentoBean.componentes}"
+				<p:dataTable id="tblComponentes" value="#{alimentoBean.componentes}"
 					var="componente" rows="5" paginator="true"
 					paginatorAlwaysVisible="true" paginatorPosition="bottom"
-					sortBy="#{componente.substancia.ordem}" widgetVar="tblComponentes"
+					sortBy="#{componente.substancia.ordem}" widgetVar="wdgComponentes"
 					filteredValue="#{alimentoBean.componentesFiltrados}"
-					rowsPerPageTemplate="5,10,15" >
+					rowsPerPageTemplate="5,10,15">
 
-					<p:column headerText="Componente Alimentar (UN)"
-						filterBy="#{componente.substancia.substanciaDetalhada}" filterMatchMode="exact"
-						style="text-align: left">
+					<p:column
+						filterBy="#{componente.substancia.substanciaDetalhada}"
+						filterMatchMode="exact" style="text-align: left">
+						<f:facet name="header">
+							<h:outputText value="Componente Alimentar (UN) " />
+							<p:commandButton type="button" icon="ui-icon-pencil"
+								title="Editar" id="btnEditarSubstancia"
+								style="width: 26px; height: 32px;"
+								onclick="PF('dlgSubstancias').show();" />
+						</f:facet>
 
 						<f:facet name="filter">
-							<p:selectOneMenu onchange="PF('tblComponentes').filter()"
-								value="#{alimentoBean.nomeSubstancia}" style="width: 92%;"
-								editable="true">
+							<p:selectOneMenu onchange="PF('wdgComponentes').filter()"
+								value="#{alimentoBean.nomeSubstancia}" style="width: 100%;"
+								editable="false">
 								<f:selectItem itemLabel="" itemValue="#{null}"
 									noSelectionOption="true" />
 								<f:selectItems value="#{alimentoBean.substancias}"
 									var="substancia" itemValue="#{substancia.nome}"
 									itemLabel="#{substancia.substanciaDetalhada}" />
 							</p:selectOneMenu>
-							<p:commandButton type="button" icon="ui-icon-pencil" title="Editar" id="btnEditarSubstancia" style="width: 26px; height: 32px;" onclick="PF('dlgSubstancias').show();"/>
 						</f:facet>
 						<h:outputText value="#{componente.substancia.substanciaDetalhada}" />
 					</p:column>
@@ -152,7 +156,7 @@
 
 						<f:facet name="filter">
 							<p:inputText value="#{alimentoBean.quantidadeSubstancia}"
-								style="width: 85%;" onchange="PF('tblComponentes').filter()">
+								style="width: 85%;" onchange="PF('wdgComponentes').filter()">
 								<!-- f:convertNumber pattern="#0.00" locale="pt_BR" / -->
 							</p:inputText>
 						</f:facet>
@@ -163,9 +167,10 @@
 						style="text-align: center; width: 120px">
 						<f:facet name="header">
 							<h:outputText value="Ação" />
-							<p:commandButton value="Cadastrar" update=":form:tab:componentes"
+							<p:commandButton value="Cadastrar"
+								update=":frmAlimentos:tbvAlimentos:tblComponentes"
 								action="#{alimentoBean.cadastrarComponente}"
-								oncomplete=" { PF('tblAlimentos').selectRow(PF('tblAlimentos').originRowIndex, false); PF('tblComponentes').unselectAllRows(); PF('tblComponentes').filter(); }" >
+								oncomplete=" { PF('wdgAlimentos').selectRow(PF('wdgAlimentos').originRowIndex, false); PF('wdgComponentes').unselectAllRows(); PF('wdgComponentes').filter(); }">
 							</p:commandButton>
 						</f:facet>
 					</p:column>
@@ -173,10 +178,11 @@
 			</p:tab>
 
 			<p:tab title="Apresentações e Medidas">
-				<p:dataTable id="apresentacoesMedidas"
+				<p:dataTable id="tblApresentacoesMedidas"
 					value="#{alimentoBean.preparosMedidasAlimentos}"
 					var="preparoMedida" rows="10" paginator="true"
-					paginatorAlwaysVisible="true" paginatorPosition="bottom">
+					paginatorAlwaysVisible="true" paginatorPosition="bottom"
+					widgetVar="wdgApresentacoesMedidas">
 
 					<p:column headerText="Apresentação" style="text-align: left; ">
 						<h:outputText value="#{preparoMedida.preparo.nome}" />
@@ -197,7 +203,7 @@
 			</p:tab>
 		</p:tabView>
 
-		  
+
 		<!-- 
 		//Alternativa1		
 		Alimento
@@ -245,103 +251,126 @@
 	-->
 	</h:form>
 
+	<p:confirmDialog header="Cadastro de categoria"
+		message="Deseja incluir esta nova categoria de alimento?"
+		widgetVar="confirmarCadastroCategoria">
+		<p:button value="Não"
+			onclick="PF('confirmarCadastroCategoria').hide(); return false;" />
+		<p:commandButton value="Sim"
+			action="#{alimentoBean.cadastrarAlimento}"
+			oncomplete="PF('confirmarCadastroCategoria').hide();" />
+	</p:confirmDialog>
 
-	<p:dialog header="Gestão de Categorias" widgetVar="dlgCategorias" modal="true" width="550px">
+	<p:dialog header="Gestão de Categorias" widgetVar="dlgCategorias"
+		modal="true" width="550px">
 		<h:form id="frmCategorias">
-	    	<p:dataTable id="categorias" value="#{alimentoBean.categorias}"
-				var="categoria"
-	    		rows="5" paginator="true" widgetVar="tblCategorias"
+			<p:dataTable id="tblCategorias" value="#{alimentoBean.categorias}"
+				var="categoria" rows="5" paginator="true" widgetVar="wdgCategorias"
 				paginatorAlwaysVisible="true" paginatorPosition="bottom"
-				rowsPerPageTemplate="5,10,15" >
+				rowsPerPageTemplate="5,10,15">
 				<!-- f:facet name="header">
 	        		Gestão de Categorias
 	    		</f:facet -->
-	    		
-	    		<p:column headerText="Nome" style="text-align: left;" filterBy="#{categoria.nome}" filterMatchMode="contains">
-	    			<f:facet name="filter">
+
+				<p:column headerText="Nome" style="text-align: left;"
+					filterBy="#{categoria.nome}" filterMatchMode="contains">
+					<f:facet name="filter">
 						<p:inputText style="width: 98%;"
 							value="#{alimentoBean.nomeCategoria}"
-							onkeyup="PF('tblCategorias').filter()"
-							onfocus="this.select()"
+							onkeyup="PF('wdgCategorias').filter()" onfocus="this.select()"
 							id="txtCategoria" />
-	    			</f:facet>
+					</f:facet>
+
 					<h:outputText value="#{categoria.nome}" />
-	    		</p:column>
-	    		<p:column headerText="Calorias p/ Porção" style="text-align: center; width: 95px" filterBy="#{categoria.caloriasPorPorcao}" filterMatchMode="exact">
-	    			<f:facet name="filter">
+				</p:column>
+
+				<p:column headerText="Calorias p/ Porção"
+					style="text-align: center; width: 95px"
+					filterBy="#{categoria.caloriasPorPorcao}" filterMatchMode="exact">
+					<f:facet name="filter">
 						<p:inputText value="#{alimentoBean.caloriasPorcaoCategoria}"
-							style="width: 85%;" onchange="PF('tblCategorias').filter()" >
+							style="width: 85%;" onchange="PF('wdgCategorias').filter()">
 						</p:inputText>
-	    			</f:facet>
+					</f:facet>
+
 					<h:outputText value="#{categoria.caloriasPorPorcao}" />
-	    		</p:column>
-	    		<p:column headerText="Ação" style="text-align: center; width: 120px">
-	    			<f:facet name="header">
+				</p:column>
+
+				<p:column headerText="Ação" style="text-align: center; width: 120px">
+					<f:facet name="header">
 						<h:outputText value="Ação" />
 						<p:commandButton value="Cadastrar" type="submit"
-							action="#{alimentoBean.cadastrarCategoria}"
-							immediate="true" process="@this" update="@this"
-							oncomplete=" { PF('tblCategorias').filter(); PF('tblCategorias').unselectAllRows(); PF('tblCategorias').selectRow(0, false); }" >
-					    </p:commandButton>	
-					</f:facet>				
-	    		</p:column>
-	    	</p:dataTable>
-    	</h:form>
+							action="#{alimentoBean.cadastrarCategoria}" immediate="true"
+							process="@this" update="@this"
+							oncomplete=" { PF('wdgCategorias').filter(); PF('wdgCategorias').unselectAllRows(); PF('wdgCategorias').selectRow(0, false); }">
+						</p:commandButton>
+					</f:facet>
+				</p:column>
+			</p:dataTable>
+		</h:form>
 	</p:dialog>
 
-	<p:dialog header="Gestão de Substâncias" widgetVar="dlgSubstancias" modal="true" width="650px">
+	<p:dialog header="Gestão de Substâncias" widgetVar="dlgSubstancias"
+		modal="true" width="650px">
 		<h:form id="frmSubstancias">
-	    	<p:dataTable id="substancias" value="#{alimentoBean.substancias}"
-				var="substancia"
-	    		rows="5" paginator="true" widgetVar="tblSubstancias"
-				paginatorAlwaysVisible="true" paginatorPosition="bottom"
-				rowsPerPageTemplate="5,10,15" >
+			<p:dataTable id="tblSubstancias" value="#{alimentoBean.substancias}"
+				var="substancia" rows="5" paginator="true"
+				widgetVar="wdgSubstancias" paginatorAlwaysVisible="true"
+				paginatorPosition="bottom" rowsPerPageTemplate="5,10,15">
 				<!-- f:facet name="header">
 	        		Gestão de Substâncias
 	    		</f:facet -->
 
-
-	    		<p:column headerText="Nome" style="text-align: left;" filterBy="#{substancia.nome}" filterMatchMode="contains">
-	    			<f:facet name="filter">
+				<p:column headerText="Nome" style="text-align: left;"
+					filterBy="#{substancia.nome}" filterMatchMode="contains">
+					<f:facet name="filter">
 						<p:inputText style="width: 98%;"
 							value="#{alimentoBean.nomeSubstancia}"
-							onkeyup="PF('tblSubstancias').filter()"
-							onfocus="this.select()"
+							onkeyup="PF('wdgSubstancias').filter()" onfocus="this.select()"
 							id="txtSubstancia" />
-	    			</f:facet>
+					</f:facet>
+
 					<h:outputText value="#{substancia.nome}" />
-	    		</p:column>
-	    		<p:column headerText="UN" style="text-align: center; width: 60px" filterBy="#{substancia.unidadeSubstancia}" filterMatchMode="exact">
-	    			<f:facet name="filter">
+				</p:column>
+
+				<p:column headerText="UN" style="text-align: center; width: 60px"
+					filterBy="#{substancia.unidadeSubstancia}" filterMatchMode="exact">
+					<f:facet name="filter">
 						<p:selectOneMenu value="#{alimentoBean.unidadeSubstancia}"
-							style="width: 97%;" onchange="PF('tblSubstancias').filter()" >
+							style="width: 97%;" onchange="PF('wdgSubstancias').filter()">
 							<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
 							<f:selectItems value="#{alimentoBean.unidadesSubstancia}"
 								var="unidade" itemValue="#{unidade}" itemLabel="#{unidade}" />
 						</p:selectOneMenu>
-	    			</f:facet>
-	    			<h:outputText value="#{substancia.unidadeSubstancia}" />
-	    		</p:column>
-	    		<p:column headerText="Fator Energético" style="text-align: center; width: 110px" filterBy="#{substancia.fatorEnergetico}" filterMatchMode="exact">
-	    			<f:facet name="filter">
+					</f:facet>
+
+					<h:outputText value="#{substancia.unidadeSubstancia}" />
+				</p:column>
+
+				<p:column headerText="Fator Energético"
+					style="text-align: center; width: 110px"
+					filterBy="#{substancia.fatorEnergetico}" filterMatchMode="exact">
+					<f:facet name="filter">
 						<p:inputText value="#{alimentoBean.fatorEnergeticoSubstancia}"
-							style="width: 85%;" onchange="PF('tblSubstancias').filter()" >
+							style="width: 85%;" onchange="PF('wdgSubstancias').filter()">
 						</p:inputText>
-	    			</f:facet>
-	    			<h:outputText value="#{substancia.fatorEnergetico}" />
-	    		</p:column>
-	    		<p:column headerText="Ação" style="text-align: center; width: 120px">
-	    			<f:facet name="header">
+					</f:facet>
+
+					<h:outputText value="#{substancia.fatorEnergetico}" />
+				</p:column>
+
+				<p:column headerText="Ação" style="text-align: center; width: 120px">
+					<f:facet name="header">
 						<h:outputText value="Ação" />
 						<p:commandButton value="Cadastrar" type="submit"
-							action="#{alimentoBean.cadastrarSubstancia}"
-							immediate="true" process="@this" update="@this"
-							oncomplete=" { PF('tblSubstancias').filter(); PF('tblSubstancias').unselectAllRows(); PF('tblSubstancias').selectRow(0, false); }" >
-					    </p:commandButton>	
-					</f:facet>				
-	    		</p:column>
-	    	</p:dataTable>
-	    </h:form>
+							action="#{alimentoBean.cadastrarSubstancia}" immediate="true"
+							process="@this" update="@this"
+							oncomplete=" { PF('wdgSubstancias').filter(); PF('wdgSubstancias').unselectAllRows(); PF('wdgSubstancias').selectRow(0, false); }">
+						</p:commandButton>
+					</f:facet>
+				</p:column>
+			</p:dataTable>
+		</h:form>
 	</p:dialog>
 
 </h:body>
