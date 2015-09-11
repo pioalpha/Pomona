@@ -67,7 +67,8 @@ public class SubstanciaQueryService implements Query<SubstanciaParametrosPesquis
 				+ " WHERE (es.dataCadastro IS NULL OR es.dataCadastro ="
 					+ " (SELECT MAX(es2.dataCadastro)"
 					+ " FROM EnergiaSubstancia AS es2"
-					+ " WHERE es2.dataCadastro < :dataConsulta"
+					+ " WHERE es2.dataCadastro < :dataConsulta "
+					+ " AND es2.substancia = es.substancia"
 					+ " GROUP BY es2.substancia)"
 				+ ")" + where,
 				SubstanciaDTO.class);
