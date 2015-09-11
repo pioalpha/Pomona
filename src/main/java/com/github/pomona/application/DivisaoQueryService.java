@@ -1,7 +1,6 @@
 package com.github.pomona.application;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +24,7 @@ import com.github.pomona.domain.reference.TipoRefeicao;
 
 public class DivisaoQueryService implements Query<DivisaoParametrosPesquisa, DivisaoRefeicaoDTO> {
 
+	private static final long serialVersionUID = 1L;
 	@Inject
 	private EntityManager manager;
 
@@ -40,8 +40,9 @@ public class DivisaoQueryService implements Query<DivisaoParametrosPesquisa, Div
 		if (parametros.getNome() != null) {
 			predicates.add(cb.like(fromAlimento.<String> get("nome"), "%" + parametros.getNome() + "%"));
 		}
-
-		cq.where(predicates.toArray(new Predicate[] {}));
+		if (!predicates.isEmpty()){
+			cq.where(predicates.toArray(new Predicate[] {}));
+		}
 		TypedQuery<DivisaoRefeicao> tq = manager.createQuery(cq);
 
 		if (parametros.getNumeroResultadosPorPagina() != null) {

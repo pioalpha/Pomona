@@ -1,7 +1,6 @@
 package com.github.pomona.application;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +24,7 @@ import com.github.pomona.domain.model.SubstanciaId;
 
 public class DiretrizQueryService implements Query<DiretrizParametrosPesquisa, DiretrizAlimentarDTO> {
 
+	private static final long serialVersionUID = 1L;
 	@Inject
 	private EntityManager manager;
 
@@ -43,8 +43,9 @@ public class DiretrizQueryService implements Query<DiretrizParametrosPesquisa, D
 		if (!parametros.incluirDesativados()) {
 			predicates.add(cb.isNull(fromAlimento.get("dataRevogacao")));
 		}
-
-		cq.where(predicates.toArray(new Predicate[] {}));
+		if (!predicates.isEmpty()){
+			cq.where(predicates.toArray(new Predicate[] {}));
+		}
 		TypedQuery<DiretrizAlimentar> tq = manager.createQuery(cq);
 
 		if (parametros.getNumeroResultadosPorPagina() != null) {

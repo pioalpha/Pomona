@@ -15,23 +15,45 @@ public class AlimentoDTO implements DTO {
 	private String nome;
 	private UnidadeGranel unidadeGranel;
 	private Float porcao;
-	private String categoriaUuid;
-	private String categoria;
+	private CategoriaDTO categoria;
 	private List<ComponenteAlimentarDTO> componentesAlimentares;
 
-	public AlimentoDTO(Date dataConsultada, String uuid, String nome, UnidadeGranel unidadeGranel, Float porcao, String categoriaUuid, String categoria, List<ComponenteAlimentarDTO> componentesAlimentares) {
+	public AlimentoDTO(Date dataConsultada, String uuid, String nome, UnidadeGranel unidadeGranel, Float porcao, CategoriaDTO categoria, List<ComponenteAlimentarDTO> componentesAlimentares) {
 		super();
 		
 		this.uuid = uuid;
 		this.nome = nome;
 		this.unidadeGranel = unidadeGranel;
 		this.porcao = porcao;
-		this.categoriaUuid = categoriaUuid;
 		this.categoria = categoria;
 		this.componentesAlimentares = componentesAlimentares;
 		this.dataConsultada = dataConsultada;
 	}
 
+	public AlimentoDTO(Date dataConsultada, String uuid, String nome, UnidadeGranel unidadeGranel, Float porcao, CategoriaDTO categoria) {
+		super();
+		
+		this.uuid = uuid;
+		this.nome = nome;
+		this.unidadeGranel = unidadeGranel;
+		this.porcao = porcao;
+		this.categoria = categoria;
+		this.componentesAlimentares = null;
+		this.dataConsultada = dataConsultada;
+	}
+
+	public AlimentoDTO(Date dataConsultada, String uuid, String nome, UnidadeGranel unidadeGranel, Float porcao, List<ComponenteAlimentarDTO> componentesAlimentares) {
+		super();
+		
+		this.uuid = uuid;
+		this.nome = nome;
+		this.unidadeGranel = unidadeGranel;
+		this.porcao = porcao;
+		this.categoria = null;
+		this.componentesAlimentares = componentesAlimentares;
+		this.dataConsultada = dataConsultada;
+	}
+	
 	public String getNome() {
 		return nome;
 	}
@@ -44,7 +66,7 @@ public class AlimentoDTO implements DTO {
 		return porcao;
 	}
 
-	public String getCategoria() {
+	public CategoriaDTO getCategoria() {
 		return categoria;
 	}
 
@@ -54,10 +76,6 @@ public class AlimentoDTO implements DTO {
 
 	public String getUuid() {
 		return uuid;
-	}
-
-	public String getCategoriaUuid() {
-		return categoriaUuid;
 	}
 
 	public Date getDataConsultada() {

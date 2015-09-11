@@ -1,7 +1,6 @@
 package com.github.pomona.application;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +27,7 @@ import com.github.pomona.application.dto.PreparoDTO;
 import com.github.pomona.application.dto.PreparoMedidaAlimentoDTO;
 import com.github.pomona.application.dto.PreparoMedidaParametrosPesquisa;
 import com.github.pomona.application.dto.PreparoParametrosPesquisa;
+import com.github.pomona.application.dto.SubstanciaDTO;
 import com.github.pomona.domain.model.AlimentoGranel;
 import com.github.pomona.domain.model.CategoriaAlimento;
 import com.github.pomona.domain.model.ComponenteAlimentar;
@@ -67,14 +67,14 @@ public class AlimentoQueryService // extends AbstractQueryService
 		// Predicate predicate;// = cb.and();
 		// Predicate predicate2 = cb.and();
 		if (parametros.getNome() != null) {
-			predicates.add(cb.like(fromAlimento.<String> get("nome"), "%" + parametros.getNome() + "%"));
+			predicates.add(cb.like(fromAlimento.<String> get("nome"), parametros.getNome()));
 			// cq.where(cb.and(predicate,
 			// cb.like(fromAlimento.<String>get("nome"), "%" +
 			// parametros.getNome() + "%")));
 		}
 		if (parametros.getCategoria() != null) {
 			predicates.add(cb.like(fromAlimento.join("categoriaAlimento").<String> get("nome"),
-					"%" + parametros.getCategoria() + "%"));
+					parametros.getCategoria()));
 			// cq.where(cb.and(predicate,
 			// cb.like(fromAlimento.join("categoriaAlimento").<String>get("nome"),
 			// "%" + parametros.getCategoria() + "%")));
@@ -85,7 +85,9 @@ public class AlimentoQueryService // extends AbstractQueryService
 		}
 		// Root<PreparoMedidaAlimento> fromPreparo =
 		// cq.from(PreparoMedidaAlimento.class);
-		cq.where(predicates.toArray(new Predicate[] {}));
+		if (!predicates.isEmpty()){
+			cq.where(predicates.toArray(new Predicate[] {}));
+		}
 		// if (parametros.getDataConsulta() != null) {
 
 		// Join<AlimentoGranel, ComponenteAlimentar> componente =
@@ -156,6 +158,15 @@ public class AlimentoQueryService // extends AbstractQueryService
 
 		for (AlimentoGranel ag : tq.getResultList()) {
 			AlimentoDTO a = null;
+			CategoriaDTO cat = null;
+
+			if (ag.getCategoriaAlimento() != null) {
+				cat = new CategoriaDTO(
+					ag.getCategoriaAlimento().categoriaAlimentoId().uuid(),
+					ag.getCategoriaAlimento().getNome(),
+					ag.getCategoriaAlimento().getCaloriasPorPorcao());
+			}
+
 			if (parametros.getDataConsulta() != null) {
 				Map<SubstanciaId, ComponenteAlimentarDTO> componentes = new HashMap<SubstanciaId, ComponenteAlimentarDTO>();
 				for (ComponenteAlimentar ca : ag.getComposicaoAlimentar()) {
@@ -168,20 +179,28 @@ public class AlimentoQueryService // extends AbstractQueryService
 								|| componentes.get(ca.getSubstancia().substanciaId()).getDataCadastro()
 										.compareTo(ca.getDataCadastro()) <= 0) {
 							componentes.put(ca.getSubstancia().substanciaId(),
-									new ComponenteAlimentarDTO(ca.getSubstancia().substanciaId().uuid(),
-											ca.getSubstancia().getNome(), ca.getQuantidade(),
-											ca.getSubstancia().getUnidadeSubstancia(), ca.getSubstancia().getOrdem(),
+									new ComponenteAlimentarDTO(new SubstanciaDTO(ca.getSubstancia().substanciaId().uuid(), ca.getSubstancia().getNome(), ca.getSubstancia().getOrdem(), ca.getSubstancia().getUnidadeSubstancia(), null, null), 
+											ca.getQuantidade(),
 											ca.getDataCadastro()));
 						}
 					}
 				}
-				a = new AlimentoDTO(parametros.getDataConsulta(), ag.alimentoId().uuid(), ag.getNome(),
-						ag.getUnidadeGranel(), ag.getPorcao(), ag.getCategoriaAlimento().categoriaAlimentoId().uuid(),
-						ag.getCategoriaAlimento().getNome(), new ArrayList<ComponenteAlimentarDTO>(componentes.values()));
+				
+				a = new AlimentoDTO(parametros.getDataConsulta(),
+						ag.alimentoId().uuid(),
+						ag.getNome(),
+						ag.getUnidadeGranel(),
+						ag.getPorcao(),
+						cat,
+						new ArrayList<ComponenteAlimentarDTO>(componentes.values()));
 			} else {
-				a = new AlimentoDTO(parametros.getDataConsulta(), ag.alimentoId().uuid(), ag.getNome(),
-						ag.getUnidadeGranel(), ag.getPorcao(), ag.getCategoriaAlimento().categoriaAlimentoId().uuid(),
-						ag.getCategoriaAlimento().getNome(), null);
+				a = new AlimentoDTO(parametros.getDataConsulta(),
+						ag.alimentoId().uuid(),
+						ag.getNome(),
+						ag.getUnidadeGranel(),
+						ag.getPorcao(),
+						cat)
+;
 			}
 			resultado.add(a);
 		}
@@ -198,10 +217,11 @@ public class AlimentoQueryService // extends AbstractQueryService
 
 		List<Predicate> predicates = new ArrayList<Predicate>();
 		if (parametros.getNome() != null) {
-			predicates.add(cb.like(fromPreparo.<String> get("nome"), "%" + parametros.getNome() + "%"));
+			predicates.add(cb.like(fromPreparo.<String> get("nome"), parametros.getNome()));
 		}
-
-		cq.where(predicates.toArray(new Predicate[] {}));
+		if (!predicates.isEmpty()){
+			cq.where(predicates.toArray(new Predicate[] {}));
+		}
 		TypedQuery<TipoPreparo> tq = manager.createQuery(cq);
 
 		if (parametros.getNumeroResultadosPorPagina() != null) {
@@ -226,10 +246,11 @@ public class AlimentoQueryService // extends AbstractQueryService
 
 		List<Predicate> predicates = new ArrayList<Predicate>();
 		if (parametros.getNome() != null) {
-			predicates.add(cb.like(fromMedida.<String> get("nome"), "%" + parametros.getNome() + "%"));
+			predicates.add(cb.like(fromMedida.<String> get("nome"), parametros.getNome()));
 		}
-
-		cq.where(predicates.toArray(new Predicate[] {}));
+		if (!predicates.isEmpty()){
+			cq.where(predicates.toArray(new Predicate[] {}));
+		}
 		TypedQuery<TipoMedida> tq = manager.createQuery(cq);
 
 		if (parametros.getNumeroResultadosPorPagina() != null) {
@@ -264,7 +285,7 @@ public class AlimentoQueryService // extends AbstractQueryService
 						parametros.getPreparo().getUuid()));
 			} else if (parametros.getPreparo().getNome() != null) {
 				predicates.add(cb.like(fromPreparoMedida.join("tipoPreparo").<String> get("nome"),
-						"%" + parametros.getPreparo().getNome() + "%"));
+						parametros.getPreparo().getNome()));
 			}
 		}
 		if (parametros.getMedida() != null) {
@@ -277,7 +298,7 @@ public class AlimentoQueryService // extends AbstractQueryService
 						parametros.getPreparo().getUuid()));
 			} else if (parametros.getMedida().getNome() != null) {
 				predicates.add(cb.like(fromPreparoMedida.join("tipoMedida").<String> get("nome"),
-						"%" + parametros.getMedida().getNome() + "%"));
+						parametros.getMedida().getNome()));
 			}
 		}
 
@@ -295,8 +316,9 @@ public class AlimentoQueryService // extends AbstractQueryService
 						"%" + parametros.getAlimento().getNome() + "%"));
 			}
 		}
-
-		cq.where(predicates.toArray(new Predicate[] {}));
+		if (!predicates.isEmpty()){
+			cq.where(predicates.toArray(new Predicate[] {}));
+		}
 		TypedQuery<PreparoMedidaAlimento> tq = manager.createQuery(cq);
 
 		if (parametros.getNumeroResultadosPorPagina() != null) {
@@ -326,8 +348,9 @@ public class AlimentoQueryService // extends AbstractQueryService
 		if (parametros.getNome() != null) {
 			predicates.add(cb.like(fromCategoria.<String> get("nome"), "%" + parametros.getNome() + "%"));
 		}
-
-		cq.where(predicates.toArray(new Predicate[] {}));
+		if (!predicates.isEmpty()){
+			cq.where(predicates.toArray(new Predicate[] {}));
+		}
 		TypedQuery<CategoriaAlimento> tq = manager.createQuery(cq);
 
 		if (parametros.getNumeroResultadosPorPagina() != null) {
@@ -336,7 +359,7 @@ public class AlimentoQueryService // extends AbstractQueryService
 		}
 
 		for (CategoriaAlimento c : tq.getResultList()) {
-			CategoriaDTO cDTO = new CategoriaDTO(c.categoriaAlimentoId().uuid(), c.getNome());
+			CategoriaDTO cDTO = new CategoriaDTO(c.categoriaAlimentoId().uuid(), c.getNome(), c.getCaloriasPorPorcao());
 			resultado.add(cDTO);
 		}
 
@@ -356,8 +379,9 @@ public class AlimentoQueryService // extends AbstractQueryService
 		} else if (parametros.getNomeAlimento() != null) {
 			predicates.add(cb.like(fromComponente.join("alimentoUnitario").<String> get("nome"), "%" + parametros.getNomeAlimento() + "%"));
 		}
-
-		cq.where(predicates.toArray(new Predicate[] {}));
+		if (!predicates.isEmpty()){
+			cq.where(predicates.toArray(new Predicate[] {}));
+		}
 		TypedQuery<ComponenteAlimentar> tq = manager.createQuery(cq);
 
 		if (parametros.getNumeroResultadosPorPagina() != null) {
@@ -376,9 +400,8 @@ public class AlimentoQueryService // extends AbstractQueryService
 						|| componentes.get(c.getSubstancia().substanciaId()).getDataCadastro()
 								.compareTo(c.getDataCadastro()) <= 0) {
 					componentes.put(c.getSubstancia().substanciaId(),
-							new ComponenteAlimentarDTO(c.getSubstancia().substanciaId().uuid(),
-									c.getSubstancia().getNome(), c.getQuantidade(),
-									c.getSubstancia().getUnidadeSubstancia(), c.getSubstancia().getOrdem(),
+							new ComponenteAlimentarDTO(new SubstanciaDTO(c.getSubstancia().substanciaId().uuid(), c.getSubstancia().getNome(), c.getSubstancia().getOrdem(), c.getSubstancia().getUnidadeSubstancia(), null, null), 
+									c.getQuantidade(),
 									c.getDataCadastro()));
 				}
 			}

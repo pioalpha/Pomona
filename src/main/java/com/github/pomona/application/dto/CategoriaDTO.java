@@ -8,11 +8,13 @@ public class CategoriaDTO implements DTO {
 
 	private String uuid;
 	private String nome;
+	private Float caloriasPorPorcao;
 
-	public CategoriaDTO(String uuid, String nome) {
+	public CategoriaDTO(String uuid, String nome, Float caloriasPorPorcao) {
 		super();
 		this.uuid = uuid;
 		this.nome = nome;
+		this.caloriasPorPorcao = caloriasPorPorcao;
 	}
 
 	public String getUuid() {
@@ -21,6 +23,10 @@ public class CategoriaDTO implements DTO {
 
 	public String getNome() {
 		return nome;
+	}
+
+	public Float getCaloriasPorPorcao() {
+		return caloriasPorPorcao;
 	}
 
 }

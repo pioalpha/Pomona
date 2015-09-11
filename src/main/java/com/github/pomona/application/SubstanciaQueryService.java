@@ -1,21 +1,15 @@
 package com.github.pomona.application;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 import com.github.common.service.query.Query;
 import com.github.pomona.application.dto.SubstanciaDTO;
 import com.github.pomona.application.dto.SubstanciaParametrosPesquisa;
-import com.github.pomona.domain.model.Substancia;
 
 public class SubstanciaQueryService implements Query<SubstanciaParametrosPesquisa, SubstanciaDTO> {
 
@@ -28,28 +22,109 @@ public class SubstanciaQueryService implements Query<SubstanciaParametrosPesquis
 	public List<SubstanciaDTO> Executar(SubstanciaParametrosPesquisa parametros) {
 		List<SubstanciaDTO> resultado = new ArrayList<>();
 
-		CriteriaBuilder cb = manager.getCriteriaBuilder();
-		CriteriaQuery<Substancia> cq = cb.createQuery(Substancia.class);
-		Root<Substancia> fromSubstancia = cq.from(Substancia.class);
+		/*CriteriaBuilder cb = manager.getCriteriaBuilder();
+		
+		 * CriteriaQuery<EnergiaSubstancia> cq =
+		 * cb.createQuery(EnergiaSubstancia.class); Root<EnergiaSubstancia>
+		 * fromEnergiaSubstancia = cq.from(EnergiaSubstancia.class);
+		 * 
+		 * Join<EnergiaSubstancia, Substancia> fromSubstancia =
+		 * fromEnergiaSubstancia.join("substancia", JoinType.LEFT);
+		 */
 
-		List<Predicate> predicates = new ArrayList<Predicate>();
+		/*
+		 * CriteriaQuery<EnergiaSubstancia> cq =
+		 * cb.createQuery(EnergiaSubstancia.class); Root<Substancia>
+		 * fromSubstancia = cq.from(Substancia.class);
+		 * 
+		 * Join<EnergiaSubstancia, Substancia> fromEnergiaSubstancia =
+		 * fromSubstancia.join("id", JoinType.LEFT);
+		 */
+
+		String where = "";
 		if (parametros.getNome() != null) {
-			predicates.add(cb.like(fromSubstancia.<String> get("nome"), "%" + parametros.getNome() + "%"));
+			where = where + " AND s.nome LIKE '" + parametros.getNome() + "'";
 		}
 
-		cq.where(predicates.toArray(new Predicate[] {}));
-		TypedQuery<Substancia> tq = manager.createQuery(cq);
+		// TypedQuery<SubstanciaDTO> tq = manager.createQuery("SELECT NEW
+		// com.github.pomona.application.dto.SubstanciaDTO(s.substanciaId.uuid,
+		// s.nome, s.ordem, s.unidadeSubstancia, es.fatorEnergetico,
+		// es.dataCadastro) FROM Substancia AS s LEFT JOIN
+		// com.github.pomona.domain.model.EnergiaSubstancia AS es ON s.id =
+		// es.substancia_id", SubstanciaDTO.class);
+		// http://uniqueexperiments.blogspot.com.br/2014/05/this-is-my-account-of-programming.html
+		// TypedQuery<SubstanciaDTO> tq = manager.createQuery("SELECT NEW
+		// com.github.pomona.application.dto.SubstanciaDTO(s.substanciaId.uuid,
+		// s.nome, s.ordem, s.unidadeSubstancia, es.fatorEnergetico,
+		// es.dataCadastro) FROM EnergiaSubstancia AS es RIGHT JOIN
+		// es.substancia AS s", SubstanciaDTO.class);
+		TypedQuery<SubstanciaDTO> tq = manager.createQuery(
+				"SELECT NEW com.github.pomona.application.dto.SubstanciaDTO("
+				+ "s.substanciaId.uuid, s.nome, s.ordem, s.unidadeSubstancia,"
+				+ " es.fatorEnergetico, es.dataCadastro)"
+				+ " FROM EnergiaSubstancia AS es"
+				+ " RIGHT JOIN es.substancia AS s"
+				+ " WHERE (es.dataCadastro IS NULL OR es.dataCadastro ="
+					+ " (SELECT MAX(es2.dataCadastro)"
+					+ " FROM EnergiaSubstancia AS es2"
+					+ " WHERE es2.dataCadastro < :dataConsulta"
+					+ " GROUP BY es2.substancia)"
+				+ ")" + where,
+				SubstanciaDTO.class);
+		tq.setParameter("dataConsulta", parametros.getDataConsulta());
+		/*
+		 * CriteriaQuery<SubstanciaDTO> cq =
+		 * cb.createQuery(SubstanciaDTO.class); Root<Substancia> fromSubstancia
+		 * = cq.from(Substancia.class); Root<EnergiaSubstancia>
+		 * fromEnergiaSubstancia = cq.from(EnergiaSubstancia.class);
+		 */
+
+		// Join<Substancia, EnergiaSubstancia> fromEnergiaSubstancia =
+		// fromSubstancia.join("id", JoinType.LEFT);
+
+		/*
+		 * cq.select(cb.construct(SubstanciaDTO.class,
+		 * fromSubstancia.get("substanciaId").get("uuid"),
+		 * fromSubstancia.get("nome"), fromSubstancia.get("ordem"),
+		 * fromSubstancia.get("unidadeSubstancia"),
+		 * fromEnergiaSubstancia.get("fatorEnergetico"),
+		 * fromEnergiaSubstancia.get("dataCadastro") ));
+		 */
+
+		/*
+		 * List<Predicate> predicates = new ArrayList<Predicate>(); if
+		 * (parametros.getNome() != null) {
+		 * predicates.add(cb.like(fromSubstancia.<String> get("nome"),
+		 * parametros.getNome())); }
+		 * 
+		 * if (!predicates.isEmpty()){ cq.where(predicates.toArray(new
+		 * Predicate[] {})); }
+		 */
+		// TypedQuery<EnergiaSubstancia> tq = manager.createQuery(cq);
+		// TypedQuery<SubstanciaDTO> tq = manager.createQuery(cq);
 
 		if (parametros.getNumeroResultadosPorPagina() != null) {
 			tq.setFirstResult(parametros.getNumeroDaPagina() - 1);
 			tq.setMaxResults(parametros.getNumeroResultadosPorPagina());
 		}
 
-		for (Substancia s : tq.getResultList()) {
-			SubstanciaDTO sDTO = new SubstanciaDTO(s.substanciaId().uuid(), s.getNome(), s.getOrdem(),
-					s.getUnidadeSubstancia());
-			resultado.add(sDTO);
-		}
+		/*
+		 * Map<SubstanciaId, SubstanciaDTO> energiasSubstancia = new
+		 * HashMap<SubstanciaId, SubstanciaDTO>(); for (EnergiaSubstancia es :
+		 * tq.getResultList()) { if
+		 * (ComparaDatas.comparaApenasDatas(es.getDataCadastro(),
+		 * parametros.getDataConsulta()) <= 0) { if
+		 * (!energiasSubstancia.containsKey(es.getSubstancia().substanciaId())
+		 * || energiasSubstancia.get(es.getSubstancia().substanciaId()).
+		 * getDataCadastroFator() .compareTo(es.getDataCadastro()) <= 0) {
+		 * energiasSubstancia.put(es.getSubstancia().substanciaId(), new
+		 * SubstanciaDTO(es.getSubstancia().substanciaId().uuid(),
+		 * es.getSubstancia().getNome(), es.getSubstancia().getOrdem(),
+		 * es.getSubstancia().getUnidadeSubstancia(), es.getFatorEnergetico(),
+		 * es.getDataCadastro())); } } }
+		 * resultado.addAll(energiasSubstancia.values());
+		 */
+		resultado.addAll(tq.getResultList());
 
 		return resultado;
 	}

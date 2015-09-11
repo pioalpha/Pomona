@@ -153,10 +153,15 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	@Transactional
 	public CommandResult handle(CadastrarAlimentoGranelCommand command) {
 		CommandResult resultado = null;
-
+		CategoriaAlimento categoria = null;
+		
+		if (command.getCategoriaAlimentoId() != null){
+			categoria = this.categoriaAlimentoRepo().porId(new CategoriaAlimentoId(command.getCategoriaAlimentoId()));
+		}
+		
 		AlimentoGranel ag = new AlimentoBuilder().construir(command.getNome(), command.getUnidadeGranel(),
 				command.getPorcao(),
-				this.categoriaAlimentoRepo().porId(new CategoriaAlimentoId(command.getCategoriaAlimentoId())));
+				categoria);
 		ag.setAlimentoId(this.alimentoRepo().proximaIdentidade());
 		ag = (AlimentoGranel) this.alimentoRepo().adicionar(ag);
 		

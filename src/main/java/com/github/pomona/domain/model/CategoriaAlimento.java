@@ -15,6 +15,8 @@ public class CategoriaAlimento extends ConcurrencySafeEntity {
 	private CategoriaAlimentoId categoriaAlimentoId;
 	@Column(nullable = false, length = 100)
 	private String nome;
+	@Column(precision = 10, scale = 2)
+	private Float caloriasPorPorcao;
 
 	public String getNome() {
 		return nome;
@@ -22,6 +24,14 @@ public class CategoriaAlimento extends ConcurrencySafeEntity {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public Float getCaloriasPorPorcao() {
+		return caloriasPorPorcao;
+	}
+
+	public void setCaloriasPorPorcao(Float caloriasPorPorcao) {
+		this.caloriasPorPorcao = caloriasPorPorcao;
 	}
 
 	public CategoriaAlimentoId categoriaAlimentoId() {

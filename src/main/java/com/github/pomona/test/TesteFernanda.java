@@ -70,9 +70,9 @@ public class TesteFernanda {
 		AlimentoQueryService aqs = WeldContext.INSTANCE.getBean(AlimentoQueryService.class);
 		for (AlimentoDTO aDTO : aqs.Executar(new AlimentoParametrosPesquisa())){
 		//for (AlimentoDTO aDTO : aqs.Executar(new AlimentoParametrosPesquisa(2, 1, format.parse("09/08/2015"), "aba", "fr"))){
-			System.out.println("Alimento> " + aDTO.getCategoria() + "(" + aDTO.getCategoriaUuid() + ") - " + aDTO.getNome() + "(" + aDTO.getUuid() + ") - " + aDTO.getPorcao() + aDTO.getUnidadeGranel() + " - DataConsultada: " + aDTO.getDataConsultada());
+			System.out.println("Alimento> " + aDTO.getCategoria() + "(" + aDTO.getCategoria() + ") - " + aDTO.getNome() + "(" + aDTO.getUuid() + ") - " + aDTO.getPorcao() + aDTO.getUnidadeGranel() + " - DataConsultada: " + aDTO.getDataConsultada());
 			for (ComponenteAlimentarDTO caDTO : aDTO.getComponentesAlimentares()) {
-				System.out.println("Componente> " + caDTO.getNomeSubstancia() + "(" + caDTO.getUuidSubstancia() + ") - " + caDTO.getQuantidadeSubstancia() + caDTO.getUnidadeSubstancia() + " - Cadastro: " + caDTO.getDataCadastro());
+				System.out.println("Componente> " + caDTO.getSubstancia() + caDTO.getQuantidadeSubstancia() + " - Cadastro: " + caDTO.getDataCadastro());
 			}
 		}
 		
