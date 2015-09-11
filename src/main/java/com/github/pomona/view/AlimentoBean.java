@@ -101,6 +101,7 @@ public class AlimentoBean implements Serializable {
 	// Cadastro/Edicao de substancia
 	// private String nomeSubstancia;
 	private Float fatorEnergeticoSubstancia;
+	private UnidadeSubstancia unidadeSubstancia;
 	// private SubstanciaDTO substanciaSelecionada;
 
 	// Para cadastros, edições e exclusões
@@ -121,6 +122,14 @@ public class AlimentoBean implements Serializable {
 		c.executa2();
 	}
 
+	public void cadastrarCategoria() {
+		
+	}
+	
+	public void cadastrarSubstancia() {
+		
+	}
+	
 	public void onRowSelect(SelectEvent event) {
 		this.alimentoSelecionado = (AlimentoDTO) event.getObject();
 		if (this.alimentoSelecionado != null) {
@@ -324,6 +333,14 @@ public class AlimentoBean implements Serializable {
 
 	public void setNomeSubstancia(String nomeSubstancia) {
 		this.nomeSubstancia = nomeSubstancia;
+	}
+
+	public UnidadeSubstancia getUnidadeSubstancia() {
+		return unidadeSubstancia;
+	}
+
+	public void setUnidadeSubstancia(UnidadeSubstancia unidadeSubstancia) {
+		this.unidadeSubstancia = unidadeSubstancia;
 	}
 
 	public Float getQuantidadeSubstancia() {
