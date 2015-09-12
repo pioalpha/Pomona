@@ -2,6 +2,8 @@ package com.github.pomona.application.dto;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
 import com.github.common.service.dto.DTO;
 import com.github.pomona.domain.reference.UnidadeSubstancia;
 

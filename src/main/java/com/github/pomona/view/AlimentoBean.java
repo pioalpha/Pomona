@@ -12,7 +12,11 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.primefaces.event.SelectEvent;
 
 import com.github.pomona.application.AlimentoQueryService;
@@ -29,10 +33,10 @@ import com.github.pomona.application.dto.ComponenteAlimentarDTO;
 import com.github.pomona.application.dto.ComponenteParametrosPesquisa;
 import com.github.pomona.application.dto.MedidaDTO;
 import com.github.pomona.application.dto.MedidaParametrosPesquisa;
-import com.github.pomona.application.dto.PreparoDTO;
-import com.github.pomona.application.dto.PreparoMedidaAlimentoDTO;
-import com.github.pomona.application.dto.PreparoMedidaParametrosPesquisa;
-import com.github.pomona.application.dto.PreparoParametrosPesquisa;
+import com.github.pomona.application.dto.ApresentacaoDTO;
+import com.github.pomona.application.dto.ApresentacaoMedidaAlimentoDTO;
+import com.github.pomona.application.dto.ApresentacaoMedidaParametrosPesquisa;
+import com.github.pomona.application.dto.ApresentacaoParametrosPesquisa;
 import com.github.pomona.application.dto.SubstanciaDTO;
 import com.github.pomona.application.dto.SubstanciaParametrosPesquisa;
 import com.github.pomona.domain.reference.UnidadeGranel;
@@ -67,33 +71,41 @@ public class AlimentoBean implements Serializable {
 
 	// Para listar combos
 	private List<SubstanciaDTO> substancias;
-	private List<PreparoDTO> preparos;
+	private List<ApresentacaoDTO> apresentacoes;
 	private List<MedidaDTO> medidas;
 	private List<CategoriaDTO> categorias;
 
 	// Núcleo de informações da página
 	private List<AlimentoDTO> alimentos;
 	private List<ComponenteAlimentarDTO> componentes;
-	private List<PreparoMedidaAlimentoDTO> preparosMedidasAlimentos;
+	private List<ApresentacaoMedidaAlimentoDTO> apresentacoesMedidasAlimentos;
 
 	// informações filtradas
 	private List<AlimentoDTO> alimentosFiltrados;
 	private List<ComponenteAlimentarDTO> componentesFiltrados;
-	private List<PreparoMedidaAlimentoDTO> preparosMedidasFiltrados;
+	private List<ApresentacaoMedidaAlimentoDTO> apresentacoesMedidasFiltrados;
 
 	// Cadastro/Edição de alimento
+	@NotBlank
 	private String nomeAlimento;
+	@DecimalMin(value="0.01")
+	@NotNull
 	private Float porcaoAlimento;
+	@NotNull
 	private UnidadeGranel unidadeAlimento;
+	@NotBlank
 	private String categoriaAlimento;
 	private CategoriaDTO categoriaSelecionada;
 
 	// Cadastro/Edicao de componente
+	@NotBlank
 	private String nomeSubstancia;
+	@DecimalMin(value="0.01")
 	private Float quantidadeSubstancia;
 	private SubstanciaDTO substanciaSelecionada;
 
 	// Cadastro/Edicao de categoria
+	@NotBlank
 	private String nomeCategoria;
 	private Float caloriasPorcaoCategoria;
 	// private CategoriaDTO categoriaSelecionada;
@@ -105,14 +117,15 @@ public class AlimentoBean implements Serializable {
 	// private SubstanciaDTO substanciaSelecionada;
 
 	// Para cadastros, edições e exclusões
+	@NotNull
 	private AlimentoDTO alimentoSelecionado;
 	private ComponenteAlimentarDTO componenteAlimentarSelecionado;
-	private PreparoMedidaAlimentoDTO preparoMedidaAlimentoSelecionado;
+	private ApresentacaoMedidaAlimentoDTO apresentacaoMedidaAlimentoSelecionado;
 
 	@PostConstruct
 	public void inicializar() {
 		this.alimentos = aqs.Executar(new AlimentoParametrosPesquisa(null, null, null));
-		this.preparos = aqs.Executar(new PreparoParametrosPesquisa());
+		this.apresentacoes = aqs.Executar(new ApresentacaoParametrosPesquisa());
 		this.medidas = aqs.Executar(new MedidaParametrosPesquisa());
 		this.categorias = aqs.Executar(new CategoriaParametrosPesquisa());
 		this.substancias = sqs.Executar(new SubstanciaParametrosPesquisa());
@@ -139,8 +152,8 @@ public class AlimentoBean implements Serializable {
 			// alimentoSelecionado.getComponentesAlimentares();
 			this.componentes = aqs
 					.Executar(new ComponenteParametrosPesquisa(this.alimentoSelecionado.getUuid(), null, new Date()));
-			this.preparosMedidasAlimentos = aqs
-					.Executar(new PreparoMedidaParametrosPesquisa(this.alimentoSelecionado, null, null));
+			this.apresentacoesMedidasAlimentos = aqs
+					.Executar(new ApresentacaoMedidaParametrosPesquisa(this.alimentoSelecionado, null, null));
 		}
 	}
 
@@ -251,8 +264,8 @@ public class AlimentoBean implements Serializable {
 		return UnidadeSubstancia.values();
 	}
 
-	public List<PreparoDTO> getPreparos() {
-		return preparos;
+	public List<ApresentacaoDTO> getApresentacoes() {
+		return apresentacoes;
 	}
 
 	public List<MedidaDTO> getMedidas() {
@@ -267,8 +280,8 @@ public class AlimentoBean implements Serializable {
 		return categorias;
 	}
 
-	public List<PreparoMedidaAlimentoDTO> getPreparosMedidasAlimentos() {
-		return preparosMedidasAlimentos;
+	public List<ApresentacaoMedidaAlimentoDTO> getApresentacoesMedidasAlimentos() {
+		return apresentacoesMedidasAlimentos;
 	}
 
 	public AlimentoDTO getAlimentoSelecionado() {
@@ -287,12 +300,12 @@ public class AlimentoBean implements Serializable {
 		this.componenteAlimentarSelecionado = componenteAlimentarSelecionado;
 	}
 
-	public PreparoMedidaAlimentoDTO getPreparoMedidaAlimentoSelecionado() {
-		return preparoMedidaAlimentoSelecionado;
+	public ApresentacaoMedidaAlimentoDTO getApresentacaoMedidaAlimentoSelecionado() {
+		return apresentacaoMedidaAlimentoSelecionado;
 	}
 
-	public void setPreparoMedidaAlimentoSelecionado(PreparoMedidaAlimentoDTO preparoMedidaAlimentoSelecionado) {
-		this.preparoMedidaAlimentoSelecionado = preparoMedidaAlimentoSelecionado;
+	public void setApresentacaoMedidaAlimentoSelecionado(ApresentacaoMedidaAlimentoDTO apresentacaoMedidaAlimentoSelecionado) {
+		this.apresentacaoMedidaAlimentoSelecionado = apresentacaoMedidaAlimentoSelecionado;
 	}
 
 	public String getNomeAlimento() {
@@ -375,12 +388,12 @@ public class AlimentoBean implements Serializable {
 		this.componentes = componentes;
 	}
 
-	public List<PreparoMedidaAlimentoDTO> getPreparosMedidasFiltrados() {
-		return preparosMedidasFiltrados;
+	public List<ApresentacaoMedidaAlimentoDTO> getApresentacoesMedidasFiltrados() {
+		return apresentacoesMedidasFiltrados;
 	}
 
-	public void setPreparosMedidasFiltrados(List<PreparoMedidaAlimentoDTO> preparosMedidasFiltrados) {
-		this.preparosMedidasFiltrados = preparosMedidasFiltrados;
+	public void setApresentacoesMedidasFiltrados(List<ApresentacaoMedidaAlimentoDTO> apresentacoesMedidasFiltrados) {
+		this.apresentacoesMedidasFiltrados = apresentacoesMedidasFiltrados;
 	}
 
 	public String getNomeCategoria() {

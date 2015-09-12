@@ -1,12 +1,20 @@
 package com.github.pomona.application.command.alimento;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.github.common.service.command.Command;
 import com.github.pomona.domain.reference.UnidadeGranel;
 
 public class CadastrarAlimentoGranelCommand implements Command {
+	@NotEmpty
 	private String nome;
+	@NotNull
 	private UnidadeGranel unidadeGranel;
+	@NotNull
 	private float porcao;
+	@NotEmpty
 	private String categoriaAlimentoId;
 
 	public CadastrarAlimentoGranelCommand(String nome, UnidadeGranel unidadeGranel, float porcao,

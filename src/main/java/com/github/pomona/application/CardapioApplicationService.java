@@ -4,7 +4,7 @@ import javax.inject.Inject;
 import javax.transaction.Transactional;
 
 import com.github.common.service.command.CommandResult;
-import com.github.pomona.application.command.cardapio.AtualizarPreparoItemNoCardapioCommand;
+import com.github.pomona.application.command.cardapio.AtualizarApresentacaoItemNoCardapioCommand;
 import com.github.pomona.application.command.cardapio.AtualizarQuantidadeItemNoCardapioCommand;
 import com.github.pomona.application.command.cardapio.CadastrarItemNoCardapioCommand;
 import com.github.pomona.application.command.cardapio.ExcluirItemDoCardapioCommand;
@@ -21,8 +21,8 @@ import com.github.pomona.domain.model.EnergiaSubstanciaRepo;
 import com.github.pomona.domain.model.ItemCardapio;
 import com.github.pomona.domain.model.PerfilAlimentarPacienteRepo;
 import com.github.pomona.domain.model.RefeicaoCardapio;
-import com.github.pomona.domain.model.TipoPreparoId;
-import com.github.pomona.domain.model.TipoPreparoRepo;
+import com.github.pomona.domain.model.TipoApresentacaoId;
+import com.github.pomona.domain.model.TipoApresentacaoRepo;
 import com.github.pomona.domain.service.CalculaEnergiaAlimento;
 import com.github.pomona.service.commandHandler.CardapioCommandHandler;
 
@@ -37,12 +37,12 @@ public class CardapioApplicationService implements CardapioCommandHandler {
 	private EnergiaSubstanciaRepo energiaSubstanciaRepo;
 	private PerfilAlimentarPacienteRepo perfilAlimentarPacienteRepo;
 	private DivisaoRefeicaoRepo divisaoRefeicaoRepo;
-	private TipoPreparoRepo tipoPreparoRepo;
+	private TipoApresentacaoRepo tipoApresentacaoRepo;
 
 	@Inject
 	public CardapioApplicationService(AlimentoRepo alimentoRepo, CardapioRepo cardapioRepo, ConsultaRepo consultaRepo,
 			EnergiaAlimentoRepo energiaAlimentarRepo, EnergiaSubstanciaRepo energiaSubstanciaRepo,
-			PerfilAlimentarPacienteRepo perfilAlimentarPacienteRepo, DivisaoRefeicaoRepo divisaoRefeicaoRepo, TipoPreparoRepo tipoPreparoRepo) {
+			PerfilAlimentarPacienteRepo perfilAlimentarPacienteRepo, DivisaoRefeicaoRepo divisaoRefeicaoRepo, TipoApresentacaoRepo tipoApresentacaoRepo) {
 		super();
 
 		this.alimentoRepo = alimentoRepo;
@@ -52,12 +52,12 @@ public class CardapioApplicationService implements CardapioCommandHandler {
 		this.energiaSubstanciaRepo = energiaSubstanciaRepo;
 		this.perfilAlimentarPacienteRepo = perfilAlimentarPacienteRepo;
 		this.divisaoRefeicaoRepo = divisaoRefeicaoRepo;
-		this.tipoPreparoRepo = tipoPreparoRepo;
+		this.tipoApresentacaoRepo = tipoApresentacaoRepo;
 	}
 
 	@Override
 	@Transactional
-	public CommandResult handle(AtualizarPreparoItemNoCardapioCommand command) {
+	public CommandResult handle(AtualizarApresentacaoItemNoCardapioCommand command) {
 		CommandResult resultado = null;
 		
 		// TODO Auto-generated method stub
@@ -95,7 +95,7 @@ public class CardapioApplicationService implements CardapioCommandHandler {
 
 		ItemCardapio ic = new ItemCardapio();
 		ic.setQuantidade(command.getQuantidade());
-		ic.setTipoPreparo(this.tipoPreparoRepo().porId(new TipoPreparoId(command.getTipoPreparoId())));
+		ic.setTipoApresentacao(this.tipoApresentacaoRepo().porId(new TipoApresentacaoId(command.getTipoApresentacaoId())));
 		ic.setEnergiaAlimento(ea);
 		ic.setRefeicaoCardapio(rc);
 
@@ -148,7 +148,7 @@ public class CardapioApplicationService implements CardapioCommandHandler {
 		return divisaoRefeicaoRepo;
 	}
 	
-	private TipoPreparoRepo tipoPreparoRepo() {
-		return tipoPreparoRepo;
+	private TipoApresentacaoRepo tipoApresentacaoRepo() {
+		return tipoApresentacaoRepo;
 	}
 }

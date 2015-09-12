@@ -2,19 +2,19 @@ package com.github.pomona.application.dto;
 
 import com.github.common.service.dto.DTO;
 
-public class PreparoMedidaAlimentoDTO implements DTO {
+public class ApresentacaoMedidaAlimentoDTO implements DTO {
 	private static final long serialVersionUID = 1L;
 
 	private String uuid;
-	private PreparoDTO preparo;
+	private ApresentacaoDTO apresentacao;
 	private MedidaDTO medida;
 	private float quantidade;
 
-	public PreparoMedidaAlimentoDTO(String uuid, PreparoDTO preparo, MedidaDTO medida, float quantidade) {
+	public ApresentacaoMedidaAlimentoDTO(String uuid, ApresentacaoDTO apresentacao, MedidaDTO medida, float quantidade) {
 		super();
 		
 		this.uuid = uuid;
-		this.preparo = preparo;
+		this.apresentacao = apresentacao;
 		this.medida = medida;
 		this.quantidade = quantidade;
 	}
@@ -23,8 +23,8 @@ public class PreparoMedidaAlimentoDTO implements DTO {
 		return uuid;
 	}
 
-	public PreparoDTO getPreparo() {
-		return preparo;
+	public ApresentacaoDTO getApresentacao() {
+		return apresentacao;
 	}
 
 	public MedidaDTO getMedida() {

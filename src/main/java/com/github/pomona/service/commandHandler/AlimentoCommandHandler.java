@@ -15,7 +15,7 @@ import com.github.pomona.application.command.alimento.CadastrarCategoriaAlimento
 import com.github.pomona.application.command.alimento.ExcluirAlimentoCommand;
 import com.github.pomona.application.command.alimento.ExcluirComponenteAlimentarCommand;
 
-public interface AlimentoCommandHandler extends PreparoMedidaAlimentoCommandHandler, Serializable{
+public interface AlimentoCommandHandler extends ApresentacaoMedidaAlimentoCommandHandler, Serializable{
 	public CommandResult handle(AdicionarComponenteAlimentarCommand command);
 	public CommandResult handle(AtualizarNomeDoAlimentoCommand command);
 	public CommandResult handle(AtualizarPorcaoDoAlimentoGranelCommand command);

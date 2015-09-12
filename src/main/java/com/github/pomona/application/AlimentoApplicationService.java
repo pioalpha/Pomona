@@ -10,22 +10,22 @@ import com.github.pomona.application.command.alimento.AdicionarComponenteAliment
 import com.github.pomona.application.command.alimento.AtualizarCategoriaAlimentoCommand;
 import com.github.pomona.application.command.alimento.AtualizarNomeDoAlimentoCommand;
 import com.github.pomona.application.command.alimento.AtualizarNomeDoTipoMedidaCommand;
-import com.github.pomona.application.command.alimento.AtualizarNomeDoTipoPreparoCommand;
+import com.github.pomona.application.command.alimento.AtualizarNomeDoTipoApresentacaoCommand;
 import com.github.pomona.application.command.alimento.AtualizarPorcaoDoAlimentoGranelCommand;
-import com.github.pomona.application.command.alimento.AtualizarPorcaoPreparoMedidaDoAlimentoCommand;
+import com.github.pomona.application.command.alimento.AtualizarPorcaoApresentacaoMedidaDoAlimentoCommand;
 import com.github.pomona.application.command.alimento.AtualizarQuantidadeComponenteAlimentarCommand;
 import com.github.pomona.application.command.alimento.AtualizarUnidadeDoAlimentoGranelCommand;
 import com.github.pomona.application.command.alimento.CadastrarAlimentoGranelCommand;
 import com.github.pomona.application.command.alimento.CadastrarAlimentoUnitarioCommand;
 import com.github.pomona.application.command.alimento.CadastrarCategoriaAlimentoCommand;
-import com.github.pomona.application.command.alimento.CadastrarPreparoMedidaDoAlimentoGranelCommand;
+import com.github.pomona.application.command.alimento.CadastrarApresentacaoMedidaDoAlimentoGranelCommand;
 import com.github.pomona.application.command.alimento.CadastrarTipoMedidaDoAlimentoGranelCommand;
-import com.github.pomona.application.command.alimento.CadastrarTipoPreparoDoAlimentoGranelCommand;
+import com.github.pomona.application.command.alimento.CadastrarTipoApresentacaoDoAlimentoGranelCommand;
 import com.github.pomona.application.command.alimento.ExcluirAlimentoCommand;
 import com.github.pomona.application.command.alimento.ExcluirComponenteAlimentarCommand;
-import com.github.pomona.application.command.alimento.ExcluirPreparoMedidaDoAlimentoGranelCommand;
+import com.github.pomona.application.command.alimento.ExcluirApresentacaoMedidaDoAlimentoGranelCommand;
 import com.github.pomona.application.command.alimento.ExcluirTipoMedidaDoAlimentoGranelCommand;
-import com.github.pomona.application.command.alimento.ExcluirTipoPreparoDoAlimentoGranelCommand;
+import com.github.pomona.application.command.alimento.ExcluirTipoApresentacaoDoAlimentoGranelCommand;
 import com.github.pomona.domain.model.AlimentoGranel;
 import com.github.pomona.domain.model.AlimentoId;
 import com.github.pomona.domain.model.AlimentoRepo;
@@ -34,16 +34,16 @@ import com.github.pomona.domain.model.CategoriaAlimento;
 import com.github.pomona.domain.model.CategoriaAlimentoId;
 import com.github.pomona.domain.model.CategoriaAlimentoRepo;
 import com.github.pomona.domain.model.ComponenteAlimentar;
-import com.github.pomona.domain.model.PreparoMedidaAlimento;
-import com.github.pomona.domain.model.PreparoMedidaAlimentoRepo;
+import com.github.pomona.domain.model.ApresentacaoMedidaAlimento;
+import com.github.pomona.domain.model.ApresentacaoMedidaAlimentoRepo;
 import com.github.pomona.domain.model.SubstanciaId;
 import com.github.pomona.domain.model.SubstanciaRepo;
 import com.github.pomona.domain.model.TipoMedida;
 import com.github.pomona.domain.model.TipoMedidaId;
 import com.github.pomona.domain.model.TipoMedidaRepo;
-import com.github.pomona.domain.model.TipoPreparo;
-import com.github.pomona.domain.model.TipoPreparoId;
-import com.github.pomona.domain.model.TipoPreparoRepo;
+import com.github.pomona.domain.model.TipoApresentacao;
+import com.github.pomona.domain.model.TipoApresentacaoId;
+import com.github.pomona.domain.model.TipoApresentacaoRepo;
 import com.github.pomona.domain.service.AlimentoBuilder;
 import com.github.pomona.service.commandHandler.AlimentoCommandHandler;
 
@@ -54,21 +54,21 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	private AlimentoRepo alimentoRepo;
 	private SubstanciaRepo substanciaRepo;
 	private TipoMedidaRepo tipoMedidaRepo;
-	private TipoPreparoRepo tipoPreparoRepo;
-	private PreparoMedidaAlimentoRepo preparoMedidaAlimentoRepo;
+	private TipoApresentacaoRepo tipoApresentacaoRepo;
+	private ApresentacaoMedidaAlimentoRepo apresentacaoMedidaAlimentoRepo;
 	private CategoriaAlimentoRepo categoriaAlimentoRepo;
 
 	@Inject
 	public AlimentoApplicationService(AlimentoRepo alimentoRepo,
-			SubstanciaRepo substanciaRepo, TipoMedidaRepo tipoMedidaRepo, TipoPreparoRepo tipoPreparoRepo,
-			PreparoMedidaAlimentoRepo preparoMedidaAlimentoRepo, CategoriaAlimentoRepo categoriaAlimentoRepo) {
+			SubstanciaRepo substanciaRepo, TipoMedidaRepo tipoMedidaRepo, TipoApresentacaoRepo tipoApresentacaoRepo,
+			ApresentacaoMedidaAlimentoRepo apresentacaoMedidaAlimentoRepo, CategoriaAlimentoRepo categoriaAlimentoRepo) {
 		super();
 
 		this.alimentoRepo = alimentoRepo;
 		this.substanciaRepo = substanciaRepo;
 		this.tipoMedidaRepo = tipoMedidaRepo;
-		this.tipoPreparoRepo = tipoPreparoRepo;
-		this.preparoMedidaAlimentoRepo = preparoMedidaAlimentoRepo;
+		this.tipoApresentacaoRepo = tipoApresentacaoRepo;
+		this.apresentacaoMedidaAlimentoRepo = apresentacaoMedidaAlimentoRepo;
 		this.categoriaAlimentoRepo = categoriaAlimentoRepo;
 	}
 
@@ -111,7 +111,7 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	}
 
 	@Transactional
-	public CommandResult handle(AtualizarNomeDoTipoPreparoCommand command) {
+	public CommandResult handle(AtualizarNomeDoTipoApresentacaoCommand command) {
 		CommandResult resultado = null;
 
 		// TODO Auto-generated method stub
@@ -181,18 +181,18 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	}
 
 	@Transactional
-	public CommandResult handle(CadastrarPreparoMedidaDoAlimentoGranelCommand command) {
+	public CommandResult handle(CadastrarApresentacaoMedidaDoAlimentoGranelCommand command) {
 		CommandResult resultado = null;
 
-		PreparoMedidaAlimento pma = new PreparoMedidaAlimento();
+		ApresentacaoMedidaAlimento pma = new ApresentacaoMedidaAlimento();
 		pma.setQuantidade(command.getQuantidade());
 		pma.setAlimentoGranel((AlimentoGranel) this.alimentoRepo().porId(new AlimentoId(command.getAlimentoGranelId())));
 		pma.setTipoMedida(this.tipoMedidaRepo().porId(new TipoMedidaId(command.getTipoMedidaId())));
-		pma.setTipoPreparo(this.tipoPreparoRepo().porId(new TipoPreparoId(command.getTipoPreparoId())));
-		pma.setPreparoMedidaAlimentoId(this.preparoMedidaAlimentoRepo().proximaIdentidade());
-		pma = this.preparoMedidaAlimentoRepo().adicionar(pma);
+		pma.setTipoApresentacao(this.tipoApresentacaoRepo().porId(new TipoApresentacaoId(command.getTipoApresentacaoId())));
+		pma.setApresentacaoMedidaAlimentoId(this.apresentacaoMedidaAlimentoRepo().proximaIdentidade());
+		pma = this.apresentacaoMedidaAlimentoRepo().adicionar(pma);
 		
-		resultado = new CommandResult(true, "Medida em Preparo do Alimento cadastrado com sucesso!", pma.preparoMedidaAlimentoId().uuid());
+		resultado = new CommandResult(true, "Medida em Apresentacao do Alimento cadastrado com sucesso!", pma.apresentacaoMedidaAlimentoId().uuid());
 
 		return resultado;
 	}
@@ -212,15 +212,15 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	}
 
 	@Transactional
-	public CommandResult handle(CadastrarTipoPreparoDoAlimentoGranelCommand command) {
+	public CommandResult handle(CadastrarTipoApresentacaoDoAlimentoGranelCommand command) {
 		CommandResult resultado = null;
 
-		TipoPreparo tp = new TipoPreparo();
+		TipoApresentacao tp = new TipoApresentacao();
 		tp.setNome(command.getNome());
-		tp.setTipoPreparoId(this.tipoPreparoRepo().proximaIdentidade());
-		tp = this.tipoPreparoRepo().adicionar(tp);
+		tp.setTipoApresentacaoId(this.tipoApresentacaoRepo().proximaIdentidade());
+		tp = this.tipoApresentacaoRepo().adicionar(tp);
 
-		resultado = new CommandResult(true, "Tipo de Preparo cadastrado com sucesso!", tp.tipoPreparoId().uuid());
+		resultado = new CommandResult(true, "Tipo de Apresentacao cadastrado com sucesso!", tp.tipoApresentacaoId().uuid());
 
 		return resultado;
 	}
@@ -246,7 +246,7 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	}
 
 	@Transactional
-	public CommandResult handle(ExcluirPreparoMedidaDoAlimentoGranelCommand command) {
+	public CommandResult handle(ExcluirApresentacaoMedidaDoAlimentoGranelCommand command) {
 		CommandResult resultado = null;
 
 		// TODO Auto-generated method stub
@@ -266,7 +266,7 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	}
 
 	@Transactional
-	public CommandResult handle(ExcluirTipoPreparoDoAlimentoGranelCommand command) {
+	public CommandResult handle(ExcluirTipoApresentacaoDoAlimentoGranelCommand command) {
 		CommandResult resultado = null;
 
 		// TODO Auto-generated method stub
@@ -277,7 +277,7 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 
 	@Override
 	@Transactional
-	public CommandResult handle(AtualizarPorcaoPreparoMedidaDoAlimentoCommand command) {
+	public CommandResult handle(AtualizarPorcaoApresentacaoMedidaDoAlimentoCommand command) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -316,12 +316,12 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 		return tipoMedidaRepo;
 	}
 
-	private TipoPreparoRepo tipoPreparoRepo() {
-		return tipoPreparoRepo;
+	private TipoApresentacaoRepo tipoApresentacaoRepo() {
+		return tipoApresentacaoRepo;
 	}
 
-	private PreparoMedidaAlimentoRepo preparoMedidaAlimentoRepo() {
-		return preparoMedidaAlimentoRepo;
+	private ApresentacaoMedidaAlimentoRepo apresentacaoMedidaAlimentoRepo() {
+		return apresentacaoMedidaAlimentoRepo;
 	}
 
 	private CategoriaAlimentoRepo categoriaAlimentoRepo() {

@@ -22,10 +22,10 @@ import com.github.pomona.application.dto.LimiteEnergeticoDTO;
 import com.github.pomona.application.dto.MedidaDTO;
 import com.github.pomona.application.dto.MedidaParametrosPesquisa;
 import com.github.pomona.application.dto.NormaAlimentarDTO;
-import com.github.pomona.application.dto.PreparoDTO;
-import com.github.pomona.application.dto.PreparoMedidaAlimentoDTO;
-import com.github.pomona.application.dto.PreparoMedidaParametrosPesquisa;
-import com.github.pomona.application.dto.PreparoParametrosPesquisa;
+import com.github.pomona.application.dto.ApresentacaoDTO;
+import com.github.pomona.application.dto.ApresentacaoMedidaAlimentoDTO;
+import com.github.pomona.application.dto.ApresentacaoMedidaParametrosPesquisa;
+import com.github.pomona.application.dto.ApresentacaoParametrosPesquisa;
 import com.github.pomona.application.dto.SubstanciaDTO;
 import com.github.pomona.application.dto.SubstanciaParametrosPesquisa;
 import com.github.pomona.domain.model.AlimentoGranel;
@@ -76,16 +76,16 @@ public class TesteFernanda {
 			}
 		}
 		
-		for (PreparoDTO pDTO : aqs.Executar(new PreparoParametrosPesquisa())) {
-			System.out.println("Preparo> " + pDTO.getNome() + "(" + pDTO.getUuid() + ")");
+		for (ApresentacaoDTO pDTO : aqs.Executar(new ApresentacaoParametrosPesquisa())) {
+			System.out.println("Apresentacao> " + pDTO.getNome() + "(" + pDTO.getUuid() + ")");
 		}
 		
 		for (MedidaDTO mDTO : aqs.Executar(new MedidaParametrosPesquisa())) {
 			System.out.println("Medida> " + mDTO.getNome() + "(" + mDTO.getUuid() + ")");
 		}
 		
-		for (PreparoMedidaAlimentoDTO pmDTO : aqs.Executar(new PreparoMedidaParametrosPesquisa())) {
-			System.out.println("PreparoMedida> UUID: " + pmDTO.getUuid() + " -  Preparo: " + pmDTO.getPreparo().getNome() + "(" + pmDTO.getPreparo().getUuid() + ") - Medida: " + pmDTO.getMedida().getNome() + "(" + pmDTO.getMedida().getUuid() + ") - Quantidade: " + pmDTO.getQuantidade());
+		for (ApresentacaoMedidaAlimentoDTO pmDTO : aqs.Executar(new ApresentacaoMedidaParametrosPesquisa())) {
+			System.out.println("ApresentacaoMedida> UUID: " + pmDTO.getUuid() + " -  Apresentacao: " + pmDTO.getApresentacao().getNome() + "(" + pmDTO.getApresentacao().getUuid() + ") - Medida: " + pmDTO.getMedida().getNome() + "(" + pmDTO.getMedida().getUuid() + ") - Quantidade: " + pmDTO.getQuantidade());
 		}
 		
 		DiretrizQueryService dqs = WeldContext.INSTANCE.getBean(DiretrizQueryService.class);

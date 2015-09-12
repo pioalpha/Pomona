@@ -2,17 +2,17 @@ package com.github.pomona.application.command.alimento;
 
 import com.github.common.service.command.Command;
 
-public class CadastrarPreparoMedidaDoAlimentoGranelCommand implements Command {
+public class CadastrarApresentacaoMedidaDoAlimentoGranelCommand implements Command {
 	public String alimentoGranelId;
-	public String tipoPreparoId;
+	public String tipoApresentacaoId;
 	public String tipoMedidaId;
 	public float quantidade;
 	
-	public CadastrarPreparoMedidaDoAlimentoGranelCommand(String alimentoGranelId, String tipoPreparoId,
+	public CadastrarApresentacaoMedidaDoAlimentoGranelCommand(String alimentoGranelId, String tipoApresentacaoId,
 			String tipoMedidaId, float quantidade) {
 		super();
 		this.alimentoGranelId = alimentoGranelId;
-		this.tipoPreparoId = tipoPreparoId;
+		this.tipoApresentacaoId = tipoApresentacaoId;
 		this.tipoMedidaId = tipoMedidaId;
 		this.quantidade = quantidade;
 	}
@@ -21,8 +21,8 @@ public class CadastrarPreparoMedidaDoAlimentoGranelCommand implements Command {
 		return alimentoGranelId;
 	}
 	
-	public String getTipoPreparoId() {
-		return tipoPreparoId;
+	public String getTipoApresentacaoId() {
+		return tipoApresentacaoId;
 	}
 	
 	public String getTipoMedidaId() {

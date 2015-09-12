@@ -25,7 +25,7 @@ public class ItemCardapio extends ConcurrencySafeEntity {
 	@Column(nullable = false, precision = 10, scale = 2)
 	private float quantidade;
 	@OneToOne
-	private TipoPreparo tipoPreparo;
+	private TipoApresentacao tipoApresentacao;
 
 	// private Map<Substancia, Float> proporcoes;
 
@@ -46,12 +46,12 @@ public class ItemCardapio extends ConcurrencySafeEntity {
 	}
 
 	
-	public TipoPreparo getTipoPreparo() {
-		return tipoPreparo;
+	public TipoApresentacao getTipoApresentacao() {
+		return tipoApresentacao;
 	}
 
-	public void setTipoPreparo(TipoPreparo tipoPreparo) {
-		this.tipoPreparo = tipoPreparo;
+	public void setTipoApresentacao(TipoApresentacao tipoApresentacao) {
+		this.tipoApresentacao = tipoApresentacao;
 	}
 
 	public float getEnergia() {

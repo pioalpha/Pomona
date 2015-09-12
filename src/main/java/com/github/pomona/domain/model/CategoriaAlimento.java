@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.github.common.domain.model.ConcurrencySafeEntity;
 
 @Entity
@@ -11,8 +13,10 @@ public class CategoriaAlimento extends ConcurrencySafeEntity {
 
 	private static final long serialVersionUID = 8813916095127014131L;
 
+	@NotEmpty
 	@Embedded
 	private CategoriaAlimentoId categoriaAlimentoId;
+	@NotEmpty
 	@Column(nullable = false, length = 100)
 	private String nome;
 	@Column(precision = 10, scale = 2)

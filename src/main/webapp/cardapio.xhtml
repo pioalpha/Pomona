@@ -48,7 +48,7 @@
 				<p:row>
 					<p:column headerText="Alimento" style="width: 200px" sortBy="#{itemCardapio.energiaAlimento.alimento}">
 					</p:column>
-					<p:column headerText="Preparo" style="width: 80px;" />
+					<p:column headerText="Apresentação" style="width: 80px;" />
 					<p:column headerText="Qtd" style="width: 50px;" sortBy="#{itemCardapio.quantidade}"/>
 					<ui:repeat value="#{cardapioBean.listaSubstancias}"
 						var="substancia">
@@ -70,7 +70,7 @@
 						value="#{itemCardapio.energiaAlimento.alimento.detalhe}" />
 				</p:column>
 
-				<p:column headerText="Preparo"/>
+				<p:column headerText="Apresentação"/>
 
 				<p:column headerText="Qtd" style="text-align: center;">
 					<p:cellEditor>
@@ -211,7 +211,7 @@
 		Refeição: [OneMenu]
 		Categoria: [Basic-Dropdown] (PerfilConsumoPaciente)
 		Alimento: [OneMenu] (PerfilConsumoPaciente)
-		Preparo: [OneMenu] Pode ser nulo(inteiro, ralado, picado, triturado, fatiado, cubos, purê,  ...)
+		Apresentação: [OneMenu] Pode ser nulo(inteiro, ralado, picado, triturado, fatiado, cubos, purê,  ...)
 		
 		O nutricionista só digita a quantidade e o programa mostra todas as possibilidade em medidas caseiras em tempo real para aquele alimento
 		Ex.:

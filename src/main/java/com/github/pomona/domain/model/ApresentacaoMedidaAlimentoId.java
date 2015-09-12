@@ -5,15 +5,15 @@ import javax.persistence.Embeddable;
 import com.github.common.domain.model.AbstractId;
 
 @Embeddable
-public class PreparoMedidaAlimentoId extends AbstractId {
+public class ApresentacaoMedidaAlimentoId extends AbstractId {
 
 	private static final long serialVersionUID = 1619715530404282879L;
 
-	public PreparoMedidaAlimentoId() {
+	public ApresentacaoMedidaAlimentoId() {
 		super();
 	}
 
-	public PreparoMedidaAlimentoId(String umId) {
+	public ApresentacaoMedidaAlimentoId(String umId) {
 		super(umId);
 	}
 

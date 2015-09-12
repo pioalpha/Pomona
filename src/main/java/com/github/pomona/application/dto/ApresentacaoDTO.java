@@ -2,13 +2,13 @@ package com.github.pomona.application.dto;
 
 import com.github.common.service.dto.DTO;
 
-public class PreparoDTO implements DTO {
+public class ApresentacaoDTO implements DTO {
 	private static final long serialVersionUID = 1L;
 
 	private String uuid;
 	private String nome;
 
-	public PreparoDTO(String uuid, String nome) {
+	public ApresentacaoDTO(String uuid, String nome) {
 		super();
 		
 		this.uuid = uuid;

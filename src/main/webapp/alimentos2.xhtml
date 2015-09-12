@@ -158,7 +158,7 @@
     		</f:facet>
 
 			<!-- p:ajax event="rowSelect" listener="#{alimentoBean.onRowSelect}" update=":form:componentes" /-->
-			<p:ajax event="rowSelect" listener="#{alimentoBean.onRowSelect}" oncomplete="PF('tabelaComponentes').filter(); " update=":form:tab:componentes :form:tab:preparosMedidas" />
+			<p:ajax event="rowSelect" listener="#{alimentoBean.onRowSelect}" oncomplete="PF('tabelaComponentes').filter(); " update=":form:tab:componentes :form:tab:apresentacoesMedidas" />
 			<!-- p:ajax event="rowUnselect" update=":form:tab:componentes" / -->
 
 			<p:column headerText="Categoria" filterBy="#{alimento.categoria.nome}"
@@ -328,21 +328,21 @@
 			</p:tab>
 
 			<p:tab title="Apresentações e Medidas">
-				<p:dataTable id="preparosMedidas"
-					value="#{alimentoBean.preparosMedidasAlimentos}"
-					var="preparoMedida" rows="10" paginator="true"
+				<p:dataTable id="apresentacoesMedidas"
+					value="#{alimentoBean.apresentacoesMedidasAlimentos}"
+					var="apresentacaoMedida" rows="10" paginator="true"
 					paginatorAlwaysVisible="true" paginatorPosition="bottom">
 
 					<p:column headerText="Apresentação" style="text-align: left; ">
-						<h:outputText value="#{preparoMedida.preparo.nome}" />
+						<h:outputText value="#{apresentacaoMedida.apresentacao.nome}" />
 					</p:column>
 
 					<p:column headerText="Medida" style="text-align: center; ">
-						<h:outputText value="#{preparoMedida.medida.nome}" />
+						<h:outputText value="#{apresentacaoMedida.medida.nome}" />
 					</p:column>
 
 					<p:column headerText="Qtd" style="text-align: center; width: 70px">
-						<h:outputText value="#{preparoMedida.quantidade}" />
+						<h:outputText value="#{apresentacaoMedida.quantidade}" />
 					</p:column>
 
 					<p:column headerText="Ação"
@@ -370,13 +370,13 @@
 		(Validar escrita do nome da nova substância e com a unidade entre parenteses)
 		(Consulta se cadastra a nova substância se a escrita na combo não for localizada)
 		
-		Preparos e Medidas (Nome do alimento selecionado? msg selecione um alimento?)
-		Preparo: [Combobox com autocomplete] Medida: [Combobox com autocomplete] Quantidade: [Texto] {Cadastrar Preparo e Medida}
-		(Consulta se cadastra novo preparo e medida se a escrita na combo não for localizada)
+		Apresentacoes e Medidas (Nome do alimento selecionado? msg selecione um alimento?)
+		Apresentacao: [Combobox com autocomplete] Medida: [Combobox com autocomplete] Quantidade: [Texto] {Cadastrar Apresentacao e Medida}
+		(Consulta se cadastra novo apresentacao e medida se a escrita na combo não for localizada)
 		
-		Tabela Preparos e Medidas {Preparo, Medida, quantidade, editar, excluir}
+		Tabela Apresentacoes e Medidas {Apresentacao, Medida, quantidade, editar, excluir}
 		(Carregado conforme seleção do alimento na Tabela Alimento)
-		(edição apenas do campo quantidade, apenas Preparo tem impacto no cadastro de cardapios)
+		(edição apenas do campo quantidade, apenas Apresentacao tem impacto no cadastro de cardapios)
 		
 		//Alternativa2
 		Alimento
@@ -394,13 +394,13 @@
 		Tabela Componentes Alimentares {Substancia, unidade, quantidade, editar, excluir}
 		
 		(Abaixo da Tabela Componentes Alimentares) 
-		Preparos e Medidas (Nome do alimento selecionado? msg selecione um alimento?)
-		Preparo: [Combobox com autocomplete] Medida: [Combobox com autocomplete] Quantidade: [Texto] {Cadastrar Preparo e Medida}
-		(Consulta se cadastra novo preparo e medida se a escrita na combo não for localizada)
+		Apresentacoes e Medidas (Nome do alimento selecionado? msg selecione um alimento?)
+		Apresentacao: [Combobox com autocomplete] Medida: [Combobox com autocomplete] Quantidade: [Texto] {Cadastrar Apresentacao e Medida}
+		(Consulta se cadastra novo apresentacao e medida se a escrita na combo não for localizada)
 		
-		Tabela Preparos e Medidas {Preparo, Medida, quantidade, editar, excluir}
+		Tabela Apresentacoes e Medidas {Apresentacao, Medida, quantidade, editar, excluir}
 		(Carregado conforme seleção do alimento na Tabela Alimento)
-		(edição apenas do campo quantidade, apenas Preparo tem impacto no cadastro de cardapios)
+		(edição apenas do campo quantidade, apenas Apresentacao tem impacto no cadastro de cardapios)
 	-->
 	</h:form>
     </p:layoutUnit>

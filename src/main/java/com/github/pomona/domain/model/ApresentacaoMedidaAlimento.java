@@ -9,18 +9,18 @@ import javax.persistence.OneToOne;
 import com.github.common.domain.model.ConcurrencySafeEntity;
 
 @Entity
-public class PreparoMedidaAlimento extends ConcurrencySafeEntity {
+public class ApresentacaoMedidaAlimento extends ConcurrencySafeEntity {
 
 	private static final long serialVersionUID = 7604199331346021449L;
 
 	@Embedded
-	private PreparoMedidaAlimentoId preparoMedidaAlimentoId;
+	private ApresentacaoMedidaAlimentoId apresentacaoMedidaAlimentoId;
 	@OneToOne
 	@JoinColumn(nullable = false)
 	private AlimentoGranel alimentoGranel;
 	@OneToOne
 	@JoinColumn(nullable = false)
-	private TipoPreparo tipoPreparo;
+	private TipoApresentacao tipoApresentacao;
 	@OneToOne
 	@JoinColumn(nullable = false)
 	private TipoMedida tipoMedida;
@@ -35,12 +35,12 @@ public class PreparoMedidaAlimento extends ConcurrencySafeEntity {
 		this.alimentoGranel = alimentoGranel;
 	}
 
-	public TipoPreparo getTipoPreparo() {
-		return tipoPreparo;
+	public TipoApresentacao getTipoApresentacao() {
+		return tipoApresentacao;
 	}
 
-	public void setTipoPreparo(TipoPreparo tipoPreparo) {
-		this.tipoPreparo = tipoPreparo;
+	public void setTipoApresentacao(TipoApresentacao tipoApresentacao) {
+		this.tipoApresentacao = tipoApresentacao;
 	}
 
 	public TipoMedida getTipoMedida() {
@@ -59,18 +59,18 @@ public class PreparoMedidaAlimento extends ConcurrencySafeEntity {
 		this.quantidade = quantidade;
 	}
 
-	public PreparoMedidaAlimentoId preparoMedidaAlimentoId() {
-		return preparoMedidaAlimentoId;
+	public ApresentacaoMedidaAlimentoId apresentacaoMedidaAlimentoId() {
+		return apresentacaoMedidaAlimentoId;
 	}
 
-	public void setPreparoMedidaAlimentoId(PreparoMedidaAlimentoId preparoMedidaAlimentoId) {
-		this.preparoMedidaAlimentoId = preparoMedidaAlimentoId;
+	public void setApresentacaoMedidaAlimentoId(ApresentacaoMedidaAlimentoId apresentacaoMedidaAlimentoId) {
+		this.apresentacaoMedidaAlimentoId = apresentacaoMedidaAlimentoId;
 	}
 
 	@Override
 	public String toString() {
-		return "PreparoMedidaAlimento [preparoMedidaAlimentoId=" + preparoMedidaAlimentoId + ", alimentoGranel="
-				+ alimentoGranel + ", tipoPreparo=" + tipoPreparo + ", tipoMedida=" + tipoMedida + ", quantidade="
+		return "ApresentacaoMedidaAlimento [apresentacaoMedidaAlimentoId=" + apresentacaoMedidaAlimentoId + ", alimentoGranel="
+				+ alimentoGranel + ", tipoApresentacao=" + tipoApresentacao + ", tipoMedida=" + tipoMedida + ", quantidade="
 				+ quantidade + "]";
 	}
 

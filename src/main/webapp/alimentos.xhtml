@@ -32,7 +32,7 @@
 
 			<p:ajax event="rowSelect" listener="#{alimentoBean.onRowSelect}"
 				oncomplete="PF('wdgComponentes').filter(); "
-				update=":frmAlimentos:tbvAlimentos:tblComponentes :frmAlimentos:tbvAlimentos:tblApresentacoesMedidas" />
+				update=":tbvAlimentos:frmComponentes:tblComponentes :tbvAlimentos:frmApresentacoesMedidas:tblApresentacoesMedidas" />
 			<!-- p:ajax event="rowUnselect" update=":frmAlimentos:tbvAlimentos:tblComponentes" / -->
 
 			<p:column
@@ -40,8 +40,8 @@
 				style="text-align: center; width: 160px;">
 				<f:facet name="header">
 					<h:outputText value="Categoria " />
-					<p:commandButton type="button" icon="ui-icon-pencil" title="Editar"
-						id="btnEditarCategoria" style="width: 26px; height: 32px;"
+					<p:commandButton type="button" icon="ui-icon-pencil" title="Gerir"
+						id="btnGerirCategoria" style="width: 26px; height: 32px;"
 						onclick="PF('dlgCategorias').show();" />
 				</f:facet>
 
@@ -67,7 +67,7 @@
 					<p:inputText style="width: 98%;"
 						value="#{alimentoBean.nomeAlimento}"
 						onkeyup="PF('wdgAlimentos').filter()" onfocus="this.select()"
-						id="txtAlimento" />
+						id="txtAlimento" label="Nome do Alimento" />
 				</f:facet>
 
 				<h:outputText value="#{alimento.nome}" />
@@ -78,7 +78,7 @@
 
 				<f:facet name="filter">
 					<p:inputText value="#{alimentoBean.porcaoAlimento}"
-						style="width: 85%;" onchange="PF('wdgAlimentos').filter()">
+						style="width: 85%;" onchange="PF('wdgAlimentos').filter()" label="Quantidade do Alimento">
 						<!-- f:convertNumber pattern="#0.00" locale="pt_BR" / -->
 					</p:inputText>
 				</f:facet>
@@ -91,7 +91,7 @@
 
 				<f:facet name="filter">
 					<p:selectOneMenu value="#{alimentoBean.unidadeAlimento}"
-						style="width: 97%;" onchange="PF('wdgAlimentos').filter()">
+						style="width: 97%;" onchange="PF('wdgAlimentos').filter()" label="Unidade do Alimento">
 						<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
 						<f:selectItems value="#{alimentoBean.unidadesGranel}"
 							var="unidade" itemValue="#{unidade}" itemLabel="#{unidade}" />
@@ -115,9 +115,10 @@
 				</f:facet>
 			</p:column>
 		</p:dataTable>
-
+	</h:form>
 		<p:tabView id="tbvAlimentos">
 			<p:tab title="Composição Alimentar">
+				<h:form id="frmComponentes">
 				<p:dataTable id="tblComponentes" value="#{alimentoBean.componentes}"
 					var="componente" rows="5" paginator="true"
 					paginatorAlwaysVisible="true" paginatorPosition="bottom"
@@ -131,7 +132,7 @@
 						<f:facet name="header">
 							<h:outputText value="Componente Alimentar (UN) " />
 							<p:commandButton type="button" icon="ui-icon-pencil"
-								title="Editar" id="btnEditarSubstancia"
+								title="Gerir" id="btnGerirSubstancia"
 								style="width: 26px; height: 32px;"
 								onclick="PF('dlgSubstancias').show();" />
 						</f:facet>
@@ -139,11 +140,11 @@
 						<f:facet name="filter">
 							<p:selectOneMenu onchange="PF('wdgComponentes').filter()"
 								value="#{alimentoBean.nomeSubstancia}" style="width: 100%;"
-								editable="false">
+								editable="false" label="Substância do Componente">
 								<f:selectItem itemLabel="" itemValue="#{null}"
 									noSelectionOption="true" />
 								<f:selectItems value="#{alimentoBean.substancias}"
-									var="substancia" itemValue="#{substancia.nome}"
+									var="substancia" itemValue="#{substancia.substanciaDetalhada}"
 									itemLabel="#{substancia.substanciaDetalhada}" />
 							</p:selectOneMenu>
 						</f:facet>
@@ -156,50 +157,66 @@
 
 						<f:facet name="filter">
 							<p:inputText value="#{alimentoBean.quantidadeSubstancia}"
-								style="width: 85%;" onchange="PF('wdgComponentes').filter()">
+								style="width: 85%;" onchange="PF('wdgComponentes').filter()" label="Quantidade do Componente">
 								<!-- f:convertNumber pattern="#0.00" locale="pt_BR" / -->
 							</p:inputText>
 						</f:facet>
 						<h:outputText value="#{componente.quantidadeSubstancia}" />
 					</p:column>
 
-					<p:column headerText="Ação"
+					<p:column
 						style="text-align: center; width: 120px">
 						<f:facet name="header">
 							<h:outputText value="Ação" />
-							<p:commandButton value="Cadastrar"
-								update=":frmAlimentos:tbvAlimentos:tblComponentes"
+							<p:commandButton value="Cadastrar" type="submit" immediate="true"
+								update=":tbvAlimentos:frmComponentes:tblComponentes"
 								action="#{alimentoBean.cadastrarComponente}"
 								oncomplete=" { PF('wdgAlimentos').selectRow(PF('wdgAlimentos').originRowIndex, false); PF('wdgComponentes').unselectAllRows(); PF('wdgComponentes').filter(); }">
 							</p:commandButton>
 						</f:facet>
 					</p:column>
 				</p:dataTable>
+				</h:form>
 			</p:tab>
-
 			<p:tab title="Apresentações e Medidas">
+				<h:form id="frmApresentacoesMedidas">
 				<p:dataTable id="tblApresentacoesMedidas"
-					value="#{alimentoBean.preparosMedidasAlimentos}"
-					var="preparoMedida" rows="10" paginator="true"
+					value="#{alimentoBean.apresentacoesMedidasAlimentos}"
+					var="apresentacaoMedida" rows="10" paginator="true"
 					paginatorAlwaysVisible="true" paginatorPosition="bottom"
 					widgetVar="wdgApresentacoesMedidas">
 
 					<p:column headerText="Apresentação" style="text-align: left; ">
-						<h:outputText value="#{preparoMedida.preparo.nome}" />
+						<h:outputText value="#{apresentacaoMedida.apresentacao.nome}" />
 					</p:column>
 
 					<p:column headerText="Medida" style="text-align: center; ">
-						<h:outputText value="#{preparoMedida.medida.nome}" />
+						<h:outputText value="#{apresentacaoMedida.medida.nome}" />
 					</p:column>
 
 					<p:column headerText="Qtd" style="text-align: center; width: 70px">
-						<h:outputText value="#{preparoMedida.quantidade}" />
+						<h:outputText value="#{apresentacaoMedida.quantidade}" />
 					</p:column>
 
 					<p:column headerText="Ação"
 						style="text-align: center; width: 120px">
 					</p:column>
 				</p:dataTable>
+				</h:form>
+			</p:tab>
+			<p:tab title="Detalhes">
+				<!-- Código de Barras, Imagem -->
+				<h:form id="frmDetalhes">
+				<p:panelGrid columns="2" id="pnlDetalhes">
+					<p:outputLabel value="Código de Barras" for="codigoBarras" />
+					<p:inputText id="codigoBarras" size="20" value="" />
+					<p:outputLabel value="Imagem" for="imagem" />
+					<p:inputText id="imagem" size="7" value="">
+					</p:inputText>
+					<p:commandButton value="Salvar">
+					</p:commandButton>
+				</p:panelGrid>
+				</h:form>
 			</p:tab>
 		</p:tabView>
 
@@ -217,13 +234,13 @@
 		(Validar escrita do nome da nova substância e com a unidade entre parenteses)
 		(Consulta se cadastra a nova substância se a escrita na combo não for localizada)
 		
-		Preparos e Medidas (Nome do alimento selecionado? msg selecione um alimento?)
-		Preparo: [Combobox com autocomplete] Medida: [Combobox com autocomplete] Quantidade: [Texto] {Cadastrar Preparo e Medida}
-		(Consulta se cadastra novo preparo e medida se a escrita na combo não for localizada)
+		Apresentacoes e Medidas (Nome do alimento selecionado? msg selecione um alimento?)
+		Apresentacao: [Combobox com autocomplete] Medida: [Combobox com autocomplete] Quantidade: [Texto] {Cadastrar Apresentacao e Medida}
+		(Consulta se cadastra novo apresentacao e medida se a escrita na combo não for localizada)
 		
-		Tabela Preparos e Medidas {Preparo, Medida, quantidade, editar, excluir}
+		Tabela Apresentacoes e Medidas {Apresentacao, Medida, quantidade, editar, excluir}
 		(Carregado conforme seleção do alimento na Tabela Alimento)
-		(edição apenas do campo quantidade, apenas Preparo tem impacto no cadastro de cardapios)
+		(edição apenas do campo quantidade, apenas Apresentacao tem impacto no cadastro de cardapios)
 		
 		//Alternativa2
 		Alimento
@@ -241,16 +258,15 @@
 		Tabela Componentes Alimentares {Substancia, unidade, quantidade, editar, excluir}
 		
 		(Abaixo da Tabela Componentes Alimentares) 
-		Preparos e Medidas (Nome do alimento selecionado? msg selecione um alimento?)
-		Preparo: [Combobox com autocomplete] Medida: [Combobox com autocomplete] Quantidade: [Texto] {Cadastrar Preparo e Medida}
-		(Consulta se cadastra novo preparo e medida se a escrita na combo não for localizada)
+		Apresentacoes e Medidas (Nome do alimento selecionado? msg selecione um alimento?)
+		Apresentacao: [Combobox com autocomplete] Medida: [Combobox com autocomplete] Quantidade: [Texto] {Cadastrar Apresentacao e Medida}
+		(Consulta se cadastra novo apresentacao e medida se a escrita na combo não for localizada)
 		
-		Tabela Preparos e Medidas {Preparo, Medida, quantidade, editar, excluir}
+		Tabela Apresentacoes e Medidas {Apresentacao, Medida, quantidade, editar, excluir}
 		(Carregado conforme seleção do alimento na Tabela Alimento)
-		(edição apenas do campo quantidade, apenas Preparo tem impacto no cadastro de cardapios)
+		(edição apenas do campo quantidade, apenas Apresentacao tem impacto no cadastro de cardapios)
 	-->
-	</h:form>
-
+	
 	<p:confirmDialog header="Cadastro de categoria"
 		message="Deseja incluir esta nova categoria de alimento?"
 		widgetVar="confirmarCadastroCategoria">

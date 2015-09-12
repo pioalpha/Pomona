@@ -18,9 +18,9 @@ import com.github.pomona.application.SubstanciaApplicationService;
 import com.github.pomona.application.command.alimento.AdicionarComponenteAlimentarCommand;
 import com.github.pomona.application.command.alimento.CadastrarAlimentoGranelCommand;
 import com.github.pomona.application.command.alimento.CadastrarCategoriaAlimentoCommand;
-import com.github.pomona.application.command.alimento.CadastrarPreparoMedidaDoAlimentoGranelCommand;
+import com.github.pomona.application.command.alimento.CadastrarApresentacaoMedidaDoAlimentoGranelCommand;
 import com.github.pomona.application.command.alimento.CadastrarTipoMedidaDoAlimentoGranelCommand;
-import com.github.pomona.application.command.alimento.CadastrarTipoPreparoDoAlimentoGranelCommand;
+import com.github.pomona.application.command.alimento.CadastrarTipoApresentacaoDoAlimentoGranelCommand;
 import com.github.pomona.application.command.calculaIndiceMeta.CadastrarClassificacaoIMCCommand;
 import com.github.pomona.application.command.calculaIndiceMeta.CadastrarFatorAtividadeFisicaCommand;
 import com.github.pomona.application.command.calculaIndiceMeta.CadastrarFatorMetabolicoCommand;
@@ -60,11 +60,11 @@ import com.github.pomona.domain.model.PerfilAlimentarPacienteRepo;
 import com.github.pomona.domain.model.PlanoAlimentar;
 import com.github.pomona.domain.model.PlanoAlimentarId;
 import com.github.pomona.domain.model.PlanoAlimentarRepo;
-import com.github.pomona.domain.model.PreparoMedidaAlimentoRepo;
+import com.github.pomona.domain.model.ApresentacaoMedidaAlimentoRepo;
 import com.github.pomona.domain.model.Substancia;
 import com.github.pomona.domain.model.SubstanciaRepo;
 import com.github.pomona.domain.model.TipoMedidaRepo;
-import com.github.pomona.domain.model.TipoPreparoRepo;
+import com.github.pomona.domain.model.TipoApresentacaoRepo;
 import com.github.pomona.domain.reference.PreferenciaConsumo;
 import com.github.pomona.domain.reference.TipoCorPele;
 import com.github.pomona.domain.reference.TipoMeta;
@@ -111,9 +111,9 @@ public class CargaInicialTest implements Serializable {
 	@Inject
 	private TipoMedidaRepo tipoMedidaRepoImpl;
 	@Inject
-	private TipoPreparoRepo tipoPreparoRepoImpl;
+	private TipoApresentacaoRepo tipoApresentacaoRepoImpl;
 	@Inject
-	private PreparoMedidaAlimentoRepo preparoMedidaAlimentoRepoImpl;
+	private ApresentacaoMedidaAlimentoRepo apresentacaoMedidaAlimentoRepoImpl;
 	@Inject
 	private CategoriaAlimentoRepo categoriaAlimentoRepoImpl;
 	
@@ -172,8 +172,8 @@ public class CargaInicialTest implements Serializable {
 		//AlimentoApplicationService
 		this.alimentoRepoImpl = WeldContext.INSTANCE.getBean(AlimentoRepoImpl.class);
 		this.tipoMedidaRepoImpl = WeldContext.INSTANCE.getBean(TipoMedidaRepoImpl.class);
-		this.tipoPreparoRepoImpl = WeldContext.INSTANCE.getBean(TipoPreparoRepoImpl.class);
-		this.preparoMedidaAlimentoRepoImpl = WeldContext.INSTANCE.getBean(PreparoMedidaAlimentoRepoImpl.class);
+		this.tipoApresentacaoRepoImpl = WeldContext.INSTANCE.getBean(TipoApresentacaoRepoImpl.class);
+		this.apresentacaoMedidaAlimentoRepoImpl = WeldContext.INSTANCE.getBean(ApresentacaoMedidaAlimentoRepoImpl.class);
 		this.categoriaAlimentoRepoImpl = WeldContext.INSTANCE.getBean(CategoriaAlimentoRepoImpl.class);
 		
 		//CardapioApplicationService
@@ -223,7 +223,7 @@ public class CargaInicialTest implements Serializable {
 		sch.handle(new AdicionarNormaADiretrizAlimentarCommand(dirPadraoId, lipidioId, TipoNorma.PERCENTUAL, 10f, 30f));
 		
 		
-		//AlimentoCommandHandler ach = new AlimentoApplicationService(alimentoRepoImpl, substanciaRepoImpl, tipoMedidaRepoImpl, tipoPreparoRepoImpl, preparoMedidaAlimentoRepoImpl, categoriaAlimentoRepoImpl);
+		//AlimentoCommandHandler ach = new AlimentoApplicationService(alimentoRepoImpl, substanciaRepoImpl, tipoMedidaRepoImpl, tipoApresentacaoRepoImpl, apresentacaoMedidaAlimentoRepoImpl, categoriaAlimentoRepoImpl);
 		this.ach = WeldContext.INSTANCE.getBean(AlimentoApplicationService.class);
 		String catFrutaId = ach.handle(new CadastrarCategoriaAlimentoCommand("Fruta")).id;
 		
@@ -243,12 +243,12 @@ public class CargaInicialTest implements Serializable {
 		ach.handle(new AdicionarComponenteAlimentarCommand(abacateId, calcioId, 25f));
 		ach.handle(new AdicionarComponenteAlimentarCommand(abacateId, magnesioId, 18f));
 		
-		String picadoId = ach.handle(new CadastrarTipoPreparoDoAlimentoGranelCommand("Picado")).id;
-		String fatiadoId = ach.handle(new CadastrarTipoPreparoDoAlimentoGranelCommand("Fatiado")).id;
+		String picadoId = ach.handle(new CadastrarTipoApresentacaoDoAlimentoGranelCommand("Picado")).id;
+		String fatiadoId = ach.handle(new CadastrarTipoApresentacaoDoAlimentoGranelCommand("Fatiado")).id;
 		
 		String colherSopaId = ach.handle(new CadastrarTipoMedidaDoAlimentoGranelCommand("Colher de Sopa")).id;
 
-		ach.handle(new CadastrarPreparoMedidaDoAlimentoGranelCommand(abacateId, picadoId, colherSopaId, 10f));
+		ach.handle(new CadastrarApresentacaoMedidaDoAlimentoGranelCommand(abacateId, picadoId, colherSopaId, 10f));
 		
 		
 		//PacienteCommandHandler pch = new PacienteApplicationService(alimentoRepoImpl, categoriaAlimentoRepoImpl, perfilAlimentarPacienteRepoImpl, planoAlimentarRepoImpl);
@@ -305,7 +305,7 @@ public class CargaInicialTest implements Serializable {
 		String cardapioId = consultaRepoImpl.porId(new ConsultaId(consultaId)).getCardapios().get(0).cardapioId().uuid(); 
 
 		
-		//CardapioCommandHandler crch = new CardapioApplicationService(alimentoRepoImpl, cardapioRepoImpl, consultaRepoImpl, energiaAlimentoRepoImpl, energiaSubstanciaRepoImpl, perfilAlimentarPacienteRepoImpl, divisaoRefeicaoRepoImpl, tipoPreparoRepoImpl, cea);
+		//CardapioCommandHandler crch = new CardapioApplicationService(alimentoRepoImpl, cardapioRepoImpl, consultaRepoImpl, energiaAlimentoRepoImpl, energiaSubstanciaRepoImpl, perfilAlimentarPacienteRepoImpl, divisaoRefeicaoRepoImpl, tipoApresentacaoRepoImpl, cea);
 		this.crch = WeldContext.INSTANCE.getBean(CardapioApplicationService.class);
 		crch.handle(new CadastrarItemNoCardapioCommand(cardapioId, abacateId, picadoId, TipoRefeicao.ALMOCO, 200f));
 		
@@ -470,11 +470,11 @@ public class CargaInicialTest implements Serializable {
 			System.out.println(o.toString());
 		}
 
-		for(Object o : tipoPreparoRepoImpl.todos()){
+		for(Object o : tipoApresentacaoRepoImpl.todos()){
 			System.out.println(o.toString());
 		}
 
-		for(Object o : preparoMedidaAlimentoRepoImpl.todos()){
+		for(Object o : apresentacaoMedidaAlimentoRepoImpl.todos()){
 			System.out.println(o.toString());
 		}
 
@@ -536,7 +536,7 @@ public class CargaInicialTest implements Serializable {
 		sch.handle(new AdicionarNormaADiretrizAlimentarCommand(dirPadraoId, lipidioId, TipoNorma.PERCENTUAL, 10f, 30f));
 		
 		
-		//AlimentoCommandHandler ach = new AlimentoApplicationService(alimentoRepoImpl, substanciaRepoImpl, tipoMedidaRepoImpl, tipoPreparoRepoImpl, preparoMedidaAlimentoRepoImpl, categoriaAlimentoRepoImpl);
+		//AlimentoCommandHandler ach = new AlimentoApplicationService(alimentoRepoImpl, substanciaRepoImpl, tipoMedidaRepoImpl, tipoApresentacaoRepoImpl, apresentacaoMedidaAlimentoRepoImpl, categoriaAlimentoRepoImpl);
 		String catFrutaId = ach.handle(new CadastrarCategoriaAlimentoCommand("Fruta")).id;
 		
 		String abacateId = ach.handle(new CadastrarAlimentoGranelCommand("Abacate", UnidadeGranel.g, 100f, catFrutaId)).id;
@@ -555,12 +555,12 @@ public class CargaInicialTest implements Serializable {
 		ach.handle(new AdicionarComponenteAlimentarCommand(abacateId, calcioId, 25f));
 		ach.handle(new AdicionarComponenteAlimentarCommand(abacateId, magnesioId, 18f));
 		
-		String picadoId = ach.handle(new CadastrarTipoPreparoDoAlimentoGranelCommand("Picado")).id;
-		String fatiadoId = ach.handle(new CadastrarTipoPreparoDoAlimentoGranelCommand("Fatiado")).id;
+		String picadoId = ach.handle(new CadastrarTipoApresentacaoDoAlimentoGranelCommand("Picado")).id;
+		String fatiadoId = ach.handle(new CadastrarTipoApresentacaoDoAlimentoGranelCommand("Fatiado")).id;
 		
 		String colherSopaId = ach.handle(new CadastrarTipoMedidaDoAlimentoGranelCommand("Colher de Sopa")).id;
 
-		ach.handle(new CadastrarPreparoMedidaDoAlimentoGranelCommand(abacateId, picadoId, colherSopaId, 10f));
+		ach.handle(new CadastrarApresentacaoMedidaDoAlimentoGranelCommand(abacateId, picadoId, colherSopaId, 10f));
 		
 		
 		//PacienteCommandHandler pch = new PacienteApplicationService(alimentoRepoImpl, categoriaAlimentoRepoImpl, perfilAlimentarPacienteRepoImpl, planoAlimentarRepoImpl);
@@ -615,7 +615,7 @@ public class CargaInicialTest implements Serializable {
 		String cardapioId = consultaRepoImpl.porId(new ConsultaId(consultaId)).getCardapios().get(0).cardapioId().uuid(); 
 
 		
-		//CardapioCommandHandler crch = new CardapioApplicationService(alimentoRepoImpl, cardapioRepoImpl, consultaRepoImpl, energiaAlimentoRepoImpl, energiaSubstanciaRepoImpl, perfilAlimentarPacienteRepoImpl, divisaoRefeicaoRepoImpl, tipoPreparoRepoImpl, cea);
+		//CardapioCommandHandler crch = new CardapioApplicationService(alimentoRepoImpl, cardapioRepoImpl, consultaRepoImpl, energiaAlimentoRepoImpl, energiaSubstanciaRepoImpl, perfilAlimentarPacienteRepoImpl, divisaoRefeicaoRepoImpl, tipoApresentacaoRepoImpl, cea);
 		crch.handle(new CadastrarItemNoCardapioCommand(cardapioId, abacateId, picadoId, TipoRefeicao.ALMOCO, 200f));
 		
 		for(Object o : substanciaRepoImpl.todos()){
@@ -642,11 +642,11 @@ public class CargaInicialTest implements Serializable {
 			System.out.println(o.toString());
 		}
 
-		for(Object o : tipoPreparoRepoImpl.todos()){
+		for(Object o : tipoApresentacaoRepoImpl.todos()){
 			System.out.println(o.toString());
 		}
 
-		for(Object o : preparoMedidaAlimentoRepoImpl.todos()){
+		for(Object o : apresentacaoMedidaAlimentoRepoImpl.todos()){
 			System.out.println(o.toString());
 		}
 

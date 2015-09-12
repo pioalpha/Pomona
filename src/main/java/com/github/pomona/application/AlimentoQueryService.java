@@ -23,18 +23,18 @@ import com.github.pomona.application.dto.ComponenteAlimentarDTO;
 import com.github.pomona.application.dto.ComponenteParametrosPesquisa;
 import com.github.pomona.application.dto.MedidaDTO;
 import com.github.pomona.application.dto.MedidaParametrosPesquisa;
-import com.github.pomona.application.dto.PreparoDTO;
-import com.github.pomona.application.dto.PreparoMedidaAlimentoDTO;
-import com.github.pomona.application.dto.PreparoMedidaParametrosPesquisa;
-import com.github.pomona.application.dto.PreparoParametrosPesquisa;
+import com.github.pomona.application.dto.ApresentacaoDTO;
+import com.github.pomona.application.dto.ApresentacaoMedidaAlimentoDTO;
+import com.github.pomona.application.dto.ApresentacaoMedidaParametrosPesquisa;
+import com.github.pomona.application.dto.ApresentacaoParametrosPesquisa;
 import com.github.pomona.application.dto.SubstanciaDTO;
 import com.github.pomona.domain.model.AlimentoGranel;
 import com.github.pomona.domain.model.CategoriaAlimento;
 import com.github.pomona.domain.model.ComponenteAlimentar;
-import com.github.pomona.domain.model.PreparoMedidaAlimento;
+import com.github.pomona.domain.model.ApresentacaoMedidaAlimento;
 import com.github.pomona.domain.model.SubstanciaId;
 import com.github.pomona.domain.model.TipoMedida;
-import com.github.pomona.domain.model.TipoPreparo;
+import com.github.pomona.domain.model.TipoApresentacao;
 
 public class AlimentoQueryService // extends AbstractQueryService
 		implements Query<AlimentoParametrosPesquisa, AlimentoDTO> {
@@ -83,8 +83,8 @@ public class AlimentoQueryService // extends AbstractQueryService
 			// cq.where(cb.and(predicate, cb.like(categoria.<String>get("nome"),
 			// "%" + parametros.getCategoria() + "%")));
 		}
-		// Root<PreparoMedidaAlimento> fromPreparo =
-		// cq.from(PreparoMedidaAlimento.class);
+		// Root<ApresentacaoMedidaAlimento> fromApresentacao =
+		// cq.from(ApresentacaoMedidaAlimento.class);
 		if (!predicates.isEmpty()){
 			cq.where(predicates.toArray(new Predicate[] {}));
 		}
@@ -208,29 +208,29 @@ public class AlimentoQueryService // extends AbstractQueryService
 		return resultado;
 	}
 
-	public List<PreparoDTO> Executar(PreparoParametrosPesquisa parametros) {
-		List<PreparoDTO> resultado = new ArrayList<>();
+	public List<ApresentacaoDTO> Executar(ApresentacaoParametrosPesquisa parametros) {
+		List<ApresentacaoDTO> resultado = new ArrayList<>();
 
 		CriteriaBuilder cb = manager.getCriteriaBuilder();
-		CriteriaQuery<TipoPreparo> cq = cb.createQuery(TipoPreparo.class);
-		Root<TipoPreparo> fromPreparo = cq.from(TipoPreparo.class);
+		CriteriaQuery<TipoApresentacao> cq = cb.createQuery(TipoApresentacao.class);
+		Root<TipoApresentacao> fromApresentacao = cq.from(TipoApresentacao.class);
 
 		List<Predicate> predicates = new ArrayList<Predicate>();
 		if (parametros.getNome() != null) {
-			predicates.add(cb.like(fromPreparo.<String> get("nome"), parametros.getNome()));
+			predicates.add(cb.like(fromApresentacao.<String> get("nome"), parametros.getNome()));
 		}
 		if (!predicates.isEmpty()){
 			cq.where(predicates.toArray(new Predicate[] {}));
 		}
-		TypedQuery<TipoPreparo> tq = manager.createQuery(cq);
+		TypedQuery<TipoApresentacao> tq = manager.createQuery(cq);
 
 		if (parametros.getNumeroResultadosPorPagina() != null) {
 			tq.setFirstResult(parametros.getNumeroDaPagina() - 1);
 			tq.setMaxResults(parametros.getNumeroResultadosPorPagina());
 		}
 
-		for (TipoPreparo p : tq.getResultList()) {
-			PreparoDTO pDTO = new PreparoDTO(p.tipoPreparoId().uuid(), p.getNome());
+		for (TipoApresentacao p : tq.getResultList()) {
+			ApresentacaoDTO pDTO = new ApresentacaoDTO(p.tipoApresentacaoId().uuid(), p.getNome());
 			resultado.add(pDTO);
 		}
 
@@ -266,26 +266,26 @@ public class AlimentoQueryService // extends AbstractQueryService
 		return resultado;
 	}
 
-	public List<PreparoMedidaAlimentoDTO> Executar(PreparoMedidaParametrosPesquisa parametros) {
-		List<PreparoMedidaAlimentoDTO> resultado = new ArrayList<>();
+	public List<ApresentacaoMedidaAlimentoDTO> Executar(ApresentacaoMedidaParametrosPesquisa parametros) {
+		List<ApresentacaoMedidaAlimentoDTO> resultado = new ArrayList<>();
 
 		CriteriaBuilder cb = manager.getCriteriaBuilder();
-		CriteriaQuery<PreparoMedidaAlimento> cq = cb.createQuery(PreparoMedidaAlimento.class);
-		Root<PreparoMedidaAlimento> fromPreparoMedida = cq.from(PreparoMedidaAlimento.class);
+		CriteriaQuery<ApresentacaoMedidaAlimento> cq = cb.createQuery(ApresentacaoMedidaAlimento.class);
+		Root<ApresentacaoMedidaAlimento> fromApresentacaoMedida = cq.from(ApresentacaoMedidaAlimento.class);
 
 		List<Predicate> predicates = new ArrayList<Predicate>();
-		if (parametros.getPreparo() != null) {
-			if (parametros.getPreparo().getUuid() != null) { // Ser tiver uuid
+		if (parametros.getApresentacao() != null) {
+			if (parametros.getApresentacao().getUuid() != null) { // Ser tiver uuid
 																// definido,
 																// pega pelo
 																// uudi, senão,
 																// pesquisa pelo
 																// nome
-				predicates.add(cb.equal(fromPreparoMedida.join("tipoPreparo").get("tipoPreparoId").get("uuid"),
-						parametros.getPreparo().getUuid()));
-			} else if (parametros.getPreparo().getNome() != null) {
-				predicates.add(cb.like(fromPreparoMedida.join("tipoPreparo").<String> get("nome"),
-						parametros.getPreparo().getNome()));
+				predicates.add(cb.equal(fromApresentacaoMedida.join("tipoApresentacao").get("tipoApresentacaoId").get("uuid"),
+						parametros.getApresentacao().getUuid()));
+			} else if (parametros.getApresentacao().getNome() != null) {
+				predicates.add(cb.like(fromApresentacaoMedida.join("tipoApresentacao").<String> get("nome"),
+						parametros.getApresentacao().getNome()));
 			}
 		}
 		if (parametros.getMedida() != null) {
@@ -294,10 +294,10 @@ public class AlimentoQueryService // extends AbstractQueryService
 															// pelo uudi, senão,
 															// pesquisa pelo
 															// nome
-				predicates.add(cb.equal(fromPreparoMedida.join("tipoMedida").get("tipoMedidaId").get("uuid"),
-						parametros.getPreparo().getUuid()));
+				predicates.add(cb.equal(fromApresentacaoMedida.join("tipoMedida").get("tipoMedidaId").get("uuid"),
+						parametros.getApresentacao().getUuid()));
 			} else if (parametros.getMedida().getNome() != null) {
-				predicates.add(cb.like(fromPreparoMedida.join("tipoMedida").<String> get("nome"),
+				predicates.add(cb.like(fromApresentacaoMedida.join("tipoMedida").<String> get("nome"),
 						parametros.getMedida().getNome()));
 			}
 		}
@@ -309,26 +309,26 @@ public class AlimentoQueryService // extends AbstractQueryService
 																// uudi, senão,
 																// pesquisa pelo
 																// nome
-				predicates.add(cb.equal(fromPreparoMedida.join("alimentoGranel").get("alimentoId").get("uuid"),
+				predicates.add(cb.equal(fromApresentacaoMedida.join("alimentoGranel").get("alimentoId").get("uuid"),
 						parametros.getAlimento().getUuid()));
 			} else if (parametros.getAlimento().getNome() != null) {
-				predicates.add(cb.like(fromPreparoMedida.join("alimentoGranel").<String> get("nome"),
+				predicates.add(cb.like(fromApresentacaoMedida.join("alimentoGranel").<String> get("nome"),
 						"%" + parametros.getAlimento().getNome() + "%"));
 			}
 		}
 		if (!predicates.isEmpty()){
 			cq.where(predicates.toArray(new Predicate[] {}));
 		}
-		TypedQuery<PreparoMedidaAlimento> tq = manager.createQuery(cq);
+		TypedQuery<ApresentacaoMedidaAlimento> tq = manager.createQuery(cq);
 
 		if (parametros.getNumeroResultadosPorPagina() != null) {
 			tq.setFirstResult(parametros.getNumeroDaPagina() - 1);
 			tq.setMaxResults(parametros.getNumeroResultadosPorPagina());
 		}
 
-		for (PreparoMedidaAlimento pm : tq.getResultList()) {
-			PreparoMedidaAlimentoDTO pmDTO = new PreparoMedidaAlimentoDTO(pm.preparoMedidaAlimentoId().uuid(),
-					new PreparoDTO(pm.getTipoPreparo().tipoPreparoId().uuid(), pm.getTipoPreparo().getNome()),
+		for (ApresentacaoMedidaAlimento pm : tq.getResultList()) {
+			ApresentacaoMedidaAlimentoDTO pmDTO = new ApresentacaoMedidaAlimentoDTO(pm.apresentacaoMedidaAlimentoId().uuid(),
+					new ApresentacaoDTO(pm.getTipoApresentacao().tipoApresentacaoId().uuid(), pm.getTipoApresentacao().getNome()),
 					new MedidaDTO(pm.getTipoMedida().tipoMedidaId().uuid(), pm.getTipoMedida().getNome()),
 					pm.getQuantidade());
 			resultado.add(pmDTO);

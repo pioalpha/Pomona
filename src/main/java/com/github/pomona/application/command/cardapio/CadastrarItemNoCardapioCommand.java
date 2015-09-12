@@ -6,16 +6,16 @@ import com.github.pomona.domain.reference.TipoRefeicao;
 public class CadastrarItemNoCardapioCommand implements Command {
 	private String cardapioId;
 	private String alimentoId;
-	private String tipoPreparoId;
+	private String tipoApresentacaoId;
 	private TipoRefeicao tipoRefeicao;
 	private float quantidade;
 	
-	public CadastrarItemNoCardapioCommand(String cardapioId, String alimentoId, String tipoPreparoId,
+	public CadastrarItemNoCardapioCommand(String cardapioId, String alimentoId, String tipoApresentacaoId,
 			TipoRefeicao tipoRefeicao, float quantidade) {
 		super();
 		this.cardapioId = cardapioId;
 		this.alimentoId = alimentoId;
-		this.tipoPreparoId = tipoPreparoId;
+		this.tipoApresentacaoId = tipoApresentacaoId;
 		this.tipoRefeicao = tipoRefeicao;
 		this.quantidade = quantidade;
 	}
@@ -28,8 +28,8 @@ public class CadastrarItemNoCardapioCommand implements Command {
 		return alimentoId;
 	}
 	
-	public String getTipoPreparoId() {
-		return tipoPreparoId;
+	public String getTipoApresentacaoId() {
+		return tipoApresentacaoId;
 	}
 	
 	public TipoRefeicao getTipoRefeicao() {

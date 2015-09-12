@@ -7,12 +7,12 @@ import javax.persistence.Entity;
 import com.github.common.domain.model.ConcurrencySafeEntity;
 
 @Entity
-public class TipoPreparo extends ConcurrencySafeEntity {
+public class TipoApresentacao extends ConcurrencySafeEntity {
 	
 	private static final long serialVersionUID = -2098051965600841764L;
 	
 	@Embedded
-	private TipoPreparoId tipoPreparoId;
+	private TipoApresentacaoId tipoApresentacaoId;
 	@Column(nullable = false, length = 100)
 	private String nome;
 
@@ -24,17 +24,17 @@ public class TipoPreparo extends ConcurrencySafeEntity {
 		this.nome = nome;
 	}
 
-	public TipoPreparoId tipoPreparoId() {
-		return tipoPreparoId;
+	public TipoApresentacaoId tipoApresentacaoId() {
+		return tipoApresentacaoId;
 	}
 
-	public void setTipoPreparoId(TipoPreparoId tipoPreparoId) {
-		this.tipoPreparoId = tipoPreparoId;
+	public void setTipoApresentacaoId(TipoApresentacaoId tipoApresentacaoId) {
+		this.tipoApresentacaoId = tipoApresentacaoId;
 	}
 
 	@Override
 	public String toString() {
-		return "TipoPreparo [tipoPreparoId=" + tipoPreparoId + ", nome=" + nome + "]";
+		return "TipoApresentacao [tipoApresentacaoId=" + tipoApresentacaoId + ", nome=" + nome + "]";
 	}
 	
 }
