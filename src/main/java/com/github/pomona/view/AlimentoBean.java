@@ -16,7 +16,6 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.primefaces.event.SelectEvent;
 
 import com.github.pomona.application.AlimentoQueryService;
@@ -93,19 +92,15 @@ public class AlimentoBean implements Serializable {
 	private Float porcaoAlimento;
 	@NotNull
 	private UnidadeGranel unidadeAlimento;
-	@NotBlank
 	private String categoriaAlimento;
 	private CategoriaDTO categoriaSelecionada;
 
 	// Cadastro/Edicao de componente
-	@NotBlank
 	private String nomeSubstancia;
-	@DecimalMin(value="0.01")
 	private Float quantidadeSubstancia;
 	private SubstanciaDTO substanciaSelecionada;
 
 	// Cadastro/Edicao de categoria
-	@NotBlank
 	private String nomeCategoria;
 	private Float caloriasPorcaoCategoria;
 	// private CategoriaDTO categoriaSelecionada;
@@ -117,7 +112,6 @@ public class AlimentoBean implements Serializable {
 	// private SubstanciaDTO substanciaSelecionada;
 
 	// Para cadastros, edições e exclusões
-	@NotNull
 	private AlimentoDTO alimentoSelecionado;
 	private ComponenteAlimentarDTO componenteAlimentarSelecionado;
 	private ApresentacaoMedidaAlimentoDTO apresentacaoMedidaAlimentoSelecionado;
