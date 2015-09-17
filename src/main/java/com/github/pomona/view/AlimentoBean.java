@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.primefaces.event.SelectEvent;
@@ -86,9 +87,10 @@ public class AlimentoBean implements Serializable {
 
 	// Cadastro/Edição de alimento
 	@NotBlank
+	@Size(min = 3, max = 100)
 	private String nomeAlimento;
-	@DecimalMin(value="0.01")
 	@NotNull
+	@DecimalMin(value="0.01")
 	private Float porcaoAlimento;
 	@NotNull
 	private UnidadeGranel unidadeAlimento;
@@ -101,7 +103,10 @@ public class AlimentoBean implements Serializable {
 	private SubstanciaDTO substanciaSelecionada;
 
 	// Cadastro/Edicao de categoria
+	@NotBlank
+	@Size(min = 3, max = 100)
 	private String nomeCategoria;
+	@DecimalMin(value="0.01")
 	private Float caloriasPorcaoCategoria;
 	// private CategoriaDTO categoriaSelecionada;
 
@@ -130,7 +135,16 @@ public class AlimentoBean implements Serializable {
 	}
 
 	public void cadastrarCategoria() {
+		// se a categoria existir, atualizar apenas as calorias por porção
+		List<CategoriaDTO> cats = aqs.Executar(new CategoriaParametrosPesquisa(this.nomeCategoria.trim()));
+		if (cats.isEmpty()) {
+			ach.handle(new CadastrarCategoriaAlimentoCommand(this.nomeCategoria.trim(), this.caloriasPorcaoCategoria));
+		}
+
+		this.inicializar();
 		
+		this.nomeCategoria = null;
+		this.caloriasPorcaoCategoria = null;
 	}
 	
 	public void cadastrarSubstancia() {

@@ -12,6 +12,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import com.github.common.domain.model.ConcurrencySafeEntity;
 import com.github.pomona.domain.reference.TipoRefeicao;
@@ -22,6 +23,7 @@ public class RefeicaoCardapio extends ConcurrencySafeEntity {
 
 	private static final long serialVersionUID = 6141970855499751780L;
 	
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 9)
 	private TipoRefeicao tipoRefeicao;

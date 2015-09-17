@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
 import com.github.pomona.domain.reference.UnidadeGranel;
 
@@ -14,8 +16,10 @@ public class AlimentoGranel extends AlimentoUnitario implements Serializable {
 
 	private static final long serialVersionUID = -8186382855534022253L;
 
+	@DecimalMin(value = "0.01")
 	@Column(nullable = false, precision = 10, scale = 2)
 	private float porcao;
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 3)
 	private UnidadeGranel unidadeGranel;

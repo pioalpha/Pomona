@@ -6,8 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.github.common.domain.model.ConcurrencySafeEntity;
 import com.github.pomona.domain.reference.UnidadeSubstancia;
@@ -17,11 +18,11 @@ public class Substancia extends ConcurrencySafeEntity {
 
 	private static final long serialVersionUID = -1063366783131768256L;
 	
-	@NotEmpty
 	@Embedded
 	private SubstanciaId substanciaId;
-	@NotEmpty
-	@Column(nullable = false, length = 100)
+	@Size(min = 3, max = 100)
+	@NotBlank
+	@Column(nullable = false, length = 100, unique = true)
 	private String nome;
 	@NotNull
 	@Enumerated(EnumType.STRING)

@@ -296,6 +296,7 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 
 		CategoriaAlimento ca = new CategoriaAlimento();
 		ca.setNome(command.getNome());
+		ca.setCaloriasPorPorcao(command.getCaloriasPorPorcao());
 		ca.setCategoriaAlimentoId(this.categoriaAlimentoRepo().proximaIdentidade());
 		ca = this.categoriaAlimentoRepo().adicionar(ca);
 

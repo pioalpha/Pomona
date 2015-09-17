@@ -8,6 +8,9 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.github.common.domain.model.ConcurrencySafeEntity;
 
@@ -18,7 +21,9 @@ public class DivisaoRefeicao extends ConcurrencySafeEntity {
 
 	@Embedded
 	private DivisaoRefeicaoId divisaoRefeicaoId;
-	@Column(nullable = false, length = 100)
+	@Size(min = 3, max = 100)
+	@NotBlank
+	@Column(nullable = false, length = 100, unique = true)
 	private String nome;
 	@OneToMany(mappedBy = "divisaoRefeicao", cascade = CascadeType.ALL)
 	private List<LimiteEnergetico> limitesEnergeticos;

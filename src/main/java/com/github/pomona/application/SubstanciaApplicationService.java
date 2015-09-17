@@ -230,12 +230,13 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 		Substancia s = new SubstanciaBuilder(command.getNome(), command.getUnidadeSubstancia(),
 				this.substanciaRepo().proximaOrdem().intValue()).construir();
 		s.setSubstanciaId(this.substanciaRepo().proximaIdentidade());
-		this.substanciaRepo().adicionar(s);
+		s = this.substanciaRepo().adicionar(s);
 
 		EnergiaSubstancia es = new EnergiaSubstancia();
 		es.setDataCadastro(new Date());
 		es.setFatorEnergetico(command.getFatorEnergetico());
 		es.setSubstancia(s);
+		es.setEnergiaSubstanciaId(energiaSubstanciaRepo().proximaIdentidade());
 		es = this.energiaSubstanciaRepo().adicionar(es);
 
 		resultado = new CommandResult(true, "Substância cadastrada com sucesso!", s.substanciaId().uuid());

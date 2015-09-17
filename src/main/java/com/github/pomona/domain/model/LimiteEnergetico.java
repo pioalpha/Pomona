@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
 import com.github.common.domain.model.ConcurrencySafeEntity;
 import com.github.pomona.domain.reference.TipoRefeicao;
@@ -19,16 +21,23 @@ public class LimiteEnergetico extends ConcurrencySafeEntity {
 
 	private static final long serialVersionUID = -2904227334042632218L;
 
+	@NotNull
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private DivisaoRefeicao divisaoRefeicao;
+	@NotNull
+	@DecimalMin(value = "0.01")
 	@Column(nullable = false, precision = 10, scale = 2)
 	private float percentualEnergetico;
+	@NotNull
+	@DecimalMin(value = "0.01")
 	@Column(nullable = false, precision = 10, scale = 2)
 	private float tolerancia;
+	@NotNull
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
 	private Date dataCadastro;
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 8)
 	private TipoRefeicao tipoRefeicao;

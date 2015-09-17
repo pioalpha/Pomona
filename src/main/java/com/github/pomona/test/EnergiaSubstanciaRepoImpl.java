@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.UUID;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
@@ -13,6 +14,7 @@ import com.github.pomona.domain.model.EnergiaSubstanciaId;
 import com.github.pomona.domain.model.EnergiaSubstanciaRepo;
 import com.github.pomona.domain.model.Substancia;
 
+@Singleton
 public class EnergiaSubstanciaRepoImpl implements EnergiaSubstanciaRepo {
 	private static final long serialVersionUID = 1L;
 

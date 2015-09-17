@@ -6,12 +6,15 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
+import javax.validation.constraints.DecimalMin;
 
 @Embeddable
 public class ExameAntropometrico {
 	
+	@DecimalMin(value = "0.01")
 	@Column(precision = 10, scale = 2)
 	private Float peso;
+	@DecimalMin(value = "0.01")
 	@Column(precision = 10, scale = 2)
 	private Float altura;
 	@Transient

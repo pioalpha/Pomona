@@ -7,6 +7,11 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.github.common.domain.model.ConcurrencySafeEntity;
 
@@ -17,10 +22,15 @@ public class FatorAtividadeFisica extends ConcurrencySafeEntity {
 
 	@Embedded
 	private FatorAtividadeFisicaId fatorAtividadeFisicaId;
-	@Column(nullable = false, length = 100)
+	@Size(min = 3, max = 100)
+	@NotBlank
+	@Column(nullable = false, length = 100, unique = true)
 	private String atividade;
+	@NotNull
+	@DecimalMin(value = "0.01")
 	@Column(nullable = false, precision = 10, scale = 2)
 	private float fator;
+	@NotNull
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
 	private Date dataCadastro;

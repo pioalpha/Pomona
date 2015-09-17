@@ -9,6 +9,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
 import com.github.common.domain.model.ConcurrencySafeEntity;
 
@@ -17,14 +19,18 @@ public class ComponenteAlimentar extends ConcurrencySafeEntity {
 
 	private static final long serialVersionUID = -2722189674707674291L;
 
+	@NotNull
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private AlimentoUnitario alimentoUnitario;
+	@DecimalMin(value = "0.001")
+	@NotNull
 	@Column(nullable = false, precision = 10, scale = 3)
 	private float quantidade;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
 	private Date dataCadastro;
+	@NotNull
 	@OneToOne
 	@JoinColumn(nullable = false)
 	private Substancia substancia;

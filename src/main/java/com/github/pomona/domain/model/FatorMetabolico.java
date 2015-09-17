@@ -7,6 +7,9 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import com.github.common.domain.model.ConcurrencySafeEntity;
 
@@ -17,16 +20,25 @@ public class FatorMetabolico extends ConcurrencySafeEntity {
 
 	@Embedded
 	private FatorMetabolicoId fatorMetabolicoId;
+	@Min(0)
 	private Integer idadeMinima;
+	@Min(0)
 	private Integer idadeMaxima;
+	@NotNull
+	@DecimalMin(value = "0.01")
 	@Column(nullable = false, precision = 10, scale = 2)
 	private float fatorMasculino;
+	@NotNull
 	@Column(nullable = false)
 	private int diferencialMasculino;
+	@NotNull
+	@DecimalMin(value = "0.01")
 	@Column(nullable = false, precision = 10, scale = 2)
 	private float fatorFeminino;
+	@NotNull
 	@Column(nullable = false)
 	private int diferencialFeminino;
+	@NotNull
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
 	private Date dataCriacao;

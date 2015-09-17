@@ -26,7 +26,7 @@ public abstract class AbstractId
 
     private static final long serialVersionUID = 1L;
 
-	@Column(nullable = false, length = 36)
+	@Column(nullable = false, length = 36, unique = true)
     private String uuid;
 
     public String uuid() {

@@ -11,6 +11,9 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.github.common.domain.model.ConcurrencySafeEntity;
 
@@ -21,7 +24,9 @@ public class DiretrizAlimentar extends ConcurrencySafeEntity {
 	
 	@Embedded
 	private DiretrizAlimentarId diretrizAlimentarId;
-	@Column(nullable = false, length = 100)
+	@Size(min = 3, max = 100)
+	@NotBlank
+	@Column(nullable = false, length = 100, unique = true)
 	private String nome;
 	@OneToMany(mappedBy = "diretrizAlimentar", cascade = CascadeType.ALL)
 	private List<NormaAlimentar> normasAlimentares;

@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.github.common.domain.model.ConcurrencySafeEntity;
 
@@ -22,6 +23,7 @@ public class PlanoAlimentar extends ConcurrencySafeEntity {
 
 	@Embedded
 	private PlanoAlimentarId planoAlimentarId;
+	@NotNull
 	@OneToOne
 	@JoinColumn(nullable = false, unique = true)
 	private Paciente paciente;

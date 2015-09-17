@@ -5,6 +5,8 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
 import com.github.common.domain.model.ConcurrencySafeEntity;
 
@@ -15,15 +17,20 @@ public class ApresentacaoMedidaAlimento extends ConcurrencySafeEntity {
 
 	@Embedded
 	private ApresentacaoMedidaAlimentoId apresentacaoMedidaAlimentoId;
+	@NotNull
 	@OneToOne
 	@JoinColumn(nullable = false)
 	private AlimentoGranel alimentoGranel;
+	@NotNull
 	@OneToOne
 	@JoinColumn(nullable = false)
 	private TipoApresentacao tipoApresentacao;
+	@NotNull
 	@OneToOne
 	@JoinColumn(nullable = false)
 	private TipoMedida tipoMedida;
+	@NotNull
+	@DecimalMin(value = "0.01")
 	@Column(nullable = false, precision = 10, scale = 2)
 	private float quantidade;
 

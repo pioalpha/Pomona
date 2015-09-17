@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
 import com.github.common.domain.model.ConcurrencySafeEntity;
 
@@ -16,12 +18,16 @@ public class ItemCardapio extends ConcurrencySafeEntity {
 
 	private static final long serialVersionUID = -2525537354397729187L;
 
+	@NotNull
 	@ManyToOne
 	@JoinColumn(nullable = false)	
 	private RefeicaoCardapio refeicaoCardapio;
+	@NotNull
 	@OneToOne
 	@JoinColumn(nullable = false)
 	private EnergiaAlimento energiaAlimento;
+	@NotNull
+	@DecimalMin(value = "0.01")
 	@Column(nullable = false, precision = 10, scale = 2)
 	private float quantidade;
 	@OneToOne

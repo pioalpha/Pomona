@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import com.github.common.domain.model.ConcurrencySafeEntity;
 
@@ -27,9 +28,11 @@ public class Cardapio extends ConcurrencySafeEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
 	private Date dia;
+	@NotNull
 	@OneToOne
 	@JoinColumn(nullable = false)
 	private DivisaoRefeicao divisaoRefeicao;
+	@NotNull
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Consulta consulta;

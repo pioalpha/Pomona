@@ -3,6 +3,9 @@ package com.github.pomona.domain.model;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.github.common.domain.model.ConcurrencySafeEntity;
 
@@ -13,7 +16,9 @@ public class TipoApresentacao extends ConcurrencySafeEntity {
 	
 	@Embedded
 	private TipoApresentacaoId tipoApresentacaoId;
-	@Column(nullable = false, length = 100)
+	@NotBlank
+	@Size(min = 3, max = 100)
+	@Column(nullable = false, length = 100, unique = true)
 	private String nome;
 
 	public String getNome() {

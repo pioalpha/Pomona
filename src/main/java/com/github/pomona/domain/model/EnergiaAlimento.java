@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
 import com.github.common.domain.model.ConcurrencySafeEntity;
 
@@ -19,12 +21,16 @@ public class EnergiaAlimento extends ConcurrencySafeEntity {
 
 	@Embedded
 	private EnergiaAlimentoId energiaAlimentoId;
+	@NotNull
+	@DecimalMin(value = "0.01")
 	@Column(nullable = false, precision = 10, scale = 2)
 	private float energia;
+	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
 	private Date dataCadastro;
 	private boolean automatico;
+	@NotNull
 	@OneToOne
 	@JoinColumn(nullable = false)
 	private AlimentoUnitario alimento;

@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
 import com.github.common.domain.model.ConcurrencySafeEntity;
 import com.github.pomona.domain.reference.TipoMeta;
@@ -26,16 +28,20 @@ public class Consulta extends ConcurrencySafeEntity {
 	
 	@Embedded
 	private ConsultaId consultaId;
+	@NotNull
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private PlanoAlimentar planoAlimentar;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
 	private Date dataConsulta;
+	@DecimalMin(value = "0.01")
 	@Column(precision = 10, scale = 2)
 	private float imcConsulta; // calculado automatico pelo peso
+	@DecimalMin(value = "0.01")
 	@Column(precision = 10, scale = 2)
 	private Float valorMeta;
+	@DecimalMin(value = "0.01")
 	@Column(precision = 10, scale = 2)
 	private Float caloriasAlvo; // calculado automatico após estabelecer a meta
 	@Enumerated(EnumType.STRING)

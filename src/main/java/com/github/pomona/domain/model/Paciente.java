@@ -16,6 +16,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.github.common.domain.model.ConcurrencySafeEntity;
 import com.github.pomona.domain.reference.TipoCorPele;
@@ -28,14 +33,19 @@ public class Paciente extends ConcurrencySafeEntity {
 	
 	@Embedded
 	private PacienteId pacienteId;
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 10)
 	private TipoSexo tipoSexo;
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 10)
 	private TipoCorPele tipoCorPele;
+	@Size(min = 3, max = 100)
+	@NotBlank
 	@Column(nullable = false, length = 100)
 	private String nome;
+	@Past
 	@Column(nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;

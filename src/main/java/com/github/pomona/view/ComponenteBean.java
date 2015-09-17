@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.primefaces.event.SelectEvent;
@@ -17,7 +18,9 @@ import org.primefaces.event.SelectEvent;
 import com.github.pomona.application.AlimentoQueryService;
 import com.github.pomona.application.SubstanciaQueryService;
 import com.github.pomona.application.command.alimento.AdicionarComponenteAlimentarCommand;
+import com.github.pomona.application.command.substancia.AtualizarFatorEnergeticoDaSubstanciaCommand;
 import com.github.pomona.application.command.substancia.CadastrarSubstanciaComumCommand;
+import com.github.pomona.application.command.substancia.CadastrarSubstanciaEnergeticaCommand;
 import com.github.pomona.application.dto.AlimentoDTO;
 import com.github.pomona.application.dto.ApresentacaoMedidaAlimentoDTO;
 import com.github.pomona.application.dto.ApresentacaoMedidaParametrosPesquisa;
@@ -59,14 +62,21 @@ public class ComponenteBean implements Serializable {
 
 	// Cadastro/Edicao de componente
 	@NotBlank
-	private String nomeSubstancia;
-	@DecimalMin(value="0.01")
+	@Size(min=3, max = 100)
+	private String substanciaComponente;
 	@NotNull
-	private Float quantidadeSubstancia;
+	@DecimalMin(value="0.01")
+	private Float quantidadeComponente;
+	
 	
 	// Cadastro/Edicao de substancia
-	private Float fatorEnergeticoSubstancia;
+	@NotBlank
+	@Size(min = 3, max = 100)
+	private String nomeSubstancia;
+	@NotNull
 	private UnidadeSubstancia unidadeSubstancia;
+	@DecimalMin(value="0.01")
+	private Float fatorEnergeticoSubstancia;
 	private SubstanciaDTO substanciaSelecionada;
 	
 	// Para cadastros, edições e exclusões
@@ -80,7 +90,25 @@ public class ComponenteBean implements Serializable {
 	}
 	
 	public void cadastrarSubstancia() {
+		// se a substancia existir, atualizar apenas o fator energético
+		List<SubstanciaDTO> subs = sqs.Executar(new SubstanciaParametrosPesquisa(this.nomeSubstancia.trim(), new Date()));
+		if (subs.isEmpty()) {
+			if (this.fatorEnergeticoSubstancia == null) {
+				sch.handle(new CadastrarSubstanciaComumCommand(this.nomeSubstancia.trim(), this.unidadeSubstancia));
+			} else {
+				sch.handle(new CadastrarSubstanciaEnergeticaCommand(this.nomeSubstancia.trim(), this.unidadeSubstancia, this.fatorEnergeticoSubstancia));
+			}
+		} else {
+			if (subs.get(0).getFatorEnergetico() != this.fatorEnergeticoSubstancia){
+				sch.handle(new AtualizarFatorEnergeticoDaSubstanciaCommand(subs.get(0).getUuid(), this.fatorEnergeticoSubstancia));
+			}
+		}
+
+		this.inicializar();
 		
+		this.nomeSubstancia = null;
+		this.unidadeSubstancia = null;
+		this.fatorEnergeticoSubstancia = null;
 	}
 	
 	public void onRowSelect(SelectEvent event) {
@@ -100,13 +128,13 @@ public class ComponenteBean implements Serializable {
 	public void cadastrarComponente() {
 		String uuidSubstancia = null;
 
-		if (this.nomeSubstancia != null && !this.nomeSubstancia.trim().isEmpty()) {
+		if (this.substanciaComponente != null && !this.substanciaComponente.trim().isEmpty()) {
 			String nomeSubstanciaTemp = null;
 			UnidadeSubstancia unidadeSubstanciaTemp = null;
 			int temp;
 			for (UnidadeSubstancia us : UnidadeSubstancia.values()) {
-				if ((temp = this.nomeSubstancia.indexOf("(" + us.name() + ")")) > 0) {
-					nomeSubstanciaTemp = this.nomeSubstancia.substring(0, temp).trim();
+				if ((temp = this.substanciaComponente.indexOf("(" + us.name() + ")")) > 0) {
+					nomeSubstanciaTemp = this.substanciaComponente.substring(0, temp).trim();
 					unidadeSubstanciaTemp = us;
 
 					break;
@@ -114,7 +142,7 @@ public class ComponenteBean implements Serializable {
 			}
 
 			if (nomeSubstanciaTemp == null) {
-				nomeSubstanciaTemp = this.nomeSubstancia.trim();
+				nomeSubstanciaTemp = this.substanciaComponente.trim();
 			}
 
 			// Confirma se a substancia está cadastrada
@@ -136,9 +164,9 @@ public class ComponenteBean implements Serializable {
 				uuidSubstancia = this.substanciaSelecionada.getUuid();
 			}
 
-			if (this.quantidadeSubstancia != null) {
+			if (this.quantidadeComponente != null) {
 				ach.handle(new AdicionarComponenteAlimentarCommand(this.alimentoSelecionado.getUuid(), uuidSubstancia,
-						this.quantidadeSubstancia));
+						this.quantidadeComponente));
 			}
 
 			System.out.println(">>>" + this.alimentoSelecionado.getUuid());
@@ -146,9 +174,9 @@ public class ComponenteBean implements Serializable {
 			this.inicializar();
 			// this.componentes =
 			// this.alimentoSelecionado.getComponentesAlimentares();
-			this.nomeSubstancia = null;
+			this.substanciaComponente = null;
 			this.substanciaSelecionada = null;
-			this.quantidadeSubstancia = null;
+			this.quantidadeComponente = null;
 		}
 	}
 	
@@ -184,6 +212,14 @@ public class ComponenteBean implements Serializable {
 		this.componentesFiltrados = componentesFiltrados;
 	}
 
+	public String getSubstanciaComponente() {
+		return substanciaComponente;
+	}
+
+	public void setSubstanciaComponente(String substanciaComponente) {
+		this.substanciaComponente = substanciaComponente;
+	}
+	
 	public String getNomeSubstancia() {
 		return nomeSubstancia;
 	}
@@ -192,12 +228,12 @@ public class ComponenteBean implements Serializable {
 		this.nomeSubstancia = nomeSubstancia;
 	}
 
-	public Float getQuantidadeSubstancia() {
-		return quantidadeSubstancia;
+	public Float getQuantidadeComponente() {
+		return quantidadeComponente;
 	}
 
-	public void setQuantidadeSubstancia(Float quantidadeSubstancia) {
-		this.quantidadeSubstancia = quantidadeSubstancia;
+	public void setQuantidadeComponente(Float quantidadeComponente) {
+		this.quantidadeComponente = quantidadeComponente;
 	}
 	
 	public UnidadeSubstancia[] getUnidadesSubstancia() {

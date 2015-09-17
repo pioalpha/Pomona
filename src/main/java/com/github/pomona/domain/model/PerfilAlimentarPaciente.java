@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import com.github.common.domain.model.ConcurrencySafeEntity;
 import com.github.pomona.domain.reference.PreferenciaConsumo;
@@ -23,9 +24,11 @@ public class PerfilAlimentarPaciente extends ConcurrencySafeEntity {
 	
 	@Embedded
 	private PerfilAlimentarPacienteId perfilAlimentarPacienteId;
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 15)
 	private PreferenciaConsumo preferenciaConsumo;
+	@NotNull
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
 	private Date dataCadastro;
@@ -33,6 +36,7 @@ public class PerfilAlimentarPaciente extends ConcurrencySafeEntity {
 	private AlimentoUnitario alimento;
 	@OneToOne
 	private CategoriaAlimento categoriaAlimento;
+	@NotNull
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Paciente paciente;
