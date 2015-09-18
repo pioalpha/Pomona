@@ -23,7 +23,7 @@ public class EnergiaSubstancia extends ConcurrencySafeEntity {
 	private EnergiaSubstanciaId energiaSubstanciaId;
 	@DecimalMin(value = "0.01")
 	@Column(precision = 10, scale = 2)
-	private float fatorEnergetico;
+	private Float fatorEnergetico;
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
@@ -33,11 +33,11 @@ public class EnergiaSubstancia extends ConcurrencySafeEntity {
 	@JoinColumn(nullable = false)
 	private Substancia substancia;
 
-	public float getFatorEnergetico() {
+	public Float getFatorEnergetico() {
 		return fatorEnergetico;
 	}
 
-	public void setFatorEnergetico(float fatorEnergetico) {
+	public void setFatorEnergetico(Float fatorEnergetico) {
 		this.fatorEnergetico = fatorEnergetico;
 	}
 

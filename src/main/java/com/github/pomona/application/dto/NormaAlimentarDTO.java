@@ -16,6 +16,7 @@ public class NormaAlimentarDTO implements DTO {
 	private String uuidSubstancia;
 	private String nomeSubstancia;
 	private UnidadeSubstancia unidadeSubstancia;
+	private boolean editado;
 
 	public NormaAlimentarDTO(Date dataCriacao, Float normaMinima, Float normaMaxima, TipoNorma tipoNorma,
 			String uuidSubstancia, String nomeSubstancia, UnidadeSubstancia unidadeSubstancia) {
@@ -28,6 +29,7 @@ public class NormaAlimentarDTO implements DTO {
 		this.uuidSubstancia = uuidSubstancia;
 		this.nomeSubstancia = nomeSubstancia;
 		this.unidadeSubstancia = unidadeSubstancia;
+		this.editado = false;
 	}
 
 	public Date getDataCriacao() {
@@ -56,6 +58,40 @@ public class NormaAlimentarDTO implements DTO {
 
 	public UnidadeSubstancia getUnidadeSubstancia() {
 		return unidadeSubstancia;
+	}
+
+	public boolean isEditado() {
+		return editado;
+	}
+
+	public void setNormaMinima(Float normaMinima) {
+		this.editado = true;
+		this.normaMinima = normaMinima;
+	}
+
+	public void setNormaMaxima(Float normaMaxima) {
+		this.editado = true;
+		this.normaMaxima = normaMaxima;
+	}
+
+	public void setTipoNorma(TipoNorma tipoNorma) {
+		this.editado = true;
+		this.tipoNorma = tipoNorma;
+	}
+
+	public void setUuidSubstancia(String uuidSubstancia) {
+		this.editado = true;
+		this.uuidSubstancia = uuidSubstancia;
+	}
+
+	public void setNomeSubstancia(String nomeSubstancia) {
+		this.editado = true;
+		this.nomeSubstancia = nomeSubstancia;
+	}
+
+	public void setUnidadeSubstancia(UnidadeSubstancia unidadeSubstancia) {
+		this.editado = true;
+		this.unidadeSubstancia = unidadeSubstancia;
 	}
 
 }

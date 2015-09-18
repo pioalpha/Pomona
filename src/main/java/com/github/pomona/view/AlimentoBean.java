@@ -17,13 +17,19 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 
 import com.github.pomona.application.AlimentoQueryService;
 import com.github.pomona.application.SubstanciaQueryService;
 import com.github.pomona.application.command.alimento.AdicionarComponenteAlimentarCommand;
+import com.github.pomona.application.command.alimento.AtualizarCategoriaAlimentarCommand;
+import com.github.pomona.application.command.alimento.AtualizarCategoriaDoAlimentoCommand;
+import com.github.pomona.application.command.alimento.AtualizarNomeDoAlimentoCommand;
+import com.github.pomona.application.command.alimento.AtualizarPorcaoDoAlimentoGranelCommand;
+import com.github.pomona.application.command.alimento.AtualizarUnidadeDoAlimentoGranelCommand;
 import com.github.pomona.application.command.alimento.CadastrarAlimentoGranelCommand;
-import com.github.pomona.application.command.alimento.CadastrarCategoriaAlimentoCommand;
+import com.github.pomona.application.command.alimento.CadastrarCategoriaAlimentarCommand;
 import com.github.pomona.application.command.substancia.CadastrarSubstanciaComumCommand;
 import com.github.pomona.application.dto.AlimentoDTO;
 import com.github.pomona.application.dto.AlimentoParametrosPesquisa;
@@ -138,7 +144,7 @@ public class AlimentoBean implements Serializable {
 		// se a categoria existir, atualizar apenas as calorias por porção
 		List<CategoriaDTO> cats = aqs.Executar(new CategoriaParametrosPesquisa(this.nomeCategoria.trim()));
 		if (cats.isEmpty()) {
-			ach.handle(new CadastrarCategoriaAlimentoCommand(this.nomeCategoria.trim(), this.caloriasPorcaoCategoria));
+			ach.handle(new CadastrarCategoriaAlimentarCommand(this.nomeCategoria.trim(), this.caloriasPorcaoCategoria));
 		}
 
 		this.inicializar();
@@ -165,6 +171,30 @@ public class AlimentoBean implements Serializable {
 		}
 	}
 
+	public void onRowEditCategoria(RowEditEvent event) {
+        CategoriaDTO c = ((CategoriaDTO) event.getObject());
+        if (c.isEditado()) {
+        	ach.handle(new AtualizarCategoriaAlimentarCommand(c.getUuid(), c.getNome(), c.getCaloriasPorPorcao()));
+        }
+        
+        this.inicializar();
+        
+        this.categoriaAlimento = null;
+	}
+
+	public void onRowEditAlimento(RowEditEvent event) {
+        AlimentoDTO a = ((AlimentoDTO) event.getObject());
+        if (a.isEditado()) {
+        	// TODO consertar
+        	ach.handle(new AtualizarCategoriaDoAlimentoCommand(a.getUuid(), a.getCategoria().getUuid()));
+        	ach.handle(new AtualizarNomeDoAlimentoCommand(a.getUuid(), a.getNome()));
+        	ach.handle(new AtualizarPorcaoDoAlimentoGranelCommand(a.getUuid(), a.getPorcao()));
+        	ach.handle(new AtualizarUnidadeDoAlimentoGranelCommand(a.getUuid(), a.getUnidadeGranel()));
+        }
+        
+        this.inicializar();
+	}
+	
 	public void cadastrarAlimento() {
 		String uuidCategoria = null;
 
@@ -179,7 +209,7 @@ public class AlimentoBean implements Serializable {
 		if (this.categoriaSelecionada == null) {
 			// Se a categoria não está cadastrada
 			if (this.categoriaAlimento != null && !this.categoriaAlimento.isEmpty()) {
-				uuidCategoria = ach.handle(new CadastrarCategoriaAlimentoCommand(this.categoriaAlimento.trim())).id;
+				uuidCategoria = ach.handle(new CadastrarCategoriaAlimentarCommand(this.categoriaAlimento.trim())).id;
 			}
 		} else {
 			uuidCategoria = this.categoriaSelecionada.getUuid();

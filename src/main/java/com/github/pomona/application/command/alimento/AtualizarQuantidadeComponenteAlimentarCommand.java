@@ -3,20 +3,27 @@ package com.github.pomona.application.command.alimento;
 import com.github.common.service.command.Command;
 
 public class AtualizarQuantidadeComponenteAlimentarCommand  implements Command{
-	private String componenteAlimentarId;
-	private float quantidade;
+	private String alimentoId;
+	private String substanciaId;
+	private Float quantidade;
 	
-	public AtualizarQuantidadeComponenteAlimentarCommand(String componenteAlimentarId, float quantidade) {
+	public AtualizarQuantidadeComponenteAlimentarCommand(String alimentoId, String substanciaId, Float quantidade) {
 		super();
-		this.componenteAlimentarId = componenteAlimentarId;
+		
+		this.alimentoId = alimentoId;
+		this.substanciaId = substanciaId;
 		this.quantidade = quantidade;
 	}
 	
-	public String getComponenteAlimentarId() {
-		return componenteAlimentarId;
+	public String getAlimentoId() {
+		return alimentoId;
 	}
 	
-	public float getQuantidade() {
+	public String getSubstanciaId() {
+		return substanciaId;
+	}
+
+	public Float getQuantidade() {
 		return quantidade;
 	}
 	

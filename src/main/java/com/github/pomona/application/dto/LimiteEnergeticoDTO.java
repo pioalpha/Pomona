@@ -12,6 +12,7 @@ public class LimiteEnergeticoDTO implements DTO {
 	private TipoRefeicao tipoRefeicao;
 	private float percentualEnergetico;
 	private float tolerancia;
+	private boolean editado;
 
 	public LimiteEnergeticoDTO(Date dataCadastro, TipoRefeicao tipoRefeicao, float percentualEnergetico,
 			float tolerancia) {
@@ -21,6 +22,7 @@ public class LimiteEnergeticoDTO implements DTO {
 		this.tipoRefeicao = tipoRefeicao;
 		this.percentualEnergetico = percentualEnergetico;
 		this.tolerancia = tolerancia;
+		this.editado = false;
 	}
 
 	public Date getDataCadastro() {
@@ -37,6 +39,25 @@ public class LimiteEnergeticoDTO implements DTO {
 
 	public float getTolerancia() {
 		return tolerancia;
+	}
+
+	public boolean isEditado() {
+		return editado;
+	}
+
+	public void setTipoRefeicao(TipoRefeicao tipoRefeicao) {
+		this.editado = true;
+		this.tipoRefeicao = tipoRefeicao;
+	}
+
+	public void setPercentualEnergetico(float percentualEnergetico) {
+		this.editado = true;
+		this.percentualEnergetico = percentualEnergetico;
+	}
+
+	public void setTolerancia(float tolerancia) {
+		this.editado = true;
+		this.tolerancia = tolerancia;
 	}
 
 }

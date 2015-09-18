@@ -12,6 +12,7 @@ public class FatorAtividadeFisicaDTO implements DTO {
 	private String nome;
 	private float fator;
 	private Date dataRevogacao;
+	private boolean editado;
 
 	public FatorAtividadeFisicaDTO(Date dataConsultada, String uuid, String nome, float fator, Date dataRevogacao) {
 		super();
@@ -21,6 +22,7 @@ public class FatorAtividadeFisicaDTO implements DTO {
 		this.nome = nome;
 		this.fator = fator;
 		this.dataRevogacao = dataRevogacao;
+		this.editado = false;
 	}
 
 	public Date getDataConsultada() {
@@ -41,6 +43,20 @@ public class FatorAtividadeFisicaDTO implements DTO {
 
 	public Date getDataRevogacao() {
 		return dataRevogacao;
+	}
+
+	public boolean isEditado() {
+		return editado;
+	}
+
+	public void setNome(String nome) {
+		this.editado = true;
+		this.nome = nome;
+	}
+
+	public void setFator(float fator) {
+		this.editado = true;
+		this.fator = fator;
 	}
 
 }

@@ -17,6 +17,7 @@ public class AlimentoDTO implements DTO {
 	private Float porcao;
 	private CategoriaDTO categoria;
 	private List<ComponenteAlimentarDTO> componentesAlimentares;
+	private boolean editado;
 
 	public AlimentoDTO(Date dataConsultada, String uuid, String nome, UnidadeGranel unidadeGranel, Float porcao, CategoriaDTO categoria, List<ComponenteAlimentarDTO> componentesAlimentares) {
 		super();
@@ -28,6 +29,7 @@ public class AlimentoDTO implements DTO {
 		this.categoria = categoria;
 		this.componentesAlimentares = componentesAlimentares;
 		this.dataConsultada = dataConsultada;
+		this.editado = false;
 	}
 
 	public AlimentoDTO(Date dataConsultada, String uuid, String nome, UnidadeGranel unidadeGranel, Float porcao, CategoriaDTO categoria) {
@@ -40,6 +42,7 @@ public class AlimentoDTO implements DTO {
 		this.categoria = categoria;
 		this.componentesAlimentares = null;
 		this.dataConsultada = dataConsultada;
+		this.editado = false;
 	}
 
 	public AlimentoDTO(Date dataConsultada, String uuid, String nome, UnidadeGranel unidadeGranel, Float porcao, List<ComponenteAlimentarDTO> componentesAlimentares) {
@@ -52,6 +55,7 @@ public class AlimentoDTO implements DTO {
 		this.categoria = null;
 		this.componentesAlimentares = componentesAlimentares;
 		this.dataConsultada = dataConsultada;
+		this.editado = false;
 	}
 	
 	public String getNome() {
@@ -80,6 +84,35 @@ public class AlimentoDTO implements DTO {
 
 	public Date getDataConsultada() {
 		return dataConsultada;
+	}
+
+	public boolean isEditado() {
+		return editado;
+	}
+
+	public void setNome(String nome) {
+		this.editado = true;
+		this.nome = nome;
+	}
+
+	public void setUnidadeGranel(UnidadeGranel unidadeGranel) {
+		this.editado = true;
+		this.unidadeGranel = unidadeGranel;
+	}
+
+	public void setPorcao(Float porcao) {
+		this.editado = true;
+		this.porcao = porcao;
+	}
+
+	public void setCategoria(CategoriaDTO categoria) {
+		this.editado = true;
+		this.categoria = categoria;
+	}
+
+	public void setComponentesAlimentares(List<ComponenteAlimentarDTO> componentesAlimentares) {
+		this.editado = true;
+		this.componentesAlimentares = componentesAlimentares;
 	}
 	
 }

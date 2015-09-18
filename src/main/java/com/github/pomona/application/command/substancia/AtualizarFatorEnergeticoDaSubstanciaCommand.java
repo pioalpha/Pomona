@@ -4,10 +4,11 @@ import com.github.common.service.command.Command;
 
 public class AtualizarFatorEnergeticoDaSubstanciaCommand implements Command {
 	private String substanciaId;
-	private float fatorEnergetico;
+	private Float fatorEnergetico;
 	
-	public AtualizarFatorEnergeticoDaSubstanciaCommand(String substanciaId, float fatorEnergetico) {
+	public AtualizarFatorEnergeticoDaSubstanciaCommand(String substanciaId, Float fatorEnergetico) {
 		super();
+		
 		this.substanciaId = substanciaId;
 		this.fatorEnergetico = fatorEnergetico;
 	}
@@ -16,7 +17,7 @@ public class AtualizarFatorEnergeticoDaSubstanciaCommand implements Command {
 		return substanciaId;
 	}
 	
-	public float getFatorEnergetico() {
+	public Float getFatorEnergetico() {
 		return fatorEnergetico;
 	}
 	

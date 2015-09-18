@@ -1,13 +1,16 @@
 package com.github.pomona.application.command.alimento;
 
-public class AtualizarCategoriaAlimentoCommand {
+public class AtualizarCategoriaAlimentarCommand {
 	private String categoriaAlimentoId;
 	private String nome;
+	private Float caloriasPorPorcao;
 
-	public AtualizarCategoriaAlimentoCommand(String categoriaAlimentoId, String nome) {
+	public AtualizarCategoriaAlimentarCommand(String categoriaAlimentoId, String nome, Float caloriasPorPorcao) {
 		super();
+		
 		this.categoriaAlimentoId = categoriaAlimentoId;
 		this.nome = nome;
+		this.caloriasPorPorcao = caloriasPorPorcao;
 	}
 
 	public String getCategoriaAlimentoId() {
@@ -16,6 +19,10 @@ public class AtualizarCategoriaAlimentoCommand {
 
 	public String getNome() {
 		return nome;
+	}
+
+	public Float getCaloriasPorPorcao() {
+		return caloriasPorPorcao;
 	}
 
 }

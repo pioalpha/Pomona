@@ -12,6 +12,7 @@ public class DivisaoRefeicaoDTO implements DTO {
 	private String uuid;
 	private String nome;
 	private Collection<LimiteEnergeticoDTO> limitesEnergeticos;
+	private boolean editado;
 
 	public DivisaoRefeicaoDTO(Date dataConsultada, String uuid, String nome,
 			Collection<LimiteEnergeticoDTO> limitesEnergeticos) {
@@ -21,6 +22,7 @@ public class DivisaoRefeicaoDTO implements DTO {
 		this.uuid = uuid;
 		this.nome = nome;
 		this.limitesEnergeticos = limitesEnergeticos;
+		this.editado = false;
 	}
 
 	public Date getDataConsultada() {
@@ -37,6 +39,20 @@ public class DivisaoRefeicaoDTO implements DTO {
 
 	public Collection<LimiteEnergeticoDTO> getLimitesEnergeticos() {
 		return limitesEnergeticos;
+	}
+
+	public boolean isEditado() {
+		return editado;
+	}
+
+	public void setNome(String nome) {
+		this.editado = true;
+		this.nome = nome;
+	}
+
+	public void setLimitesEnergeticos(Collection<LimiteEnergeticoDTO> limitesEnergeticos) {
+		this.editado = true;
+		this.limitesEnergeticos = limitesEnergeticos;
 	}
 
 }

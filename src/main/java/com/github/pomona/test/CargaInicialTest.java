@@ -17,7 +17,7 @@ import com.github.pomona.application.PacienteApplicationService;
 import com.github.pomona.application.SubstanciaApplicationService;
 import com.github.pomona.application.command.alimento.AdicionarComponenteAlimentarCommand;
 import com.github.pomona.application.command.alimento.CadastrarAlimentoGranelCommand;
-import com.github.pomona.application.command.alimento.CadastrarCategoriaAlimentoCommand;
+import com.github.pomona.application.command.alimento.CadastrarCategoriaAlimentarCommand;
 import com.github.pomona.application.command.alimento.CadastrarApresentacaoMedidaDoAlimentoGranelCommand;
 import com.github.pomona.application.command.alimento.CadastrarTipoMedidaDoAlimentoGranelCommand;
 import com.github.pomona.application.command.alimento.CadastrarTipoApresentacaoDoAlimentoGranelCommand;
@@ -225,7 +225,7 @@ public class CargaInicialTest implements Serializable {
 		
 		//AlimentoCommandHandler ach = new AlimentoApplicationService(alimentoRepoImpl, substanciaRepoImpl, tipoMedidaRepoImpl, tipoApresentacaoRepoImpl, apresentacaoMedidaAlimentoRepoImpl, categoriaAlimentoRepoImpl);
 		this.ach = WeldContext.INSTANCE.getBean(AlimentoApplicationService.class);
-		String catFrutaId = ach.handle(new CadastrarCategoriaAlimentoCommand("Fruta")).id;
+		String catFrutaId = ach.handle(new CadastrarCategoriaAlimentarCommand("Fruta")).id;
 		
 		String abacateId = ach.handle(new CadastrarAlimentoGranelCommand("Abacate", UnidadeGranel.g, 100f, catFrutaId)).id;
 		String sucoLaranjaId = ach.handle(new CadastrarAlimentoGranelCommand("Suco de Laranja Pera", UnidadeGranel.ml, 100f, catFrutaId)).id;
@@ -537,7 +537,7 @@ public class CargaInicialTest implements Serializable {
 		
 		
 		//AlimentoCommandHandler ach = new AlimentoApplicationService(alimentoRepoImpl, substanciaRepoImpl, tipoMedidaRepoImpl, tipoApresentacaoRepoImpl, apresentacaoMedidaAlimentoRepoImpl, categoriaAlimentoRepoImpl);
-		String catFrutaId = ach.handle(new CadastrarCategoriaAlimentoCommand("Fruta")).id;
+		String catFrutaId = ach.handle(new CadastrarCategoriaAlimentarCommand("Fruta")).id;
 		
 		String abacateId = ach.handle(new CadastrarAlimentoGranelCommand("Abacate", UnidadeGranel.g, 100f, catFrutaId)).id;
 		String sucoLaranjaId = ach.handle(new CadastrarAlimentoGranelCommand("Suco de Laranja Pera", UnidadeGranel.ml, 100f, catFrutaId)).id;

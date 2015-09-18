@@ -2,8 +2,6 @@ package com.github.pomona.application.dto;
 
 import java.util.Date;
 
-import javax.validation.constraints.NotNull;
-
 import com.github.common.service.dto.DTO;
 import com.github.pomona.domain.reference.UnidadeSubstancia;
 
@@ -16,15 +14,18 @@ public class SubstanciaDTO implements DTO {
 	private UnidadeSubstancia unidadeSubstancia;
 	private Float fatorEnergetico;
 	private Date dataCadastroFator;
+	private boolean editado;
 
 	public SubstanciaDTO(String uuid, String nome, Integer ordem, UnidadeSubstancia unidadeSubstancia, Float fatorEnergetico, Date dataCadastroFator) {
 		super();
+		
 		this.uuid = uuid;
 		this.nome = nome;
 		this.ordem = ordem;
 		this.unidadeSubstancia = unidadeSubstancia;
 		this.fatorEnergetico = fatorEnergetico;
 		this.dataCadastroFator = dataCadastroFator;
+		this.editado = false;
 	}
 
 	public String getUuid() {
@@ -53,6 +54,30 @@ public class SubstanciaDTO implements DTO {
 
 	public Date getDataCadastroFator() {
 		return dataCadastroFator;
+	}
+
+	public boolean isEditado() {
+		return editado;
+	}
+
+	public void setNome(String nome) {
+		this.editado = true;
+		this.nome = nome;
+	}
+
+	public void setOrdem(Integer ordem) {
+		this.editado = true;
+		this.ordem = ordem;
+	}
+
+	public void setUnidadeSubstancia(UnidadeSubstancia unidadeSubstancia) {
+		this.editado = true;
+		this.unidadeSubstancia = unidadeSubstancia;
+	}
+
+	public void setFatorEnergetico(Float fatorEnergetico) {
+		this.editado = true;
+		this.fatorEnergetico = fatorEnergetico;
 	}
 
 }

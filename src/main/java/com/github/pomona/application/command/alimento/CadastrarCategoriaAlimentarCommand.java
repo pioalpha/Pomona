@@ -1,17 +1,17 @@
 package com.github.pomona.application.command.alimento;
 
-public class CadastrarCategoriaAlimentoCommand {
+public class CadastrarCategoriaAlimentarCommand {
 	private String nome;
 	private Float caloriasPorPorcao;
 
-	public CadastrarCategoriaAlimentoCommand(String nome, Float caloriasPorPorcao) {
+	public CadastrarCategoriaAlimentarCommand(String nome, Float caloriasPorPorcao) {
 		super();
 		
 		this.nome = nome;
 		this.caloriasPorPorcao = caloriasPorPorcao;
 	}
 
-	public CadastrarCategoriaAlimentoCommand(String nome) {
+	public CadastrarCategoriaAlimentarCommand(String nome) {
 		this(nome, null);
 	}
 	

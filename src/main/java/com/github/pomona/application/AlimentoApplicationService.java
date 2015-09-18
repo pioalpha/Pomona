@@ -7,7 +7,8 @@ import javax.transaction.Transactional;
 
 import com.github.common.service.command.CommandResult;
 import com.github.pomona.application.command.alimento.AdicionarComponenteAlimentarCommand;
-import com.github.pomona.application.command.alimento.AtualizarCategoriaAlimentoCommand;
+import com.github.pomona.application.command.alimento.AtualizarCategoriaAlimentarCommand;
+import com.github.pomona.application.command.alimento.AtualizarCategoriaDoAlimentoCommand;
 import com.github.pomona.application.command.alimento.AtualizarNomeDoAlimentoCommand;
 import com.github.pomona.application.command.alimento.AtualizarNomeDoTipoMedidaCommand;
 import com.github.pomona.application.command.alimento.AtualizarNomeDoTipoApresentacaoCommand;
@@ -17,7 +18,7 @@ import com.github.pomona.application.command.alimento.AtualizarQuantidadeCompone
 import com.github.pomona.application.command.alimento.AtualizarUnidadeDoAlimentoGranelCommand;
 import com.github.pomona.application.command.alimento.CadastrarAlimentoGranelCommand;
 import com.github.pomona.application.command.alimento.CadastrarAlimentoUnitarioCommand;
-import com.github.pomona.application.command.alimento.CadastrarCategoriaAlimentoCommand;
+import com.github.pomona.application.command.alimento.CadastrarCategoriaAlimentarCommand;
 import com.github.pomona.application.command.alimento.CadastrarApresentacaoMedidaDoAlimentoGranelCommand;
 import com.github.pomona.application.command.alimento.CadastrarTipoMedidaDoAlimentoGranelCommand;
 import com.github.pomona.application.command.alimento.CadastrarTipoApresentacaoDoAlimentoGranelCommand;
@@ -75,27 +76,55 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	@Transactional
 	public CommandResult handle(AdicionarComponenteAlimentarCommand command) {
 		CommandResult resultado = null;
-		AlimentoUnitario a = this.alimentoRepo().porId(new AlimentoId(command.getAlimentoId()));
-		
-		ComponenteAlimentar ca = new ComponenteAlimentar();
-		ca.setDataCadastro(new Date());
-		ca.setQuantidade(command.getQuantidade());
-		ca.setSubstancia(this.substanciaRepo().porId(new SubstanciaId(command.getSubstanciaId())));
-		ca.setAlimentoUnitario(a);
-		a.getComposicaoAlimentar().add(ca);
-		//a = this.alimentoRepo().adicionar(a);
 
-		resultado = new CommandResult(true, "Componente Alimentar Adicionado com Sucesso!", null);
+		try {
+			AlimentoUnitario a = this.alimentoRepo().porId(new AlimentoId(command.getAlimentoId()));
+			
+			ComponenteAlimentar ca = new ComponenteAlimentar();
+			ca.setDataCadastro(new Date());
+			ca.setQuantidade(command.getQuantidade());
+			ca.setSubstancia(this.substanciaRepo().porId(new SubstanciaId(command.getSubstanciaId())));
+			ca.setAlimentoUnitario(a);
+			a.getComposicaoAlimentar().add(ca);
+			//a = this.alimentoRepo().adicionar(a);
+	
+			resultado = new CommandResult(true, "Componente Alimentar Adicionado com Sucesso!", null);
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao adicionar o Componente Alimentar " + e, null);
+		}
 		
 		return resultado;
 	}
 
+	public CommandResult handle(AtualizarCategoriaDoAlimentoCommand command) {
+		CommandResult resultado = null;
+		
+		try {
+			AlimentoUnitario au = this.alimentoRepo().porId(new AlimentoId(command.getAlimentoId()));
+			au.setCategoriaAlimento(this.categoriaAlimentoRepo().porId(new CategoriaAlimentoId(command.getCategoriaId())));
+			au = this.alimentoRepo().adicionar(au);
+			
+			resultado = new CommandResult(true, "Categoria do Alimento atualizado com sucesso!", null);
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao atualizar a Categoria do Alimento " + e, null);
+		}
+
+		return resultado;
+	}
+	
 	@Transactional
 	public CommandResult handle(AtualizarNomeDoAlimentoCommand command) {
 		CommandResult resultado = null;
-
-		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		
+		try {
+			AlimentoUnitario au = this.alimentoRepo().porId(new AlimentoId(command.getAlimentoId()));
+			au.setNome(command.getNome());
+			au = this.alimentoRepo().adicionar(au);
+			
+			resultado = new CommandResult(true, "Nome do Alimento atualizado com sucesso!", null);
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao atualizar o Nome do Alimento " + e, null);
+		}
 
 		return resultado;
 	}
@@ -103,9 +132,13 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	@Transactional
 	public CommandResult handle(AtualizarNomeDoTipoMedidaCommand command) {
 		CommandResult resultado = null;
-
-		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		
+		try {
+			// TODO Auto-generated method stub
+			resultado = new CommandResult(false, command.getClass() + " não implementado", "");
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao atualizar o Nome do Tipo de Medida " + e, null);
+		}
 
 		return resultado;
 	}
@@ -114,8 +147,12 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	public CommandResult handle(AtualizarNomeDoTipoApresentacaoCommand command) {
 		CommandResult resultado = null;
 
-		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		try {
+			// TODO Auto-generated method stub
+			resultado = new CommandResult(false, command.getClass() + " não implementado", "");
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao atualizar o Nome do Tipo de Apresentação " + e, null);
+		}
 
 		return resultado;
 	}
@@ -124,8 +161,15 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	public CommandResult handle(AtualizarPorcaoDoAlimentoGranelCommand command) {
 		CommandResult resultado = null;
 
-		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		try {
+			AlimentoGranel ag = (AlimentoGranel) this.alimentoRepo().porId(new AlimentoId(command.getAlimentoGranelId()));
+			ag.setPorcao(command.getPorcao());
+			ag = (AlimentoGranel) this.alimentoRepo().adicionar(ag);
+			
+			resultado = new CommandResult(true, "Atualizado a Porção do Alimento Granel com sucesso!", ag.alimentoId().uuid());
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao atualizar a Porção do Alimento Granel " + e, null);
+		}
 
 		return resultado;
 	}
@@ -134,8 +178,12 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	public CommandResult handle(AtualizarQuantidadeComponenteAlimentarCommand command) {
 		CommandResult resultado = null;
 
-		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		try {
+			// TODO Auto-generated method stub
+			resultado = new CommandResult(false, command.getClass() + " não implementado", "");
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao atualizar a Quantidade do Componente Alimentar " + e, null);
+		}
 
 		return resultado;
 	}
@@ -144,8 +192,15 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	public CommandResult handle(AtualizarUnidadeDoAlimentoGranelCommand command) {
 		CommandResult resultado = null;
 
-		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		try {
+			AlimentoGranel ag = (AlimentoGranel) this.alimentoRepo().porId(new AlimentoId(command.getAlimentoGranelId()));
+			ag.setUnidadeGranel(command.getUnidadeGranel());
+			ag = (AlimentoGranel) this.alimentoRepo().adicionar(ag);
+			
+			resultado = new CommandResult(true, "Atualizado a Unidade do Alimento Granel com sucesso!", ag.alimentoId().uuid());
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao atualizar a Unidade do Alimento " + e, null);
+		}
 
 		return resultado;
 	}
@@ -153,19 +208,24 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	@Transactional
 	public CommandResult handle(CadastrarAlimentoGranelCommand command) {
 		CommandResult resultado = null;
-		CategoriaAlimento categoria = null;
-		
-		if (command.getCategoriaAlimentoId() != null){
-			categoria = this.categoriaAlimentoRepo().porId(new CategoriaAlimentoId(command.getCategoriaAlimentoId()));
+
+		try {
+			CategoriaAlimento categoria = null;
+			
+			if (command.getCategoriaAlimentoId() != null){
+				categoria = this.categoriaAlimentoRepo().porId(new CategoriaAlimentoId(command.getCategoriaAlimentoId()));
+			}
+			
+			AlimentoGranel ag = new AlimentoBuilder().construir(command.getNome(), command.getUnidadeGranel(),
+					command.getPorcao(),
+					categoria);
+			ag.setAlimentoId(this.alimentoRepo().proximaIdentidade());
+			ag = (AlimentoGranel) this.alimentoRepo().adicionar(ag);
+			
+			resultado = new CommandResult(true, "Alimento Cadastrado", ag.alimentoId().uuid());
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao cadastrar o Alimento Granel" + e, null);
 		}
-		
-		AlimentoGranel ag = new AlimentoBuilder().construir(command.getNome(), command.getUnidadeGranel(),
-				command.getPorcao(),
-				categoria);
-		ag.setAlimentoId(this.alimentoRepo().proximaIdentidade());
-		ag = (AlimentoGranel) this.alimentoRepo().adicionar(ag);
-		
-		resultado = new CommandResult(true, "Alimento Cadastrado", ag.alimentoId().uuid());
 
 		return resultado;
 	}
@@ -174,8 +234,12 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	public CommandResult handle(CadastrarAlimentoUnitarioCommand command) {
 		CommandResult resultado = null;
 
-		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		try {
+			// TODO Auto-generated method stub
+			resultado = new CommandResult(false, command.getClass() + " não implementado", "");
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao cadastrar o Alimento Unitário " + e, null);
+		}
 
 		return resultado;
 	}
@@ -184,15 +248,19 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	public CommandResult handle(CadastrarApresentacaoMedidaDoAlimentoGranelCommand command) {
 		CommandResult resultado = null;
 
-		ApresentacaoMedidaAlimento pma = new ApresentacaoMedidaAlimento();
-		pma.setQuantidade(command.getQuantidade());
-		pma.setAlimentoGranel((AlimentoGranel) this.alimentoRepo().porId(new AlimentoId(command.getAlimentoGranelId())));
-		pma.setTipoMedida(this.tipoMedidaRepo().porId(new TipoMedidaId(command.getTipoMedidaId())));
-		pma.setTipoApresentacao(this.tipoApresentacaoRepo().porId(new TipoApresentacaoId(command.getTipoApresentacaoId())));
-		pma.setApresentacaoMedidaAlimentoId(this.apresentacaoMedidaAlimentoRepo().proximaIdentidade());
-		pma = this.apresentacaoMedidaAlimentoRepo().adicionar(pma);
-		
-		resultado = new CommandResult(true, "Medida em Apresentacao do Alimento cadastrado com sucesso!", pma.apresentacaoMedidaAlimentoId().uuid());
+		try {
+			ApresentacaoMedidaAlimento pma = new ApresentacaoMedidaAlimento();
+			pma.setQuantidade(command.getQuantidade());
+			pma.setAlimentoGranel((AlimentoGranel) this.alimentoRepo().porId(new AlimentoId(command.getAlimentoGranelId())));
+			pma.setTipoMedida(this.tipoMedidaRepo().porId(new TipoMedidaId(command.getTipoMedidaId())));
+			pma.setTipoApresentacao(this.tipoApresentacaoRepo().porId(new TipoApresentacaoId(command.getTipoApresentacaoId())));
+			pma.setApresentacaoMedidaAlimentoId(this.apresentacaoMedidaAlimentoRepo().proximaIdentidade());
+			pma = this.apresentacaoMedidaAlimentoRepo().adicionar(pma);
+			
+			resultado = new CommandResult(true, "Medida e Apresentação do Alimento cadastrado com sucesso!", pma.apresentacaoMedidaAlimentoId().uuid());
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao cadastrar a Apresentação e Medida do Alimento Granel " + e, null);
+		}
 
 		return resultado;
 	}
@@ -201,12 +269,16 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	public CommandResult handle(CadastrarTipoMedidaDoAlimentoGranelCommand command) {
 		CommandResult resultado = null;
 
-		TipoMedida tm = new TipoMedida();
-		tm.setNome(command.getNome());
-		tm.setTipoMedidaId(this.tipoMedidaRepo().proximaIdentidade());
-		tm = this.tipoMedidaRepo().adicionar(tm);
-
-		resultado = new CommandResult(true, "Tipo de Medida cadastrado com sucesso!", tm.tipoMedidaId().uuid());
+		try {
+			TipoMedida tm = new TipoMedida();
+			tm.setNome(command.getNome());
+			tm.setTipoMedidaId(this.tipoMedidaRepo().proximaIdentidade());
+			tm = this.tipoMedidaRepo().adicionar(tm);
+	
+			resultado = new CommandResult(true, "Tipo de Medida cadastrada com sucesso!", tm.tipoMedidaId().uuid());
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao cadastrar o Tipo de Medida " + e, null);
+		}
 
 		return resultado;
 	}
@@ -215,12 +287,16 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	public CommandResult handle(CadastrarTipoApresentacaoDoAlimentoGranelCommand command) {
 		CommandResult resultado = null;
 
-		TipoApresentacao tp = new TipoApresentacao();
-		tp.setNome(command.getNome());
-		tp.setTipoApresentacaoId(this.tipoApresentacaoRepo().proximaIdentidade());
-		tp = this.tipoApresentacaoRepo().adicionar(tp);
-
-		resultado = new CommandResult(true, "Tipo de Apresentacao cadastrado com sucesso!", tp.tipoApresentacaoId().uuid());
+		try {
+			TipoApresentacao tp = new TipoApresentacao();
+			tp.setNome(command.getNome());
+			tp.setTipoApresentacaoId(this.tipoApresentacaoRepo().proximaIdentidade());
+			tp = this.tipoApresentacaoRepo().adicionar(tp);
+	
+			resultado = new CommandResult(true, "Tipo de Apresentação cadastrada com sucesso!", tp.tipoApresentacaoId().uuid());
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao cadastrar o Tipo de Apresentação " + e, null);
+		}
 
 		return resultado;
 	}
@@ -229,8 +305,12 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	public CommandResult handle(ExcluirAlimentoCommand command) {
 		CommandResult resultado = null;
 
-		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		try {
+			// TODO Auto-generated method stub
+			resultado = new CommandResult(false, command.getClass() + " não implementado", "");
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao excluir o Alimento " + e, null);
+		}
 
 		return resultado;
 	}
@@ -239,8 +319,12 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	public CommandResult handle(ExcluirComponenteAlimentarCommand command) {
 		CommandResult resultado = null;
 
-		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		try {
+			// TODO Auto-generated method stub: cadastrar valor nulo como componente
+			resultado = new CommandResult(false, command.getClass() + " não implementado", "");
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao excluir o Componente Alimentar " + e, null);
+		}
 
 		return resultado;
 	}
@@ -249,8 +333,12 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	public CommandResult handle(ExcluirApresentacaoMedidaDoAlimentoGranelCommand command) {
 		CommandResult resultado = null;
 
-		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		try {
+			// TODO Auto-generated method stub
+			resultado = new CommandResult(false, command.getClass() + " não implementado", "");
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao excluir a Apresentação e Medida do Alimento Granel " + e, null);
+		}
 
 		return resultado;
 	}
@@ -259,8 +347,12 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	public CommandResult handle(ExcluirTipoMedidaDoAlimentoGranelCommand command) {
 		CommandResult resultado = null;
 
-		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		try {
+			// TODO Auto-generated method stub
+			resultado = new CommandResult(false, command.getClass() + " não implementado", "");
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao excluir o Tipo de Medida " + e, null);
+		}
 
 		return resultado;
 	}
@@ -269,8 +361,12 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	public CommandResult handle(ExcluirTipoApresentacaoDoAlimentoGranelCommand command) {
 		CommandResult resultado = null;
 
-		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		try {
+			// TODO Auto-generated method stub
+			resultado = new CommandResult(false, command.getClass() + " não implementado", "");
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao excluir o Tipo de Apresentação " + e, null);
+		}
 
 		return resultado;
 	}
@@ -278,29 +374,53 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	@Override
 	@Transactional
 	public CommandResult handle(AtualizarPorcaoApresentacaoMedidaDoAlimentoCommand command) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	@Transactional
-	public CommandResult handle(AtualizarCategoriaAlimentoCommand command) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	@Transactional
-	public CommandResult handle(CadastrarCategoriaAlimentoCommand command) {
 		CommandResult resultado = null;
 
-		CategoriaAlimento ca = new CategoriaAlimento();
-		ca.setNome(command.getNome());
-		ca.setCaloriasPorPorcao(command.getCaloriasPorPorcao());
-		ca.setCategoriaAlimentoId(this.categoriaAlimentoRepo().proximaIdentidade());
-		ca = this.categoriaAlimentoRepo().adicionar(ca);
+		try {
+			// TODO Auto-generated method stub
+			resultado = new CommandResult(false, command.getClass() + " não implementado", "");
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao atualizar a Porção da Medida de Apresentação do Alimento " + e, null);
+		}
 
-		resultado = new CommandResult(true, "Categoria Alimento Cadastrada", ca.categoriaAlimentoId().uuid());
+		return resultado;
+	}
+
+	@Override
+	@Transactional
+	public CommandResult handle(AtualizarCategoriaAlimentarCommand command) {
+		CommandResult resultado = null;
+
+		try {
+			CategoriaAlimento ca = this.categoriaAlimentoRepo().porId(new CategoriaAlimentoId(command.getCategoriaAlimentoId()));
+			ca.setNome(command.getNome());
+			ca.setCaloriasPorPorcao(command.getCaloriasPorPorcao());
+			ca = this.categoriaAlimentoRepo().adicionar(ca);
+	
+			resultado = new CommandResult(true, "Categoria Alimentar atualizada com sucesso!", ca.categoriaAlimentoId().uuid());
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao atualizar a Categoria Alimentar " + e, null);
+		}
+
+		return resultado;
+	}
+
+	@Override
+	@Transactional
+	public CommandResult handle(CadastrarCategoriaAlimentarCommand command) {
+		CommandResult resultado = null;
+
+		try {
+			CategoriaAlimento ca = new CategoriaAlimento();
+			ca.setNome(command.getNome());
+			ca.setCaloriasPorPorcao(command.getCaloriasPorPorcao());
+			ca.setCategoriaAlimentoId(this.categoriaAlimentoRepo().proximaIdentidade());
+			ca = this.categoriaAlimentoRepo().adicionar(ca);
+	
+			resultado = new CommandResult(true, "Categoria Alimentar cadastrada com sucesso!", ca.categoriaAlimentoId().uuid());
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao cadastrar a Categoria Alimentar " + e, null);
+		}
 
 		return resultado;
 	}

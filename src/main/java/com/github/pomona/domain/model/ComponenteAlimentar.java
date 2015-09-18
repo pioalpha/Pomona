@@ -24,9 +24,8 @@ public class ComponenteAlimentar extends ConcurrencySafeEntity {
 	@JoinColumn(nullable = false)
 	private AlimentoUnitario alimentoUnitario;
 	@DecimalMin(value = "0.001")
-	@NotNull
-	@Column(nullable = false, precision = 10, scale = 3)
-	private float quantidade;
+	@Column(nullable = true, precision = 10, scale = 3)
+	private Float quantidade;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
 	private Date dataCadastro;
@@ -35,11 +34,11 @@ public class ComponenteAlimentar extends ConcurrencySafeEntity {
 	@JoinColumn(nullable = false)
 	private Substancia substancia;
 
-	public float getQuantidade() {
+	public Float getQuantidade() {
 		return quantidade;
 	}
 
-	public void setQuantidade(float quantidade) {
+	public void setQuantidade(Float quantidade) {
 		this.quantidade = quantidade;
 	}
 

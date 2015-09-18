@@ -57,18 +57,22 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 	public CommandResult handle(AdicionarNormaADiretrizAlimentarCommand command) {
 		CommandResult resultado = null;
 		
-		DiretrizAlimentar da = this.diretrizAlimentarRepo().porId(new DiretrizAlimentarId(command.getDiretrizAlimentarId()));
-		NormaAlimentar na = new NormaAlimentar();
-		na.setDataCriacao(new Date());
-		na.setSubstancia(this.substanciaRepo().porId(new SubstanciaId(command.getSubstanciaId())));
-		na.setTipoNorma(command.getTipoNorma());
-		na.setNormaMinima(command.getNormaMinima());
-		na.setNormaMaxima(command.getNormaMaxima());
-		na.setDiretrizAlimentar(da);
-		da.getNormasAlimentares().add(na);
-		//this.diretrizAlimentarRepo().adicionar(da);
-		
-		resultado = new CommandResult(true, "Adicionado a Norma Alimentar com sucesso!", null);
+		try {
+			DiretrizAlimentar da = this.diretrizAlimentarRepo().porId(new DiretrizAlimentarId(command.getDiretrizAlimentarId()));
+			NormaAlimentar na = new NormaAlimentar();
+			na.setDataCriacao(new Date());
+			na.setSubstancia(this.substanciaRepo().porId(new SubstanciaId(command.getSubstanciaId())));
+			na.setTipoNorma(command.getTipoNorma());
+			na.setNormaMinima(command.getNormaMinima());
+			na.setNormaMaxima(command.getNormaMaxima());
+			na.setDiretrizAlimentar(da);
+			da.getNormasAlimentares().add(na);
+			//this.diretrizAlimentarRepo().adicionar(da);
+			
+			resultado = new CommandResult(true, "Adicionado a Norma Alimentar com sucesso!", null);
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao adicionar a Norma Alimentar a Diretriz" + e, null);
+		}
 
 		return resultado;
 	}
@@ -79,7 +83,7 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 		CommandResult resultado = null;
 		
 		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		resultado = new CommandResult(false, command.getClass() + " não implementado", "");
 
 		return resultado;
 	}
@@ -90,7 +94,7 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 		CommandResult resultado = null;
 		
 		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		resultado = new CommandResult(false, command.getClass() + " não implementado", "");
 
 		return resultado;
 	}
@@ -100,11 +104,15 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 	public CommandResult handle(CadastrarDiretrizAlimentarCommand command) {
 		CommandResult resultado = null;
 		
-		DiretrizAlimentar da = new DiretrizAlimentarBuilder(command.getNome()).construir();
-		da.setDiretrizAlimentarId(new DiretrizAlimentarId(this.diretrizAlimentarRepo().proximaIdentidade().uuid()));
-		da = this.diretrizAlimentarRepo().adicionar(da);
-
-		resultado = new CommandResult(true, "Diretriz Alimentar cadastrada com sucesso!", da.diretrizAlimentarId().uuid());
+		try {
+			DiretrizAlimentar da = new DiretrizAlimentarBuilder(command.getNome()).construir();
+			da.setDiretrizAlimentarId(new DiretrizAlimentarId(this.diretrizAlimentarRepo().proximaIdentidade().uuid()));
+			da = this.diretrizAlimentarRepo().adicionar(da);
+	
+			resultado = new CommandResult(true, "Diretriz Alimentar cadastrada com sucesso!", da.diretrizAlimentarId().uuid());
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao cadastrar a Diretriz Alimentar" + e, null);
+		}
 
 		return resultado;
 	}
@@ -115,7 +123,7 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 		CommandResult resultado = null;
 		
 		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		resultado = new CommandResult(false, command.getClass() + " não implementado", "");
 
 		return resultado;
 	}
@@ -126,7 +134,7 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 		CommandResult resultado = null;
 		
 		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		resultado = new CommandResult(false, command.getClass() + " não implementado", "");
 
 		return resultado;
 	}
@@ -137,7 +145,7 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 		CommandResult resultado = null;
 		
 		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		resultado = new CommandResult(false, command.getClass() + " não implementado", "");
 
 		return resultado;
 	}
@@ -147,14 +155,19 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 	public CommandResult handle(AtualizarFatorEnergeticoDaSubstanciaCommand command) {
 		CommandResult resultado = null;
 		
-		EnergiaSubstancia es = new EnergiaSubstancia();
-		es.setFatorEnergetico(command.getFatorEnergetico());
-		es.setSubstancia(this.substanciaRepo().porId(new SubstanciaId(command.getSubstanciaId())));
-		es.setDataCadastro(new Date());
-		es.setEnergiaSubstanciaId(this.energiaSubstanciaRepo().proximaIdentidade());
-		es = this.energiaSubstanciaRepo().adicionar(es);
-		
-		resultado = new CommandResult(true, "Atualizado Fator Energético com sucesso!", null);
+		try {
+			// TODO se o fator energético atual diferir do anterior
+			EnergiaSubstancia es = new EnergiaSubstancia();
+			es.setFatorEnergetico(command.getFatorEnergetico());
+			es.setSubstancia(this.substanciaRepo().porId(new SubstanciaId(command.getSubstanciaId())));
+			es.setDataCadastro(new Date());
+			es.setEnergiaSubstanciaId(this.energiaSubstanciaRepo().proximaIdentidade());
+			es = this.energiaSubstanciaRepo().adicionar(es);
+			
+			resultado = new CommandResult(true, "Atualizado Fator Energético com sucesso!", null);
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao atualizar o Fator Energético da Substância" + e, null);
+		}
 
 		return resultado;
 	}
@@ -164,9 +177,16 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 	public CommandResult handle(AtualizarNomeDaSubstanciaCommand command) {
 		CommandResult resultado = null;
 		
-		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
-
+		try {
+			Substancia s = this.substanciaRepo().porId(new SubstanciaId(command.getSubstanciaId()));
+			s.setNome(command.getNome());
+			s = this.substanciaRepo().adicionar(s);
+	
+			resultado = new CommandResult(true, "Nome atualizado com sucesso!", null);
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao atualizar o Nome da Substância" + e, null);
+		}
+		
 		return resultado;
 	}
 
@@ -175,8 +195,15 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 	public CommandResult handle(AtualizarUnidadeDaSubstanciaCommand command) {
 		CommandResult resultado = null;
 		
-		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		try {
+			Substancia s = this.substanciaRepo().porId(new SubstanciaId(command.getSubstanciaId()));
+			s.setUnidadeSubstancia(command.getUnidadeSubstancia());
+			s = this.substanciaRepo().adicionar(s);
+	
+			resultado = new CommandResult(true, "Unidade atualizada com sucesso!", null);
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao atualizar a Unidada da Susbstância" + e, null);
+		}
 
 		return resultado;
 	}
@@ -186,12 +213,16 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 	public CommandResult handle(CadastrarSubstanciaComumCommand command) {
 		CommandResult resultado = null;
 
-		Substancia s = new SubstanciaBuilder(command.getNome(), command.getUnidadeSubstancia(),
-				this.substanciaRepo().proximaOrdem().intValue()).construir();
-		s.setSubstanciaId(this.substanciaRepo().proximaIdentidade());
-		s = this.substanciaRepo().adicionar(s);
-
-		resultado = new CommandResult(true, "Substância cadastrada com sucesso!", s.substanciaId().uuid());
+		try {
+			Substancia s = new SubstanciaBuilder(command.getNome(), command.getUnidadeSubstancia(),
+					this.substanciaRepo().proximaOrdem().intValue()).construir();
+			s.setSubstanciaId(this.substanciaRepo().proximaIdentidade());
+			s = this.substanciaRepo().adicionar(s);
+	
+			resultado = new CommandResult(true, "Substância cadastrada com sucesso!", s.substanciaId().uuid());
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao cadastrar Substância Comum" + e, null);
+		}
 
 		return resultado;
 	}
@@ -200,23 +231,27 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 	@Transactional
 	public CommandResult handle(CadastrarSubstanciaOrdenadaCommand command) {
 		CommandResult resultado = null;
-
-		if (command.getOrdem() <= this.substanciaRepo().proximaOrdem()) {
-			for (Substancia s : this.substanciaRepo().todos()) {
-				if (s.getOrdem() >= command.getOrdem()) {
-					s.setOrdem(s.getOrdem() + 1);
-					this.substanciaRepo().adicionar(s);
+		
+		try {
+			if (command.getOrdem() <= this.substanciaRepo().proximaOrdem()) {
+				for (Substancia s : this.substanciaRepo().todos()) {
+					if (s.getOrdem() >= command.getOrdem()) {
+						s.setOrdem(s.getOrdem() + 1);
+						this.substanciaRepo().adicionar(s);
+					}
 				}
+	
+				Substancia s = new SubstanciaBuilder(command.getNome(), command.getUnidadeSubstancia(), command.getOrdem())
+						.construir();
+				s.setSubstanciaId(this.substanciaRepo().proximaIdentidade());
+				s = this.substanciaRepo().adicionar(s);
+	
+				resultado = new CommandResult(true, "Substância cadastrada com sucesso!", s.substanciaId().uuid());
+			} else {
+				resultado = new CommandResult(false, "Inserção inválida: Fora da ordem!", null);
 			}
-
-			Substancia s = new SubstanciaBuilder(command.getNome(), command.getUnidadeSubstancia(), command.getOrdem())
-					.construir();
-			s.setSubstanciaId(this.substanciaRepo().proximaIdentidade());
-			s = this.substanciaRepo().adicionar(s);
-
-			resultado = new CommandResult(true, "Substância cadastrada com sucesso!", s.substanciaId().uuid());
-		} else {
-			resultado = new CommandResult(false, "Inserção inválida: Fora da ordem!", null);
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao cadastrar Substância Ordenada" + e, null);
 		}
 
 		return resultado;
@@ -227,19 +262,23 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 	public CommandResult handle(CadastrarSubstanciaEnergeticaCommand command) {
 		CommandResult resultado = null;
 
-		Substancia s = new SubstanciaBuilder(command.getNome(), command.getUnidadeSubstancia(),
-				this.substanciaRepo().proximaOrdem().intValue()).construir();
-		s.setSubstanciaId(this.substanciaRepo().proximaIdentidade());
-		s = this.substanciaRepo().adicionar(s);
-
-		EnergiaSubstancia es = new EnergiaSubstancia();
-		es.setDataCadastro(new Date());
-		es.setFatorEnergetico(command.getFatorEnergetico());
-		es.setSubstancia(s);
-		es.setEnergiaSubstanciaId(energiaSubstanciaRepo().proximaIdentidade());
-		es = this.energiaSubstanciaRepo().adicionar(es);
-
-		resultado = new CommandResult(true, "Substância cadastrada com sucesso!", s.substanciaId().uuid());
+		try {
+			Substancia s = new SubstanciaBuilder(command.getNome(), command.getUnidadeSubstancia(),
+					this.substanciaRepo().proximaOrdem().intValue()).construir();
+			s.setSubstanciaId(this.substanciaRepo().proximaIdentidade());
+			s = this.substanciaRepo().adicionar(s);
+	
+			EnergiaSubstancia es = new EnergiaSubstancia();
+			es.setDataCadastro(new Date());
+			es.setFatorEnergetico(command.getFatorEnergetico());
+			es.setSubstancia(s);
+			es.setEnergiaSubstanciaId(energiaSubstanciaRepo().proximaIdentidade());
+			es = this.energiaSubstanciaRepo().adicionar(es);
+	
+			resultado = new CommandResult(true, "Substância cadastrada com sucesso!", s.substanciaId().uuid());
+		} catch (Exception e) {
+			resultado = new CommandResult(false, "Falha ao cadastrar Substância Energética" + e, null);
+		}
 
 		return resultado;
 	}
@@ -250,7 +289,7 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 		CommandResult resultado = null;
 		
 		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		resultado = new CommandResult(false, command.getClass() + " não implementado", "");
 
 		return resultado;
 	}
@@ -261,7 +300,7 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 		CommandResult resultado = null;
 		
 		// TODO Auto-generated method stub
-		resultado = new CommandResult(true, "", "");
+		resultado = new CommandResult(false, command.getClass() + " não implementado", "");
 
 		return resultado;
 	}

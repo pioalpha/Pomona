@@ -4,27 +4,29 @@ import java.io.Serializable;
 
 import com.github.common.service.command.CommandResult;
 import com.github.pomona.application.command.alimento.AdicionarComponenteAlimentarCommand;
-import com.github.pomona.application.command.alimento.AtualizarCategoriaAlimentoCommand;
+import com.github.pomona.application.command.alimento.AtualizarCategoriaAlimentarCommand;
+import com.github.pomona.application.command.alimento.AtualizarCategoriaDoAlimentoCommand;
 import com.github.pomona.application.command.alimento.AtualizarNomeDoAlimentoCommand;
 import com.github.pomona.application.command.alimento.AtualizarPorcaoDoAlimentoGranelCommand;
 import com.github.pomona.application.command.alimento.AtualizarQuantidadeComponenteAlimentarCommand;
 import com.github.pomona.application.command.alimento.AtualizarUnidadeDoAlimentoGranelCommand;
 import com.github.pomona.application.command.alimento.CadastrarAlimentoGranelCommand;
 import com.github.pomona.application.command.alimento.CadastrarAlimentoUnitarioCommand;
-import com.github.pomona.application.command.alimento.CadastrarCategoriaAlimentoCommand;
+import com.github.pomona.application.command.alimento.CadastrarCategoriaAlimentarCommand;
 import com.github.pomona.application.command.alimento.ExcluirAlimentoCommand;
 import com.github.pomona.application.command.alimento.ExcluirComponenteAlimentarCommand;
 
 public interface AlimentoCommandHandler extends ApresentacaoMedidaAlimentoCommandHandler, Serializable{
 	public CommandResult handle(AdicionarComponenteAlimentarCommand command);
+	public CommandResult handle(AtualizarCategoriaDoAlimentoCommand command);
 	public CommandResult handle(AtualizarNomeDoAlimentoCommand command);
 	public CommandResult handle(AtualizarPorcaoDoAlimentoGranelCommand command);
 	public CommandResult handle(AtualizarQuantidadeComponenteAlimentarCommand command);
 	public CommandResult handle(AtualizarUnidadeDoAlimentoGranelCommand command);
-	public CommandResult handle(AtualizarCategoriaAlimentoCommand command);
+	public CommandResult handle(AtualizarCategoriaAlimentarCommand command);
 	public CommandResult handle(CadastrarAlimentoGranelCommand command);
 	public CommandResult handle(CadastrarAlimentoUnitarioCommand command);
-	public CommandResult handle(CadastrarCategoriaAlimentoCommand command);
+	public CommandResult handle(CadastrarCategoriaAlimentarCommand command);
 	public CommandResult handle(ExcluirAlimentoCommand command);
 	public CommandResult handle(ExcluirComponenteAlimentarCommand command);
 }

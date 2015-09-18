@@ -179,7 +179,7 @@ public class AlimentoQueryService // extends AbstractQueryService
 								|| componentes.get(ca.getSubstancia().substanciaId()).getDataCadastro()
 										.compareTo(ca.getDataCadastro()) <= 0) {
 							componentes.put(ca.getSubstancia().substanciaId(),
-									new ComponenteAlimentarDTO(new SubstanciaDTO(ca.getSubstancia().substanciaId().uuid(), ca.getSubstancia().getNome(), ca.getSubstancia().getOrdem(), ca.getSubstancia().getUnidadeSubstancia(), null, null), 
+									new ComponenteAlimentarDTO(ag.alimentoId().uuid(), new SubstanciaDTO(ca.getSubstancia().substanciaId().uuid(), ca.getSubstancia().getNome(), ca.getSubstancia().getOrdem(), ca.getSubstancia().getUnidadeSubstancia(), null, null), 
 											ca.getQuantidade(),
 											ca.getDataCadastro()));
 						}
@@ -400,7 +400,7 @@ public class AlimentoQueryService // extends AbstractQueryService
 						|| componentes.get(c.getSubstancia().substanciaId()).getDataCadastro()
 								.compareTo(c.getDataCadastro()) <= 0) {
 					componentes.put(c.getSubstancia().substanciaId(),
-							new ComponenteAlimentarDTO(new SubstanciaDTO(c.getSubstancia().substanciaId().uuid(), c.getSubstancia().getNome(), c.getSubstancia().getOrdem(), c.getSubstancia().getUnidadeSubstancia(), null, null), 
+							new ComponenteAlimentarDTO(c.getAlimentoUnitario().alimentoId().uuid(), new SubstanciaDTO(c.getSubstancia().substanciaId().uuid(), c.getSubstancia().getNome(), c.getSubstancia().getOrdem(), c.getSubstancia().getUnidadeSubstancia(), null, null), 
 									c.getQuantidade(),
 									c.getDataCadastro()));
 				}

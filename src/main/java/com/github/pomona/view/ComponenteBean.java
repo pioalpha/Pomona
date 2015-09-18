@@ -13,12 +13,15 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 
 import com.github.pomona.application.AlimentoQueryService;
 import com.github.pomona.application.SubstanciaQueryService;
 import com.github.pomona.application.command.alimento.AdicionarComponenteAlimentarCommand;
 import com.github.pomona.application.command.substancia.AtualizarFatorEnergeticoDaSubstanciaCommand;
+import com.github.pomona.application.command.substancia.AtualizarNomeDaSubstanciaCommand;
+import com.github.pomona.application.command.substancia.AtualizarUnidadeDaSubstanciaCommand;
 import com.github.pomona.application.command.substancia.CadastrarSubstanciaComumCommand;
 import com.github.pomona.application.command.substancia.CadastrarSubstanciaEnergeticaCommand;
 import com.github.pomona.application.dto.AlimentoDTO;
@@ -125,6 +128,28 @@ public class ComponenteBean implements Serializable {
 		}
 	}
 	
+	public void onRowEditSubstancia(RowEditEvent event) {
+        SubstanciaDTO s = ((SubstanciaDTO) event.getObject());
+        if (s.isEditado()) {
+        	sch.handle(new AtualizarNomeDaSubstanciaCommand(s.getUuid(), s.getNome()));
+        	sch.handle(new AtualizarUnidadeDaSubstanciaCommand(s.getUuid(), s.getUnidadeSubstancia()));
+        	sch.handle(new AtualizarFatorEnergeticoDaSubstanciaCommand(s.getUuid(), s.getFatorEnergetico()));
+        }
+        
+        this.inicializar();
+        
+        this.substanciaComponente = null;
+	}
+
+	public void onRowEditComponente(RowEditEvent event) {
+        ComponenteAlimentarDTO ca = ((ComponenteAlimentarDTO) event.getObject());
+        if (ca.isEditado()) {
+        	ach.handle(new AdicionarComponenteAlimentarCommand(ca.getAlimentoUuid(), ca.getSubstancia().getUuid(), ca.getQuantidadeSubstancia()));
+        }
+        
+        this.inicializar();
+	}
+
 	public void cadastrarComponente() {
 		String uuidSubstancia = null;
 

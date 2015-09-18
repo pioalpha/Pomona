@@ -7,12 +7,14 @@ public class ApresentacaoDTO implements DTO {
 
 	private String uuid;
 	private String nome;
+	private boolean editado;
 
 	public ApresentacaoDTO(String uuid, String nome) {
 		super();
 		
 		this.uuid = uuid;
 		this.nome = nome;
+		this.editado = false;
 	}
 
 	public String getUuid() {
@@ -21,6 +23,15 @@ public class ApresentacaoDTO implements DTO {
 
 	public String getNome() {
 		return nome;
+	}
+
+	public boolean isEditado() {
+		return editado;
+	}
+
+	public void setNome(String nome) {
+		this.editado = true;
+		this.nome = nome;
 	}
 
 }

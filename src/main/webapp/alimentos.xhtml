@@ -25,7 +25,7 @@
 			selection="#{componenteBean.alimentoSelecionado}"
 			rowKey="#{alimento.uuid}" widgetVar="wdgAlimentos"
 			filteredValue="#{alimentoBean.alimentosFiltrados}"
-			rowsPerPageTemplate="5,10,15" tableStyle="" resizableColumns="false">
+			rowsPerPageTemplate="5,10,15" tableStyle="" resizableColumns="false" editable="true">
 			<f:facet name="header">
         		Gestão de Alimentos
     		</f:facet>
@@ -38,6 +38,9 @@
 				oncomplete="PF('wdgComponentes').filter();"
 				update=":tbvAlimentos:frmComponentes:tblComponentes :tbvAlimentos:frmApresentacoesMedidas:tblApresentacoesMedidas" / -->
 			<!-- p:ajax event="rowUnselect" update=":frmAlimentos:tbvAlimentos:tblComponentes" / -->
+			
+			<p:ajax event="rowEdit" listener="#{alimentoBean.onRowEditAlimento}" update=":frmAlimentos:msgAlimentos :frmAlimentos:tblAlimentos" />
+      		<!-- p:ajax event="rowEditCancel" listener="#{alimentoBean.onRowCancel}" update=":frmCategorias:msgCategorias" /-->
 
 			<p:column
 				filterBy="#{alimento.categoria.nome}" filterMatchMode="exact"
@@ -58,10 +61,26 @@
 						<f:selectItems value="#{alimentoBean.categorias}" var="categoria"
 							itemValue="#{categoria.nome}" itemLabel="#{categoria.nome}" />
 					</p:selectOneMenu>
-
 				</f:facet>
 
-				<h:outputText value="#{alimento.categoria.nome}" />
+				<p:cellEditor>
+					<f:facet name="output">
+						<!-- Gambiarra do SPAN para fazer o selectRow funcionar dentro do output editor -->
+						<span style="display: inline-block; width: 100%; height: 100%">
+							<h:outputText value="#{alimento.categoria.nome}" />
+						</span>
+					</f:facet>
+					<f:facet name="input">
+						<p:selectOneMenu
+							value="#{alimento.categoria.nome}" style="width: 90%;"
+							editable="false">
+							<f:selectItem itemLabel="" itemValue="#{null}"
+								noSelectionOption="true" />
+							<f:selectItems value="#{alimentoBean.categorias}" var="categoria"
+								itemValue="#{categoria.nome}" itemLabel="#{categoria.nome}" />
+						</p:selectOneMenu>
+					</f:facet>
+				</p:cellEditor>
 			</p:column>
 
 			<p:column headerText="Alimento*" style="text-align: left;"
@@ -76,7 +95,16 @@
 					</p:inputText>
 				</f:facet>
 
-				<h:outputText value="#{alimento.nome}" />
+				<p:cellEditor>
+					<f:facet name="output">
+						<span style="display: inline-block; width: 100%; height: 100%">
+							<h:outputText value="#{alimento.nome}" />
+						</span>
+					</f:facet>
+					<f:facet name="input"><p:inputText value="#{alimento.nome}" style="width: 90%;">
+						<f:validateBean disabled="#{!param['disableValidation']}" />
+					</p:inputText> </f:facet>
+				</p:cellEditor>
 			</p:column>
 
 			<p:column headerText="Qtd*" filterBy="#{alimento.porcao}"
@@ -90,7 +118,17 @@
 					</p:inputText>
 				</f:facet>
 
-				<h:outputText value="#{alimento.porcao}" />
+				<p:cellEditor>
+					<f:facet name="output">
+						<span style="display: inline-block; width: 100%; height: 100%">
+							<h:outputText value="#{alimento.porcao}" />
+						</span>
+					</f:facet>
+					<f:facet name="input"><p:inputText value="#{alimento.porcao}" style="width: 70%;">
+						<f:validateBean disabled="#{!param['disableValidation']}" />
+						</p:inputText>
+					</f:facet>
+				</p:cellEditor>
 			</p:column>
 
 			<p:column headerText="UN*" filterBy="#{alimento.unidadeGranel}"
@@ -106,7 +144,22 @@
 					</p:selectOneMenu>
 				</f:facet>
 
-				<h:outputText value="#{alimento.unidadeGranel}" />
+				<p:cellEditor>
+					<f:facet name="output">
+						<span style="display: inline-block; width: 100%; height: 100%">
+							<h:outputText value="#{alimento.unidadeGranel}" />
+						</span>
+					</f:facet>
+					<f:facet name="input">
+						<p:selectOneMenu value="#{alimento.unidadeGranel}"
+							style="width: 70%;" label="Unidade do Alimento" >
+							<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+							<f:selectItems value="#{alimentoBean.unidadesGranel}"
+								var="unidade" itemValue="#{unidade}" itemLabel="#{unidade}" />
+							<f:validateBean disabled="#{!param['disableValidation']}" />
+						</p:selectOneMenu>
+					</f:facet>
+				</p:cellEditor>
 			</p:column>
 
 			<!-- http://stackoverflow.com/questions/20146630/execution-order-of-events-when-pressing-primefaces-pcommandbutton -->
@@ -123,9 +176,11 @@
 						action="#{alimentoBean.cadastrarAlimento}"
 						process="@form" update=":frmAlimentos:tblAlimentos :tbvAlimentos:frmComponentes:tblComponentes :frmAlimentos:msgAlimentos" partialSubmit="true"
 						oncomplete="if (!args.validationFailed) { PF('wdgAlimentos').filter(); PF('wdgAlimentos').selectRow(0, false); }">
-						<f:param name="disableValidation" value="true" />  
+						<f:param name="disableValidation" value="true" />
 					</p:commandButton>
 				</f:facet>
+				
+				<p:rowEditor />
 			</p:column>
 		</p:dataTable>
 	</h:form>
@@ -139,8 +194,11 @@
 				paginatorAlwaysVisible="true" paginatorPosition="bottom"
 				sortBy="#{componente.substancia.ordem}" widgetVar="wdgComponentes"
 				filteredValue="#{componenteBean.componentesFiltrados}"
-				rowsPerPageTemplate="5,10,15">
+				rowsPerPageTemplate="5,10,15" editable="true">
 
+				<p:ajax event="rowEdit" listener="#{componenteBean.onRowEditComponente}" update=":tbvAlimentos:frmComponentes:msgComponentes :tbvAlimentos:frmComponentes:tblComponentes" oncomplete="{ PF('wdgAlimentos').selectRow(PF('wdgAlimentos').originRowIndex, false); }"/>
+       			<!-- p:ajax event="rowEditCancel" listener="#{alimentoBean.onRowCancel}" update=":frmCategorias:msgCategorias" /-->
+       			
 				<p:column
 					filterBy="#{componente.substancia.substanciaDetalhada}"
 					filterMatchMode="exact" style="text-align: left">
@@ -178,7 +236,13 @@
 							<f:validateBean disabled="#{!param['disableValidation']}" />
 						</p:inputText>
 					</f:facet>
-					<h:outputText value="#{componente.quantidadeSubstancia}" />
+					
+					<p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{componente.quantidadeSubstancia}" /></f:facet>
+						<f:facet name="input"><p:inputText value="#{componente.quantidadeSubstancia}" style="width: 70%;">
+							<f:validateBean disabled="#{!param['disableValidation']}" />
+						</p:inputText> </f:facet>
+					</p:cellEditor>
 				</p:column>
 
 				<p:column
@@ -197,6 +261,8 @@
 							<f:param name="disableValidation" value="true" />  
 						</p:commandButton>
 					</f:facet>
+					
+					<p:rowEditor />
 				</p:column>
 			</p:dataTable>
 			</h:form>
@@ -308,11 +374,14 @@
 			<p:dataTable id="tblCategorias" value="#{alimentoBean.categorias}"
 				var="categoria" rows="5" paginator="true" widgetVar="wdgCategorias"
 				paginatorAlwaysVisible="true" paginatorPosition="bottom"
-				rowsPerPageTemplate="5,10,15">
+				rowsPerPageTemplate="5,10,15" editable="true" rowKey="categoria.uuid">
 				<!-- f:facet name="header">
 	        		Gestão de Categorias
 	    		</f:facet -->
 
+				<p:ajax event="rowEdit" listener="#{alimentoBean.onRowEditCategoria}" update=":frmCategorias:msgCategorias :frmAlimentos:tblAlimentos" />
+       			<!-- p:ajax event="rowEditCancel" listener="#{alimentoBean.onRowCancel}" update=":frmCategorias:msgCategorias" /-->
+       
 				<p:column headerText="Nome*" style="text-align: left;"
 					filterBy="#{categoria.nome}" filterMatchMode="contains">
 					<f:facet name="filter">
@@ -324,7 +393,12 @@
 						</p:inputText>
 					</f:facet>
 
-					<h:outputText value="#{categoria.nome}" />
+					<p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{categoria.nome}" /></f:facet>
+						<f:facet name="input"><p:inputText value="#{categoria.nome}" style="width: 90%;" id="modelInput" >
+							<f:validateBean disabled="#{!param['disableValidation']}" />
+						</p:inputText> </f:facet>
+					</p:cellEditor>
 				</p:column>
 
 				<p:column headerText="Calorias p/ Porção"
@@ -337,7 +411,12 @@
 						</p:inputText>
 					</f:facet>
 
-					<h:outputText value="#{categoria.caloriasPorPorcao}" />
+					<p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{categoria.caloriasPorPorcao}" /></f:facet>
+						<f:facet name="input"><p:inputText value="#{categoria.caloriasPorPorcao}" style="width: 70%;">
+							<f:validateBean disabled="#{!param['disableValidation']}" />
+						</p:inputText> </f:facet>
+					</p:cellEditor>
 				</p:column>
 
 				<p:column headerText="Ação" style="text-align: center; width: 120px">
@@ -350,6 +429,10 @@
 							<f:param name="disableValidation" value="true" />  
 						</p:commandButton>
 					</f:facet>
+					
+					<p:rowEditor>
+						
+					</p:rowEditor>
 				</p:column>
 			</p:dataTable>
 		</h:form>
@@ -363,11 +446,14 @@
 			<p:dataTable id="tblSubstancias" value="#{componenteBean.substancias}"
 				var="substancia" rows="5" paginator="true"
 				widgetVar="wdgSubstancias" paginatorAlwaysVisible="true"
-				paginatorPosition="bottom" rowsPerPageTemplate="5,10,15">
+				paginatorPosition="bottom" rowsPerPageTemplate="5,10,15" editable="true">
 				<!-- f:facet name="header">
 	        		Gestão de Substâncias
 	    		</f:facet -->
 
+				<p:ajax event="rowEdit" listener="#{componenteBean.onRowEditSubstancia}" update=":frmSubstancias:msgSubstancias :tbvAlimentos:frmComponentes:tblComponentes" oncomplete="{ PF('wdgAlimentos').selectRow(PF('wdgAlimentos').originRowIndex, false); }" />
+       			<!-- p:ajax event="rowEditCancel" listener="#{alimentoBean.onRowCancel}" update=":frmCategorias:msgCategorias" /-->
+       			
 				<p:column headerText="Nome*" style="text-align: left;"
 					filterBy="#{substancia.nome}" filterMatchMode="contains">
 					<f:facet name="filter">
@@ -379,7 +465,12 @@
 						</p:inputText>
 					</f:facet>
 
-					<h:outputText value="#{substancia.nome}" />
+					<p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{substancia.nome}" /></f:facet>
+						<f:facet name="input"><p:inputText value="#{substancia.nome}" style="width: 90%;">
+							<f:validateBean disabled="#{!param['disableValidation']}" />
+						</p:inputText> </f:facet>
+					</p:cellEditor>
 				</p:column>
 
 				<p:column headerText="UN*" style="text-align: center; width: 60px"
@@ -394,7 +485,18 @@
 						</p:selectOneMenu>
 					</f:facet>
 
-					<h:outputText value="#{substancia.unidadeSubstancia}" />
+					<p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{substancia.unidadeSubstancia}" /></f:facet>
+						<f:facet name="input">
+							<p:selectOneMenu value="#{substancia.unidadeSubstancia}"
+								style="width: 70%;">
+								<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+								<f:selectItems value="#{componenteBean.unidadesSubstancia}"
+									var="unidade" itemValue="#{unidade}" itemLabel="#{unidade}" />
+								<f:validateBean disabled="#{!param['disableValidation']}" />
+							</p:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 
 				<p:column headerText="Fator Energético"
@@ -407,7 +509,12 @@
 						</p:inputText>
 					</f:facet>
 
-					<h:outputText value="#{substancia.fatorEnergetico}" />
+					<p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{substancia.fatorEnergetico}" /></f:facet>
+						<f:facet name="input"><p:inputText value="#{substancia.fatorEnergetico}" style="width: 70%;">
+							<f:validateBean disabled="#{!param['disableValidation']}" />
+						</p:inputText> </f:facet>
+					</p:cellEditor>
 				</p:column>
 
 				<p:column headerText="Ação" style="text-align: center; width: 120px">
@@ -420,11 +527,12 @@
 							<f:param name="disableValidation" value="true" />  
 						</p:commandButton>
 					</f:facet>
+					
+					<p:rowEditor />
 				</p:column>
 			</p:dataTable>
 		</h:form>
 		<p:outputLabel value="* - Campo obrigatório para cadastro." />
 	</p:dialog>
-
 </h:body>
 </html>
