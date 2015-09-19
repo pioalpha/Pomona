@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.UUID;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -15,8 +14,6 @@ import com.github.pomona.domain.model.Substancia;
 import com.github.pomona.domain.model.SubstanciaId;
 import com.github.pomona.domain.model.SubstanciaRepo;
 
-//@RequestScoped
-@Singleton
 public class SubstanciaRepoImpl implements SubstanciaRepo {
 	private static final long serialVersionUID = 1L;
 

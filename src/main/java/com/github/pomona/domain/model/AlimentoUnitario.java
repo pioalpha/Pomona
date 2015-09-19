@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
@@ -28,7 +29,8 @@ public class AlimentoUnitario extends ConcurrencySafeEntity {
 	private String nome;
 	@OneToMany(mappedBy = "alimentoUnitario", cascade = CascadeType.ALL)
 	protected List<ComponenteAlimentar> composicaoAlimentar;
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(nullable = true)
 	protected CategoriaAlimento categoriaAlimento;
 
 	public AlimentoUnitario() {

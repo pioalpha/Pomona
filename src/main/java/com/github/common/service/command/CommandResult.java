@@ -1,13 +1,14 @@
 package com.github.common.service.command;
 
 public class CommandResult {
-	public boolean succes;
+	public boolean success;
 	public String message;
 	public String id;
 	
-	public CommandResult(boolean succes, String message, String id) {
+	public CommandResult(boolean success, String message, String id) {
 		super();
-		this.succes = succes;
+		
+		this.success = success;
 		this.message = message;
 		this.id = id;
 	}

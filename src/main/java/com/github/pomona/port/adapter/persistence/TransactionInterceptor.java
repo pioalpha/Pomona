@@ -29,22 +29,25 @@ public class TransactionInterceptor implements Serializable {
 			if (!trx.isActive()) {
 				trx.begin();
 				trx.rollback();
+				System.out.println("Transação anterior cancelada");
 				
 				trx.begin();
-				
+				System.out.println("Transação iniciada");
 				criador = true;
 			}
+			System.out.println("Inicio proceed");
 			return context.proceed();
-			
 		} catch (Exception e) {
 			if (trx != null && criador) {
 				trx.rollback();
+				System.out.println("Rollback da transação");
 			}
 			
 			throw e;
 		} finally {
 			if (trx != null && trx.isActive() && criador) {
 				trx.commit();
+				System.out.println("Transação efetuada");
 			}
 		}
 	}

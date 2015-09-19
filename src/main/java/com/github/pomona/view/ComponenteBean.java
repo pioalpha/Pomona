@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -16,6 +18,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 
+import com.github.common.service.command.CommandResult;
 import com.github.pomona.application.AlimentoQueryService;
 import com.github.pomona.application.SubstanciaQueryService;
 import com.github.pomona.application.command.alimento.AdicionarComponenteAlimentarCommand;
@@ -93,25 +96,35 @@ public class ComponenteBean implements Serializable {
 	}
 	
 	public void cadastrarSubstancia() {
+		CommandResult resultado = null;
+		
 		// se a substancia existir, atualizar apenas o fator energético
 		List<SubstanciaDTO> subs = sqs.Executar(new SubstanciaParametrosPesquisa(this.nomeSubstancia.trim(), new Date()));
 		if (subs.isEmpty()) {
 			if (this.fatorEnergeticoSubstancia == null) {
-				sch.handle(new CadastrarSubstanciaComumCommand(this.nomeSubstancia.trim(), this.unidadeSubstancia));
+				resultado = sch.handle(new CadastrarSubstanciaComumCommand(this.nomeSubstancia.trim(), this.unidadeSubstancia));
 			} else {
-				sch.handle(new CadastrarSubstanciaEnergeticaCommand(this.nomeSubstancia.trim(), this.unidadeSubstancia, this.fatorEnergeticoSubstancia));
+				resultado = sch.handle(new CadastrarSubstanciaEnergeticaCommand(this.nomeSubstancia.trim(), this.unidadeSubstancia, this.fatorEnergeticoSubstancia));
 			}
 		} else {
 			if (subs.get(0).getFatorEnergetico() != this.fatorEnergeticoSubstancia){
-				sch.handle(new AtualizarFatorEnergeticoDaSubstanciaCommand(subs.get(0).getUuid(), this.fatorEnergeticoSubstancia));
+				resultado = sch.handle(new AtualizarFatorEnergeticoDaSubstanciaCommand(subs.get(0).getUuid(), this.fatorEnergeticoSubstancia));
 			}
 		}
-
-		this.inicializar();
 		
-		this.nomeSubstancia = null;
-		this.unidadeSubstancia = null;
-		this.fatorEnergeticoSubstancia = null;
+		if (resultado != null) {
+			if (resultado.success) {
+
+				this.inicializar();
+			
+				this.nomeSubstancia = null;
+				this.unidadeSubstancia = null;
+				this.fatorEnergeticoSubstancia = null;
+			} else {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						resultado.message, resultado.message));
+			}
+		}
 	}
 	
 	public void onRowSelect(SelectEvent event) {
@@ -129,29 +142,62 @@ public class ComponenteBean implements Serializable {
 	}
 	
 	public void onRowEditSubstancia(RowEditEvent event) {
+		CommandResult resultado = null;
+		boolean sucesso = false;
+		
         SubstanciaDTO s = ((SubstanciaDTO) event.getObject());
         if (s.isEditado()) {
-        	sch.handle(new AtualizarNomeDaSubstanciaCommand(s.getUuid(), s.getNome()));
-        	sch.handle(new AtualizarUnidadeDaSubstanciaCommand(s.getUuid(), s.getUnidadeSubstancia()));
-        	sch.handle(new AtualizarFatorEnergeticoDaSubstanciaCommand(s.getUuid(), s.getFatorEnergetico()));
+        	resultado = sch.handle(new AtualizarNomeDaSubstanciaCommand(s.getUuid(), s.getNome()));
+        	if (resultado.success) {
+        		sucesso = true;
+        	} else {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						resultado.message, resultado.message));
+        	}
+        	
+        	resultado = sch.handle(new AtualizarUnidadeDaSubstanciaCommand(s.getUuid(), s.getUnidadeSubstancia()));
+        	if (resultado.success) {
+        		sucesso = true;
+        	} else {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						resultado.message, resultado.message));
+        	}
+        	
+        	resultado = sch.handle(new AtualizarFatorEnergeticoDaSubstanciaCommand(s.getUuid(), s.getFatorEnergetico()));
+        	if (resultado.success) {
+        		sucesso = true;
+        	} else {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						resultado.message, resultado.message));
+        	}
         }
-        
-        this.inicializar();
-        
-        this.substanciaComponente = null;
+
+        if (sucesso) {
+	        this.inicializar();
+	        
+	        this.substanciaComponente = null;
+        }
 	}
 
 	public void onRowEditComponente(RowEditEvent event) {
-        ComponenteAlimentarDTO ca = ((ComponenteAlimentarDTO) event.getObject());
-        if (ca.isEditado()) {
-        	ach.handle(new AdicionarComponenteAlimentarCommand(ca.getAlimentoUuid(), ca.getSubstancia().getUuid(), ca.getQuantidadeSubstancia()));
-        }
+        CommandResult resultado = null;
         
-        this.inicializar();
+		ComponenteAlimentarDTO ca = ((ComponenteAlimentarDTO) event.getObject());
+        if (ca.isEditado()) {
+        	resultado = ach.handle(new AdicionarComponenteAlimentarCommand(ca.getAlimentoUuid(), ca.getSubstancia().getUuid(), ca.getQuantidadeSubstancia()));
+
+        	if (resultado.success) {
+                this.inicializar();
+        	} else {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						resultado.message, resultado.message));
+        	}
+        }
 	}
 
 	public void cadastrarComponente() {
 		String uuidSubstancia = null;
+		CommandResult resultado = null;
 
 		if (this.substanciaComponente != null && !this.substanciaComponente.trim().isEmpty()) {
 			String nomeSubstanciaTemp = null;
@@ -182,26 +228,38 @@ public class ComponenteBean implements Serializable {
 			if (this.substanciaSelecionada == null) {
 				// Se a substancia não está cadastrada
 				if (nomeSubstanciaTemp != null && !nomeSubstanciaTemp.isEmpty()) {
-					uuidSubstancia = sch
-							.handle(new CadastrarSubstanciaComumCommand(nomeSubstanciaTemp, unidadeSubstanciaTemp)).id;
+					resultado = sch
+							.handle(new CadastrarSubstanciaComumCommand(nomeSubstanciaTemp, unidadeSubstanciaTemp));
+					if (resultado.success) {
+						uuidSubstancia = resultado.id;
+		        	} else {
+		    			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+		    					resultado.message, resultado.message));
+		        	}
 				}
 			} else {
 				uuidSubstancia = this.substanciaSelecionada.getUuid();
 			}
 
 			if (this.quantidadeComponente != null) {
-				ach.handle(new AdicionarComponenteAlimentarCommand(this.alimentoSelecionado.getUuid(), uuidSubstancia,
+				resultado = ach.handle(new AdicionarComponenteAlimentarCommand(this.alimentoSelecionado.getUuid(), uuidSubstancia,
 						this.quantidadeComponente));
+				
+				if (resultado.success) {
+					System.out.println(">>>" + this.alimentoSelecionado.getUuid());
+
+					this.inicializar();
+					// this.componentes =
+					// this.alimentoSelecionado.getComponentesAlimentares();
+					this.substanciaComponente = null;
+					this.substanciaSelecionada = null;
+					this.quantidadeComponente = null;
+	        	} else {
+	    			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+	    					resultado.message, resultado.message));
+	        	}
 			}
 
-			System.out.println(">>>" + this.alimentoSelecionado.getUuid());
-
-			this.inicializar();
-			// this.componentes =
-			// this.alimentoSelecionado.getComponentesAlimentares();
-			this.substanciaComponente = null;
-			this.substanciaSelecionada = null;
-			this.quantidadeComponente = null;
 		}
 	}
 	

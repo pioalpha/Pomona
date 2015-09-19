@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.UUID;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
@@ -13,7 +12,6 @@ import com.github.pomona.domain.model.AlimentoId;
 import com.github.pomona.domain.model.AlimentoRepo;
 import com.github.pomona.domain.model.AlimentoUnitario;
 
-@Singleton
 public class AlimentoRepoImpl implements AlimentoRepo {
 	private static final long serialVersionUID = 1L;
 

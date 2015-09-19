@@ -78,15 +78,15 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 		CommandResult resultado = null;
 
 		try {
-			AlimentoUnitario a = this.alimentoRepo().porId(new AlimentoId(command.getAlimentoId()));
+			AlimentoUnitario au = this.alimentoRepo().porId(new AlimentoId(command.getAlimentoId()));
 			
 			ComponenteAlimentar ca = new ComponenteAlimentar();
 			ca.setDataCadastro(new Date());
 			ca.setQuantidade(command.getQuantidade());
 			ca.setSubstancia(this.substanciaRepo().porId(new SubstanciaId(command.getSubstanciaId())));
-			ca.setAlimentoUnitario(a);
-			a.getComposicaoAlimentar().add(ca);
-			//a = this.alimentoRepo().adicionar(a);
+			ca.setAlimentoUnitario(au);
+			au.getComposicaoAlimentar().add(ca);
+			//au = this.alimentoRepo().adicionar(au);
 	
 			resultado = new CommandResult(true, "Componente Alimentar Adicionado com Sucesso!", null);
 		} catch (Exception e) {
@@ -96,14 +96,16 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 		return resultado;
 	}
 
+	@Transactional
 	public CommandResult handle(AtualizarCategoriaDoAlimentoCommand command) {
 		CommandResult resultado = null;
 		
 		try {
 			AlimentoUnitario au = this.alimentoRepo().porId(new AlimentoId(command.getAlimentoId()));
-			au.setCategoriaAlimento(this.categoriaAlimentoRepo().porId(new CategoriaAlimentoId(command.getCategoriaId())));
+			CategoriaAlimento ca = this.categoriaAlimentoRepo().porId(new CategoriaAlimentoId(command.getCategoriaId()));
+			au.setCategoriaAlimento(ca);
 			au = this.alimentoRepo().adicionar(au);
-			
+
 			resultado = new CommandResult(true, "Categoria do Alimento atualizado com sucesso!", null);
 		} catch (Exception e) {
 			resultado = new CommandResult(false, "Falha ao atualizar a Categoria do Alimento " + e, null);
