@@ -2,7 +2,17 @@
 <Context>
 	<!-- Disables storage of sessions across restarts -->
 	<Manager pathname="" />
+	
 	<Resource name="BeanManager" auth="Container"
 		type="javax.enterprise.inject.spi.BeanManager"
 		factory="org.jboss.weld.resources.ManagerObjectFactory" />
+
+	<!-- ResourceLink global="jdbc/PomonaDB"
+              name="jdbc/PomonaDB"
+              type="javax.sql.DataSource"/-->
+              
+    <Resource name="jdbc/PomonaDB" auth="Container" type="javax.sql.DataSource"
+               maxTotal="100" maxIdle="30" maxWaitMillis="10000"
+               username="root" password="rootroot" driverClassName="com.mysql.jdbc.Driver"
+               url="jdbc:mysql://localhost:3306/pomona"/>	
 </Context>
