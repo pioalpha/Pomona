@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
@@ -59,6 +60,7 @@ import com.github.pomona.domain.model.PlanoAlimentarRepo;
 import com.github.pomona.domain.service.CalculaIMC;
 import com.github.pomona.service.commandHandler.ConsultaCommandHandler;
 
+@RequestScoped
 public class ConsultaApplicationService implements ConsultaCommandHandler {
 
 	private static final long serialVersionUID = 1L;

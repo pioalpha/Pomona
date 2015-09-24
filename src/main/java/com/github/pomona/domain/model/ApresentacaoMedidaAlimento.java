@@ -1,10 +1,14 @@
 package com.github.pomona.domain.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
@@ -29,10 +33,12 @@ public class ApresentacaoMedidaAlimento extends ConcurrencySafeEntity {
 	@OneToOne
 	@JoinColumn(nullable = false)
 	private TipoMedida tipoMedida;
-	@NotNull
 	@DecimalMin(value = "0.01")
-	@Column(nullable = false, precision = 10, scale = 2)
-	private float quantidade;
+	@Column(nullable = true, precision = 10, scale = 2)
+	private Float quantidade;
+	@NotNull
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dataCadastro;
 
 	public AlimentoGranel getAlimentoGranel() {
 		return alimentoGranel;
@@ -72,6 +78,14 @@ public class ApresentacaoMedidaAlimento extends ConcurrencySafeEntity {
 
 	public void setApresentacaoMedidaAlimentoId(ApresentacaoMedidaAlimentoId apresentacaoMedidaAlimentoId) {
 		this.apresentacaoMedidaAlimentoId = apresentacaoMedidaAlimentoId;
+	}
+
+	public Date getDataCadastro() {
+		return dataCadastro;
+	}
+
+	public void setDataCadastro(Date dataCadastro) {
+		this.dataCadastro = dataCadastro;
 	}
 
 	@Override

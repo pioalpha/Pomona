@@ -3,14 +3,17 @@ package com.github.pomona.application;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
 import com.github.common.service.query.Query;
 import com.github.pomona.application.dto.SubstanciaDTO;
 import com.github.pomona.application.dto.SubstanciaParametrosPesquisa;
 
+@RequestScoped
 public class SubstanciaQueryService implements Query<SubstanciaParametrosPesquisa, SubstanciaDTO> {
 
 	private static final long serialVersionUID = 1L;
@@ -67,12 +70,13 @@ public class SubstanciaQueryService implements Query<SubstanciaParametrosPesquis
 				+ " WHERE (es.dataCadastro IS NULL OR es.dataCadastro ="
 					+ " (SELECT MAX(es2.dataCadastro)"
 					+ " FROM EnergiaSubstancia AS es2"
-					+ " WHERE es2.dataCadastro < :dataConsulta "
+					+ " WHERE es2.dataCadastro <= :dataConsulta "
 					+ " AND es2.substancia = es.substancia"
 					+ " GROUP BY es2.substancia)"
 				+ ")" + where,
 				SubstanciaDTO.class);
-		tq.setParameter("dataConsulta", parametros.getDataConsulta());
+		System.out.println("DataConsulta: " + parametros.getDataConsulta()  + " (" + parametros.getDataConsulta().getTime() + ")");
+		tq.setParameter("dataConsulta", parametros.getDataConsulta(), TemporalType.TIMESTAMP);
 		/*
 		 * CriteriaQuery<SubstanciaDTO> cq =
 		 * cb.createQuery(SubstanciaDTO.class); Root<Substancia> fromSubstancia

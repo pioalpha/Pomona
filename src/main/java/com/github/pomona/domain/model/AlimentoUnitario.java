@@ -1,6 +1,7 @@
 package com.github.pomona.domain.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -32,6 +35,8 @@ public class AlimentoUnitario extends ConcurrencySafeEntity {
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(nullable = true)
 	protected CategoriaAlimento categoriaAlimento;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dataExclusao;
 
 	public AlimentoUnitario() {
 		super();
@@ -86,4 +91,13 @@ public class AlimentoUnitario extends ConcurrencySafeEntity {
 	public void setCategoriaAlimento(CategoriaAlimento categoriaAlimento) {
 		this.categoriaAlimento = categoriaAlimento;
 	}
+
+	public Date getDataExclusao() {
+		return dataExclusao;
+	}
+
+	public void setDataExclusao(Date dataExclusao) {
+		this.dataExclusao = dataExclusao;
+	}
+	
 }

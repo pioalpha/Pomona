@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -22,6 +23,7 @@ import com.github.pomona.domain.model.DiretrizAlimentar;
 import com.github.pomona.domain.model.NormaAlimentar;
 import com.github.pomona.domain.model.SubstanciaId;
 
+@RequestScoped
 public class DiretrizQueryService implements Query<DiretrizParametrosPesquisa, DiretrizAlimentarDTO> {
 
 	private static final long serialVersionUID = 1L;

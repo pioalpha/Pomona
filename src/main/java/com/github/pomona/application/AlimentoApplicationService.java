@@ -1,9 +1,13 @@
 package com.github.pomona.application;
 
+import java.util.Calendar;
 import java.util.Date;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+
+import org.apache.commons.lang3.time.DateUtils;
 
 import com.github.common.service.command.CommandResult;
 import com.github.pomona.application.command.alimento.AdicionarComponenteAlimentarCommand;
@@ -48,6 +52,7 @@ import com.github.pomona.domain.model.TipoApresentacaoRepo;
 import com.github.pomona.domain.service.AlimentoBuilder;
 import com.github.pomona.service.commandHandler.AlimentoCommandHandler;
 
+@RequestScoped
 public class AlimentoApplicationService implements AlimentoCommandHandler {
 	
 	private static final long serialVersionUID = 1L;
@@ -58,6 +63,7 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 	private TipoApresentacaoRepo tipoApresentacaoRepo;
 	private ApresentacaoMedidaAlimentoRepo apresentacaoMedidaAlimentoRepo;
 	private CategoriaAlimentoRepo categoriaAlimentoRepo;
+	private Date dataOperacao = DateUtils.truncate(new Date(), Calendar.SECOND);
 
 	@Inject
 	public AlimentoApplicationService(AlimentoRepo alimentoRepo,
@@ -81,7 +87,7 @@ public class AlimentoApplicationService implements AlimentoCommandHandler {
 			AlimentoUnitario au = this.alimentoRepo().porId(new AlimentoId(command.getAlimentoId()));
 			
 			ComponenteAlimentar ca = new ComponenteAlimentar();
-			ca.setDataCadastro(new Date());
+			ca.setDataCadastro(this.dataOperacao);
 			ca.setQuantidade(command.getQuantidade());
 			ca.setSubstancia(this.substanciaRepo().porId(new SubstanciaId(command.getSubstanciaId())));
 			ca.setAlimentoUnitario(au);

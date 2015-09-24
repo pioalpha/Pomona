@@ -1,24 +1,30 @@
 package com.github.pomona.application.dto;
 
+import java.util.Date;
+
 import com.github.common.service.dto.DTO;
 
 public class ApresentacaoMedidaAlimentoDTO implements DTO {
 	private static final long serialVersionUID = 1L;
 
+	private Date dataConsulta;
 	private String uuid;
 	private ApresentacaoDTO apresentacao;
 	private MedidaDTO medida;
-	private float quantidade;
+	private Float quantidade;
+	private Date dataCadastro;
 	private boolean editado;
 
-	public ApresentacaoMedidaAlimentoDTO(String uuid, ApresentacaoDTO apresentacao, MedidaDTO medida, float quantidade) {
+	public ApresentacaoMedidaAlimentoDTO(Date dataConsulta, String uuid, ApresentacaoDTO apresentacao, MedidaDTO medida, Float quantidade, Date dataCadastro) {
 		super();
 		
+		this.dataConsulta = dataConsulta;
 		this.uuid = uuid;
 		this.apresentacao = apresentacao;
 		this.medida = medida;
 		this.quantidade = quantidade;
 		this.editado = false;
+		this.dataCadastro = dataCadastro;
 	}
 
 	public String getUuid() {
@@ -33,8 +39,16 @@ public class ApresentacaoMedidaAlimentoDTO implements DTO {
 		return medida;
 	}
 
-	public float getQuantidade() {
+	public Float getQuantidade() {
 		return quantidade;
+	}
+
+	public Date getDataConsulta() {
+		return dataConsulta;
+	}
+
+	public Date getDataCadastro() {
+		return dataCadastro;
 	}
 
 	public boolean isEditado() {
@@ -51,7 +65,7 @@ public class ApresentacaoMedidaAlimentoDTO implements DTO {
 		this.medida = medida;
 	}
 
-	public void setQuantidade(float quantidade) {
+	public void setQuantidade(Float quantidade) {
 		this.editado = true;
 		this.quantidade = quantidade;
 	}

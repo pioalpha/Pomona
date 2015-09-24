@@ -1,9 +1,13 @@
 package com.github.pomona.application;
 
+import java.util.Calendar;
 import java.util.Date;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+
+import org.apache.commons.lang3.time.DateUtils;
 
 import com.github.common.service.command.CommandResult;
 import com.github.pomona.application.command.diretrizAlimentar.AdicionarNormaADiretrizAlimentarCommand;
@@ -34,6 +38,7 @@ import com.github.pomona.domain.service.DiretrizAlimentarBuilder;
 import com.github.pomona.domain.service.SubstanciaBuilder;
 import com.github.pomona.service.commandHandler.SubstanciaCommandHandler;
 
+@RequestScoped
 public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 	
 	private static final long serialVersionUID = 1L;
@@ -41,6 +46,7 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 	private DiretrizAlimentarRepo diretrizAlimentarRepo;
 	private EnergiaSubstanciaRepo energiaSubstanciaRepo;
 	private SubstanciaRepo substanciaRepo;
+	private Date dataOperacao = DateUtils.truncate(new Date(), Calendar.SECOND);
 
 	@Inject
 	public SubstanciaApplicationService(DiretrizAlimentarRepo diretrizAlimentarRepo,
@@ -60,7 +66,7 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 		try {
 			DiretrizAlimentar da = this.diretrizAlimentarRepo().porId(new DiretrizAlimentarId(command.getDiretrizAlimentarId()));
 			NormaAlimentar na = new NormaAlimentar();
-			na.setDataCriacao(new Date());
+			na.setDataCriacao(this.dataOperacao);
 			na.setSubstancia(this.substanciaRepo().porId(new SubstanciaId(command.getSubstanciaId())));
 			na.setTipoNorma(command.getTipoNorma());
 			na.setNormaMinima(command.getNormaMinima());
@@ -160,10 +166,11 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 			EnergiaSubstancia es = new EnergiaSubstancia();
 			es.setFatorEnergetico(command.getFatorEnergetico());
 			es.setSubstancia(this.substanciaRepo().porId(new SubstanciaId(command.getSubstanciaId())));
-			es.setDataCadastro(new Date());
+			es.setDataCadastro(this.dataOperacao);
 			es.setEnergiaSubstanciaId(this.energiaSubstanciaRepo().proximaIdentidade());
 			es = this.energiaSubstanciaRepo().adicionar(es);
 			
+			System.out.println("dataCadastro:" + this.dataOperacao + " (" + this.dataOperacao.getTime() + ")");
 			resultado = new CommandResult(true, "Atualizado Fator Energético com sucesso!", null);
 		} catch (Exception e) {
 			resultado = new CommandResult(false, "Falha ao atualizar o Fator Energético da Substância" + e, null);
@@ -269,12 +276,13 @@ public class SubstanciaApplicationService implements SubstanciaCommandHandler {
 			s = this.substanciaRepo().adicionar(s);
 	
 			EnergiaSubstancia es = new EnergiaSubstancia();
-			es.setDataCadastro(new Date());
+			es.setDataCadastro(this.dataOperacao);
 			es.setFatorEnergetico(command.getFatorEnergetico());
 			es.setSubstancia(s);
 			es.setEnergiaSubstanciaId(energiaSubstanciaRepo().proximaIdentidade());
 			es = this.energiaSubstanciaRepo().adicionar(es);
 	
+			System.out.println("dataCadastro:" + this.dataOperacao + " (" + this.dataOperacao.getTime() + ")");
 			resultado = new CommandResult(true, "Substância cadastrada com sucesso!", s.substanciaId().uuid());
 		} catch (Exception e) {
 			resultado = new CommandResult(false, "Falha ao cadastrar Substância Energética" + e, null);

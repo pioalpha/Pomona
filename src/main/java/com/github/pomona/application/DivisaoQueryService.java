@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -22,6 +23,7 @@ import com.github.pomona.domain.model.DivisaoRefeicao;
 import com.github.pomona.domain.model.LimiteEnergetico;
 import com.github.pomona.domain.reference.TipoRefeicao;
 
+@RequestScoped
 public class DivisaoQueryService implements Query<DivisaoParametrosPesquisa, DivisaoRefeicaoDTO> {
 
 	private static final long serialVersionUID = 1L;

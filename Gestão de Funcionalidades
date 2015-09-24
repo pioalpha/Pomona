@@ -1,26 +1,30 @@
-Funcionalidades Pendentes
+Funcionalidades Pendentes\A Reparar
 -Modificação da interface para impedir tentativa de cadastro de componentes sem a seleção prévia de alimento
 -Seleção automática do alimento recém cadastrado para facilitar cadastro de componentes
 -Segregação de comportamentos entre o AlimentoBean e o ComponenteBean
 -Limpeza das mensagens de erro ao fechar o respectivo diálogo em alimentos
--validação da edições dos formulários de alimentos
+-Validação de edições dos formulários de alimentos
 -Criação de testes unitários
 -Injeção CDI do DataSource que fornece as conexões com o banco via tomcat
 -Criação de Models para trabalhar os controladores(Beans) ao invés dos DTOs
 -Correção de componentes visuais durante a edição ou redimensionamento da página
 -Dimensionamento de interface menor para mobile
--Falha na atualização do diálogo de substâncias e combo de componentes após o cadastro da substância
 -Modificação da arquitetura para armazenar as implementações de repositórios
 -Substituir as consultas de Criteria API por JPQL 
 -Particionar a arquitetura do projeto em pequenos projetos
 -Criação de objetos de conversão a serem utilizados no trânsito de informações entre o xhtml e o Bean.
 -Inclusão de cache de segundo nível
+-Definir foco em componentes específicos logo após cadastro em alimentos
 
-Funcionalidades Implementadas
+Funcionalidades Implementadas\Corrigidas
+23092015-Falha na atualização do diálogo de substâncias e combo de componentes após o cadastro da substância
+	Detalhe: Erro no arquivamento da data do objeto energiaSubstância que arredondava os milisegundos para cima e a consulta a tabela arredondava os milisegundos para baixo.
+	Resolução: Truncado a data de cadastro em segundos através do DateUtils
+	
 -JAVA 1.7
 -Weld Implementação CDI
 -Hibernate Implementação JPA
--Mojarra implementação JSF
+-Mojarra Implementação JSF
 -Primefaces Biblioteca JSF
 -Tomcat Container Web
 -FlyWay versionamento de DB

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -36,6 +37,7 @@ import com.github.pomona.domain.model.SubstanciaId;
 import com.github.pomona.domain.model.TipoMedida;
 import com.github.pomona.domain.model.TipoApresentacao;
 
+@RequestScoped
 public class AlimentoQueryService // extends AbstractQueryService
 		implements Query<AlimentoParametrosPesquisa, AlimentoDTO> {
 
@@ -192,14 +194,16 @@ public class AlimentoQueryService // extends AbstractQueryService
 						ag.getUnidadeGranel(),
 						ag.getPorcao(),
 						cat,
-						new ArrayList<ComponenteAlimentarDTO>(componentes.values()));
+						new ArrayList<ComponenteAlimentarDTO>(componentes.values()),
+						ag.getDataExclusao());
 			} else {
 				a = new AlimentoDTO(parametros.getDataConsulta(),
 						ag.alimentoId().uuid(),
 						ag.getNome(),
 						ag.getUnidadeGranel(),
 						ag.getPorcao(),
-						cat)
+						cat,
+						ag.getDataExclusao())
 ;
 			}
 			resultado.add(a);
@@ -327,10 +331,10 @@ public class AlimentoQueryService // extends AbstractQueryService
 		}
 
 		for (ApresentacaoMedidaAlimento pm : tq.getResultList()) {
-			ApresentacaoMedidaAlimentoDTO pmDTO = new ApresentacaoMedidaAlimentoDTO(pm.apresentacaoMedidaAlimentoId().uuid(),
+			ApresentacaoMedidaAlimentoDTO pmDTO = new ApresentacaoMedidaAlimentoDTO(parametros.getDataConsulta(), pm.apresentacaoMedidaAlimentoId().uuid(),
 					new ApresentacaoDTO(pm.getTipoApresentacao().tipoApresentacaoId().uuid(), pm.getTipoApresentacao().getNome()),
 					new MedidaDTO(pm.getTipoMedida().tipoMedidaId().uuid(), pm.getTipoMedida().getNome()),
-					pm.getQuantidade());
+					pm.getQuantidade(), pm.getDataCadastro());
 			resultado.add(pmDTO);
 		}
 

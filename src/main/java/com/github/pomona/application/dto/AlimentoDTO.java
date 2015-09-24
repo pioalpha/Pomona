@@ -17,9 +17,10 @@ public class AlimentoDTO implements DTO {
 	private Float porcao;
 	private CategoriaDTO categoria;
 	private List<ComponenteAlimentarDTO> componentesAlimentares;
+	private Date dataExclusao;
 	private boolean editado;
 
-	public AlimentoDTO(Date dataConsultada, String uuid, String nome, UnidadeGranel unidadeGranel, Float porcao, CategoriaDTO categoria, List<ComponenteAlimentarDTO> componentesAlimentares) {
+	public AlimentoDTO(Date dataConsultada, String uuid, String nome, UnidadeGranel unidadeGranel, Float porcao, CategoriaDTO categoria, List<ComponenteAlimentarDTO> componentesAlimentares, Date dataExclusao) {
 		super();
 		
 		this.uuid = uuid;
@@ -29,10 +30,11 @@ public class AlimentoDTO implements DTO {
 		this.categoria = categoria;
 		this.componentesAlimentares = componentesAlimentares;
 		this.dataConsultada = dataConsultada;
+		this.dataExclusao = dataExclusao; 
 		this.editado = false;
 	}
 
-	public AlimentoDTO(Date dataConsultada, String uuid, String nome, UnidadeGranel unidadeGranel, Float porcao, CategoriaDTO categoria) {
+	public AlimentoDTO(Date dataConsultada, String uuid, String nome, UnidadeGranel unidadeGranel, Float porcao, CategoriaDTO categoria, Date dataExclusao) {
 		super();
 		
 		this.uuid = uuid;
@@ -42,10 +44,11 @@ public class AlimentoDTO implements DTO {
 		this.categoria = categoria;
 		this.componentesAlimentares = null;
 		this.dataConsultada = dataConsultada;
+		this.dataExclusao = dataExclusao; 
 		this.editado = false;
 	}
 
-	public AlimentoDTO(Date dataConsultada, String uuid, String nome, UnidadeGranel unidadeGranel, Float porcao, List<ComponenteAlimentarDTO> componentesAlimentares) {
+	public AlimentoDTO(Date dataConsultada, String uuid, String nome, UnidadeGranel unidadeGranel, Float porcao, List<ComponenteAlimentarDTO> componentesAlimentares, Date dataExclusao) {
 		super();
 		
 		this.uuid = uuid;
@@ -55,6 +58,7 @@ public class AlimentoDTO implements DTO {
 		this.categoria = null;
 		this.componentesAlimentares = componentesAlimentares;
 		this.dataConsultada = dataConsultada;
+		this.dataExclusao = dataExclusao; 
 		this.editado = false;
 	}
 	
@@ -90,6 +94,10 @@ public class AlimentoDTO implements DTO {
 		return editado;
 	}
 
+	public Date getDataExclusao() {
+		return dataExclusao;
+	}
+	
 	public void setNome(String nome) {
 		this.editado = true;
 		this.nome = nome;
@@ -114,5 +122,5 @@ public class AlimentoDTO implements DTO {
 		this.editado = true;
 		this.componentesAlimentares = componentesAlimentares;
 	}
-	
+
 }

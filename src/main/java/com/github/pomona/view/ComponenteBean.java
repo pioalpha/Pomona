@@ -137,7 +137,7 @@ public class ComponenteBean implements Serializable {
 			this.componentes = aqs
 					.Executar(new ComponenteParametrosPesquisa(this.alimentoSelecionado.getUuid(), null, new Date()));
 			this.apresentacoesMedidasAlimentos = aqs
-					.Executar(new ApresentacaoMedidaParametrosPesquisa(this.alimentoSelecionado, null, null));
+					.Executar(new ApresentacaoMedidaParametrosPesquisa(new Date(), this.alimentoSelecionado, null, null));
 		}
 	}
 	

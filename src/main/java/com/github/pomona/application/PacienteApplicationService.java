@@ -2,6 +2,7 @@ package com.github.pomona.application;
 
 import java.util.Date;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
@@ -28,6 +29,7 @@ import com.github.pomona.domain.model.PlanoAlimentarId;
 import com.github.pomona.domain.model.PlanoAlimentarRepo;
 import com.github.pomona.service.commandHandler.PacienteCommandHandler;
 
+@RequestScoped
 public class PacienteApplicationService implements PacienteCommandHandler {
 
 	private static final long serialVersionUID = 1L;

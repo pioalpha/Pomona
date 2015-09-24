@@ -1,5 +1,6 @@
 package com.github.pomona.application;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
@@ -26,6 +27,7 @@ import com.github.pomona.domain.model.TipoApresentacaoRepo;
 import com.github.pomona.domain.service.CalculaEnergiaAlimento;
 import com.github.pomona.service.commandHandler.CardapioCommandHandler;
 
+@RequestScoped
 public class CardapioApplicationService implements CardapioCommandHandler {
 	
 	private static final long serialVersionUID = 1L;
