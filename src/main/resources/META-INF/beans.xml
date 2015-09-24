@@ -5,6 +5,6 @@
        bean-discovery-mode="all">
 
 	<interceptors>
-		<class>com.github.pomona.port.adapter.persistence.TransactionInterceptor</class>
+		<class>com.github.pomona.port.adapter.jpa.TransactionInterceptor</class>
 	</interceptors>       
 </beans> 
